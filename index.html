@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>One Page Website</title>
+    <style>
+        /* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Style the navigation menu */
+nav {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Style the sections */
+section {
+    padding: 50px;
+    text-align: center;
+    height: 100vh;
+}
+
+section h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Add animations */
+section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#settings">Settings</a></li>
+        </ul>
+    </nav>
+
+    <section id="home">
+        <h1>Welcome to our Website</h1>
+        <p>This is the Home section.</p>
+    </section>
+
+    <section id="about">
+        <h1>About Us</h1>
+        <p>This is the About section.</p>
+    </section>
+
+    <section id="settings">
+        <h1>Settings</h1>
+        <p>This is the Settings section.</p>
+    </section>
+<script>
+    // Smooth scrolling
+document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+
+        if (targetSection) {
+            const offsetTop = targetSection.offsetTop;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Activate sections on scroll
+function activateSections() {
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top <= window.innerHeight) {
+            section.classList.add('active');
+        } else {
+            section.classList.remove('active');
+        }
+    });
+}
+
+// Display Home section by default
+document.addEventListener('DOMContentLoaded', () => {
+    const homeSection = document.getElementById('home');
+    homeSection.classList.add('active');
+});
+
+document.addEventListener('scroll', activateSections);
+
+</script>
+</body>
+</html>

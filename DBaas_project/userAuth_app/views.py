@@ -1,10 +1,11 @@
-
+from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
-
+from .models import UserProfile
+from .serializers import UserProfileSerializer
 import random
 import string
 from project_api .models import Project 
@@ -65,6 +66,27 @@ class UserAuthViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({"error": f"Failed to create user: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+
+    def create(self, request, *args, **kwargs):
+        user_data = request.data.get('user') 
+        user_serializer = userAuthSerializers(data=user_data)
+        
+        if user_serializer.is_valid():
+            user = user_serializer.save()
+            request.data['user'] = user.id
+            return super(UserProfileViewSet, self).create(request, *args, **kwargs)
+        
+        return Response({'error': 'Invalid user data'}, status=400)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 class LoginViewSet(viewsets.ViewSet):
     def create(self, request):

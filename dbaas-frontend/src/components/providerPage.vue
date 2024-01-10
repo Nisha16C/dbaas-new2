@@ -1,8 +1,8 @@
 <template>
   <leftSidebar />
-  <div class="pt-24 ml-64 main_content w-full h-[100vh]">
+  <div class="pt-24 mx-10 main_content w-full h-[100vh]">
 
-  <div class="provider bg-gray-100 p-4 sm:ml-64 mt-20 flex">
+  <div class="provider bg-gray-100 p-4 sm:ml-64 mt-10 mx-20 flex">
     <div class="text-black font-semibold text-4xl">Providers</div>
   </div>
 

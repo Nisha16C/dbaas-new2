@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-24 ml-64 main_content w-full h-[100vh]">
+  <div class="pt-24 main_content w-full h-[100vh]">
   <div v-show="loading" class="spinner">
     <div class="bg-white opacity-60% absolute right-1/2 bottom-1/2 transform translate-x-1/2 translate-y-1/2">
       <div class="p-4 bg-gradient-to-tr animate-spin from-green-500 to-blue-500 via-purple-500 rounded-full">

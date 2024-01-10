@@ -370,14 +370,15 @@ def display_artifacts(request):
 
     for artifact in artifacts:
         artifact_data = {
+            'clusterName' : artifact.clusterName,
             'pipeline_id': artifact.pipeline_id,
             'filename': artifact.filename,
             'content': artifact.content,
-            'created_at': artifact.created_at.strftime('%Y-%m-%d %H:%M:%S'),  # Format timestamp as needed
+            
         }
         artifacts_data.append(artifact_data)
 
-    # Return the artifacts data as JSON response
+  
     return JsonResponse({'artifacts': artifacts_data})
 
 
@@ -400,12 +401,34 @@ def get_variables(request):
 
     return JsonResponse(data)
 
+def display_clusters(request):
+    # Retrieve all saved clusters from the database
+    clusters = Cluster.objects.all()
 
+    # Prepare a list to hold cluster data
+    clusters_data = []
 
+    for cluster in clusters:
+        cluster_data = {
+            'cluster_name': cluster.cluster_name,
+            'cluster_type': cluster.cluster_type,
+            'database_version': cluster.database_version,
+            'provider': cluster.provider,
+            # 'created_date': cluster.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            # 'updated_date': cluster.updated_at.strftime('%Y-%m-%d %H:%M:%S') if cluster.updated_at else None,
+        }
+        clusters_data.append(cluster_data)
 
-
+    # Return the clusters data as JSON response
+    return JsonResponse({'clusters': clusters_data})
 
 from .serializers import ClusterSerializers
+@api_view(['GET'])
+def get_clusters_details(request):
+    clusters = Cluster.objects.filter(user_id=user_id)
+    serializer = ClusterSerializers(clusters, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 def get_clusters_by_user(request, user_id):

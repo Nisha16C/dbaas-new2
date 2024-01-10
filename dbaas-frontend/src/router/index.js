@@ -13,6 +13,8 @@ import projectsManagement from "@/components/admin/projectManagement.vue";
 import clustersManagement from "@/components/admin/clusterManagement.vue";
 import usersManagement from "@/components/admin/userManagement.vue";
 import Createuser from "@/components/admin/createUser.vue";
+import roles from "@/components/admin/roles.vue";
+// import RoleAssignmentModal from "@/components/admin/RoleAssignmentModal.vue";
 
 import homeView from "@/views/HomeView.vue";
 import AdminDashboard from "@/views/AdminView.vue"; 
@@ -85,6 +87,8 @@ const routes = [
     path: "/users-management",
     component: usersManagement,
   },
+  { path: '/user/:userId', name: "roles", component: roles, props: true },
+  // { path: '/role-assign', name: "role-assign", component: RoleAssignmentModal, props: true },
 ];
 
 const router = createRouter({

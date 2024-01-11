@@ -97,7 +97,7 @@ export default {
       try {
         console.log('Sending User Data:', this.userData);
 
-        const response = await axios.post('http://127.0.0.1:8000/api/v1/users/', this.userData);
+        const response = await axios.post('http://172.16.1.69:8000/api/v1/users/', this.userData);
         console.log('Response:', response.data);
 
         this.$router.push('/users-management');

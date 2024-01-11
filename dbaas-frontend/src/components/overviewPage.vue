@@ -305,7 +305,7 @@ export default {
     },
 
     getClusterDetails() {
-      axios.get(`http://127.0.0.1:8000/api/v2/result/content/${this.selectedCluster}/`)
+      axios.get(`http://172.16.1.69:8000/api/v2/result/content/${this.selectedCluster}/`)
         .then(response => {
           this.contentList = response.data;
         })
@@ -318,14 +318,14 @@ export default {
       return username.charAt(0, 1).toUpperCase();
     },
     fetchProjects() {
-      axios.get(`http://127.0.0.1:8000/api/v2/project/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${this.user_id}/`)
         .then(response => {
           this.projects = response.data;
 
         });
     },
     fetchClusters() {
-      axios.get(`http://127.0.0.1:8000/api/v2/cluster/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.69:8000/api/v2/cluster/user/${this.user_id}/`)
         .then(response => {
           this.clusters = response.data;
           this.loading = false;
@@ -333,7 +333,7 @@ export default {
     },
     fetchClustersByProject() {
       if (this.selectedProject) {
-        axios.get(`http://127.0.0.1:8000/api/v2/cluster/project/${this.selectedProject}/`)
+        axios.get(`http://172.16.1.69:8000/api/v2/cluster/project/${this.selectedProject}/`)
           .then(response => {
             this.clusters = response.data;
           });

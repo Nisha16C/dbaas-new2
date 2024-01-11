@@ -4,14 +4,14 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
-from .models import UserProfile
-from .serializers import UserProfileSerializer
 import random
 import string
 from project_api .models import Project 
 from project_api.serializers import projectSerializers 
-
+from rest_framework.views import APIView
+from .models import Role, UserRole
 from .serializers import userAuthSerializers
+from django.http import JsonResponse
 
 class UserAuthViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -68,25 +68,30 @@ class UserAuthViewSet(viewsets.ModelViewSet):
 
 
 
-class UserProfileViewSet(viewsets.ModelViewSet):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+def add_roles_to_user(request):
+    # Get user_id and role_names from the request POST data
+    user_id = request.POST.get('user_id')
+    role_names = request.POST.getlist('role_names')
 
-    def create(self, request, *args, **kwargs):
-        user_data = request.data.get('user') 
-        user_serializer = userAuthSerializers(data=user_data)
-        
-        if user_serializer.is_valid():
-            user = user_serializer.save()
-            request.data['user'] = user.id
-            return super(UserProfileViewSet, self).create(request, *args, **kwargs)
-        
-        return Response({'error': 'Invalid user data'}, status=400)
+    try:
+        # Retrieve the user
+        user = User.objects.get(pk=user_id)
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        # Retrieve or create roles
+        roles = []
+        for role_name in role_names:
+            role, created = Role.objects.get_or_create(name=role_name, defaults={'description': f'Default description for {role_name}'})
+            roles.append(role)
+
+        # Associate roles with user
+        for role in roles:
+            UserRole.objects.get_or_create(user=user, role=role)
+
+        return JsonResponse({'success': True, 'message': 'Roles added successfully'})
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'User does not exist'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=500)
 
 class LoginViewSet(viewsets.ViewSet):
     def create(self, request):

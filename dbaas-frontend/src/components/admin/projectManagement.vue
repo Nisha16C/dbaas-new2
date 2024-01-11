@@ -274,7 +274,7 @@ export default {
         }, 500);
       } else {
         axios
-          .post("http://127.0.0.1:8000/api/v2/project/", this.project)
+          .post("http://172.16.1.69:8000/api/v2/project/", this.project)
           .then((response) => {
             this.fetchProject();
             window.location.reload();
@@ -290,7 +290,7 @@ export default {
     fetchProject() {
       const user_id = this.project.user;
       axios
-        .get(`http://127.0.0.1:8000/api/v2/project/`)
+        .get(`http://172.16.1.69:8000/api/v2/project/`)
         .then((response) => {
           this.projects = response.data;
           console.log(this.projects);
@@ -322,7 +322,7 @@ export default {
       const payload = { new_project_name: this.newProjectName };
       axios
         .put(
-          `http://127.0.0.1:8000/api/v2/project/${this.renamingProjectId}/rename/`,
+          `http://172.16.1.69:8000/api/v2/project/${this.renamingProjectId}/rename/`,
           payload
         )
         .then((response) => {

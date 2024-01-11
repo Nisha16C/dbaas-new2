@@ -10,7 +10,7 @@ router.register(r'project', ProjectViewSet, basename='project')
 
 urlpatterns = [
     path('api/v2/project/user/<int:user_id>/', get_projects_by_user, name='get_projects_by_user'),
-    path('api/v2/display_clusters/', display_clusters, name='display_clusters'),
+    path('display_clusters/', display_clusters, name='display_clusters'),
    
     path('get_pipeline_status/', ClusterViewSet.as_view({'get': 'get_pipeline_status'}), name='get-pipeline-status'),
     path('display_artifacts/', display_artifacts, name='display_artifacts'),

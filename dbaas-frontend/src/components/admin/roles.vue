@@ -115,7 +115,7 @@ export default {
         async fetchUserDetails() {
             console.log('User ID:', this.userId);
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/v1/users/${this.userId}/`);
+                const response = await axios.get(`http://172.16.1.69:8000/api/v1/users/${this.userId}/`);
                 this.user = response.data;
                 console.log(this.user)
                 this.loading = false;

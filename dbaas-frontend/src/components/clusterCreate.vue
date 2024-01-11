@@ -214,7 +214,7 @@ export default {
       },
 
       getAllProviderData() {
-         axios.get(`http://127.0.0.1:8000/api/v3/providers/by-user/${this.user_id}/`)
+         axios.get(`http://172.16.1.69:8000/api/v3/providers/by-user/${this.user_id}/`)
             .then((response) => {
                this.provider_info = response.data
                console.log(response.data);

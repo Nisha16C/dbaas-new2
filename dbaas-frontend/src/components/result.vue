@@ -197,7 +197,7 @@ export default {
             if (this.stopFetching) {
                 return;
             }
-            const url = 'http://127.0.0.1:8000/api/v2/get_pipeline_status/';
+            const url = 'http://172.16.1.69:8000/api/v2/get_pipeline_status/';
 
             try {
                 const response = await axios.get(url);

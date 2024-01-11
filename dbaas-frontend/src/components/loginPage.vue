@@ -74,7 +74,7 @@ export default {
         password: this.password
       }
       axios
-        .post('http://127.0.0.1:8000/api/v1/login/', formData)
+        .post('http://172.16.1.69:8000/api/v1/login/', formData)
         .then((response) => {
           this.success = 'Successfull LoggedIn!'
 

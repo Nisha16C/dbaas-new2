@@ -12,6 +12,8 @@ from rest_framework.views import APIView
 from .models import Role, UserRole
 from .serializers import userAuthSerializers
 from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 
 class UserAuthViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -66,32 +68,35 @@ class UserAuthViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({"error": f"Failed to create user: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
+class AddRoleViewset(viewsets.ModelViewSet):
+    queryset = UserRole.objects.all()
 
+    def create(self, request, *args, **kwargs):
+        # Get user_id and role_names from the request POST data
+        user_id = request.data.get('user_id')
+        print(user_id)
+        role_names = request.data.get('roles')
+        print(role_names)
 
-def add_roles_to_user(request):
-    # Get user_id and role_names from the request POST data
-    user_id = request.POST.get('user_id')
-    role_names = request.POST.getlist('role_names')
+        try:
+            # Retrieve the user
+            user = User.objects.get(pk=user_id)
 
-    try:
-        # Retrieve the user
-        user = User.objects.get(pk=user_id)
+            # Retrieve or create roles
+            roles = []
+            for role_name in role_names:
+                role, created = Role.objects.get_or_create(name=role_name, defaults={'description': f'Default description for {role_name}'})
+                roles.append(role)
 
-        # Retrieve or create roles
-        roles = []
-        for role_name in role_names:
-            role, created = Role.objects.get_or_create(name=role_name, defaults={'description': f'Default description for {role_name}'})
-            roles.append(role)
+            # Associate roles with user
+            for role in roles:
+                UserRole.objects.get_or_create(user=user, role=role)
 
-        # Associate roles with user
-        for role in roles:
-            UserRole.objects.get_or_create(user=user, role=role)
-
-        return JsonResponse({'success': True, 'message': 'Roles added successfully'})
-    except User.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'User does not exist'}, status=404)
-    except Exception as e:
-        return JsonResponse({'success': False, 'message': str(e)}, status=500)
+            return JsonResponse({'success': True, 'message': 'Roles added successfully'})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'User does not exist'}, status=404)
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)
 
 class LoginViewSet(viewsets.ViewSet):
     def create(self, request):

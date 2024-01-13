@@ -4,7 +4,7 @@
       <div class="modal-content">
         <h2>Select Roles</h2>
         <div v-for="role in roles" :key="role.id">
-          <input type="checkbox" v-model="selectedRoles" :value="role.id" />
+          <input type="checkbox" v-model="selectedRoles" :value="role.role" />
           <label>{{ role.role }}</label>
         </div>
         <button @click="assignRoles">Assign Roles</button>

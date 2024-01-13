@@ -25,6 +25,7 @@
                     </div>
                 </div>
             </div>
+            <form action=""><input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"></form>
             <div class="px-4 mt-10">
                 <div v-if="error" class="text-red-500 ">{{ error }}</div>
                 <div class="mt-10">
@@ -46,11 +47,11 @@
                                 <tr>
                                     <th
                                         class=" py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                        Role
+                                        {{ selectedRoles }}
                                     </th>
                                     <th
                                         class=" py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                        Description
+                                        {{ roles.name }}
                                     </th>
 
                                 </tr>
@@ -110,8 +111,20 @@ export default {
     created() {
         this.fetchUserDetails();
         this.fetchRoles();
+        // this.fetchUserRoles(); // Fetch user roles on component creation
     },
     methods: {
+        async fetchUserRoles() {
+            try {
+                const response = await axios.get(
+                    `http://172.16.1.69:8000/api/v1/users/${this.userId}/roles/`
+                );
+                this.userRoles = response.data;
+                console.log('User Roles:', this.userRoles);
+            } catch (error) {
+                console.error('Error fetching user roles:', error);
+            }
+        },
         async fetchUserDetails() {
             console.log('User ID:', this.userId);
             try {
@@ -129,9 +142,9 @@ export default {
         },
         fetchRoles() {
             this.roles = [
-                { id:1, role: 'owner', name: 'Admin' },
-                { id:2, role: 'Viewer', name: 'User' },
-                { id:3, role: 'Editor', name: 'edit' },
+                { id: 1, role: 'owner', name: 'Admin' },
+                { id: 2, role: 'Viewer', name: 'User' },
+                { id: 3, role: 'Editor', name: 'edit' },
             ];
         },
 
@@ -139,13 +152,30 @@ export default {
             this.showRoleAssignmentModal = true;
         },
 
-        handleAssignRoles(selectedRoles) {
-            // Handle the logic to assign roles to the user
-            // You can send an API request here to update the user's roles
-            // using selectedRoles and this.userId
-            console.log('Assigning roles:', selectedRoles);
-            // Close the modal after handling the roles
-            this.showRoleAssignmentModal = false;
+        async handleAssignRoles(selectedRoles) {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            try {
+                const response = await axios.post(`http://172.16.1.69:8000/api/v1/add_roles_to_user/`, {
+                    user_id: this.userId,
+                    roles: selectedRoles,
+                },{
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                });
+
+                if (response.data.success) {
+                    console.log('Roles assigned successfully:', response.data.message);
+                    // Optionally, you can update the user roles in the component state if needed
+                    // For example, this.user.roles = selectedRoles;
+
+                    this.showRoleAssignmentModal = false;
+                } else {
+                    console.error('Failed to assign roles:', response.data.message);
+                }
+            } catch (error) {
+                console.error('Error assigning roles:', error);
+            }
         },
     },
 };

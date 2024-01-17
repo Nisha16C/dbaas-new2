@@ -10,7 +10,7 @@
   </div>
   <leftSidebar />
   <div v-show="!loading ">
-    <div class="cluster p-4 sm:ml-64 mt-40 flex">
+    <div class="cluster p-4 sm:ml-64 mt-20 flex">
       <div class="text-black font-semibold text-4xl">
         Clusters
       </div>

@@ -100,7 +100,7 @@ export default {
         const response = await axios.post('http://172.16.1.69:8000/api/v1/users/', this.userData);
         console.log('Response:', response.data);
 
-        this.$router.push('/users-management');
+        this.$router.push('/role-assign');
         // Clear the form after successful user creation
         this.userData = {
           first_name: '',

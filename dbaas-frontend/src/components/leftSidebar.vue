@@ -20,7 +20,7 @@
           <router-link to='/home' class="flex ml-2 md:mr-24">
             <span class="self-center text-xl font-semibold sm:text-2xl text-white dark:text-white">
               BitBlast
-              <span class="text-gray-50 text-sm "> PostgreSQL Lifecycle Management </span>
+              <span class="text-gray-50 text-sm "> (PostgreSQL Lifecycle Management) </span>
             </span>
           </router-link>
 

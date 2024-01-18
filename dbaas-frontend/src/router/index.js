@@ -8,6 +8,7 @@ import result from "@/components/result.vue";
 import clusterSetting from "@/components/clusterSetting.vue";
 import clusterProvider from "@/components/providerPage.vue";
 import overviewPage from "@/components/overviewPage.vue";
+import login from "@/components/login.vue";
 
 import projectsManagement from "@/components/admin/projectManagement.vue";
 import clustersManagement from "@/components/admin/clusterManagement.vue";
@@ -24,6 +25,11 @@ const routes = [
     name: "login",
     path: "/",
     component: loginPage,
+  },
+  {
+    name: "login-v",
+    path: "/login",
+    component: login,
   },
   {
     name: "providers",

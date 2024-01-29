@@ -182,6 +182,62 @@
   </li>
 
   <hr>
+        <li>
+          <router-link to="/monitoring" :class="{ 'bg-slate-900 ': currentPage === 'providers' }"
+            class="flex items-center p-2 mt-5  bg-white text-black rounded-lg dark:text-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 group">
+            <svg class="w-6 h-6" fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" width="64px" height="64px" viewBox="0 0 412.998 412.998"
+              xml:space="preserve">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <g>
+                  <g>zz
+                    <g>
+                      <path
+                        d="M392.998,28.339H20c-11.046,0-20,8.954-20,20v234c0,11.046,8.954,20,20,20h139.499v45.32h-54.283 c-10.201,0-18.5,8.299-18.5,18.5s8.299,18.5,18.5,18.5h202.566c10.201,0,18.5-8.299,18.5-18.5s-8.299-18.5-18.5-18.5h-54.283 v-45.32h139.499c11.046,0,20-8.954,20-20v-234C412.998,37.293,404.044,28.339,392.998,28.339z M382.998,272.339H30v-214h352.998 V272.339z">
+                      </path>
+                      <path
+                        d="M134.589,235.304c7.563,0,13.701-6.136,13.701-13.699v-65.156c0-7.564-6.139-13.697-13.701-13.697 c-7.564,0-13.695,6.133-13.695,13.697v65.155C120.894,229.168,127.024,235.304,134.589,235.304z">
+                      </path>
+                      <path
+                        d="M182.53,235.304c7.564,0,13.695-6.136,13.695-13.699V108.506c0-7.564-6.131-13.695-13.695-13.695 c-7.566,0-13.699,6.131-13.699,13.695v113.099C168.831,229.168,174.964,235.304,182.53,235.304z">
+                      </path>
+                      <path
+                        d="M230.468,235.304c7.566,0,13.699-6.136,13.699-13.699v-84.333c0-7.564-6.133-13.695-13.699-13.695 c-7.562,0-13.693,6.131-13.693,13.695v84.333C216.771,229.168,222.902,235.304,230.468,235.304z">
+                      </path>
+                      <path
+                        d="M278.411,235.304c7.562,0,13.692-6.136,13.692-13.699v-98.714c0-7.564-6.132-13.697-13.692-13.697 c-7.564,0-13.701,6.133-13.701,13.697v98.714C264.71,229.168,270.847,235.304,278.411,235.304z">
+                      </path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+
+            <span class="ml-3"> Monitoring </span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="" :class="{ 'bg-slate-900 ': currentPage === 'providers' }"
+            class="flex items-center p-2  bg-white text-black rounded-lg dark:text-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 group">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path d="M19 16V22M19 22L22 19M19 22L16 19" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path d="M4 6V12C4 12 4 15 11 15C18 15 18 12 18 12V6" stroke="#000000" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M11 3C18 3 18 6 18 6C18 6 18 9 11 9C4 9 4 6 4 6C4 6 4 3 11 3Z" stroke="#000000"
+                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M11 21C4 21 4 18 4 18V12" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </g>
+            </svg>
+            <span class="ml-3"> Backup </span>
+          </router-link>
+        </li>
  
   </ul>
   </div>

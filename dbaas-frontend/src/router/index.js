@@ -8,7 +8,6 @@ import result from "@/components/result.vue";
 import clusterSetting from "@/components/clusterSetting.vue";
 import clusterProvider from "@/components/providerPage.vue";
 import overviewPage from "@/components/overviewPage.vue";
-import login from "@/components/login.vue";
 
 import projectsManagement from "@/components/admin/projectManagement.vue";
 import clustersManagement from "@/components/admin/clusterManagement.vue";
@@ -16,6 +15,8 @@ import usersManagement from "@/components/admin/userManagement.vue";
 import Createuser from "@/components/admin/createUser.vue";
 import roles from "@/components/admin/roles.vue";
 import RoleAssignmentModal from "@/components/admin/RoleAssignmentModal.vue";
+import monitoring from "@/components/admin/monitoring.vue";
+
 
 import homeView from "@/views/HomeView.vue";
 import AdminDashboard from "@/views/AdminView.vue"; 
@@ -25,11 +26,6 @@ const routes = [
     name: "login",
     path: "/",
     component: loginPage,
-  },
-  {
-    name: "login-v",
-    path: "/login",
-    component: login,
   },
   {
     name: "providers",
@@ -92,6 +88,11 @@ const routes = [
     name: "usersManagement",
     path: "/users-management",
     component: usersManagement,
+  },
+  {
+    name: "monitoring",
+    path: "/monitoring",
+    component: monitoring,
   },
   { path: '/user/:userId', name: "roles", component: roles, props: true },
   { path: '/role-assign', name: "role-assign", component: RoleAssignmentModal, props: true },

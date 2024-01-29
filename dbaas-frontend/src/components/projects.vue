@@ -229,7 +229,7 @@ export default {
       }
       else {
         console.log(this.project)
-        axios.post("http://172.16.1.69:8000/api/v2/project/", this.project)
+        axios.post("http://172.16.1.69:8002/api/v2/project/", this.project)
           .then(response => {
             this.fetchProject()
             window.location.reload()
@@ -244,7 +244,7 @@ export default {
     },
     fetchProject() {
       const user_id = this.project.user
-      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${user_id}/`)
+      axios.get(`http://172.16.1.69:8002/api/v2/project/user/${user_id}/`)
         .then(response => {
           this.projects = response.data;
           console.log(this.projects);

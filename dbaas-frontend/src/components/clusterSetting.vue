@@ -137,7 +137,7 @@ export default {
 
         // Check if cluster name already exists
         axios
-        .get(`http://172.16.1.69:8000/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
+        .get(`http://172.16.1.69:8002/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
           .then((response) => {
             if (response.data.exists) {
               // Cluster name already exists
@@ -195,7 +195,7 @@ export default {
         }
         // this.$router.push('/result');
         axios
-        .get(`http://172.16.1.69:8000/api/v3/providers/by-username-and-name/${this.Username}/${this.selectedProvider}/`)
+        .get(`http://172.16.1.69:8002/api/v3/providers/by-username-and-name/${this.Username}/${this.selectedProvider}/`)
         .then((response)=>{
           this.provider_info = response.data;
           console.log(response.data);
@@ -215,7 +215,7 @@ export default {
 
           this.$router.push('/result');
           axios
-            .post(`http://172.16.1.69:8000/api/v2/cluster/`, fromData)
+            .post(`http://172.16.1.69:8002/api/v2/cluster/`, fromData)
             .then((response) => {
                console.log("CLuster creation successfull");
             })

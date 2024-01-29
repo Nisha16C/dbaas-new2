@@ -401,8 +401,22 @@ def get_variables(request):
 
     return JsonResponse(data)
 
+def extract_host(content):
+    import re
+    match = re.search(r'HOST:\s*([\d\.]+)', content)
+    if match:
+        return match.group(1)
+    return None
+
 def display_clusters(request):
-    # Retrieve all saved clusters from the database
+    artifacts = DBcredentials.objects.all()
+
+    # Prepare a list to hold artifact data
+    artifacts_data = []
+
+    for artifact in artifacts:
+        host_ip = extract_host(artifact.content)
+
     clusters = Cluster.objects.all()
 
     # Prepare a list to hold cluster data
@@ -410,17 +424,19 @@ def display_clusters(request):
 
     for cluster in clusters:
         cluster_data = {
-            'cluster_name': cluster.cluster_name,
+            'targets': [f"{host_ip}:9187"],
+            'labels':{
+            'instance': cluster.cluster_name,
             'cluster_type': cluster.cluster_type,
             'database_version': cluster.database_version,
             'provider': cluster.provider,
-            # 'created_date': cluster.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-            # 'updated_date': cluster.updated_at.strftime('%Y-%m-%d %H:%M:%S') if cluster.updated_at else None,
-        }
+            }}
         clusters_data.append(cluster_data)
 
-    # Return the clusters data as JSON response
-    return JsonResponse({'clusters': clusters_data})
+    result_data = clusters_data
+
+    # Return the combined data as JSON response
+    return JsonResponse(result_data,safe=False)
 
 from .serializers import ClusterSerializers
 @api_view(['GET'])

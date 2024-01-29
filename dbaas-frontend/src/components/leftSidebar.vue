@@ -396,7 +396,7 @@ export default {
     },
 
     fetchProject() {
-      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.69:8002/api/v2/project/user/${this.user_id}/`)
         .then(response => {
           this.projects_list = response.data;
           sessionStorage.setItem('project_id', this.projects_list[0].id)

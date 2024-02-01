@@ -219,7 +219,7 @@
           </router-link>
         </li>
         <li>
-          <router-link to="" :class="{ 'bg-slate-900 ': currentPage === 'providers' }"
+          <router-link to="/admin-backup" :class="{ 'bg-slate-900 ': currentPage === 'providers' }"
             class="flex items-center p-2  bg-white text-black rounded-lg dark:text-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 group">
             <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

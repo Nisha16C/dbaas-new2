@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from project_api.views import ProjectViewSet, ClusterViewSet, get_projects_by_user, display_artifacts, get_variables, ContentByClusterNameView, display_clusters
+from project_api.views import ProjectViewSet, ClusterViewSet, ClusterDeleteViewSet, get_projects_by_user, display_artifacts, get_variables, ContentByClusterNameView, display_clusters
 
 from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'cluster', ClusterViewSet, basename="cluster")
+router.register(r'deletecluster', ClusterDeleteViewSet, basename="cluster1")
 router.register(r'project', ProjectViewSet, basename='project')
 
 urlpatterns = [

@@ -129,7 +129,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         temp_variables = {
             'username': username,
             'password': password,
-            'cluster_name': cluster_name,
+            'cluster_name': cluster_name,   
             'postgres_version': database_version,
         }
         # print(temp_variables)
@@ -148,9 +148,9 @@ class ClusterViewSet(viewsets.ModelViewSet):
         except Project.DoesNotExist:
             return Response({"error": "No Project! has been selected.."}, status=status.HTTP_404_NOT_FOUND)
    
-        project_id = "123"
-        private_token = "KqQokAZUr3ypanpLjsxs"
-        base_url = "https://gitlab.os3.com/api/v4/"
+        project_id = "1"
+        private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
+        base_url = "http://gitlab-ce.os3.com/api/v4/"
 
         # project_id = "132"
         # private_token = "GDNoxgBaU_vQ_Q6QzjyQ"
@@ -181,15 +181,9 @@ class ClusterViewSet(viewsets.ModelViewSet):
 
 
 
-        elif provider_name == 'Cloudstack':
+        elif provider_name == 'Cloudstack' and cluster_type == 'Standalone':
+            response = trigger_single(base_url, project_id, headers, 'infra-and-db')
             print("CloudStack branch trigger.....")
-            trigger_infra(base_url, project_id, headers, 'infra')
-            cluster_type1 = True 
-
-        if cluster_type1 == True:
-
-            print("Single node branch trigger.....")
-            response = trigger_single(base_url, project_id, headers, 'single-instance-db')
             if response == 200:
                 cluster = Cluster(
                     user=user,
@@ -207,7 +201,8 @@ class ClusterViewSet(viewsets.ModelViewSet):
         else:
             return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-     
+    
+        
     @action(detail=False, methods=['get'])
     def check_cluster_exists(self, request, *args, **kwargs):
         """
@@ -225,15 +220,14 @@ class ClusterViewSet(viewsets.ModelViewSet):
             return Response({"exists": True}, status=status.HTTP_200_OK)
         else:
             return Response({"exists": False}, status=status.HTTP_200_OK)
-        
-
+   
     
     def get_pipeline_status(self, request):
         global clusterName
         # Replace these variables with your actual GitLab project ID and private token
-        project_id = "123"
-        private_token = "KqQokAZUr3ypanpLjsxs"
-        base_url = "https://gitlab.os3.com/api/v4/"
+        project_id = "1"
+        private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
+        base_url = "http://gitlab-ce.os3.com/api/v4/"
 
 
         headers = {"PRIVATE-TOKEN": private_token}
@@ -251,25 +245,63 @@ class ClusterViewSet(viewsets.ModelViewSet):
 
         return JsonResponse({"pipelines": all_artifacts})
 
+class ClusterDeleteViewSet(viewsets.ModelViewSet):
+   
+    def create(self , request, *args, **kwargs): 
+        print('delete-cluster')
+        global clusterName 
+        clusterName  = request.data.get('cluster_name')
+        
+
+        try:
+             # Check if the cluster exists in the database
+            # cluster = Cluster.objects.get(cluste=cluster)
+            
+
+            # Delete the cluster from the databas
+        
+     
+
+            project_id = "1"
+            private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
+            base_url = "http://gitlab-ce.os3.com/api/v4/"
+
+            headers = {"PRIVATE-TOKEN" : private_token}
+
+            branch_name = 'destroy'  # Replace with the actual branch name for destroy pipeline
+
+            # Trigger the "Destroy" pipeline
+            response = trigger_single(base_url, project_id, headers, branch_name)
+
+            if response == 200:
+                return Response({"message": "Destroy pipeline triggered successfully."},
+                                status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "Failed to trigger Destroy pipeline."},
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Cluster.DoesNotExist:
+            return Response({"error": "Cluster not found."},
+                            status=status.HTTP_404_NOT_FOUND)
 
 
-def trigger_infra(base_url, project_id, headers, branch_name):
-    formData = {
-        "ref": branch_name,
-    }
-    response = requests.post(base_url + f"projects/{project_id}/pipeline", headers=headers, json=formData, verify=False)
+# def trigger_infra(base_url, project_id, headers, branch_name):
+#     formData = {
+#         "ref": branch_name,
+#     }
+#     # print(formData)
+#     response = requests.post(base_url + f"projects/{project_id}/pipeline", headers=headers, json=formData, verify=False)
 
-    if response.status_code == 201:
-        return 200
-    else:
-        return {"error": f"Failed to trigger the pipeline. Status code: {response.status_code}"}
+#     if response.status_code == 201:
+#         return 200
+#     else:
+#         return {"error": f"Failed to trigger the pipeline. Status code: {response.status_code}"}
 
 
 def trigger_single(base_url, project_id, headers, branch_name):
     formData = {
         "ref": branch_name,
     }
-   
+    # print(formData)
 
     response = requests.post(base_url + f"projects/{project_id}/pipeline", headers=headers, json=formData,
                              verify=False)
@@ -331,7 +363,7 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
         if response.status_code == 200:
             with zipfile.ZipFile(io.BytesIO(response.content), 'r') as zip_file:
                 # Modify the following to fetch the required artifacts
-                required_artifacts = ['config.txt']
+                required_artifacts = ['info.txt']
                 for artifact_name in required_artifacts:
                     if artifact_name in zip_file.namelist():
                         content = zip_file.read(artifact_name).decode('utf-8')
@@ -391,12 +423,15 @@ def get_variables(request):
     password = temp_variables.get('password', '')
     cluster_name = temp_variables.get('cluster_name', '')
     postgres_version = temp_variables.get('postgres_version', '')
+    deleteCluster_name = clusterName
+    print(deleteCluster_name)
 
     data = {
         'username': username,
         'password': password,
         'database_name': cluster_name,
         'postgres_version': postgres_version,
+        'delete-cluster' : deleteCluster_name,
     }
 
     return JsonResponse(data)
@@ -437,6 +472,7 @@ def display_clusters(request):
 
     # Return the combined data as JSON response
     return JsonResponse(result_data,safe=False)
+
 
 from .serializers import ClusterSerializers
 @api_view(['GET'])

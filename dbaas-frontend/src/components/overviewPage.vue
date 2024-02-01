@@ -9,7 +9,7 @@
     </div>
   </div>
   <leftSidebar />
-  <div v-show="!loading ">
+  <div v-show="!loading">
     <div class="cluster p-4 sm:ml-64 mt-20 flex">
       <div class="text-black font-semibold text-4xl">
         Clusters
@@ -45,20 +45,7 @@
         </div>
       </div>
 
-      <!-- <ul class="flex space-x-10 mx-10">
-        <li>
-          <a href="#" class="link-style text-2xl" :class="{ 'link-style-default': isActive }"
-            @mouseenter="isActive = true" @mouseleave="isActive = false">
-            Active Database
-          </a>
-        </li>
-        <li>
-          <a href="#" class="link-style text-2xl" :class="{ 'link-style-default': isDeleted }"
-            @mouseenter="isDeleted = true" @mouseleave="isDeleted = false">
-            Deleted
-          </a>
-        </li> 
-      </ul> -->
+
 
       <!-- Search Bar -->
       <div class="relative ml-4 mr-4">
@@ -81,6 +68,13 @@
           <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.project_name }}</option>
         </select>
       </div>
+      <!-- <button
+        class="relative inline-flex items-center ml-10 justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+        <span
+          class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white text-black rounded-md group-hover:bg-opacity-0">
+          Delete Cluster
+        </span>
+      </button> -->
     </div>
 
     <!-- New Table  -->
@@ -174,7 +168,12 @@
 
                 <td class="px-6 py-4 text-sm font-medium leading-5 text-right border-b border-gray-200 whitespace-nowrap">
                   <a href="#" @click="toggleModal(cluster.cluster_name)" class="text-indigo-600 hover:text-indigo-900">
-                    View </a>
+                    View / </a>
+                  <!-- <a href="#" @click=" " class="text-indigo-600 hover:text-indigo-900">
+                    Delete </a> -->
+                  <button class=" text-indigo-600 hover:text-indigo-900" type="button" v-on:click="toggleModal1()">
+                    Delete
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -182,61 +181,50 @@
         </div>
       </div>
     </div>
-  </div>
 
-
-  <div v-show="isModalVisible" tabindex="-1" class="fixed top-0 left-0 right-0 bottom-0
-      z-50 flex  justify-center  p-4 overflow-x-hidden overflow-y-auto md:inset-0">
-    <div class="relative w-2/4">
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-100 bg-purple-600">
-        <button @click="toggleModal" type="button" class="absolute top-3
-        right-2.5 text-gray-400 bg-transparent hover:bg-gray-200
-         hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex
-         justify-center items-center dark:hover:bg-gray-600
-          dark:hover:text-white" data-modal-hide="popup-modal">
-          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-          </svg>
-          <span class="sr-only">Close modal</span>
-        </button>
-        <div class="p-6 ">
-          <h3 class="mb-5 text- font-normal text-black dark:text-gray-400">
-            {{ selectedCluster }}
-          </h3>
-
-          <!-- Input fields for provider -->
-          <div class="px-4 mt-10">
-            <div>
-              <p v-if="contentList.length > 1" v-html="addLineBreaks(contentList[0].content)"></p>
-              <p v-else class="mb-10">
-                <svg aria-hidden="true"
-                  class="inline w-10 h-10 text-gray-200 animate-spin dark:text-gray-200 fill-blue-600"
-                  viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                    fill="currentColor" />
-                  <path
-                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                    fill="currentFill" />
-                </svg>
-                <span class="sr-only">Loading...</span>
-              </p>
-            </div>
-            <div v-if="error" class="text-red-500 text-center mb-4">{{ error }}</div>
+    <div v-if="showModal" v-for="(cluster, index) in clusters" :key="index"
+      class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+      <div class="relative w-auto my-6 mx-auto max-w-sm">
+        <!--content-->
+        <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <!--header-->
+          <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+            <h3 class="text-3xl font-semibold">
+              Cluster Name
+            </h3>
+            <button
+              class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+              v-on:click="toggleModal()">
+              <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                ×
+              </span>
+            </button>
           </div>
-
-          <button @click="toggleModal"
-            class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-            <span
-              class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-              Close
-            </span>
-          </button>
-        
+          <!--body-->
+          <div v-if="showModal" class="relative p-6 flex-auto">
+            <label>Enter Cluster Name :</label>
+            <input v-model="newClusterName" type="text" placeholder="Cluster Name"
+              class="mt-2 px-4 py-2 border rounded-md w-full" />
+            <span v-if="error" class="text-red-500">{{ error }}</span>
+          </div>
+          <!--footer-->
+          <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+            <button @click="toggleModal1()"
+              class="text-purple-500 bg-transparent border border-solid border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+              Cancel
+            </button>
+            <button @click="deleteCluster(cluster.cluster_name)"
+              class="text-purple-500 bg-transparent border border-solid border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+              Delete Cluster
+            </button>
+          </div>
         </div>
       </div>
     </div>
+    <div v-if="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+
+
+
   </div>
 </template>
 
@@ -263,7 +251,7 @@ export default {
       selectedProject: "",
       clusters: [],
       loading: true,
-
+      showModal: false
 
     };
   },
@@ -273,6 +261,37 @@ export default {
     this.fetchClusters();
   },
   methods: {
+
+
+    deleteCluster() {
+
+      if (!this.newClusterName) {
+        this.error = 'Cluster name is required';
+        return; // Prevent API call
+      }
+      const formData = {
+        cluster_name: this.newClusterName
+      };
+
+      console.log('Deleting cluster with name:', this.newClusterName);
+     // this.$router.push('/deleteResult');
+      axios.post("http://172.16.1.69:8002/api/v2/deletecluster/", formData)
+        .then(response => {
+          // Handle successful deletion
+          console.log('Cluster deleted successfully:', response.data);
+          this.fetchClusters();
+          this.toggleModal1(); 
+        })
+        .catch(error => {
+          console.error('Error deleting cluster:', error);
+          // Handle error, show a message, etc.
+          this.toggleModal1();
+        });
+    },
+
+    toggleModal1: function () {
+      this.showModal = !this.showModal;
+    },
     toggleDarkMode() {
       this.toggleDark();
     },
@@ -367,11 +386,11 @@ export default {
 </script>
 
 <style scoped>
-
-b{
+b {
   font-weight: 5px;
 
 }
+
 .link-style {
   text-decoration: none;
   color: black;
@@ -415,4 +434,5 @@ b{
 .progress-bar {
   width: 1800px;
   /* or any other desired width */
-}</style>
+}
+</style>

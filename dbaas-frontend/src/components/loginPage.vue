@@ -10,10 +10,10 @@
               BitBlast
             </a>
           </div>
-
-          <h1 class="text-xl mt-20 leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+          <h1 class="text-xl  leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Sign in to Your account
           </h1>
+          
           <div class="space-y-4 md:space-y-6" action="#">
             <form @submit.prevent="login">
               <div>

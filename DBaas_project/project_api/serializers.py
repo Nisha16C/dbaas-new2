@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Project, Cluster, DBcredentials
+from .models import Project, Cluster, Db_credentials
 
 class projectSerializers(serializers.ModelSerializer):
     class Meta:
@@ -14,5 +14,5 @@ class ClusterSerializers(serializers.ModelSerializer):
         
 class DBcredentialsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DBcredentials
+        model = Db_credentials
         fields = ['content']        

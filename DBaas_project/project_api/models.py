@@ -21,11 +21,8 @@ class Cluster(ExportModelOperationsMixin('cluster'), models.Model):
     database_version = models.CharField(max_length=50)
     provider = models.CharField(max_length=100)
     created_date = models.DateTimeField(auto_now_add=True)
-
-
-    
     updated_date = models.DateTimeField(auto_now=True)
- 
+
     def __str__(self):
         return self.cluster_name
 
@@ -43,3 +40,15 @@ class DBcredentials(ExportModelOperationsMixin('dbcredentials'), models.Model):
 
     def __str__(self):
         return f"{self.filename} and {self.pipeline_id}"        
+
+class Db_credentials(ExportModelOperationsMixin('dbcredentials'), models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    cluster_name = models.CharField(max_length=225)
+    cluster_type = models.CharField(max_length=225)
+    database_version = models.CharField(max_length=225)
+    provider_name = models.CharField(max_length=225)
+    pipeline_id = models.IntegerField()
+    filename = models.CharField(max_length=255)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)

@@ -204,7 +204,7 @@ export default {
     },
     fetchUsers() {
       const user_id = this.project.user
-      axios.get(`http://172.16.1.69:8002/api/v1/users/`)
+      axios.get(`http://172.16.1.158:8002/api/v1/users/`)
         .then(response => {
           this.users = response.data;
           console.log(this.projects);

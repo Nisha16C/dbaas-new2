@@ -2,7 +2,7 @@
 
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
-from .models import Project, Cluster, DBcredentials
+from .models import Project, Cluster, Db_credentials, Db_credentials
 from .serializers import projectSerializers, ClusterSerializers
 from django.shortcuts import render
 from rest_framework.response import Response
@@ -88,8 +88,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer = projectSerializers(project)
         return Response(serializer.data, status=status.HTTP_200_OK)         
 
-
-
 @api_view(['GET'])
 def get_projects_by_user(request, user_id):
     projects = Project.objects.filter(user_id=user_id)
@@ -97,12 +95,15 @@ def get_projects_by_user(request, user_id):
     return Response(serializer.data)
  
    
-            
-
 # CLUSTER CREATE API GET CLUSTER BY USER ID AND & PROJECT I
 
 temp_variables = {}
 clusterName = ''
+clusterType = ''
+databaseVersion = ''
+providerName = ''
+userId = ''
+projectID = ''
 
 	
 class ClusterViewSet(viewsets.ModelViewSet):
@@ -112,6 +113,11 @@ class ClusterViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         global temp_variables 
         global clusterName 
+        global clusterType 
+        global databaseVersion 
+        global providerName 
+        global userId 
+        global projectId 
 
         username = request.data.get('db_user')
         password = request.data.get('db_password')
@@ -125,14 +131,21 @@ class ClusterViewSet(viewsets.ModelViewSet):
         provider_access_token = request.data.get('provider_access_token')
         provider_secret_key = request.data.get('provider_secret_key')
 
+        # Adding global variable
         clusterName = cluster_name
+        clusterType = cluster_type
+        databaseVersion = database_version
+        providerName = provider_name
+        userId = user_id
+        projectId = project_id
+
         temp_variables = {
             'username': username,
             'password': password,
             'cluster_name': cluster_name,   
             'postgres_version': database_version,
         }
-        # print(temp_variables)
+        print(f'Create function global variavle {clusterType} and {userId}')
 
         # Check if cluster with the same name already exists in the project
         existing_cluster = Cluster.objects.filter(project=project_id, cluster_name=cluster_name).exists()
@@ -159,7 +172,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
 
         headers = {"PRIVATE-TOKEN": private_token}
         cluster_type1 = False
-        print(f"provider_name: {provider_name}, cluster_type: {cluster_type}")
+     
 
 
         if provider_name == 'Kubernetes' and cluster_type == 'Standalone':
@@ -224,7 +237,13 @@ class ClusterViewSet(viewsets.ModelViewSet):
     
     def get_pipeline_status(self, request):
         global clusterName
-        print(f'get pipeline status {clusterName}')
+        global clusterType
+        global databaseVersion
+        global providerName
+        global userId
+        global projectID
+ 
+        print(f'global variable get pipeline status and artifact start {clusterName}, and {clusterType}, {projectID}')
         # Replace these variables with your actual GitLab project ID and private token
         project_id = "1"
         private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
@@ -241,7 +260,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         all_artifacts = []
         for pipeline_status in latest_pipeline_statuses:
             pipeline_id = pipeline_status["id"]
-            artifacts = get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName)
+            artifacts = get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName,clusterType,databaseVersion,providerName,userId,projectID)
             all_artifacts.append({"status": pipeline_status["status"], "artifacts": artifacts})
 
         return JsonResponse({"pipelines": all_artifacts})
@@ -351,9 +370,11 @@ def get_latest_pipeline_statuses(base_url, project_id, headers, count=1):
 
 
 
-def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName):
+def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName,clusterType,databaseVersion,providerName,userId,projectID):
+    user = User.objects.get(pk=userId)
+    project = Project.objects.get(pk=projectId)
     response = requests.get(base_url + f"projects/{project_id}/pipelines/{pipeline_id}/jobs", headers=headers, verify=False)
-    print(f'cluster name artifatcat wale function se {clusterName}')
+    print(f'cluster name artifatcat wale function se {clusterName} and userId {userId} and {clusterType}')
     if response.status_code != 200:
         raise ValueError(f"Error fetching pipeline jobs: {response.status_code}, {response.json()}")
 
@@ -373,7 +394,7 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
                         
                         # Create a new PipelineArtifact instance and save it to the database
                         # Check if an artifact with the same filename and pipeline ID already exists
-                        existing_artifact = DBcredentials.objects.filter(
+                        existing_artifact = Db_credentials.objects.filter(
                             pipeline_id=pipeline_id,
                             filename=artifact_name
                         ).first()
@@ -384,9 +405,14 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
                             existing_artifact.save()
                         else:
                             print('artifacts save')
-                            # Create a new DBcredentials instance and save it to the database
-                            artifact = DBcredentials(
-                                clusterName = clusterName,
+                            # Create a new Db_credentials instance and save it to the database
+                            artifact = Db_credentials(
+                                user = user,
+                                project = project,
+                                cluster_name = clusterName,
+                                cluster_type = clusterType,
+                                database_version= databaseVersion,
+                                provider_name= providerName,
                                 pipeline_id=pipeline_id,
                                 filename=artifact_name,
                                 content=content,
@@ -398,7 +424,7 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
 
 def display_artifacts(request):
     # Retrieve all saved artifacts from the database
-    artifacts = DBcredentials.objects.all()
+    artifacts = Db_credentials.objects.all()
 
     # Prepare a list to hold artifact data
     artifacts_data = []
@@ -447,7 +473,7 @@ def extract_host(content):
     return None
 
 def display_clusters(request):
-    artifacts = DBcredentials.objects.all()
+    artifacts = Db_credentials.objects.all()
 
     # Prepare a list to hold artifact data
     artifacts_data = []
@@ -501,12 +527,12 @@ def get_clusters_by_project(request, project_id):
 
 from rest_framework import generics
 from rest_framework.response import Response
-from .models import DBcredentials
-from .serializers import DBcredentialsSerializer
+from .models import Db_credentials
+from .serializers import DbcredentialsSerializer
 
 class ContentByClusterNameView(generics.ListAPIView):
-    serializer_class = DBcredentialsSerializer
+    serializer_class = DbcredentialsSerializer
 
     def get_queryset(self):
         cluster_name = self.kwargs['cluster_name']
-        return DBcredentials.objects.filter(clusterName=cluster_name)
+        return Db_credentials.objects.filter(clusterName=cluster_name)

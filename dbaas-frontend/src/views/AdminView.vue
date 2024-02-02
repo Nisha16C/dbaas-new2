@@ -139,26 +139,26 @@ export default {
    },
    methods: {
       fetchProject() {       
-         axios.get(`http://172.16.1.69:8002/api/v2/project/`)
+         axios.get(`http://172.16.1.158:8002/api/v2/project/`)
             .then(response => {
                this.projects = response.data;
             })
       },
       fetchClusters() {
-         axios.get(`http://172.16.1.69:8002/api/v2/cluster/`)
+         axios.get(`http://172.16.1.158:8002/api/v2/cluster/`)
             .then(response => {
                this.clusters = response.data;
             });
       },
       fetchUsers() {
-         axios.get(`http://172.16.1.69:8002/api/v1/users/`)
+         axios.get(`http://172.16.1.158:8002/api/v1/users/`)
             .then(response => {
                this.users = response.data;
                
             })
       },
       fetchProviders() {
-         axios.get(`http://172.16.1.69:8002/api/v3/providers/`)
+         axios.get(`http://172.16.1.158:8002/api/v3/providers/`)
             .then((response) => {
                this.providers = response.data;
               

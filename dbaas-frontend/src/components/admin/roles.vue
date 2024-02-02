@@ -122,7 +122,7 @@ export default {
         async fetchUserDetails() {
             console.log('User ID:', this.userId);
             try {
-                const response = await axios.get(`http://172.16.1.69:8002/api/v1/users/${this.userId}/`);
+                const response = await axios.get(`http://172.16.1.158:8002/api/v1/users/${this.userId}/`);
                 this.user = response.data;
                 console.log(this.user)
                 this.loading = false;
@@ -149,7 +149,7 @@ export default {
         async handleAssignRoles(selectedRoles) {
 
             try {
-                const response = await axios.post(`http://172.16.1.69:8002/api/v1/add_roles_to_user/`, {
+                const response = await axios.post(`http://172.16.1.158:8002/api/v1/add_roles_to_user/`, {
                     user_id: this.userId,
                     roles: selectedRoles,
                 });

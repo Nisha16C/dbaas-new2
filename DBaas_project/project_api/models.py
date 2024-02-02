@@ -41,7 +41,7 @@ class DBcredentials(ExportModelOperationsMixin('dbcredentials'), models.Model):
     def __str__(self):
         return f"{self.clusterName} and {self.filename} and {self.pipeline_id}"        
 
-class Db_credentials(ExportModelOperationsMixin('dbcredentials'), models.Model):
+class Db_credentials(ExportModelOperationsMixin('Dbcredentials'), models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     cluster_name = models.CharField(max_length=225)

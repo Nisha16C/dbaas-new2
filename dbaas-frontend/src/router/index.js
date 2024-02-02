@@ -18,6 +18,7 @@ import roles from "@/components/admin/roles.vue";
 import RoleAssignmentModal from "@/components/admin/RoleAssignmentModal.vue";
 import monitoring from "@/components/admin/monitoring.vue";
 import adminBackup from "@/components/admin/adminBackup.vue";
+import deleteResult from "@/components/deleteResult.vue";
 
 
 import homeView from "@/views/HomeView.vue";
@@ -53,6 +54,11 @@ const routes = [
     name: "Createuser",
     path: "/Createuser",
     component: Createuser,
+  },
+  {
+    name: "deleteResult",
+    path: "/deleteResult",
+    component: deleteResult,
   },
   {
     name: "cluster-setting",

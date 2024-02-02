@@ -1,3 +1,4 @@
+
 <template>
   <div v-show="loading" class="spinner">
     <div class="bg-white opacity-60% absolute right-1/2 bottom-1/2 transform translate-x-1/2 translate-y-1/2">
@@ -15,7 +16,7 @@
         Clusters
       </div>
       <div class="ml-auto">
-
+ 
         <router-link to="/clusterCreate"
           class="relative inline-flex items-center justify-center  p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
           <span
@@ -23,7 +24,7 @@
             Create New Cluster
           </span>
         </router-link>
-
+ 
       </div>
     </div>
     <div class="w-full h-15 border-b-2 p-4 sm:ml-64 border-solid mt-10 flex items-center">
@@ -37,16 +38,16 @@
               </path>
             </svg>
           </div>
-
+ 
           <div class="mx-5">
             <h4 class="text-2xl font-semibold text-gray-700"> {{ clusters.length }} </h4>
             <div class="text-gray-500">Total Running Clusters</div>
           </div>
         </div>
       </div>
-
-
-
+ 
+ 
+ 
       <!-- Search Bar -->
       <div class="relative ml-4 mr-4">
         <input type="text"
@@ -71,19 +72,20 @@
       <!-- <button
         class="relative inline-flex items-center ml-10 justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
         <span
-          class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white text-black rounded-md group-hover:bg-opacity-0">
+          class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white text-black rounded-md group-hover:bg-opacity-0 "
+          type="button" v-on:click="toggleModal1()">
           Delete Cluster
         </span>
       </button> -->
     </div>
-
+ 
     <!-- New Table  -->
     <div class="flex flex-col mt-8 sm:ml-64">
       <div class="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div class="" v-if="clusters.length === 0">
           <span class="text-gray-400 mb-2 text-2xl ml-96 ">No Cluster found in the Selected Project</span>
         </div>
-
+ 
         <div v-else
           class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
           <table class="min-w-full">
@@ -116,7 +118,7 @@
                 <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
               </tr>
             </thead>
-
+ 
             <tbody class="bg-white" v-for="(cluster, index) in clusters" :key="index">
               <tr>
                 <td class=" border-b border-gray-200 whitespace-nowrap">
@@ -126,7 +128,7 @@
                         {{ cluster.id }}
                       </button>
                     </div>
-
+ 
                     <div class="ml-4">
                       <div class="text-sm font-medium leading-5 text-gray-900">
                         {{ cluster.cluster_name }}
@@ -137,25 +139,25 @@
                     </div>
                   </div>
                 </td>
-
+ 
                 <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
                   <div class="text-sm leading-5 text-gray-900">
                     <span class="inline-flex px-2 text-xs font-semibold leading-5
                    text-green-800 bg-green-100 rounded-full"> {{ cluster.cluster_type }} </span>
-
+ 
                   </div>
-
+ 
                 </td>
-
+ 
                 <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
                   <span class="inline-flex px-2 text-xs  font-semibold leading-5
                   text-gray-500 rounded-full">Postgres {{ cluster.database_version }} </span>
                 </td>
-
+ 
                 <td class="px-6 py-4 text-sm leading-5 text-gray-500 border-b border-gray-200 whitespace-nowrap">
                   {{ cluster.provider }}
                 </td>
-
+ 
                 <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
                   <span class="inline-flex px-2 text-xs font-semibold leading-5
                text-yellow-500 bg-yellow-100 rounded-full">{{ formatTimeAgo(cluster.created_date) }} </span>
@@ -164,14 +166,14 @@
                   <span class="inline-flex px-2 text-xs font-semibold leading-5
                text-yellow-500 bg-yellow-100 rounded-full">{{ formatTimeAgo(cluster.updated_date) }} </span>
                 </td>
-
-
+ 
+ 
                 <td class="px-6 py-4 text-sm font-medium leading-5 text-right border-b border-gray-200 whitespace-nowrap">
                   <a href="#" @click="toggleModal(cluster.cluster_name)" class="text-indigo-600 hover:text-indigo-900">
-                    View / </a>
-                  <!-- <a href="#" @click=" " class="text-indigo-600 hover:text-indigo-900">
-                    Delete </a> -->
-                  <button class=" text-indigo-600 hover:text-indigo-900" type="button" v-on:click="toggleModal1()">
+                    View /</a>
+ 
+                  <button class=" text-indigo-600 hover:text-indigo-900" type="button"
+                    @click="setDeleteClusterName(cluster.cluster_name)">
                     Delete
                   </button>
                 </td>
@@ -181,8 +183,8 @@
         </div>
       </div>
     </div>
-
-    <div v-if="showModal" 
+ 
+    <div v-if="showModal" v-for="(cluster, index) in clusters" :key="index"
       class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
       <div class="relative w-auto my-6 mx-auto max-w-sm">
         <!--content-->
@@ -202,37 +204,36 @@
           </div>
           <!--body-->
           <div v-if="showModal" class="relative p-6 flex-auto">
-            <label>Enter Cluster Name :</label>
-            <input v-model="newClusterName" type="text" placeholder="Cluster Name"
-              class="mt-2 px-4 py-2 border rounded-md w-full" />
+            <label>Are You Sure, You Want to Delete the Cluster "{{ deleteClusterName }}" ?? </label>
+            
             <span v-if="error" class="text-red-500">{{ error }}</span>
           </div>
           <!--footer-->
           <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
             <button @click="toggleModal1()"
               class="text-purple-500 bg-transparent border border-solid border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-              Cancel
+              No
             </button>
-            <button @click="deleteCluster()"
+            <button @click="deleteCluster(cluster.cluster_name)"
               class="text-purple-500 bg-transparent border border-solid border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-              Delete Cluster
+              Yes
             </button>
           </div>
         </div>
       </div>
     </div>
     <div v-if="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
-
-
-
+ 
+ 
+ 
   </div>
 </template>
-
+ 
 <script>
 import leftSidebar from "@/components/leftSidebar.vue";
 import fooTer from "@/components/fooTer.vue";
 import axios from "axios";
-
+ 
 export default {
   components: {
     leftSidebar,
@@ -251,8 +252,9 @@ export default {
       selectedProject: "",
       clusters: [],
       loading: true,
-      showModal: false
-
+      showModal: false,
+      deleteClusterName: '',
+ 
     };
   },
   created() {
@@ -261,26 +263,29 @@ export default {
     this.fetchClusters();
   },
   methods: {
-
-
+    setDeleteClusterName(clusterName) {
+      this.deleteClusterName = clusterName;
+      this.toggleModal1();
+    },
+ 
     deleteCluster() {
-
-      if (!this.newClusterName) {
-        this.error = 'Cluster name is required';
-        return; // Prevent API call
-      }
       const formData = {
-        cluster_name: this.newClusterName
+        cluster_name: this.deleteClusterName
       };
-
-      console.log('Deleting cluster with name:', this.newClusterName);
-     // this.$router.push('/deleteResult');
+ 
+      console.log('Deleting cluster with name:', this.deleteClusterName);
+      this.$router.push('/deleteResult');
       axios.post("http://172.16.1.158:8002/api/v2/deletecluster/", formData)
         .then(response => {
           // Handle successful deletion
           console.log('Cluster deleted successfully:', response.data);
+ 
+          // Remove the deleted cluster from the frontend
+          this.clusters = this.clusters.filter(cluster => cluster.cluster_name !== this.deleteClusterName);
+ 
+          // You may want to update the clusters list or perform other actions after deletion
           this.fetchClusters();
-          this.toggleModal1(); 
+          this.toggleModal1(); // Example: Refresh the clusters list
         })
         .catch(error => {
           console.error('Error deleting cluster:', error);
@@ -288,7 +293,7 @@ export default {
           this.toggleModal1();
         });
     },
-
+ 
     toggleModal1: function () {
       this.showModal = !this.showModal;
     },
@@ -296,12 +301,11 @@ export default {
       this.toggleDark();
     },
     toggleModal(selectedCluster) {
-      console.log(selectedCluster)
       this.selectedCluster = selectedCluster
       this.isModalVisible = !this.isModalVisible;
       this.getClusterDetails();
     },
-
+ 
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
@@ -312,7 +316,7 @@ export default {
       this.UserToggle = !this.UserToggle;
     },
     logout() {
-
+ 
       sessionStorage.removeItem('user_id');
       sessionStorage.removeItem('username');
       window.location.reload();
@@ -323,7 +327,7 @@ export default {
       // Replace '\n' with '<br>' for rendering line breaks in HTML
       // return text.replace(/\n/g, '<br>');
     },
-
+ 
     getClusterDetails() {
       axios.get(`http://172.16.1.158:8002/api/v2/result/content/${this.selectedCluster}/`)
         .then(response => {
@@ -333,7 +337,7 @@ export default {
           console.error('Error fetching data:', error);
         });
     },
-
+ 
     getFirstLetter(username) {
       return username.charAt(0, 1).toUpperCase();
     },
@@ -341,7 +345,7 @@ export default {
       axios.get(`http://172.16.1.158:8002/api/v2/project/user/${this.user_id}/`)
         .then(response => {
           this.projects = response.data;
-
+ 
         });
     },
     fetchClusters() {
@@ -365,7 +369,7 @@ export default {
       const createdTime = new Date(createdAt);
       const currentTime = new Date();
       const timeDifferenceInSeconds = Math.floor((currentTime - createdTime) / 1000);
-
+ 
       if (timeDifferenceInSeconds < 60) {
         return `${timeDifferenceInSeconds} sec ago`;
       } else if (timeDifferenceInSeconds < 3600) {
@@ -380,60 +384,61 @@ export default {
       }
     },
   },
-
-
-
+ 
+ 
+ 
 };
 </script>
-
+ 
 <style scoped>
 b {
   font-weight: 5px;
-
+ 
 }
-
+ 
 .link-style {
   text-decoration: none;
   color: black;
   font-weight: 600;
   transition: color 0.2s, border-bottom-color 0.2s;
 }
-
+ 
 .link-style-default {
   color: #ff007f;
   border-bottom: 2px solid #ff007f;
 }
-
-
+ 
+ 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
+ 
 .text {
   font-size: 20px;
   font-weight: bold;
   text-align: left;
   line-height: 30px;
 }
-
+ 
 .subtext {
   font-size: 16px;
   text-align: left;
   margin-top: 5px;
   line-height: 24px;
 }
-
+ 
 .delete-button {
   display: inline-block;
   vertical-align: middle;
-
+ 
   margin-left: 20px;
 }
-
+ 
 .progress-bar {
   width: 1800px;
   /* or any other desired width */
 }
 </style>
+ 

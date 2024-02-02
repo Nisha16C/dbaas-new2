@@ -28,7 +28,7 @@
             </div>
 
             <!-- Search Bar -->
-            <div class="relative ml-4 mr-4">
+            <div class="flex relative ml-4 mr-4">
                 <input type="text"
                     class="pl-8 pr-3 py-2 border rounded-lg w-48 bg-white border-gray-400 focus:border-primary-500 focus:ring-primary-500"
                     placeholder="Search" />
@@ -50,6 +50,20 @@
                     <option>Aastha</option>
                 </select>
             </div>
+            <router-link to="/clusterCreate"
+          class="relative ml-[700px] mx-5 inline-flex items-center justify-center  p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+          <span
+            class="relative px-5 py-2.5 transition-all ease-in duration-75  text-black rounded-md group-hover:bg-opacity-0">
+            Backup
+          </span>
+        </router-link>
+        <router-link to="/clusterCreate"
+          class="relative mx-5 inline-flex items-center justify-center  p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+          <span
+            class="relative px-5 py-2.5 transition-all ease-in duration-75  text-black rounded-md group-hover:bg-opacity-0">
+            Restore
+          </span>
+        </router-link>
         </div>
 
         <!-- New Table  -->
@@ -92,6 +106,169 @@
 
                         <tbody class="bg-white">
                             <tr>
+                                        <input type="checkbox">
+                                <td class=" border-b border-gray-200 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 ">
+                                            <button
+                                                class="flex mt-1 items-center justify-center h-6 w-20 bg-indigo-200 rounded-lg">
+                                                <div class="text-sm font-medium leading-5 text-gray-900">
+                                                Preeti
+                                                </div>
+                                            </button>
+                                        </div>
+
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium leading-5 text-gray-900">
+                                              
+                                            </div>
+                                            <div class="text-sm leading-5 text-gray-500">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <div class="text-sm leading-5 text-gray-900">
+                                        <span class="inline-flex px-2 text-xs font-semibold leading-5
+                     text-green-800 bg-green-100 rounded-full"> test-1 </span>
+
+                                    </div>
+
+                                </td>
+
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <span class="inline-flex px-2 text-xs  font-semibold leading-5
+                    text-gray-500 rounded-full">demo </span>
+                                </td>
+
+                                <td
+                                    class="px-6 py-4 text-sm leading-5 text-gray-500 border-b border-gray-200 whitespace-nowrap">
+                                    <span>Kubernetes</span>
+                                </td>
+
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <span class="inline-flex px-2 text-xs font-semibold leading-5
+                 text-yellow-500 bg-yellow-100 rounded-full">Postgres 15</span>
+                                </td>
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <span class="inline-flex px-2 text-xs font-semibold leading-5
+                 text-yellow-500 bg-yellow-100 rounded-full">2 days ago</span>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                        <input type="checkbox">
+                                <td class=" border-b border-gray-200 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 ">
+                                            <button
+                                                class="flex mt-1 items-center justify-center h-6 w-20 bg-indigo-200 rounded-lg">
+                                                <div class="text-sm font-medium leading-5 text-gray-900">
+                                                Preeti
+                                                </div>
+                                            </button>
+                                        </div>
+
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium leading-5 text-gray-900">
+                                              
+                                            </div>
+                                            <div class="text-sm leading-5 text-gray-500">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <div class="text-sm leading-5 text-gray-900">
+                                        <span class="inline-flex px-2 text-xs font-semibold leading-5
+                     text-green-800 bg-green-100 rounded-full"> test-1 </span>
+
+                                    </div>
+
+                                </td>
+
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <span class="inline-flex px-2 text-xs  font-semibold leading-5
+                    text-gray-500 rounded-full">demo </span>
+                                </td>
+
+                                <td
+                                    class="px-6 py-4 text-sm leading-5 text-gray-500 border-b border-gray-200 whitespace-nowrap">
+                                    <span>Kubernetes</span>
+                                </td>
+
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <span class="inline-flex px-2 text-xs font-semibold leading-5
+                 text-yellow-500 bg-yellow-100 rounded-full">Postgres 15</span>
+                                </td>
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <span class="inline-flex px-2 text-xs font-semibold leading-5
+                 text-yellow-500 bg-yellow-100 rounded-full">2 days ago</span>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                        <input type="checkbox">
+                                <td class=" border-b border-gray-200 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 ">
+                                            <button
+                                                class="flex mt-1 items-center justify-center h-6 w-20 bg-indigo-200 rounded-lg">
+                                                <div class="text-sm font-medium leading-5 text-gray-900">
+                                                Preeti
+                                                </div>
+                                            </button>
+                                        </div>
+
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium leading-5 text-gray-900">
+                                              
+                                            </div>
+                                            <div class="text-sm leading-5 text-gray-500">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <div class="text-sm leading-5 text-gray-900">
+                                        <span class="inline-flex px-2 text-xs font-semibold leading-5
+                     text-green-800 bg-green-100 rounded-full"> test-1 </span>
+
+                                    </div>
+
+                                </td>
+
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <span class="inline-flex px-2 text-xs  font-semibold leading-5
+                    text-gray-500 rounded-full">demo </span>
+                                </td>
+
+                                <td
+                                    class="px-6 py-4 text-sm leading-5 text-gray-500 border-b border-gray-200 whitespace-nowrap">
+                                    <span>Kubernetes</span>
+                                </td>
+
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <span class="inline-flex px-2 text-xs font-semibold leading-5
+                 text-yellow-500 bg-yellow-100 rounded-full">Postgres 15</span>
+                                </td>
+                                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
+                                    <span class="inline-flex px-2 text-xs font-semibold leading-5
+                 text-yellow-500 bg-yellow-100 rounded-full">2 days ago</span>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                        <input type="checkbox">
                                 <td class=" border-b border-gray-200 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 ">

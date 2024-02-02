@@ -224,6 +224,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
     
     def get_pipeline_status(self, request):
         global clusterName
+        print(f'get pipeline status {clusterName}')
         # Replace these variables with your actual GitLab project ID and private token
         project_id = "1"
         private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
@@ -255,7 +256,7 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
 
         try:
              # Check if the cluster exists in the database
-            # cluster = Cluster.objects.get(cluste=cluster)
+            cluster = Cluster.objects.get(cluster_name=clusterName)
             
 
             # Delete the cluster from the databas
@@ -274,6 +275,7 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             response = trigger_single(base_url, project_id, headers, branch_name)
 
             if response == 200:
+                cluster.delete()
                 return Response({"message": "Destroy pipeline triggered successfully."},
                                 status=status.HTTP_200_OK)
             else:
@@ -381,6 +383,7 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
                             existing_artifact.content = content
                             existing_artifact.save()
                         else:
+                            print('artifacts save')
                             # Create a new DBcredentials instance and save it to the database
                             artifact = DBcredentials(
                                 clusterName = clusterName,

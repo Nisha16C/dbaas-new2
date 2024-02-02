@@ -182,7 +182,7 @@
       </div>
     </div>
 
-    <div v-if="showModal" v-for="(cluster, index) in clusters" :key="index"
+    <div v-if="showModal" 
       class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
       <div class="relative w-auto my-6 mx-auto max-w-sm">
         <!--content-->
@@ -213,7 +213,7 @@
               class="text-purple-500 bg-transparent border border-solid border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
               Cancel
             </button>
-            <button @click="deleteCluster(cluster.cluster_name)"
+            <button @click="deleteCluster()"
               class="text-purple-500 bg-transparent border border-solid border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
               Delete Cluster
             </button>
@@ -296,6 +296,7 @@ export default {
       this.toggleDark();
     },
     toggleModal(selectedCluster) {
+      console.log(selectedCluster)
       this.selectedCluster = selectedCluster
       this.isModalVisible = !this.isModalVisible;
       this.getClusterDetails();

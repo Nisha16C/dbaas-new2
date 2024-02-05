@@ -17,6 +17,7 @@ import Signin from "../views/Signin.vue";
 import Backup from "../views/Backup.vue";
 import BackupForm from "../views/BackupForm.vue";
 import RestoreBackup from "../views/RestoreBackup.vue";
+import BackupDetails from "../views/BackupDetails.vue";
 
 import Profile from "../views/Profile.vue";
 
@@ -47,6 +48,11 @@ const routes = [
     path: "/admin-backup/restore-backup",
     name: "Restore Backup",
     component: RestoreBackup,
+  },
+  {
+    path: "/backup-details",
+    name: "Backup Details",
+    component: BackupDetails,
   },
   {
     path: "/User-dashboard",

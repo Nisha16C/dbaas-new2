@@ -85,7 +85,7 @@ export default {
       stats: {
         project: {
           title: "All Project",
-          value: "12",
+          value: "",
           percentage: "",
           iconClass: "ni ni-project-coins",
           detail: "Till Today",
@@ -93,77 +93,43 @@ export default {
         },
         cluster: {
           title: "All Clusters",
-          value: "23",
+          value: "",
           percentage: "",
           iconClass: "ni ni-world",
           iconBackground: "bg-gradient-danger",
           detail: "Till Today",
         },
-        provider: {
-          title: "All Providers",
-          value: "6",
-          percentage: "",
-          iconClass: "ni ni-paper-diploma",
-          percentageColor: "text-danger",
-          iconBackground: "bg-gradient-success",
-          detail: "Till Today",
-        },
-        user: {
-          title: "All cluster",
-          value: "30",
-          percentage: "",
-          iconClass: "ni ni-cart",
-          iconBackground: "bg-gradient-warning",
-          detail: "Till Today",
-        },
       },
-      sales: {
-        us: {
-          country: "Projects",
-          sales: 12,
-          value: "$20",
-          bounce: "29.9%",
-        },
-        germany: {
-          country: "Clusters",
-          sales: "23",
-          value: "$44",
-          bounce: "40.22%",
-        },
-        britain: {
-          country: "cluster",
-          sales: "23",
-          value: "$19",
-          bounce: "23.44%",
-        },
-        brasil: {
-          country: "Providers",
-          sales: "6",
-          value: "$14",
-          bounce: "32.14%",
-        },
-      },
+  clusterData: [],
+
     };
   },
   components: {
     Card,
     ArgonButton,
-    // GradientLineChart,
-
-    // CategoriesCard,
   },
-  created(){
+  created() {
+    this.user_id = sessionStorage.getItem("user_id");
     this.getProject();
     this.getCluster();
   },
+
   methods:{
     getCluster(){
-      
+ 
+      axios.get(`http://172.16.1.92:8002/api/v2/cluster/user/${this.user_id}/`)
+        .then(response => {
+    
+          this.stats.cluster.value =  response.data.length.toString();
+          
+        });
+
     },
     getProject(){
-      axios.get(`http://172.16.1.92.8000/api/v2/project/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.92:8002/api/v2/project/user/${this.user_id}/`)
         .then(response => {
-          this.stats.money.value = response.data.length.toString();
+          this.stats.project.value = response.data.length.toString();
+          console.log(response.data.length.toString);
         })
         .catch(error => {
           console.error("Error fetching project count:", error);

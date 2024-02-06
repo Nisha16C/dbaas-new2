@@ -51,10 +51,16 @@
                   <span class="text-secondary text-xs font-weight-bold">{{ formatDate(cluster.updated_date) }}</span>
                 </td>
                 <td class="align-middle">
-                  <!-- You can customize the Edit link as per your requirements -->
-                  <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                    data-original-title="Edit cluster">Edit</a>
-                </td>
+               
+                <argon-button color="success" size="md" variant="gradient" @click="viewCluster(cluster.cluster_name)" type="button"
+                  class="btn btn-danger" data-toggle="modal" data-target="#viewModal">
+                  View
+                </argon-button>
+                <argon-button color="danger" size="md" variant="gradient" @click="prepareDelete(cluster.cluster_name)" type="button"
+                  class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                  Delete
+                </argon-button>
+              </td>
               </tr>
             </tbody>
   
@@ -62,20 +68,131 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Cluster Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h3>{{ clusterName }}</h3> 
+          <p v-if="contentList.length > 0" v-html="addLineBreaks(contentList[0].content)"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Cluster</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are You Sure Want to delete cluster "{{ deleteClusterName }}" !!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button @click="deleteCluster(clusters_list.cluster_name)" type="button" class="btn btn-danger"> Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
   </template>
   
   <script>
-//   import axios from "axios";
-  
+  import axios from "axios";
+import ArgonButton from "@/components/ArgonButton.vue";
   export default {
     name: "UserCluster-table",
+    components: {
+   
+    ArgonButton,
+  },
+  data(){
+    return{
+        contentList: []
+    }
+  },
     props: {
     clusters: {
       type: Array,
       required: true,
     },
   },
-  methods:{
+  methods: {
+    prepareDelete(clusterName) {
+      this.deleteClusterName = clusterName;
+    },
+    deleteCluster() {
+      const formData = {
+        cluster_name: this.deleteClusterName
+      };
+ 
+      console.log('Deleting cluster with name:', this.deleteClusterName);
+      this.$router.push('/delete');
+      axios.post("http://172.16.1.92:8002/api/v2/deletecluster/", formData)
+        .then(response => {
+          // Handle successful deletion
+          console.log('Cluster deleted successfully:', response.data);
+
+          this.clusters_list = this.clusters_list.filter(cluster => cluster.cluster_name !== this.deleteClusterName);
+ 
+          // You may want to update the clusters_list list or perform other actions after deletion
+          this.fetchclusters_list();
+          // this.toggleModal1(); // Example: Refresh the clusters_list list
+        })
+        .catch(error => {
+          console.error('Error deleting cluster:', error);
+          // Handle error, show a message, etc.
+          this.toggleModal1();
+        });
+    },
+    viewCluster(clusterName) {
+      this.clusterName=clusterName;
+      axios.get(`http://172.16.1.92:8002/api/v2/result/content/${clusterName}/`)
+        .then(response => {
+          this.contentList = response.data;
+          console.log(this.contentList);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+      },
+      addLineBreaks(text) {
+      const formattedContent = text.replace(/([^:\n]+):/g, '<h class="text-sm text-purple-600">$1</h>:');
+      return formattedContent.replace(/\n/g, '<br>');
+      // Replace '\n' with '<br>' for rendering line breaks in HTML
+      // return text.replace(/\n/g, '<br>');
+    },
+ 
+    async fetchclusters_list() {
+      try {
+        // Make a GET request to the endpoint
+        const response = await axios.get('http://172.16.1.92:8002/api/v2/cluster/');
+ 
+        // Update the clusters_list data with the fetched data
+        this.clusters_list = response.data;
+      } catch (error) {
+        console.error('Error fetching clusters_list:', error);
+      }
+    },
+    toggleModal1: function () {
+      this.showModal = !this.showModal;
+    },
     formatDate(dateString) {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);

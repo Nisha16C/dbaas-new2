@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        <div class="row mt-4">
+        <!-- <div class="row mt-4">
           <div class="col-lg-14 mb-lg-0 mb-4">
             <div class="card">
               <div class="p-3 pb-0 card-header">
@@ -32,7 +32,7 @@
                   <h6 class="mb-2">See all Details</h6>
                 </div>
               </div>
-              <!-- Tables -->
+           
               <div class="table-responsive">
                 <table class="table align-items-center">
                   <tbody>
@@ -40,7 +40,7 @@
                       <td class="w-30">
                         <div class="px-2 py-1 d-flex align-items-center">
                           <div>
-                            <!-- <img alt="img" /> -->
+                            <img alt="img" /> 
                           </div>
                           <div class="ms-4">
                             <p class="mb-0 text-xs font-weight-bold">Name:</p>
@@ -60,15 +60,35 @@
                           <h6 class="mb-0 text-sm">{{ sale.value }}</h6>
                         </div>
                       </td>
-                      <!-- <td class="text-sm align-middle">
+                    <td class="text-sm align-middle">
                           <div class="text-center col">
                             <p class="mb-0 text-xs font-weight-bold">Bounce:</p>
                             <h6 class="mb-0 text-sm">{{ sale.bounce }}</h6>
                           </div>
-                        </td> -->
+                        </td> 
                     </tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+             <categories-card /> 
+          </div>
+        </div> -->
+        <div class="row mt-4">
+          <div class="col-lg-14 mb-lg-0 mb-4">
+            <div class="card">
+              <div class="card-header">Welcome Admin</div>
+              <div class="card-body">
+                <h5 class="card-title">
+                  Empower Your Data Journey with BitBlast!!
+                </h5>
+                <p class="card-text">
+                  Experience the transformational power of BitBlast as it
+                  propels your data journey forward!
+                </p>
+
               </div>
             </div>
           </div>

@@ -147,13 +147,6 @@ export default {
     this.fetchClusters();
   },
  
- 
-  // props: {
-  //   clusters: {
-  //     type: Array,
-  //     required: true,
-  //   },
-  // },
   methods: {
     prepareDelete(clusterName) {
       this.deleteClusterName = clusterName;

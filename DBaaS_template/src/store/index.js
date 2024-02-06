@@ -17,10 +17,17 @@ export default createStore({
     showFooter: true,
     showMain: true,
     layout: "default",
-
     username: null,
+    selectedType: 'Standalone',
+    selectedProvider: 'Cloudstack',
   },
   mutations: {
+    setSelectedType(state, type) {
+      state.selectedType = type;
+    },
+    setSelectedProvider(state, provider) {
+      state.selectedProvider = provider;
+    },
     toggleConfigurator(state) {
       state.showConfig = !state.showConfig;
     },
@@ -52,6 +59,12 @@ export default createStore({
     },
   },
   actions: {
+    updateSelectedType({ commit }, type) {
+      commit('setSelectedType', type);
+    },
+    updateSelectedProvider({ commit }, provider) {
+      commit('setSelectedProvider', provider);
+    },
     toggleSidebarColor({ commit }, payload) {
       commit("sidebarType", payload);
     },

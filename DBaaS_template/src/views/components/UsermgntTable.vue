@@ -80,7 +80,7 @@ export default {
     async fetchusers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.97:8002/api/v1/users/');
+        const response = await axios.get('http://172.16.1.69:8000/api/v1/users/');
         
         // Update the clusters data with the fetched data
         this.users = response.data;

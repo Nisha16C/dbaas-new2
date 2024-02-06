@@ -532,7 +532,8 @@ from .serializers import DbcredentialsSerializer
 
 class ContentByClusterNameView(generics.ListAPIView):
     serializer_class = DbcredentialsSerializer
-
+ 
     def get_queryset(self):
         cluster_name = self.kwargs['cluster_name']
-        return Db_credentials.objects.filter(clusterName=cluster_name)
+        return Db_credentials.objects.filter(cluster_name=cluster_name)
+        

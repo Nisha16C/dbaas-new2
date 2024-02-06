@@ -8,6 +8,8 @@ import Clusterss from "../views/UserDashboard/Clusters.vue";
 import Projectss from "../views/UserDashboard/Projects.vue";
 import Providers from "../views/UserDashboard/Providers.vue";
 import UserDashboard from "../views/UserDashboard/UserDashboard.vue";
+import Result from "../views/UserDashboard/Result.vue";
+import Delete from "../views/UserDashboard/delete.vue";
 
 
 import ClustersManagement from "../views/Clusters.vue";
@@ -82,6 +84,16 @@ const routes = [
     path: "/Clusters",
     name: "Clusters",
     component: Clusterss,
+  },
+  {
+    path: "/result",
+    name: "Result",
+    component: Result,
+  },
+  {
+    path: "/delete",
+    name: "Delete",
+    component: Delete,
   },
   {
     path: "/Cluster-Create",

@@ -1,3 +1,4 @@
+
 <template>
   <main class="mt-0 main-content">
     <section>
@@ -10,7 +11,7 @@
               <div class="card card-plain">
                 <div class="pb-0 card-header text-start">
                   <h4 class="font-weight-bolder">
-                    Sign In As {{ newUsername }}
+                    Sign In As {{ username }}
                   </h4>
                   <p class="mb-0">Enter your email and password to sign in</p>
                 </div>
@@ -19,7 +20,7 @@
                     <div class="mb-3">
                       <argon-input
                         type="text"
-                        v-model="newUsername"
+                        v-model="username"
                         placeholder="Username"
                         name="Username"
                         size="lg"
@@ -28,16 +29,18 @@
                     </div>
                     <div class="mb-3">
                       <argon-input
+                        v-model="password"
                         type="password"
                         placeholder="Password"
                         name="password"
                         size="lg"
                       />
                     </div>
-
+ 
                     <div class="text-center">
+ 
                       <argon-button
-                        @click="updateUsername"
+                        @click.prevent="login"
                         class="mt-4"
                         variant="gradient"
                         color="success"
@@ -63,7 +66,7 @@
                 <h4
                   class="mt-5 text-white font-weight-bolder position-relative"
                 >
-                  "Attention User is the new Database" {{ getUsername }}
+                  "Attention User is the new Database"
                 </h4>
                 <p class="text-white position-relative">
                   The more effortless way to manage you databases.
@@ -76,36 +79,31 @@
     </section>
   </main>
 </template>
-
+ 
 <script>
+import axios from 'axios';
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 const body = document.getElementsByTagName("body")[0];
-
+ 
+ 
 export default {
   name: "signin",
   components: {
+ 
     ArgonInput,
-
+ 
     ArgonButton,
   },
+ 
   data() {
     return {
-      newUsername: "",
-      yourModelValue: "",
+      username: '',
+      password: '',
+      error: null,
     };
   },
-  computed: {
-    getUsername() {
-      return this.$store.getters.getUsername;
-    },
-  },
-  methods: {
-    updateUsername() {
-      this.$store.dispatch("setUsername", this.newUsername);
-      this.newUsername = "";
-    },
-  },
+ 
   created() {
     this.$store.state.hideConfigButton = true;
     this.$store.state.showNavbar = false;
@@ -119,6 +117,43 @@ export default {
     this.$store.state.showSidenav = true;
     this.$store.state.showFooter = true;
     body.classList.add("bg-gray-100");
+  },
+ 
+  methods: {
+    login() {
+      console.log('login form')
+      const formData = {
+        username_or_email: this.username,  // Use 'username' instead of 'username_or_email'
+        password: this.password
+      };
+      console.log(formData)
+ 
+      axios
+        .post('http://172.16.1.69:8000/api/v1/login/', formData)
+        .then((response) => {
+          // const token = response.data.token;
+          this.userdata = response.data.user_data;
+          const user_id = this.userdata.id;
+          const username = this.userdata.username;
+ 
+          sessionStorage.setItem('user_id', user_id);
+          sessionStorage.setItem('username', username);
+ 
+          if (username === 'admin') {
+            this.$router.push('/admin-dashboard');
+          } else {
+            this.$router.push('/User-dashboard');
+          }
+        })
+        .catch((error) => {
+          this.error = error.response.data.error;
+          this.password = null;
+          this.username = null;
+          setTimeout(() => {
+            this.error = null;
+          }, 1000);
+        });
+    },
   },
 };
 </script>

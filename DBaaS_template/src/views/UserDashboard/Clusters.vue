@@ -16,14 +16,14 @@
             </card>
           </div>
 
-          <div class="col-lg-3 col-md-12 col-12">
+          <div class="col-lg-3 col-md-9 col-12">
             <div class="mb-4 card">
               <div class="p-3 card-body">
-                <div class="px-4">
-                  <div class="mb-3 mt-4">
+                <div class="text-center px-4">
+                  <div class="px-2 mb-3 mt-4">
                     <router-link to="/cluster-create">
                       <argon-button color="success" size="md" variant="gradient"
-                        >CreateCluster</argon-button
+                        >Create Cluster</argon-button
                       >
                     </router-link>
                   </div>

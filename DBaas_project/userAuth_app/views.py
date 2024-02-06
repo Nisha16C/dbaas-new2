@@ -103,6 +103,8 @@ class LoginViewSet(viewsets.ViewSet):
        
         username_or_email = request.data.get('username_or_email')
         password = request.data.get('password')
+        print(username_or_email)
+        print(password)
         
 
         if '@' in username_or_email:

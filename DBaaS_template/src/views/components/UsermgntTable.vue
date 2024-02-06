@@ -25,7 +25,7 @@
               <td>
                 <div class="d-flex px-2 py-1">
                   <div>
-                    <img :src="user.avatar" class="avatar avatar-sm me-3" :alt="`user-avatar-${user.id}`" />
+                    <img src="@/assets/img/userTable.png" class="avatar avatar-sm me-3" :alt="`user-avatar-${user.id}`" />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
                     <h6 class="mb-0 text-sm">{{ user.id }}</h6>
@@ -33,8 +33,9 @@
                   </div>
                 </div>
               </td>
+              
               <td class="align-middle text-center text-sm">
-                <span v-if="user.isActive" class="badge badge-sm bg-gradient-success">Active</span>
+                <span v-if="!user.isActive" class="badge badge-sm bg-gradient-success">Active</span>
                 <span v-else class="badge badge-sm bg-gradient-danger">Inactive</span>
               </td>
               <td class="align-middle text-center">
@@ -80,7 +81,7 @@ export default {
     async fetchusers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.69:8000/api/v1/users/');
+        const response = await axios.get('http://172.16.1.92:8002/api/v1/users/');
         
         // Update the clusters data with the fetched data
         this.users = response.data;

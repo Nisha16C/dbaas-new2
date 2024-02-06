@@ -16,14 +16,14 @@
             </card>
           </div>
 
-          <div class="col-lg-3 col-md-9 col-12">
+          <div class="col-lg-3 col-md-12 col-12">
             <div class="mb-4 card">
               <div class="p-3 card-body">
-                <div class="text-center px-4">
-                  <div class="px-2 mb-3 mt-4">
+                <div class="px-4">
+                  <div class="mb-3 mt-4">
                     <router-link to="/cluster-create">
                       <argon-button color="success" size="md" variant="gradient"
-                        >Create Cluster</argon-button
+                        >Create New Cluster</argon-button
                       >
                     </router-link>
                   </div>
@@ -35,7 +35,7 @@
           <div class="py-4 container-fluid">
             <div class="row">
               <div class="col-12">
-                <authors-table />
+                <clusters-table :clusters="clusterData" />
               </div>
             </div>
           </div>
@@ -47,29 +47,48 @@
 
 <script>
 import Card from "@/examples/Cards/Card.vue";
-import AuthorsTable from "@/views/components/AuthorsTable.vue";
+import ClustersTable from "@/views/components/ClusteruserTable.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 
+
+import axios from "axios";
 export default {
   name: "Cluster",
   components: {
     Card,
-    AuthorsTable,
+    ClustersTable,
     ArgonButton,
+  },
+  created() {
+    this.user_id = sessionStorage.getItem("user_id");
+    // this.fetchProjects();
+    this.fetchClusters();
   },
   data() {
     return {
       stats: {
         money: {
           title: "All Clusters",
-          value: "12",
+          value: '',
           percentage: "",
           iconClass: "ni ni-money-coins",
-          detail: "since today",
+          detail: "Till Today",
           iconBackground: "bg-gradient-primary",
         },
       },
+      clusterData: [], user_id: '',
     };
   },
+  methods:{
+    fetchClusters() {
+      axios.get(`http://172.16.1.92:8002/api/v2/cluster/user/${this.user_id}/`)
+        .then(response => {
+          this.clusterData = response.data;
+          console.log(response.data);
+          this.stats.money.value = this.clusterData.length
+          // this.loading = false;
+        });
+    },
+  }
 };
 </script>

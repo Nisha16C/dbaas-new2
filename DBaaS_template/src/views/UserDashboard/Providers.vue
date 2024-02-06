@@ -83,7 +83,7 @@ export default {
           value: "1",
           percentage: "35%",
           iconClass: "ni ni-money-coins",
-          detail: "since today",
+          detail: "Till Today",
           iconBackground: "bg-gradient-primary",
         },
       },

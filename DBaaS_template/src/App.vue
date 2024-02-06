@@ -44,6 +44,7 @@ import Navbar from "@/examples/Navbars/Navbar.vue";
 import AppFooter from "@/examples/Footer.vue";
 import { mapMutations } from "vuex";
 
+
 export default {
   name: "App",
   components: {

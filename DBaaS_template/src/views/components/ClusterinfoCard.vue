@@ -41,7 +41,7 @@
                         : 'text-muted'
                     "
                   />
-                </li>
+                </li>&nbsp; &nbsp; &nbsp;
                 <li class="nav-item">
                   <router-link
                     class="nav-link"
@@ -61,7 +61,7 @@
                     "
                   />
                 </li>
-                &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp;
                 <li class="nav-item">
                   <a
                     href="#"
@@ -76,7 +76,7 @@
                   >
                   <hr />
                 </li>
-                &nbsp;
+                &nbsp; &nbsp; &nbsp;
                 <li class="nav-item">
                   <a href="#" class="nav-link disabled" aria-disabled="true"
                     >Additional Settings</a

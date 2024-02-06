@@ -25,7 +25,7 @@
         id="iconSidenav"
       ></i>
       <router-link class="m-0 navbar-brand" to="/">
-        <!-- <img
+        <img
           :src="
             this.$store.state.darkMode ||
             this.$store.state.sidebarType === 'bg-default'
@@ -34,7 +34,7 @@
           "
           class="navbar-brand-img h-100"
           alt="main_logo"
-        /> -->
+        />
         <span class="ms-2 text-2xl font-weight-bold me-2">BitBlast </span>
       </router-link>
     </div>
@@ -45,8 +45,8 @@
 </template>
 <script>
 import SidenavList from "./SidenavList.vue";
-import logo from "@/assets/img/logo-ct-dark.png";
-import logoWhite from "@/assets/img/logo-ct.png";
+import logo from "@/assets/img/logo1.png";
+import logoWhite from "@/assets/img/logo1.png";
 
 export default {
   name: "index",

@@ -58,7 +58,7 @@
                   <label>
                     <input type="radio"  id="Cloudstack" value="Cloudstack"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img class="object-contain max-w-full rounded-lg" src="@/assets/img/apple-icon.png" alt="Cloudstack" />
+                    <img style="width: 50.6667%" class="object-contain max-w-full rounded-lg" src="@/assets/img/cloudstack.png" alt="Cloudstack" />
                   </label>
                 </div>
               </div>
@@ -70,7 +70,7 @@
                   <label>
                     <input type="radio"  id="Harvester" value="Harvester"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img class="object-contain max-w-full rounded-lg" src="@/assets/img/apple-icon.png" alt="Harvester" />
+                    <img style="width: 50.6667%" class="object-contain max-w-full rounded-lg" src="@/assets/img/apple-icon.png" alt="Harvester" />
                   </label>
                 </div>
               </div>
@@ -82,7 +82,7 @@
                   <label>
                     <input type="radio"  id="Vmware" value="Vmware" v-model="selectedProvider"
                       @change="updateProvider" />
-                    <img class="object-contain max-w-full rounded-lg" src="@/assets/img/apple-icon.png" alt="Vmware" />
+                    <img style="width: 50.6667%" class="object-contain max-w-full rounded-lg" src="@/assets/img/Vmware.png" alt="Vmware" />
                   </label>
                 </div>
               </div>
@@ -94,21 +94,23 @@
                   <label>
                     <input type="radio"  id="Kubernetes" value="Kubernetes"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img class="object-contain max-w-full rounded-lg" src="@/assets/img/apple-icon.png" alt="Kubernetes" />
+                    <img style="width: 50.6667%" class="object-contain max-w-full rounded-lg" src="@/assets/img/k8s.png" alt="Kubernetes" />
                   </label>
                 </div>
               </div>
 
               <!-- Nutanix Provider -->
               <div class="col">
+                <label>
                 <div class="bg-white border-4 rounded-md text-center p-3
             {{ selectedProvider === 'Nutanix' ? 'selected' : '' }}">
-                  <label>
+                 
                     <input type="radio" class="visually-hidden" id="Nutanix" value="Nutanix" v-model="selectedProvider"
                       @change="updateProvider" />
-                    <img class="object-contain max-w-full rounded-lg" src="@/assets/img/apple-icon.png" alt="Nutanix" />
-                  </label>
+                    <img style="width: 50.6667%" class="object-contain max-w-full rounded-lg" src="@/assets/img/nutanix.png" alt="Nutanix" />
+                  
                 </div>
+              </label>
               </div>
 
               <!-- Openstack Provider -->
@@ -118,7 +120,7 @@
                   <label>
                     <input type="radio" class="visually-hidden" id="Openstack" value="Openstack"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img class="object-contain max-w-full rounded-lg" src="@/assets/img/apple-icon.png " alt="Openstack" />
+                    <img style="width: 50.6667%" class="object-contain max-w-full rounded-lg" src="@/assets/img/Openstack.png " alt="Openstack" />
                   </label>
                 </div>
               </div>
@@ -138,7 +140,7 @@ import { mapState, mapActions } from 'vuex';
 import ArgonButton from "@/components/ArgonButton.vue";
 // import { useInputStore } from '../../store/clusterStore';
 import axios from 'axios';
-
+ 
 export default {
   name: "billing-card",
   components: {
@@ -146,10 +148,10 @@ export default {
   },
   data() {
     return {
-      selectedType: '',
-      selectedProvider: '',
-
-      user_id: '26',
+      selectedType: 'Standalone',
+      selectedProvider: 'Cloudstack',
+ 
+      // user_id: '26',
       provider_info: [],
       error: ''
     };
@@ -158,26 +160,24 @@ export default {
     // const store = useInputStore();
     // store.setType(this.selectedType);
     // store.setProvider(this.selectedProvider);
-
-    // this.user_id = sessionStorage.getItem('user_id');
+ 
+    this.user_id = sessionStorage.getItem('user_id');
     this.getAllProviderData();
-
+ 
   },
   methods: {
-    // updateType() {
-    //   const store = useInputStore();
-    //   store.setType(this.selectedType);
-    // },
-    // updateProvider() {
-    //   const store = useInputStore();
-    //   store.setProvider(this.selectedProvider);
-    // },
     ...mapActions(['updateSelectedType', 'updateSelectedProvider']),
-
+    updateType() {
+      this.updateSelectedType(this.selectedType);
+    },
+    updateProvider() {
+      this.updateSelectedProvider(this.selectedProvider);
+    },
+ 
     Next() {
       this.$router.push('/Cluster-Setting');
     },
-
+ 
     getAllProviderData() {
       axios.get(`http://172.16.1.69:8000/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
@@ -185,13 +185,12 @@ export default {
           console.log(response.data);
         })
     },
-
+ 
   },
-
+ 
   computed: {
     ...mapState(['selectedType', 'selectedProvider']),
   },
 };
 </script>
-
 

@@ -1,5 +1,6 @@
-import { createStore } from "vuex";
 
+import { createStore } from "vuex";
+ 
 export default createStore({
   state: {
     hideConfigButton: false,
@@ -18,22 +19,26 @@ export default createStore({
     showMain: true,
     layout: "default",
     username: null,
-    selectedType: 'Standalone',
-    selectedProvider: 'Cloudstack',
+    selectedType: '',
+    selectedProvider: '',
+    postgres_version:'',
   },
   mutations: {
-    setSelectedType(state, type) {
-      state.selectedType = type;
+    setSelectedType(state, selectedType) {
+      state.selectedType = selectedType;
     },
-    setSelectedProvider(state, provider) {
-      state.selectedProvider = provider;
+    setSelectedProvider(state, selectedProvider) {
+      state.selectedProvider = selectedProvider;
+    },
+    setSelectedVersion(state, postgres_version) {
+      state.postgres_version = postgres_version;
     },
     toggleConfigurator(state) {
       state.showConfig = !state.showConfig;
     },
     navbarMinimize(state) {
       const sidenav_show = document.querySelector(".g-sidenav-show");
-
+ 
       if (sidenav_show.classList.contains("g-sidenav-hidden")) {
         sidenav_show.classList.remove("g-sidenav-hidden");
         sidenav_show.classList.add("g-sidenav-pinned");
@@ -59,16 +64,19 @@ export default createStore({
     },
   },
   actions: {
-    updateSelectedType({ commit }, type) {
-      commit('setSelectedType', type);
+    updateSelectedType(context, selectedType) {
+      context.commit('setSelectedType', selectedType);
     },
-    updateSelectedProvider({ commit }, provider) {
-      commit('setSelectedProvider', provider);
+    updateSelectedProvider(context, selectedProvider) {
+      context.commit('setSelectedProvider', selectedProvider);
+    },
+    updateSelectedVersion(context, postgres_version) {
+      context.commit('setSelectedVersion', postgres_version);
     },
     toggleSidebarColor({ commit }, payload) {
       commit("sidebarType", payload);
     },
-
+ 
     setUsername({ commit }, username) {
       commit("setUsername", username);
     },
@@ -77,3 +85,4 @@ export default createStore({
     getUsername: (state) => state.username,
   },
 });
+ 

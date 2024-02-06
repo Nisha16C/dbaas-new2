@@ -54,9 +54,11 @@
                   Experience the transformational power of BitBlast as it
                   propels your data journey forward!
                 </p>
-                <argon-button color="success" size="md" variant="gradient"
-                  >Create New Cluster</argon-button
-                >
+                <router-link to="/cluster-create">
+                      <argon-button color="success" size="md" variant="gradient"
+                        >Create New Cluster</argon-button
+                      >
+                </router-link>
               </div>
             </div>
           </div>
@@ -73,7 +75,7 @@ import Card from "@/examples/Cards/Card.vue";
 // import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
 // import Carousel from "./components/Carousel.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
-
+import axios from 'axios'
 // import CategoriesCard from "./components/CategoriesCard.vue";
 
 export default {
@@ -86,7 +88,7 @@ export default {
           value: "12",
           percentage: "",
           iconClass: "ni ni-project-coins",
-          detail: "since today",
+          detail: "Till Today",
           iconBackground: "bg-gradient-primary",
         },
         cluster: {
@@ -95,7 +97,7 @@ export default {
           percentage: "",
           iconClass: "ni ni-world",
           iconBackground: "bg-gradient-danger",
-          detail: "since today",
+          detail: "Till Today",
         },
         provider: {
           title: "All Providers",
@@ -104,7 +106,7 @@ export default {
           iconClass: "ni ni-paper-diploma",
           percentageColor: "text-danger",
           iconBackground: "bg-gradient-success",
-          detail: "since today",
+          detail: "Till Today",
         },
         user: {
           title: "All cluster",
@@ -112,7 +114,7 @@ export default {
           percentage: "",
           iconClass: "ni ni-cart",
           iconBackground: "bg-gradient-warning",
-          detail: "since today",
+          detail: "Till Today",
         },
       },
       sales: {
@@ -150,5 +152,23 @@ export default {
 
     // CategoriesCard,
   },
+  created(){
+    this.getProject();
+    this.getCluster();
+  },
+  methods:{
+    getCluster(){
+      
+    },
+    getProject(){
+      axios.get(`http://172.16.1.92.8000/api/v2/project/user/${this.user_id}/`)
+        .then(response => {
+          this.stats.money.value = response.data.length.toString();
+        })
+        .catch(error => {
+          console.error("Error fetching project count:", error);
+        });
+    }
+  }
 };
 </script>

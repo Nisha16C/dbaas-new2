@@ -1,3 +1,4 @@
+
 <template>
   <div class="card h-100 mb-4">
     <div class="card-header pb-0 px-3">
@@ -17,39 +18,42 @@
           <tbody>
             <tr>
               <th>Cluster Type</th>
-              <td>Standalone</td>              
+              <td>{{selectedType}}</td>              
             </tr>
-
+ 
             <tr>
               <th>Cluster Nodes</th>
-              <td> 1 Node</td>            
+              <td v-if="selectedType=='Standalone'"> 1 Node</td>
+        
+              <td v-if="selectedType=='multiple'"> 3 Node</td>
+           
             </tr>
-
+ 
             <tr>
               <th>Provider</th>
-              <td>CloudStack</td>           
+              <td>{{selectedProvider}}</td>           
             </tr>
-
+ 
             <tr>
               <th>Cluster Name</th>
               <td>Default</td>           
             </tr>
-
+ 
             <tr>
               <th>Postgress Type</th>
               <td>PostreSQL</td>           
             </tr>
-
+ 
             <tr>
               <th>Postgres Versions</th>
-              <td>15</td>           
+              <td>{{postgres_version}}</td>           
             </tr>
-
+ 
             <tr>
               <th>Instance Size</th>
               <td>2vcpu, 8gb</td>           
             </tr>
-
+ 
             <tr>
               <th>Volume Type</th>
               <td>General Purpose SSD(gp3)</td>           
@@ -58,22 +62,23 @@
               <th>Volume Properties</th>
               <td>4 Gi, 3000 IOPS, 125 Mb/s Disk</td>           
             </tr>
-
+ 
             <tr>
               <th>Networking</th>
               <td>Private</td>           
             </tr>
-
+ 
           </tbody>
         </table>
       </div>
     </div>
   </div>
 </template>
-
+ 
 <script>
 // import ArgonButton from "@/components/ArgonButton.vue";
-
+import { mapState } from 'vuex';
+ 
 export default {
   name: "transaction-card",
   components: {
@@ -93,5 +98,10 @@ export default {
       this.currentDateTime = new Date().toLocaleString();
     },
   },
+  computed: {
+    ...mapState(['selectedType', 'selectedProvider','postgres_version']),
+ 
+  },
 };
 </script>
+ 

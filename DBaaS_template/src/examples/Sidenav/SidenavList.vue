@@ -128,7 +128,7 @@
           class="text-xs ps-1  text-uppercase font-weight-bolder opacity-6"
           :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'"
         >
-          Monitoring & Backup & Logging
+          Observability & Backup 
         </h6>
       </li>
  
@@ -137,7 +137,7 @@
           class="text-xs ps-3 text-uppercase font-weight-bolder opacity-6"
           :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'"
         >
-          Monitoring & Backup
+        Observability  & Backup
         </h6>
       </li>
       <li class="nav-item" v-if="username === 'admin'">

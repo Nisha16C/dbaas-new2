@@ -3,7 +3,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="row">
-            <div class="col-lg-3 col-md-6 col-12">
+            <!-- <div class="col-lg-3 col-md-6 col-12">
               <card
                 :title="stats.money.title"
                 :value="stats.money.value"
@@ -14,7 +14,7 @@
                 directionReverse
               >
               </card>
-            </div>
+            </div> -->
   
   
             <div class="py-4 container-fluid">
@@ -31,13 +31,13 @@
   </template>
   
   <script>
-  import Card from "@/examples/Cards/Card.vue";
+  // import Card from "@/examples/Cards/Card.vue";
   import ProgressTable from "@/views/components/ProgressTable.vue";
   
   export default {
     name: "Cluster",
     components: {
-      Card,
+      // Card,
       ProgressTable,
     },
     data() {
@@ -48,7 +48,7 @@
             value: "12",
             percentage: "",
             iconClass: "ni ni-money-coins",
-            detail: "since today",
+            detail: "Till Today",
             iconBackground: "bg-gradient-primary",
           },
         },

@@ -58,7 +58,7 @@ const routes = [
   },
   {
     path: "/User-dashboard",
-    name: "UserDashboard",
+    name: "User Dashboard",
     component: UserDashboard,
   },
   // {

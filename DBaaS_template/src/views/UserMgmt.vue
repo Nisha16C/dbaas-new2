@@ -16,20 +16,6 @@
             </card>
           </div>
 
-          <div class="col-lg-3 col-md-12 col-12">
-            <div class="mb-4 card">
-              <div class="p-3 card-body">
-                <div class="px-4">
-                  <div class="mb-3 mt-4">
-                    
-                    <argon-button color="success" size="md" variant="gradient"
-                      >Create New User</argon-button
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div class="py-4 container-fluid">
             <div class="row">
@@ -48,7 +34,7 @@
 import Card from "@/examples/Cards/Card.vue";
 //   import AuthorsTable from "./components/ProjectTable.vue";
 import UsermgnTable from "./components/UsermgntTable.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+// import ArgonButton from "@/components/ArgonButton.vue";
 import axios from "axios";
 
 export default {
@@ -57,7 +43,7 @@ export default {
     Card,
     UsermgnTable,
    
-    ArgonButton,
+    // ArgonButton,
   },
   data() {
     return {
@@ -67,7 +53,7 @@ export default {
           value: " ",
           percentage: "",
           iconClass: "ni ni-money-coins",
-          detail: "since today",
+          detail: "Till Today",
           iconBackground: "bg-gradient-primary",
         },
       },
@@ -81,7 +67,7 @@ export default {
 methods: {
   // Method to fetch clusters and update totalClusters
   fetchClusters() {
-    axios.get(`http://172.16.1.69:8000/api/v1/users/`)
+    axios.get(`http://172.16.1.92:8002/api/v1/users/`)
       .then(response => {
         this.stats.money.value = response.data.length.toString();  // Update totalClusters
       })

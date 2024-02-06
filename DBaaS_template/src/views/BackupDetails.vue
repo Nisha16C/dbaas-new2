@@ -100,7 +100,7 @@ export default {
           value: "2",
           percentage: "",
           iconClass: "ni ni-money-coins",
-          detail: "since today",
+          detail: "Till Today",
           iconBackground: "bg-gradient-primary",
         },
       },

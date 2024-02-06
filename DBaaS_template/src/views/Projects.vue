@@ -10,23 +10,6 @@
             </card>
           </div>
 
-          <div class="col-lg-8 col-md-12 col-12">
-            <div class="mb-4 card">
-              <div class="p-3 card-body">
-                <div class="px-4">
-                  <div class="mb-6">
-                    <label for="projectname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Project
-                      Name</label>
-                    <form @submit.prevent="saveProject">
-                      <argon-input v-model="project.project_name" type="text" placeholder="Project Name" />
-                      <argon-button type="submit" color="success" size="md" variant="gradient">Create New
-                        Project</argon-button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div class="py-4 container-fluid">
             <div class="row">
@@ -44,8 +27,8 @@
 <script>
 import Card from "@/examples/Cards/Card.vue";
 import AuthorsTable from "./components/ProjectTable.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+// import ArgonInput from "@/components/ArgonInput.vue";
+// import ArgonButton from "@/components/ArgonButton.vue";
 import axios from "axios"
 
 export default {
@@ -53,8 +36,8 @@ export default {
   components: {
     Card,
     AuthorsTable,
-    ArgonInput,
-    ArgonButton,
+    // ArgonInput,
+    // ArgonButton,
   },
   data() {
     return {
@@ -64,7 +47,7 @@ export default {
           value: "",
           percentage: "",
           iconClass: "ni ni-money-coins",
-          detail: "since today",
+          detail: "Till Today",
           iconBackground: "bg-gradient-primary",
         },
       },
@@ -93,7 +76,7 @@ export default {
       } else {
         console.log("About to send API request to create a project")
         axios
-          .post("http://172.16.1.69:8000/api/v2/project/", this.project)
+          .post("http://172.16.1.92:8002/api/v2/project/", this.project)
           .then((response) => {
             console.log("Project created successfully:", response)
             this.fetchProjectCount();
@@ -110,7 +93,7 @@ export default {
     },
     fetchProjectCount() {
       // Make an API request to get the project count
-      axios.get(`http://172.16.1.69:8000/api/v2/project/`)
+      axios.get(`http://172.16.1.92:8002/api/v2/project/`)
         .then(response => {
           this.stats.money.value = response.data.length.toString();
         })

@@ -90,7 +90,7 @@
       </div>
     </div>
   </div>
- 
+ <!-- Delete Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -124,7 +124,8 @@ import ArgonButton from "@/components/ArgonButton.vue";
   },
   data(){
     return{
-        contentList: []
+        contentList: [],
+        deleteClusterName: ''
     }
   },
     props: {
@@ -146,14 +147,12 @@ import ArgonButton from "@/components/ArgonButton.vue";
       this.$router.push('/delete');
       axios.post("http://172.16.1.92:8002/api/v2/deletecluster/", formData)
         .then(response => {
-          // Handle successful deletion
+
           console.log('Cluster deleted successfully:', response.data);
 
           this.clusters_list = this.clusters_list.filter(cluster => cluster.cluster_name !== this.deleteClusterName);
- 
-          // You may want to update the clusters_list list or perform other actions after deletion
           this.fetchclusters_list();
-          // this.toggleModal1(); // Example: Refresh the clusters_list list
+
         })
         .catch(error => {
           console.error('Error deleting cluster:', error);

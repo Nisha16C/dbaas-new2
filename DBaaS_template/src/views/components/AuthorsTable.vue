@@ -158,7 +158,7 @@ export default {
  
       console.log('Deleting cluster with name:', this.deleteClusterName);
       this.$router.push('/delete');
-      axios.post("http://172.16.1.92:8002/api/v2/deletecluster/", formData)
+      axios.post("http://172.16.1.97:8002/api/v2/deletecluster/", formData)
         .then(response => {
           // Handle successful deletion
           console.log('Cluster deleted successfully:', response.data);
@@ -178,7 +178,7 @@ export default {
     },
     viewCluster(clusterName) {
       this.clusterName=clusterName;
-      axios.get(`http://172.16.1.92:8002/api/v2/result/content/${clusterName}/`)
+      axios.get(`http://172.16.1.97:8002/api/v2/result/content/${clusterName}/`)
         .then(response => {
           this.contentList = response.data;
           console.log(this.contentList);
@@ -197,7 +197,7 @@ export default {
     async fetchClusters() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.92:8002/api/v2/cluster/');
+        const response = await axios.get('http://172.16.1.97:8002/api/v2/cluster/');
  
         // Update the clusters data with the fetched data
         this.clusters = response.data;

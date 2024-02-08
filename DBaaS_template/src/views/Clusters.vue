@@ -64,7 +64,7 @@ export default {
   methods: {
     // Method to fetch clusters and update totalClusters
     fetchClusters() {
-      axios.get(`http://172.16.1.92:8002/api/v2/cluster/`)
+      axios.get(`http://172.16.1.97:8002/api/v2/cluster/`)
         .then(response => {
           this.stats.money.value = response.data.length.toString();  // Update totalClusters
         })

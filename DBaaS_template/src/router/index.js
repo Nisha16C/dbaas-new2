@@ -22,6 +22,7 @@ import RestoreBackup from "../views/RestoreBackup.vue";
 import BackupDetails from "../views/BackupDetails.vue";
 
 import Profile from "../views/Profile.vue";
+import ActivityLog from "../views/ActivityLog.vue";
 
 const routes = [
   {
@@ -131,6 +132,11 @@ const routes = [
     path: "/signin",
     name: "Signin",
     component: Signin,
+  },
+  {
+    path: "/ActivityLog",
+    name: "ActivityLog",
+    component: ActivityLog,
   },
 ];
 

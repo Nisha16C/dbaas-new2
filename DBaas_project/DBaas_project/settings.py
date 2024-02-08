@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-%v$9szgnb^x$r=#c1zhd9v3_=*ea0_xrmeutoqsii9_k7p+=&i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.16.1.92','127.0.0.1']
+ALLOWED_HOSTS = ['172.16.1.97','127.0.0.1']
 
 
 # Application definition
@@ -163,7 +163,7 @@ AUTHENTICATION_BACKENDS = [
 
 CORS_ALLOWED_ORIGINS = [  
     'http://localhost:8080',
-    'http://172.16.1.92:8080',
+    'http://172.16.1.97:8080',
 ]
 REST_FRAMEWORK = {
 
@@ -180,9 +180,87 @@ REST_FRAMEWORK = {
 
 PROMETHEUS_LATENCY_BUCKETS = (0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1.0, 2.5, 5.0, 7.5, 10.0, 25.0, 50.0, 75.0, float("inf"),)
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_prometheus.cache.backends.filebased.FileBasedCache',
-#         'LOCATION': '/var/tmp/django_cache',
-#     }
-# }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'project_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/project.log',
+            'formatter': 'verbose',
+        },
+        'cluster_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/cluster.log',
+            'formatter': 'verbose',
+        },
+        'deletecluster_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/deletecluster.log',
+            'formatter': 'verbose',
+        },
+        'login_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/login.log',
+            'formatter': 'verbose',
+        },
+        'user_creation_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/user.log',
+            'formatter': 'verbose',
+        },
+        'role_assignment_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/role.log',
+            'formatter': 'verbose',
+        },
+        # Add more handlers if needed
+    },
+    'formatters': {
+        'verbose': {
+            'format': 'ts={asctime}    level={levelname}    {message} ',
+            # 'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'loggers': {
+        'project_logger': {
+            'handlers': ['project_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'cluster_logger': {
+            'handlers': ['cluster_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'deletecluster_logger': {
+            'handlers': ['deletecluster_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'login_logger': {
+            'handlers': ['login_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'user_creation_logger': {
+            'handlers': ['user_creation_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'role_assignment_logger': {
+            'handlers': ['role_assignment_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        # Add more loggers if needed
+    },
+}

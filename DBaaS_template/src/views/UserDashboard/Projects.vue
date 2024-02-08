@@ -99,7 +99,7 @@ export default {
       
       const user_id = this.project.user
       console.log(user_id);
-      axios.get(`http://172.16.1.92:8002/api/v2/project/user/${user_id}/`)
+      axios.get(`http://172.16.1.97:8002/api/v2/project/user/${user_id}/`)
         .then((response) => {
           this.projectsData = response.data;
           this.stats.money.value = this.projectsData.length
@@ -116,7 +116,7 @@ export default {
       }
       else {
         console.log(this.project)
-        axios.post("http://172.16.1.92:8002/api/v2/project/", this.project)
+        axios.post("http://172.16.1.97:8002/api/v2/project/", this.project)
           .then(() => {
             this.fetchProject()
             this.project.project_name =''

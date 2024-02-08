@@ -185,9 +185,9 @@
         </sidenav-item>
       </li>
  
-      <!-- <li class="nav-item" v-if="username === 'admin' " >
+      <li class="nav-item" v-if="username === 'admin' " >
         <sidenav-item
-          url="/admin-Backup"
+          url="/ActivityLog"
           :class="getRoute() === ' ' ? 'active' : ''"
           :navText="'Activity Log'"
         >
@@ -195,7 +195,7 @@
             <i class="ni ni-ui-04 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-      </li> -->
+      </li>
  
     </ul>
   </div>

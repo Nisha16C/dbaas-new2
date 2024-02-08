@@ -67,7 +67,7 @@ export default {
     async fetchProjects() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.92:8002/api/v2/project/');
+        const response = await axios.get('http://172.16.1.97:8002/api/v2/project/');
         
         // Update the clusters data with the fetched data
         this.projects = response.data;

@@ -117,7 +117,7 @@ export default {
   methods:{
     getCluster(){
  
-      axios.get(`http://172.16.1.92:8002/api/v2/cluster/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.97:8002/api/v2/cluster/user/${this.user_id}/`)
         .then(response => {
     
           this.stats.cluster.value =  response.data.length.toString();
@@ -126,7 +126,7 @@ export default {
 
     },
     getProject(){
-      axios.get(`http://172.16.1.92:8002/api/v2/project/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.97:8002/api/v2/project/user/${this.user_id}/`)
         .then(response => {
           this.stats.project.value = response.data.length.toString();
           console.log(response.data.length.toString);

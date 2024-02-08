@@ -81,7 +81,7 @@ export default {
   },
   methods:{
     fetchClusters() {
-      axios.get(`http://172.16.1.92:8002/api/v2/cluster/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.97:8002/api/v2/cluster/user/${this.user_id}/`)
         .then(response => {
           this.clusterData = response.data;
           console.log(response.data);

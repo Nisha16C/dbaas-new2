@@ -14,7 +14,10 @@ from .serializers import userAuthSerializers
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+import logging
 
+# Create a logger instance
+user_creation_logger = logging.getLogger('user_creation_logger')
 class UserAuthViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = userAuthSerializers
@@ -62,12 +65,22 @@ class UserAuthViewSet(viewsets.ModelViewSet):
             
             project= Project(user= user, project_name = project_name) 
             project.save()
+
+            # Log the user creation event
+            log_entry = f"user={user.username.ljust(20)} msg='New user {user.username} created with project {project_name}' "
+            user_creation_logger.info(log_entry)
+
             serializer= projectSerializers(project)
+
+            
             return Response({"message": "user created a default project"})
 
         except Exception as e:
             return Response({"error": f"Failed to create user: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+# Create a logger instance
+role_assignment_logger = logging.getLogger('role_assignment_logger')
 class AddRoleViewset(viewsets.ModelViewSet):
     queryset = UserRole.objects.all()
 
@@ -92,12 +105,19 @@ class AddRoleViewset(viewsets.ModelViewSet):
             for role in roles:
                 UserRole.objects.get_or_create(user=user, role=role)
 
+            # Log the role assignment event
+            log_entry = f"user={user.username.ljust(20)} msg='Roles assigned: {', '.join(role_names)}' "
+            role_assignment_logger.info(log_entry)
+
+
             return JsonResponse({'success': True, 'message': 'Roles added successfully'})
         except User.DoesNotExist:
             return JsonResponse({'success': False, 'message': 'User does not exist'}, status=404)
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=500)
 
+# Create a logger instance
+login_logger = logging.getLogger('login_logger')
 class LoginViewSet(viewsets.ViewSet):
     def create(self, request):
        
@@ -116,6 +136,10 @@ class LoginViewSet(viewsets.ViewSet):
         if user is not None and user.check_password(password):
             # Log the user in
             login(request, user)
+            # Log the login event
+            log_entry = f"user={user.username.ljust(20)}    msg='{user.username} User logged in' "
+            login_logger.info(log_entry)
+
  
             serializer = userAuthSerializers(user)
  
@@ -125,3 +149,4 @@ class LoginViewSet(viewsets.ViewSet):
             })
         else:
             return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        

@@ -13,8 +13,14 @@ import zipfile
 import io
 from django.http import JsonResponse
 import time
+import logging
+from datetime import datetime
+
 # from rest_framework.decorators import action
 
+
+# Define a logger for project-related actions
+project_logger = logging.getLogger('project_logger')
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
@@ -45,18 +51,27 @@ class ProjectViewSet(viewsets.ModelViewSet):
         try:
             user = User.objects.get(pk= user_id)
             print (user)
+            project = Project.objects.create(user=user, project_name=project_name)
+
         except User.DoestNotExist:
             return Response({"error": "User with the provided ID does not exist."},
-                            status=status.HTTP_404_NOT_FOUND)  
+                            status=status.HTTP_404_NOT_FOUND) 
 
-        project= Project(user= user, project_name = project_name) 
+        # project= Project(user= user, project_name = project_name) 
         project.save()
+
+          # Log project creation information with username, project_name, date, and time
+        log_entry = f"user={user.username.ljust(20)} ProjectName={project.project_name.ljust(30)} msg='{project.project_name} Project is created' "
+        project_logger.info(log_entry) 
+
         serializer= projectSerializers(project)
 
         return Response(
             serializer.data,status = status.HTTP_201_CREATED)   
-
     
+
+
+
     @action(detail=True, methods=['PUT'])
     def rename_project(self, request, pk=None): 
         """
@@ -105,7 +120,8 @@ providerName = ''
 userId = ''
 projectID = ''
 
-	
+# Define a logger for cluster-related actions
+cluster_logger = logging.getLogger('cluster_logger')
 class ClusterViewSet(viewsets.ModelViewSet):
     queryset = Cluster.objects.all()
     serializer_class = ClusterSerializers
@@ -156,10 +172,15 @@ class ClusterViewSet(viewsets.ModelViewSet):
         try:
             user = User.objects.get(pk=user_id)
             project = Project.objects.get(pk=project_id)
+            # provider = Provider.objects.get(provider_name=provider_name, user=user)
+
         except User.DoesNotExist:
             return Response({"error": "User with the provided ID does not exist."}, status=status.HTTP_404_NOT_FOUND)
         except Project.DoesNotExist:
             return Response({"error": "No Project! has been selected.."}, status=status.HTTP_404_NOT_FOUND)
+        # except Provider.DoesNotExist:
+        #     return Response({"error": "Provider with the provided name does not exist for this user."},
+        #                     status=status.HTTP_404_NOT_FOUND)
    
         project_id = "1"
         private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
@@ -189,7 +210,11 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     provider=provider_name
                 )
                 cluster.save()
+                # Log cluster creation information
+                log_entry = f"User={user.username.ljust(20)} ClusterName={cluster.cluster_name.ljust(30)} msg='{cluster.cluster_name} is created' "
+                cluster_logger.info(log_entry)
                 serializer = ClusterSerializers(cluster)
+              
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -207,6 +232,9 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     provider=provider_name
                 )
                 cluster.save()
+                # Log cluster creation information
+                log_entry = f"user={user.username.ljust(20)} ClusterName={cluster.cluster_name.ljust(30)}  msg='{cluster.cluster_name} is created'"
+                cluster_logger.info(log_entry)
                 serializer = ClusterSerializers(cluster)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:            
@@ -264,6 +292,9 @@ class ClusterViewSet(viewsets.ModelViewSet):
             all_artifacts.append({"status": pipeline_status["status"], "artifacts": artifacts})
 
         return JsonResponse({"pipelines": all_artifacts})
+    
+# Define a logger for cluster-related actions
+deletecluster_logger = logging.getLogger('deletecluster_logger')    
 
 class ClusterDeleteViewSet(viewsets.ModelViewSet):
    
@@ -276,12 +307,13 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
         try:
              # Check if the cluster exists in the database
             cluster = Cluster.objects.get(cluster_name=clusterName)
+            # Log delete cluster information
+            log_entry = f"user={cluster.user.username.ljust(20)} clusterName={cluster.cluster_name.ljust(30)} msg='{cluster.cluster_name} is deleted' "
+            deletecluster_logger.info(log_entry)
             
 
             # Delete the cluster from the databas
         
-     
-
             project_id = "1"
             private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
             base_url = "http://gitlab-ce.os3.com/api/v4/"
@@ -304,18 +336,6 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             return Response({"error": "Cluster not found."},
                             status=status.HTTP_404_NOT_FOUND)
 
-
-# def trigger_infra(base_url, project_id, headers, branch_name):
-#     formData = {
-#         "ref": branch_name,
-#     }
-#     # print(formData)
-#     response = requests.post(base_url + f"projects/{project_id}/pipeline", headers=headers, json=formData, verify=False)
-
-#     if response.status_code == 201:
-#         return 200
-#     else:
-#         return {"error": f"Failed to trigger the pipeline. Status code: {response.status_code}"}
 
 
 def trigger_single(base_url, project_id, headers, branch_name):

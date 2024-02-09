@@ -161,7 +161,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
             'cluster_name': cluster_name,   
             'postgres_version': database_version,
         }
-        print(f'Create function global variavle {clusterType} and {userId}')
+        print(f'Create function global variable {clusterType} and {userId}')
 
         # Check if cluster with the same name already exists in the project
         existing_cluster = Cluster.objects.filter(project=project_id, cluster_name=cluster_name).exists()
@@ -210,10 +210,11 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     provider=provider_name
                 )
                 cluster.save()
+                
+                serializer = ClusterSerializers(cluster)
                 # Log cluster creation information
                 log_entry = f"User={user.username.ljust(20)} ClusterName={cluster.cluster_name.ljust(30)} msg='{cluster.cluster_name} is created' "
                 cluster_logger.info(log_entry)
-                serializer = ClusterSerializers(cluster)
               
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -232,10 +233,10 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     provider=provider_name
                 )
                 cluster.save()
-                # Log cluster creation information
-                log_entry = f"user={user.username.ljust(20)} ClusterName={cluster.cluster_name.ljust(30)}  msg='{cluster.cluster_name} is created'"
-                cluster_logger.info(log_entry)
                 serializer = ClusterSerializers(cluster)
+                # Log cluster creation information
+                log_entry = f"user={user.username.ljust(20)} ClusterName={cluster.cluster_name.ljust(30)} Provider='{provider_name}' Project='{project}' msg='{cluster.cluster_name} is created'"
+                cluster_logger.info(log_entry)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:            
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

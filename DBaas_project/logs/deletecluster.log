@@ -1,0 +1,4 @@
+2024-02-08 12:35:38,544    level=INFO    user=preeti               clusterName=cluster                        msg='cluster is deleted' 
+2024-02-08 12:37:12,206    level=INFO    user=preeti               clusterName=cluster1                       msg='cluster1 is deleted' 
+2024-02-08 12:54:55,972    level=INFO    user=preeti               clusterName=cluster2                       msg='cluster2 is deleted' 
+2024-02-08 12:57:21,491    level=INFO    user=preeti               clusterName=cluster3                       msg='cluster3 is deleted' 

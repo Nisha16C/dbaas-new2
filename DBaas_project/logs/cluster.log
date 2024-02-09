@@ -1,0 +1,3 @@
+2024-02-08 12:25:32,938    level=INFO    user=preeti               ClusterName=cluster1                        msg='cluster1 is created'
+2024-02-08 12:45:47,127    level=INFO    user=preeti               ClusterName=cluster2                       Provider='Cloudstack'  msg='cluster2 is created'
+2024-02-08 12:50:57,926    level=INFO    user=preeti               ClusterName=cluster3                       Provider='Cloudstack' Project='test-1' msg='cluster3 is created'

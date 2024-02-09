@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-%v$9szgnb^x$r=#c1zhd9v3_=*ea0_xrmeutoqsii9_k7p+=&i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.16.1.97','127.0.0.1']
+ALLOWED_HOSTS = ['172.16.1.92','127.0.0.1']
 
 
 # Application definition
@@ -163,7 +163,7 @@ AUTHENTICATION_BACKENDS = [
 
 CORS_ALLOWED_ORIGINS = [  
     'http://localhost:8080',
-    'http://172.16.1.97:8080',
+    'http://172.16.1.92:8080',
 ]
 REST_FRAMEWORK = {
 
@@ -225,7 +225,7 @@ LOGGING = {
     },
     'formatters': {
         'verbose': {
-            'format': 'ts={asctime}    level={levelname}    {message} ',
+            'format': '{asctime}    level={levelname}    {message}',
             # 'format': '{levelname} {message}',
             'style': '{',
         },

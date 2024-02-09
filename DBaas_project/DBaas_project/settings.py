@@ -221,11 +221,17 @@ LOGGING = {
             'filename': 'logs/role.log',
             'formatter': 'verbose',
         },
+        'rename_project_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/renameproject.log',
+            'formatter': 'verbose',
+        },
         # Add more handlers if needed
     },
     'formatters': {
         'verbose': {
-            'format': '{asctime}    level={levelname}    {message}',
+            'format': '{asctime}    level={levelname}    {message} ',
             # 'format': '{levelname} {message}',
             'style': '{',
         },
@@ -258,6 +264,11 @@ LOGGING = {
         },
         'role_assignment_logger': {
             'handlers': ['role_assignment_file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'rename_project_logger': {
+            'handlers': ['rename_project_file'],
             'level': 'INFO',
             'propagate': True,
         },

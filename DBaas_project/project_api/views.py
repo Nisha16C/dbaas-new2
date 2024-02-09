@@ -21,6 +21,8 @@ from datetime import datetime
 
 # Define a logger for project-related actions
 project_logger = logging.getLogger('project_logger')
+rename_project_logger = logging.getLogger('rename_project_logger')
+
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
@@ -61,7 +63,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         project.save()
 
           # Log project creation information with username, project_name, date, and time
-        log_entry = f"user={user.username.ljust(20)} ProjectName={project.project_name.ljust(30)} msg='{project.project_name} Project is created' "
+        log_entry = f"user={user.username.ljust(20)} ProjectID={project.id}    ProjectName={project.project_name.ljust(30)} msg='{project.project_name} Project is created' "
         project_logger.info(log_entry) 
 
         serializer= projectSerializers(project)
@@ -96,9 +98,16 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return Response({
                 "error": "Project with the new name already exists"
             }, status=status.HTTP_400_BAD_REQUEST)
+        # Log information before the project is renamed
+        log_entry_before_rename = f"BeforeProjectRename - User={project.user.username}, ProjectId={project.id}, ProjectName={project.project_name}, msg={ project.project_name } is a old name"
+        rename_project_logger.info(log_entry_before_rename)
 
         project.project_name = new_project_name
         project.save()
+
+        # Log information after the project is renamed
+        log_entry_after_rename = f"AfterProjectRename - User={project.user.username}, ProjectId={project.id}, NewProjectName={project.project_name}, msg={ project.project_name } is a new name"
+        rename_project_logger.info(log_entry_after_rename)
 
         serializer = projectSerializers(project)
         return Response(serializer.data, status=status.HTTP_200_OK)         
@@ -213,7 +222,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 
                 serializer = ClusterSerializers(cluster)
                 # Log cluster creation information
-                log_entry = f"User={user.username.ljust(20)} ClusterName={cluster.cluster_name.ljust(30)} msg='{cluster.cluster_name} is created' "
+                log_entry = f"user={user.username.ljust(20)} ClusterName={cluster.cluster_name.ljust(30)} Provider='{provider_name}' Project='{project}' msg='{cluster.cluster_name} is created'"
                 cluster_logger.info(log_entry)
               
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -481,7 +490,7 @@ def get_variables(request):
         'password': password,
         'database_name': cluster_name,
         'postgres_version': postgres_version,
-        'delete-cluster' : deleteCluster_name,
+        'delete-cluster' : "test-pr",
     }
 
     return JsonResponse(data)

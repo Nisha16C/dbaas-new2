@@ -35,9 +35,10 @@
                 <span class="text-secondary text-xs font-weight-bold">{{ formatDate(project.updated_date) }}</span>
               </td>
               <td class="align-middle">
-                <!-- You can customize the Edit link as per your requirements -->
-                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                  data-original-title="Edit cluster">Edit</a>
+                <argon-button color="success" size="md" variant="gradient" @click="prepareRename(project)"
+                  type="button" class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                  Edit
+                </argon-button>
               </td>
             </tr>
           </tbody>
@@ -45,18 +46,49 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" ref="myModal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Rename Your Project: {{ newProjectName }} </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          New Project Name:
+          <argon-input type="text" placeholder="New Project Name" v-model="newProjectName" class=" " />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button @click.prevent="renameProject" type="button" class="btn btn-danger"> Rename </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <!-- ... (rest of the component) -->
 
-  <script>
+<script>
 import axios from "axios";
+import ArgonButton from "@/components/ArgonButton.vue";
+import ArgonInput from "@/components/ArgonInput.vue";
 
 export default {
   name: "projects-table",
+  components: {
+    // Card,
+    // projectsTable,
+    ArgonButton,
+    ArgonInput
+  },
   data() {
     return {
-      projects: [], // Initialize clusters as an empty array
+      projects: [], // Initialize projects as an empty array
+      renamingProjectId: null,
+      newProjectName: "",
     };
   },
   mounted() {
@@ -64,6 +96,30 @@ export default {
     this.fetchProjects();
   },
   methods: {
+    prepareRename(project) {
+      // Emit an event to notify the parent component about the rename action
+      this.renamingProjectId = project.id;
+      this.newProjectName = project.project_name;
+      this.$emit("rename-project", project);
+    },
+    renameProject() {
+      const payload = { new_project_name: this.newProjectName};
+      axios
+        .put(
+          `http://172.16.1.92:8002/api/v2/project/${this.renamingProjectId}/rename/`,
+          payload
+        )
+        .then((response) => {
+          console.log('print response :' , response);
+          this.$refs.myModal.modal("hide");
+          this.fetchProjects(); // You need to have a fetchProjects method to refresh the projects list
+        })
+        .catch((error) => {
+          // Handle error
+          console.error(error);
+          // Optionally show an error message to the user
+        });
+    },
     async fetchProjects() {
       try {
         // Make a GET request to the endpoint

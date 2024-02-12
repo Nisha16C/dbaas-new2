@@ -1,13 +1,8 @@
-2024-02-09 12:27:10,936    level=INFO    BeforeProjectRename - User=nisha, ProjectId=90, ProjectName=Hello_project, msg=Hello_project is a old name 
-2024-02-09 12:27:10,941    level=INFO    AfterProjectRename - User=nisha, ProjectId=90, NewProjectName=No_PROJECT_TO , msg=No_PROJECT_TO  is a new name 
-2024-02-10 04:50:44,512    level=INFO    BeforeProjectRename - User=nisha, ProjectId=90, ProjectName=No_PROJECT_TO , msg=No_PROJECT_TO  is a old name 
-2024-02-10 04:50:44,519    level=INFO    AfterProjectRename - User=nisha, ProjectId=90, NewProjectName=New_BitBlast, msg=New_BitBlast is a new name 
-2024-02-10 07:20:04,714    level=INFO    BeforeProjectRename - User=nisha, ProjectId=90, ProjectName=New_BitBlast, msg=New_BitBlast is a old name 
-2024-02-10 07:20:04,721    level=INFO    AfterProjectRename - User=nisha, ProjectId=90, NewProjectName=New_BitBlast23, msg=New_BitBlast23 is a new name 
-2024-02-10 07:21:55,473    level=INFO    BeforeProjectRename - User=ashish, ProjectId=31, ProjectName=Ashish-second-project, msg=Ashish-second-project is a old name 
-2024-02-10 07:21:55,478    level=INFO    AfterProjectRename - User=ashish, ProjectId=31, NewProjectName=Ashish-second-project12, msg=Ashish-second-project12 is a new name 
-2024-02-10 07:22:07,018    level=INFO    BeforeProjectRename - User=ashish, ProjectId=31, ProjectName=Ashish-second-project12, msg=Ashish-second-project12 is a old name 
-2024-02-10 07:22:07,022    level=INFO    AfterProjectRename - User=ashish, ProjectId=31, NewProjectName=Ashish-second-project, msg=Ashish-second-project is a new name 
-2024-02-10 07:22:18,555    level=INFO    BeforeProjectRename - User=nisha, ProjectId=90, ProjectName=New_BitBlast23, msg=New_BitBlast23 is a old name 
-2024-02-10 07:22:18,560    level=INFO    AfterProjectRename - User=nisha, ProjectId=90, NewProjectName=New_BitBlast, msg=New_BitBlast is a new name 
-2024-02-10 12:12:33,924    level=INFO    User=ashish, ProjectId=31, NewProjectName=Ashish-second, msg=Ashish-second Renamed 
+2024-02-12 05:19:56,348 level=INFO user=nisha projectname=New_BitBlast1 msg=New_BitBlast1 renamed 
+2024-02-12 05:20:07,898 level=INFO user=nisha projectname=New_BitBlast2 msg=New_BitBlast2 renamed 
+2024-02-12 05:20:17,835 level=INFO user=nisha projectname=New_BitBlast3 msg=New_BitBlast3 renamed 
+2024-02-12 05:20:27,685 level=INFO user=nisha projectname=New_BitBlast4 msg=New_BitBlast4 renamed 
+2024-02-12 05:20:46,720 level=INFO user=nisha projectname=New_BitBlast5 msg=New_BitBlast5 renamed 
+2024-02-12 05:46:19,062 level=INFO user=nisha projectname=pro msg=pro renamed 
+2024-02-12 05:46:31,386 level=INFO user=nisha projectname=pro09 msg=pro09 renamed 
+2024-02-12 05:46:52,728 level=INFO user=nisha projectname=pro0kngmdfn9 msg=pro0kngmdfn9 renamed 

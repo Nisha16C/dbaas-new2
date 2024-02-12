@@ -1,11 +1,9 @@
-2024-02-08 12:25:32,938    level=INFO    user=preeti               ClusterName=cluster1                        msg='cluster1 is created'
-2024-02-08 12:45:47,127    level=INFO    user=preeti               ClusterName=cluster2                       Provider='Cloudstack'  msg='cluster2 is created'
-2024-02-08 12:50:57,926    level=INFO    user=preeti               ClusterName=cluster3                       Provider='Cloudstack' Project='test-1' msg='cluster3 is created'
-2024-02-10 09:28:47,386    level=INFO    user=preeti               ClusterName=k8sCluster                     Provider='Kubernetes' Project='test-1' msg='k8sCluster is created' 
-2024-02-10 09:42:18,851    level=INFO    user=preeti               ClusterName=demoK8s                        Provider='Kubernetes' Project='test-1' msg='demoK8s is created' 
-2024-02-10 09:59:22,442    level=INFO    user=preeti               ClusterName=k8s-k8s                        Provider='Kubernetes' Project='test-1' msg='k8s-k8s is created' 
-2024-02-10 10:23:52,900    level=INFO    user=preeti               ClusterName=try-k8s                        Provider='Kubernetes' Project='test-1' msg='try-k8s is created' 
-2024-02-10 11:07:11,085    level=INFO    user=preeti               ClusterName=cluster-k8s                    Provider='Cloudstack' Project='test-1' msg='cluster-k8s is created' 
-2024-02-10 11:24:34,703    level=INFO    user=preeti               ClusterName=test                           Provider='Cloudstack' Project='test-1' msg='test is created' 
-2024-02-10 11:28:14,707    level=INFO    user=preeti               ClusterName=test1                          Provider='Cloudstack' Project='test-1' msg='test1 is created' 
-2024-02-10 11:34:05,238    level=INFO    user=preeti               ClusterName=test2                          Provider='Cloudstack' Project='test-1' msg='test2 is created' 
+2024-02-08 12:50:57,926 level=INFO user=preeti ClusterName=cluster3    Provider=Cloudstack Project=test-1 msg=cluster3 created
+2024-02-10 09:28:47,386 level=INFO user=preeti ClusterName=k8sCluster  Provider=Kubernetes Project=test-1 msg=k8sCluster created
+2024-02-10 09:42:18,851 level=INFO user=preeti ClusterName=demoK8s     Provider=Kubernetes Project=test-1 msg=demoK8s created 
+2024-02-10 09:59:22,442 level=INFO user=preeti ClusterName=k8s-k8s     Provider=Kubernetes Project=test-1 msg=k8s-k8s created
+2024-02-10 10:23:52,900 level=INFO user=preeti ClusterName=try-k8s     Provider=Kubernetes Project=test-1 msg=try-k8s created 
+2024-02-10 11:07:11,085 level=INFO user=preeti ClusterName=cluster-k8s Provider=Cloudstack Project=test-1 msg=cluster-k8s created 
+2024-02-10 11:24:34,703 level=INFO user=preeti ClusterName=test        Provider=Cloudstack Project=test-1 msg=test created 
+2024-02-10 11:28:14,707 level=INFO user=preeti ClusterName=test1       Provider=Cloudstack Project=test-1 msg=test1 created 
+2024-02-10 11:34:05,238 level=INFO user=preeti ClusterName=test2       Provider=Cloudstack Project=test-1 msg=test2 created 

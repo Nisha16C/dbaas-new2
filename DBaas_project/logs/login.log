@@ -1,25 +1,13 @@
-2024-02-08 11:36:29,521    level=INFO    user=mike                    msg='mike User logged in' 
-2024-02-08 11:37:42,053    level=INFO    user=admin                   msg='admin User logged in' 
-2024-02-08 11:41:41,945    level=INFO    user=mike                    msg='mike User logged in' 
-2024-02-08 12:02:53,330    level=INFO    user=admin                   msg='admin User logged in' 
-2024-02-08 12:33:32,496    level=INFO    user=preeti                  msg='preeti User logged in' 
-2024-02-08 12:35:21,839    level=INFO    user=admin                   msg='admin User logged in' 
-2024-02-08 12:40:08,597    level=INFO    user=preeti                  msg='preeti User logged in' 
-2024-02-08 12:54:43,536    level=INFO    user=admin                   msg='admin User logged in' 
-2024-02-09 05:00:05,147    level=INFO    user=preeti                  msg='preeti User logged in' 
-2024-02-09 05:00:29,039    level=INFO    user=nisha                   msg='nisha User logged in' 
-2024-02-09 09:01:43,549    level=INFO    user=admin                   msg='admin User logged in' 
-2024-02-09 11:51:56,222    level=INFO    user=nisha                   msg='nisha User logged in' 
-2024-02-09 12:11:19,852    level=INFO    user=admin                   msg='admin User logged in' 
-2024-02-09 12:26:48,962    level=INFO    user=admin                   msg='admin User logged in'  
-2024-02-10 07:23:55,263    level=INFO    user=nisha                   msg='nisha User logged in'  
-2024-02-10 09:26:13,029    level=INFO    user=admin                   msg='admin User logged in'  
-2024-02-10 09:27:12,819    level=INFO    user=nisha                   msg='nisha User logged in'  
-2024-02-10 09:29:40,577    level=INFO    user=preeti                  msg='preeti User logged in'  
-2024-02-10 11:00:58,860    level=INFO    user=preeti                  msg='preeti User logged in'  
-2024-02-10 11:44:50,114    level=INFO    user=preeti                  msg='preeti User logged in'  
-2024-02-10 11:45:17,686    level=INFO    user=admin                   msg='admin User logged in'  
-2024-02-10 11:47:29,915    level=INFO    user=nisha                   msg='nisha User logged in'  
-2024-02-10 12:04:06,660    level=INFO    user=admin                   msg='admin User logged in'  
-2024-02-10 12:11:55,366    level=INFO    user=nisha                   msg='nisha User logged in'  
-2024-02-10 12:12:16,883    level=INFO    user=admin                   msg='admin User logged in'  
+2024-02-12 05:15:32,208 level=INFO user=preeti msg=logged in 
+2024-02-12 05:15:52,722 level=INFO user=preeti msg=logged in 
+2024-02-12 05:16:15,924 level=INFO user=nisha msg=logged in 
+2024-02-12 05:16:34,443 level=INFO user=nisha msg=logged in 
+2024-02-12 05:17:06,144 level=INFO user=admin msg=logged in 
+2024-02-12 05:17:35,258 level=INFO user=nisha msg=logged in 
+2024-02-12 05:19:34,193 level=INFO user=admin msg=logged in 
+2024-02-12 05:23:14,475 level=INFO user=nisha msg=logged in  
+2024-02-12 05:42:48,301 level=INFO user=admin msg=logged in 
+2024-02-12 05:43:54,379 level=INFO user=nisha msg=logged in 
+2024-02-12 05:44:28,293 level=INFO user=admin msg=logged in 
+2024-02-12 05:45:04,875 level=INFO user=nisha msg=logged in 
+2024-02-12 05:46:02,133 level=INFO user=admin msg=logged in 

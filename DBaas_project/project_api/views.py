@@ -63,7 +63,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         project.save()
 
           # Log project creation information with username, project_name, date, and time
-        log_entry = f"user={user.username.ljust(20)} projectName={project.project_name.ljust(30)} msg='{project.project_name} created' "
+        log_entry = f"user={user.username} projectName={project.project_name} msg={project.project_name} created "
         project_logger.info(log_entry) 
 
         serializer= projectSerializers(project)
@@ -106,7 +106,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         project.save()
 
         # Log information after the project is renamed
-        log_entry_after_rename = f"user={project.user.username} projectname={project.project_name}, msg={ project.project_name } renamed"
+        log_entry_after_rename = f"user={project.user.username} projectname={project.project_name} msg={ project.project_name } renamed"
         rename_project_logger.info(log_entry_after_rename)
 
         serializer = projectSerializers(project)
@@ -222,7 +222,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 
                 serializer = ClusterSerializers(cluster)
                 # Log cluster creation information
-                log_entry = f"user={user.username.ljust(20)} clustername={cluster.cluster_name.ljust(30)} provider='{provider_name}' project='{project}' msg='{cluster.cluster_name} created'"
+                log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
                 cluster_logger.info(log_entry)
               
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -244,7 +244,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 cluster.save()
                 serializer = ClusterSerializers(cluster)
                 # Log cluster creation information
-                log_entry = f"user={user.username.ljust(20)} clustername={cluster.cluster_name.ljust(30)} provider='{provider_name}' project='{project}' msg='{cluster.cluster_name} created'"
+                log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
                 cluster_logger.info(log_entry)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:            
@@ -318,7 +318,7 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
              # Check if the cluster exists in the database
             cluster = Cluster.objects.get(cluster_name=clusterName)
             # Log delete cluster information
-            log_entry = f"user={cluster.user.username.ljust(20)} clusterName={cluster.cluster_name.ljust(30)} msg='{cluster.cluster_name} deleted' "
+            log_entry = f"user={cluster.user.username} clusterName={cluster.cluster_name} msg={cluster.cluster_name} deleted"
             deletecluster_logger.info(log_entry)
             
 

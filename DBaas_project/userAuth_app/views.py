@@ -67,7 +67,7 @@ class UserAuthViewSet(viewsets.ModelViewSet):
             project.save()
 
             # Log the user creation event
-            log_entry = f"user={user.username.ljust(20)} msg='New user {user.username} created with project {project_name}' "
+            log_entry = f"user={user.username} project={project_name} msg={user.username} created"
             user_creation_logger.info(log_entry)
 
             serializer= projectSerializers(project)
@@ -106,7 +106,7 @@ class AddRoleViewset(viewsets.ModelViewSet):
                 UserRole.objects.get_or_create(user=user, role=role)
 
             # Log the role assignment event
-            log_entry = f"user={user.username.ljust(20)} msg='Roles assigned: {', '.join(role_names)}' "
+            log_entry = f"user={user.username} msg=Roles assigned: {', '.join(role_names)}"
             role_assignment_logger.info(log_entry)
 
 
@@ -137,7 +137,7 @@ class LoginViewSet(viewsets.ViewSet):
             # Log the user in
             login(request, user)
             # Log the login event
-            log_entry = f"user={user.username.ljust(20)}    msg='logged in' "
+            log_entry = f"user={user.username} msg=logged in"
             login_logger.info(log_entry)
 
  

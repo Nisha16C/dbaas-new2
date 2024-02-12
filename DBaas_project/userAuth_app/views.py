@@ -137,7 +137,7 @@ class LoginViewSet(viewsets.ViewSet):
             # Log the user in
             login(request, user)
             # Log the login event
-            log_entry = f"user={user.username.ljust(20)}    msg='{user.username} User logged in' "
+            log_entry = f"user={user.username.ljust(20)}    msg='logged in' "
             login_logger.info(log_entry)
 
  

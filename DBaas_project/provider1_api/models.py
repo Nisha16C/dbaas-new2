@@ -13,6 +13,6 @@ class Provider(ExportModelOperationsMixin('provider'),models.Model):
     access_token = models.CharField(max_length=100, blank=True, null=True )
     is_connected = models.BooleanField(default=False)  # New field
     kubeconfig_data = models.TextField(blank=True, null=True)
- 
+    
     def __str__(self):
-        return self.provider_name
+        return f'{self.provider_name} - {self.Key_name}'

@@ -10,3 +10,4 @@
 2024-02-10 07:22:07,022    level=INFO    AfterProjectRename - User=ashish, ProjectId=31, NewProjectName=Ashish-second-project, msg=Ashish-second-project is a new name 
 2024-02-10 07:22:18,555    level=INFO    BeforeProjectRename - User=nisha, ProjectId=90, ProjectName=New_BitBlast23, msg=New_BitBlast23 is a old name 
 2024-02-10 07:22:18,560    level=INFO    AfterProjectRename - User=nisha, ProjectId=90, NewProjectName=New_BitBlast, msg=New_BitBlast is a new name 
+2024-02-10 12:12:33,924    level=INFO    User=ashish, ProjectId=31, NewProjectName=Ashish-second, msg=Ashish-second Renamed 

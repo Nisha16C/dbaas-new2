@@ -22,6 +22,7 @@ import RestoreBackup from "../views/RestoreBackup.vue";
 import BackupDetails from "../views/BackupDetails.vue";
 
 import Profile from "../views/Profile.vue";
+import ProjectSelect from "../views/UserDashboard/ProjectSelect.vue";
 import ActivityLog from "../views/ActivityLog.vue";
 
 const routes = [
@@ -133,6 +134,12 @@ const routes = [
     name: "Signin",
     component: Signin,
   },
+  {
+    path: "/Project-Select",
+    name: "Project Select",
+    component: ProjectSelect,
+  },
+
   {
     path: "/ActivityLog",
     name: "ActivityLog",

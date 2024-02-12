@@ -35,11 +35,11 @@
               <td class="align-middle text-center">
                 <span class="text-secondary text-xs font-weight-bold">{{ formatTimeAgo(project.updated_date) }}</span>
               </td>
-              <td class="align-middle">
-                <!-- You can customize the Edit link as per your requirements -->
+              <!-- <td class="align-middle">
+                
                 <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
                   data-original-title="Edit cluster">Edit</a>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>

@@ -1,4 +1,3 @@
-
 import { createStore } from "vuex";
  
 export default createStore({
@@ -22,8 +21,18 @@ export default createStore({
     selectedType: '',
     selectedProvider: '',
     postgres_version:'',
+
+    project_name: '',
+    project_id: '',
   },
   mutations: {
+    setGlobalProjectName(state, project_name) {
+      state.project_name = project_name;
+    },
+    setGlobalProjectId(state, project_id) {
+      state.project_id = project_id;
+    },
+
     setSelectedType(state, selectedType) {
       state.selectedType = selectedType;
     },
@@ -64,6 +73,13 @@ export default createStore({
     },
   },
   actions: {
+    updateGlobalProjectName(context, project_name) {
+      context.commit('setGlobalProjectName', project_name);
+    },
+    updateGlobalProjectId(context, project_id) {
+      context.commit('setGlobalProjectId', project_id);
+    },
+
     updateSelectedType(context, selectedType) {
       context.commit('setSelectedType', selectedType);
     },
@@ -73,6 +89,7 @@ export default createStore({
     updateSelectedVersion(context, postgres_version) {
       context.commit('setSelectedVersion', postgres_version);
     },
+    
     toggleSidebarColor({ commit }, payload) {
       commit("sidebarType", payload);
     },

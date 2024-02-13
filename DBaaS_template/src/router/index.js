@@ -109,7 +109,7 @@ const routes = [
   },
 
   {
-    path: "/Providers",
+    path: "/Provider",
     name: "Providers",
     component: Providers,
   },

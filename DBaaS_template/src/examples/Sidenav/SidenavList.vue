@@ -1,9 +1,13 @@
+
 <template>
   <div class="collapse navbar-collapse w-auto h-auto h-100" id="sidenav-collapse-main">
     <ul class="navbar-nav">
-      <li class="nav-item" v-if="username !== 'admin'">
+      <li class="nav-item" v-if="username !== 'admin'" >
         <router-link to="/Project-Select" class="nav-link">
-          <span class=" text-center" >{{ project_name }}</span>
+          <span
+      class="nav-link-text text-center"
+      :class="'ms-1'"
+      >{{ project_name ? project_name : ' SELECT PROJECT ' }}</span>
         </router-link>
       </li> <hr>
     
@@ -11,7 +15,7 @@
         <sidenav-item url="/admin-dashboard" :class="getRoute() === 'admin-dashboard' ? 'active' : ''"
           :navText="'Admin Dashboard'">
           <template v-slot:icon>
-            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+            <i class="ni ni-tv-2 text-info text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
@@ -20,7 +24,7 @@
         <sidenav-item url="/User-dashboard" :class="getRoute() === 'User-dashboard' ? 'active' : ''"
           :navText="'Overview'">
           <template v-slot:icon>
-            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+            <i class="ni ni-tv-2 text-info text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
@@ -141,13 +145,8 @@
         </sidenav-item>
       </li>
 
-     
-      <li class="nav-item" v-if="username === 'admin' " >
-        <sidenav-item
-          url="/ActivityLog"
-          :class="getRoute() === ' ' ? 'active' : ''"
-          :navText="'Activity Log'"
-        >
+      <li class="nav-item" v-if="username === 'admin'">
+        <sidenav-item url="/admin-Backup" :class="getRoute() === ' ' ? 'active' : ''" :navText="'Activity Log'">
           <template v-slot:icon>
             <i class="ni ni-ui-04 text-dark text-sm opacity-10"></i>
           </template>

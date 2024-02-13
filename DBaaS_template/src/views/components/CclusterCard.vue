@@ -1,3 +1,4 @@
+[11:56] Aastha Gupta
 <template>
   <div class="card">
     <div class="card-header pb-0 px-3">
@@ -8,9 +9,9 @@
         <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
           <div class="d-flex flex-column">
             <h6 class="mb-3 text-sm">Cluster type</h6>
-
+ 
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 106.6667%">
-
+ 
               <div class="col mx-auto">
                 <div class="h-100 w-100  border-primary rounded-md text-center text-wrap p-3"
                   :class="{ 'bg-light': selectedType === 'Standalone' }">
@@ -47,47 +48,48 @@
                 </div>
               </div>
             </div>
-
+ 
           </div>
         </li>
-
-
-
+ 
+ 
+ 
         <!-- Providers Lists -->
         <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
           <div class="d-flex flex-column">
             <h6 class="mb-3 text-sm">Providers</h6>
-
-            <div class="row row-cols-1 row-cols-md-2 g-4" style="width: 66.6667%">
+ 
+            <div class="row row-cols-1 row-cols-md-2 g-5" style="width: 66.6667% ">
               <!-- Cloudstack Provider -->
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Cloudstack' }">
-                <div class="bg-white border-4 rounded-md text-center p-3 d-flex align-items-center">
+              <div  class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Cloudstack' }">
+                <div class="bg-transparent border-4 rounded-md text-center p-3 d-flex align-items-center">
                   <label>
                     <input class="visually-hidden" type="radio" id="Cloudstack" value="Cloudstack"
                       v-model="selectedProvider" @change="updateProvider" />
                     <img style="width: 100px; height: 100px;" class="object-contain max-w-full rounded-lg"
-                      src="@/assets/img/cloudstack.png" alt="Cloudstack" />
+                      src="@/assets/img/Vmware.png" alt="Cloudstack" />
                   </label>
                 </div>
               </div>
-
+ 
               <!-- Harvester Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Harvester' }">
-                <div class="ml-md-4 bg-white border-4 rounded-md text-center p-3  d-flex align-items-center">
+                <div class="ml-md-4 bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center">
                   <label>
                     <input class="visually-hidden" type="radio" id="Harvester" value="Harvester"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img style="width: 100px; height: 100px;" class="object-contain max-w-full rounded-lg"
-                      src="@/assets/img/harvester.jpg" alt="Harvester" />
+                      <div class="avatar avatar-xl position-relative">
+                  <img style="width: 100px; height: 100px; " class="object-contain max-w-full rounded-lg" src="@/assets/img/harvester.jpg " alt="harvester" />
+                </div>
                   </label>
                 </div>
               </div>
-
-
-
+ 
+ 
+ 
               <!-- Vmware Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Vmware' }">
-                <div class="bg-white border-4 rounded-md text-center p-3
+                <div class="bg-transparent border-4 rounded-md text-center p-3
             {{ selectedProvider === 'Vmware' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Vmware" value="Vmware" v-model="selectedProvider"
@@ -97,10 +99,10 @@
                   </label>
                 </div>
               </div>
-
+ 
               <!-- Kubernetes Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Kubernetes' }">
-                <div class="ml-md-4 bg-white border-4 rounded-md text-center p-3
+                <div class="ml-md-4 bg-transparent border-4 rounded-md text-center p-3
             {{ selectedProvider === 'Kubernetes' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Kubernetes" value="Kubernetes"
@@ -110,25 +112,25 @@
                   </label>
                 </div>
               </div>
-
+ 
               <!-- Nutanix Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Nutanix' }">
                 <label>
-                  <div class="bg-white border-4 rounded-md text-center p-3
+                  <div class="bg-transparent border-4 rounded-md text-center p-3
             {{ selectedProvider === 'Nutanix' ? 'selected' : '' }}">
-
+ 
                     <input type="radio" class="visually-hidden" id="Nutanix" value="Nutanix" v-model="selectedProvider"
                       @change="updateProvider" />
                     <img style="width: 100px; height: 100px;" class="object-contain max-w-full rounded-lg"
                       src="@/assets/img/nutanix.png" alt="Nutanix" />
-
+ 
                   </div>
                 </label>
               </div>
-
+ 
               <!-- Openstack Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Openstack' }">
-                <div class="ml-md-4 bg-white border-4 rounded-md text-center p-3
+                <div class="ml-md-4 bg-transprent border-4 rounded-md text-center p-3
             {{ selectedProvider === 'Openstack' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Openstack" value="Openstack"
@@ -138,11 +140,12 @@
                   </label>
                 </div>
               </div>
+ 
             </div>
-            <p class="text-danger" v-if="error">
-              This Provider is not connected.
-              <router-link to="/Providers" class="text-danger">Click here</router-link>
-            </p>
+            <argon-alert v-if="error" color="danger" icon="icon-danger" dismissible>
+  This Provider is not connected. <router-link to="/Providers" class="text-danger">Click here</router-link>
+</argon-alert>
+ 
           </div>
         </li>
       </ul>
@@ -152,37 +155,39 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 import { mapState, mapActions } from 'vuex';
 import ArgonButton from "@/components/ArgonButton.vue";
+import ArgonAlert from "@/components/ArgonAlert.vue";
+ 
 // import { useInputStore } from '../../store/clusterStore';
 import axios from 'axios';
-
+ 
 export default {
   name: "billing-card",
   components: {
     ArgonButton,
+    ArgonAlert,
   },
   data() {
     return {
       selectedType: '',
       selectedProvider: '',
-
+ 
       // user_id: '26',
       provider_info: [],
       error: ''
     };
   },
-
   created() {
     // const store = useInputStore();
     // store.setType(this.selectedType);
     // store.setProvider(this.selectedProvider);
-
+ 
     this.user_id = sessionStorage.getItem('user_id');
     this.getAllProviderData();
-
+ 
   },
   methods: {
     ...mapActions(['updateSelectedType', 'updateSelectedProvider']),
@@ -192,23 +197,22 @@ export default {
     updateProvider() {
       this.updateSelectedProvider(this.selectedProvider);
     },
-
-
+ 
     Next() {
-      const selectedProviderInfo = this.provider_info.find(
-        (provider) => provider.provider_name.toLowerCase() === this.selectedProvider.toLowerCase()
-      );
-
-      if (selectedProviderInfo && selectedProviderInfo.is_connected) {
-        this.$router.push('/Cluster-Setting');
-      } else {
-        this.error = "This provider is not connected";
-        setTimeout(() => {
-          this.error = '';
-        }, 5000); // 5000 milliseconds (5 seconds)
-      }
-    },
-
+    const selectedProviderInfo = this.provider_info.find(
+      (provider) => provider.provider_name.toLowerCase() === this.selectedProvider.toLowerCase()
+    );
+ 
+    if (selectedProviderInfo && selectedProviderInfo.is_connected) {
+      this.$router.push('/Cluster-Setting');
+    } else {
+      this.error = "This provider is not connected";
+      setTimeout(() => {
+        this.error = '';
+      }, 5000); // 5000 milliseconds (5 seconds)
+    }
+  },
+ 
     getAllProviderData() {
       axios.get(`http://172.16.1.92:8002/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
@@ -216,12 +220,13 @@ export default {
           console.log(response.data);
         })
     },
-
+ 
   },
-
+ 
   computed: {
     ...mapState(['selectedType', 'selectedProvider']),
   },
 };
 </script>
-
+ 
+ 

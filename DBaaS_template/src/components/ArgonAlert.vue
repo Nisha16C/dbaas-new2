@@ -1,8 +1,11 @@
+
 <template>
   <div
-    class="alert text-white font-weight-bold"
+    class="alert text-white  text-sm"
     role="alert"
-    :class="getClasses(color, dismissible)" >
+    :class="getClasses(color, dismissible)"
+    style="font-size: 14px;  margin-top: 5px; "
+  >
     
     <span class="alert-icon">
       <i :class="getIcon(icon)" />
@@ -18,11 +21,11 @@
       data-bs-dismiss="alert"
       aria-label="Close"
     >
-      <span aria-hidden="true" class="text-lg font-weight-bold">&times;</span>
+      <span aria-hidden="true" class="text-lg ">&times;</span>
     </button>
   </div>
 </template>
-
+ 
 <script>
 export default {
   name: "argon-alert",
@@ -40,14 +43,15 @@ export default {
   methods: {
     getClasses: (color, dismissible) => {
       let colorValue, dismissibleValue;
-
+ 
       colorValue = color ? `alert-${color}` : null;
-
+ 
       dismissibleValue = dismissible ? "alert-dismissible fade show" : null;
-
+ 
       return `${colorValue} ${dismissibleValue}`;
     },
     getIcon: (icon) => (icon ? icon : null),
   },
 };
 </script>
+ 

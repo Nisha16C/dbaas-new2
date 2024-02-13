@@ -1,4 +1,5 @@
-[9:31 AM] Aastha Gupta
+
+ 
 <template>
   <main>
     <div class="container-fluid">
@@ -351,36 +352,52 @@
                     {{ selectedProvider }}
                   </h3>
                   <div class="mb-3">
-                    <label for="Api_name" class="form-label">API Name</label>
-                    <input type="text" class="form-control" id="api_name" v-model="api_name">
-                  </div>
- 
- 
- 
-                  <div class="mb-3">
-                    <label for="Access_token" class="form-label">Api Endpoint</label>
-                    <input type="text" class="form-control" id="api_name" v-model="api_endpoint">
+                    <label for="api_name" class="form-label">API Name</label>
+                    <input type="text" class="form-control" id="api_name" v-model="api_name" required>
+                    <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+                      Api Name is required
+                    </argon-alert>
                   </div>
  
                   <div class="mb-3">
-                    <label for="Access_token" class="form-label">Access key</label>
-                    <input type="text" class="form-control" id="secret_key" v-model="access_key">
+                    <label for="api_endpoint" class="form-label">Api Endpoint</label>
+                    <input type="text" class="form-control" id="api_endpoint" v-model="api_endpoint" required>
+                    <argon-alert v-if="!api_endpoint && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+                      Api Endpoint is required
+                    </argon-alert>                  </div>
+ 
+                  <div class="mb-3">
+                    <label for="access_key" class="form-label">Access key</label>
+                    <input type="text" class="form-control" id="access_key" v-model="access_key" required>
+                    <argon-alert v-if="!access_key && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+                      Access Key is required
+                    </argon-alert>
                   </div>
  
                   <div class="mb-3">
-                    <label for="Access_token" class="form-label">Secret Key</label>
-                    <input type="text" class="form-control" id="secret_key" v-model="secret_key">
+                    <label for="secret_key" class="form-label">Secret Key</label>
+                    <input type="text" class="form-control" id="secret_key" v-model="secret_key" required>
+                    <!-- <span class="text-danger" v-if="!secret_key && showErrorMessages">Secret Key is required</span> -->
+                    <argon-alert v-if="!secret_key && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+                      Secret Key is required
+                    </argon-alert>
+ 
                   </div>
- 
- 
- 
- 
+                  <!-- <div v-if="error" class="mb-3">
+                    <span class="text-danger">{{ error }}</span>
+                  </div> -->
  
                   <!-- Modal Footer with Add Provider and Close buttons -->
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click.prevent="addProvider">Add Provider</button>
-                    <button type="button" class="btn btn-secondary" @click="toggleModal">Close</button>
+                    <argon-button color="success" size="md" variant="gradient" @click="addProvider" type="submit">
+                      Add Provider
+                    </argon-button>
+ 
+                    <argon-button color="danger" size="md" variant="gradient" @click="toggleModal">
+                      Close
+                    </argon-button>
                   </div>
+ 
                 </form>
               </div>
             </div>
@@ -390,7 +407,6 @@
  
       <!-- working k8s modal -->
       <div>
- 
  
         <!-- Modal -->
         <div v-show="isModalVisibles && selectedModal === 'Kubernetes'" class="modal-container" tabindex="-1"
@@ -412,38 +428,46 @@
                   <h3 class="mb-5 text-lg font-normal text-dark dark:text-gray-400">
                     {{ selectedModal }}
                   </h3>
-                  <div class="mb-3">
-                    <label for="kubeconfigData" class="form-label">Kubeconfig Data</label>
-                    <textarea class="form-control" id="api_name" v-model="kubeconfigData" placeholder="data"
-                      required></textarea>
-                  </div>
+ 
                   <div class="mb-3">
                     <label for="Api_name" class="form-label">Key name</label>
-                    <input type="text" class="form-control" id="api_name" v-model="api_name">
+                    <input type="text" class="form-control" id="api_name" v-model="api_name" placeholder="Key Name">
+                    <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+                      Key name is required
+                    </argon-alert>
+ 
+                  </div>
+                  <div class="mb-3">
+                    <label for="kubeconfigData" class="form-label">Kubeconfig Data</label>
+                    <textarea class="form-control" id="api_name" v-model="kubeconfigData" placeholder="Kubeconfig Data"
+                      required></textarea>
+                    <argon-alert v-if="!kubeconfigData && showErrorMessages" color="danger" icon="icon-danger"
+                      dismissible>
+                      Kubeconfig Data is required
+                    </argon-alert>
                   </div>
  
- 
- 
- 
- 
- 
- 
+                  
  
  
                   <!-- Modal Footer with Add Provider and Close buttons -->
+ 
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @click.prevent="addProviderk8s">Add Provider</button>
-                    <button type="button" class="btn btn-secondary" @click="toggleModals">Close</button>
+                    <argon-button color="success" size="md" variant="gradient" @click="addProviderk8s" type="submit">
+                      Add Provider
+                    </argon-button>
+ 
+                    <argon-button color="danger" size="md" variant="gradient" @click="toggleModals">
+                      Close
+                    </argon-button>
                   </div>
+ 
                 </form>
               </div>
             </div>
           </div>
         </div>
       </div>
- 
- 
- 
  
     </div>
  
@@ -456,8 +480,8 @@ import setTooltip from "@/assets/js/tooltip.js";
 import axios from 'axios';
  
 // import ProfileCard from "@/views/components/profileCard.vue";
-// import ArgonInput from "@/components/ArgonInput.vue";
-// import ArgonButton from "@/components/ArgonButton.vue";
+import ArgonAlert from "@/components/ArgonAlert.vue";
+import ArgonButton from "@/components/ArgonButton.vue";
  
 const body = document.getElementsByTagName("body")[0];
  
@@ -469,6 +493,7 @@ export default {
       isModalVisible: false, user_id: '',
       selectedProvider: '',
       api_name: '', api_endpoint: '', secret_key: '', access_key: '', error: '',
+      showErrorMessages: false,
  
       provider_info: [],
       showMenu: false
@@ -476,8 +501,10 @@ export default {
   },
   components: {
     // ProfileCard,
-    //  ArgonInput, ArgonButton
+    ArgonAlert,
+    ArgonButton,
   },
+ 
  
   mounted() {
     this.$store.state.isAbsolute = true;
@@ -531,9 +558,9 @@ export default {
     // New method to open kubeconfig_data modal
     toggleModals(selectedProvider) {
       this.kubeconfigData = '';
-      this.api_name = '';
-      // this.access_key = '';
       this.error = ''; // Assuming you have an error property for validation messages
+      this.api_name = '';
+ 
  
       this.selectedProvider = selectedProvider;
       this.selectedModal = 'Kubernetes';
@@ -541,6 +568,14 @@ export default {
       console.log(this.selectedModal);
     },
     async addProviderk8s() {
+      if (!this.api_name || !this.kubeconfigData) {
+        this.showErrorMessages = true; // Show error messages
+        setTimeout(() => {
+          this.showErrorMessages = false; // Hide error messages after 5 seconds
+        }, 5000);
+        return;
+      }
+ 
       console.log("k8s");
       const fromData = {
         user_id: this.user_id,
@@ -557,10 +592,22 @@ export default {
         .then(() => {
           this.getAllProviderData();
           this.isModalVisibles = !this.isModalVisibles;
+        })
+        .catch((error) => {
+          this.error = "Error adding provider: " + error.message;
         });
     },
  
     async addProvider() {
+      // Check for form validation before making the API call
+      if (!this.api_name || !this.api_endpoint || !this.access_key || !this.secret_key) {
+        this.showErrorMessages = true; // Show error messages
+        setTimeout(() => {
+          this.showErrorMessages = false; // Hide error messages after 5 seconds
+        }, 5000);
+        return;
+      }
+ 
       const fromData = {
         "user_id": this.user_id,
         "provider_name": this.selectedProvider,
@@ -568,13 +615,16 @@ export default {
         "provider_url": this.api_endpoint,
         "secret_key": this.secret_key,
         "access_token": this.access_key,
-      }
+      };
+ 
       await axios.post(`http://172.16.1.92:8002/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisible = !this.isModalVisible;
         })
- 
+        .catch((error) => {
+          this.error = "Error adding provider: " + error.message;
+        });
     },
     getAllProviderData() {
       axios.get(`http://172.16.1.92:8002/api/v3/providers/by-user/${this.user_id}/`)

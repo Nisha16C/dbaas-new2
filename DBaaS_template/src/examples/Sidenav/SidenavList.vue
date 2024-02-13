@@ -165,7 +165,7 @@ import { mapState } from 'vuex';
 
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCard from "./SidenavCard.vue";
-import axios  from "axios";
+// import axios  from "axios";
 export default {
   name: "SidenavList",
   props: {
@@ -180,7 +180,7 @@ computed: {
       controls: "dashboardsExamples",
       isActive: "active",
 
-      // projects_list:[],
+      projects_list:[],
       username: "",
       user_id: '',
     };
@@ -188,29 +188,17 @@ computed: {
   created() {
     this.username = sessionStorage.getItem('username');
     this.user_id = sessionStorage.getItem('user_id');
-    // this.project_name = sessionStorage.getItem('project_name');
-
-    
-
-    this.fetchProject();
-
+    // this.project_name = sessionStorage.getItem('project_name')
   },
   components: {
     SidenavItem,
     SidenavCard,
   },
-
+  mounted() {
+    this.fetchProject();
+  },
   methods: {
-    fetchProject() {
-      axios.get(`http://172.16.1.92:8002/api/v2/project/user/${this.user_id}/`)
-        .then(response => {
-          this.projects_list = response.data;
-          // sessionStorage.setItem('project_id', this.projects_list[0].id)
-          // sessionStorage.setItem('project_name', this.projects_list[0].project_name)
-
-          // this.fetchProjectName();
-        })
-    },
+    
 
   // ...mapActions(['updateGlobalProjectName', 'updateGlobalProjectId']),
 
@@ -226,10 +214,10 @@ computed: {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
     },
-    // fetchProjectName() {
-    //   this.project_name = sessionStorage.getItem('project_name');
-    
-    // },
+    fetchProject() {
+      this.$store.dispatch('fetchFirstProject', this.user_id);
+    },
+
   },
 };
 </script>

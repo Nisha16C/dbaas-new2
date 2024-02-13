@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
- 
+import axios  from "axios";
+
 export default createStore({
   state: {
     hideConfigButton: false,
@@ -94,8 +95,23 @@ export default createStore({
       commit("sidebarType", payload);
     },
  
-    setUsername({ commit }, username) {
-      commit("setUsername", username);
+    fetchFirstProject({ commit,  }, userId) {
+      console.log(`store.js se call ${userId}`);
+      axios.get(`http://172.16.1.92:8002/api/v2/project/user/${userId}/`)
+        .then(response => {
+          const firstProject = response.data[0];
+
+          // Commit mutations to update state
+          commit('setGlobalProjectName', firstProject.project_name);
+          commit('setGlobalProjectId', firstProject.id);
+
+          // You can dispatch additional actions if needed
+          // dispatch('someOtherAction', someData);
+
+        })
+        .catch(error => {
+          console.error('Error fetching first project:', error);
+        });
     },
   },
   getters: {

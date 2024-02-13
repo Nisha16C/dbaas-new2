@@ -24,6 +24,8 @@ import BackupDetails from "../views/BackupDetails.vue";
 import Profile from "../views/Profile.vue";
 import ProjectSelect from "../views/UserDashboard/ProjectSelect.vue";
 import ActivityLog from "../views/ActivityLog.vue";
+import USER from "../views/USER.vue"; 
+
 
 const routes = [
   {
@@ -144,6 +146,11 @@ const routes = [
     path: "/ActivityLog",
     name: "ActivityLog",
     component: ActivityLog,
+  },
+  {
+    path: "/USER",
+    name: "USER",
+    component: USER,
   },
 ];
 

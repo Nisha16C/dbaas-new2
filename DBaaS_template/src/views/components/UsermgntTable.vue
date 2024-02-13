@@ -21,7 +21,7 @@
           </thead>
           <tbody>
             <tr v-for="user in users" :key="user.id">
-            <!-- <tr v-for="(user, index) in users" :key="index"></tr> -->
+              <!-- <tr v-for="(user, index) in users" :key="index"></tr> -->
               <td>
                 <div class="d-flex px-2 py-1">
                   <div>
@@ -33,13 +33,15 @@
                   </div>
                 </div>
               </td>
-              
+
               <td class="align-middle text-center text-sm">
                 <span v-if="!user.isActive" class="badge badge-sm bg-gradient-success">Active</span>
                 <span v-else class="badge badge-sm bg-gradient-danger">Inactive</span>
               </td>
               <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{ user.role }}</span>
+                <span v-for="role in user.roles" :key="role.name" class="text-secondary text-xs font-weight-bold">{{
+                  role.name }}</span>
+                <!-- <span v-if="user.roles.length > 1 && user.roles.indexOf(role) !== user.roles.length - 1">,</span> -->
               </td>
               <td class="align-middle text-center">
                 <span class="text-secondary text-xs font-weight-bold">{{ formatDate(user.date_joined) }}</span>
@@ -48,12 +50,16 @@
                 <span class="text-secondary text-xs font-weight-bold">{{ formatDate(user.last_login) }}</span>
               </td>
               <td class="align-middle">
-                <a
+                <!-- <a
                   href="javascript:;"
                   class="text-secondary font-weight-bold text-xs"
                   data-toggle="tooltip"
                   data-original-title="Edit user"
-                >Edit</a>
+                >Assign Roles</a> -->
+                <argon-button color="success" size="md" variant="gradient" @click="prepareAssignRoles(user)" type="button"
+                  class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                  Assign Roles
+                </argon-button>
               </td>
             </tr>
           </tbody>
@@ -61,28 +67,132 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" ref="myModal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="exampleModalLabel">Select Roles</h2>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- Inside your modal body -->
+        <div class="form-check" v-for="role in roles" :key="role.name">
+          <input v-model="selectedRoles" class="form-check-input" type="checkbox" :value="role.name"
+            :id="'roleCheckbox_' + role.name">
+          <label class="form-check-label" :for="'roleCheckbox_' + role.name">{{ role.name }}</label>
+        </div>
+
+        <div class="modal-footer">
+          <argon-button color="secondary" size="md" variant="gradient" @click="isModalVisible = false" type="button"
+            class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+            Cancel
+          </argon-button>
+          <argon-button color="danger" size="md" variant="gradient" @click.prevent="assignRoles(user)" type="button"
+            class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+            Assign Roles
+          </argon-button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
   
 <script>
 import axios from "axios";
+import ArgonButton from "@/components/ArgonButton.vue";
+// import ArgonInput from "@/components/ArgonInput.vue";
 
 export default {
   name: "users-table",
+  components: {
+    // Card,
+    // projectsTable,
+    ArgonButton,
+    // ArgonInput
+  },
   data() {
     return {
       users: [], // Initialize clusters as an empty array
+      isModalVisible: false,
+      roles: [
+        { id: 1, name: 'Owner' },
+        { id: 2, name: 'Viewer' },
+        { id: 3, name: 'Editor' },
+        // Add more roles as needed
+      ],
+      selectedRoles: '',
+      selectedUser: null,
     };
   },
   mounted() {
     // Fetch data when the component is mounted
     this.fetchusers();
+    this.fetchRoles();
   },
   methods: {
+    prepareAssignRoles(user) {
+      // Set the selected user and reset selected roles
+      this.selectedUser = user;
+      this.selectedRoles = [];
+      // Show the modal
+      this.isModalVisible = true;
+      this.fetchRoles(user.id);
+    },
+    async fetchRoles() {
+      try {
+        const response = await axios.get(`http://172.16.1.92:8002/api/v1/users/`,
+        {
+          user_id: this.selectedUser.id,
+        });
+        console.log('API Response:', response)
+
+        if (response && response.data && response.data.success) {
+          // Update the roles for the selected user
+          this.selectedRoles = response.data.roles.map(role => role.name);
+          console.log('Roles fetched successfully:', this.selectedRoles);
+        } else {
+          console.error('Failed to fetch roles:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching roles:', error);
+      }
+    },
+    async assignRoles() {
+      try {
+        // Check if selectedUser is defined
+        if (!this.selectedUser) {
+          console.error('No user selected.');
+          return;
+        }
+        const response = await axios.post(`http://172.16.1.92:8002/api/v1/add_roles_to_user/`,
+          {
+            user_id: this.selectedUser.id,
+            roles: this.selectedRoles,
+          }
+        );
+
+        if (response.data.success) {
+          console.log('Roles assigned successfully:', response.data.message);
+          // this.selectedUser.roles = this.selectedRoles.localeCompare(roleName => ({name: roleName}));
+          this.isModalVisible = false;
+        } else {
+          console.error('Failed to assign roles:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error assigning roles:', error);
+      }
+
+    },
+
+
     async fetchusers() {
       try {
         // Make a GET request to the endpoint
         const response = await axios.get('http://172.16.1.92:8002/api/v1/users/');
-        
+
         // Update the clusters data with the fetched data
         this.users = response.data;
       } catch (error) {
@@ -90,12 +200,12 @@ export default {
       }
     },
     formatDate(dateString) {
-    // Format the date as per your requirement using a library like moment.js
-    // Example using JavaScript built-in methods (customize as needed):
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-US', options);
-  },
-  
+      // Format the date as per your requirement using a library like moment.js
+      // Example using JavaScript built-in methods (customize as needed):
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-US', options);
+    },
+
   },
 };
 </script>

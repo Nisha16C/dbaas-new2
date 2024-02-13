@@ -15,6 +15,21 @@
             >
             </card>
           </div>
+          <div class="col-lg-3 col-md-12 col-12">
+            <div class="mb-4 card">
+              <div class="p-3 card-body">
+                <div class="px-4">
+                  <div class="mb-3 mt-4">
+                    <router-link to="/USER">
+                      <argon-button color="success" size="md" variant="gradient"
+                        >Create New User</argon-button
+                      >
+                    </router-link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
           <div class="py-4 container-fluid">
@@ -34,7 +49,7 @@
 import Card from "@/examples/Cards/Card.vue";
 //   import AuthorsTable from "./components/ProjectTable.vue";
 import UsermgnTable from "./components/UsermgntTable.vue";
-// import ArgonButton from "@/components/ArgonButton.vue";
+import ArgonButton from "@/components/ArgonButton.vue";
 import axios from "axios";
 
 export default {
@@ -43,7 +58,7 @@ export default {
     Card,
     UsermgnTable,
    
-    // ArgonButton,
+    ArgonButton,
   },
   data() {
     return {

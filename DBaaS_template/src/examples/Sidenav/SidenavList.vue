@@ -146,7 +146,7 @@
       </li>
 
       <li class="nav-item" v-if="username === 'admin'">
-        <sidenav-item url="/admin-Backup" :class="getRoute() === ' ' ? 'active' : ''" :navText="'Activity Log'">
+        <sidenav-item url="/ActivityLog" :class="getRoute() === ' ' ? 'active' : ''" :navText="'Activity Log'">
           <template v-slot:icon>
             <i class="ni ni-ui-04 text-dark text-sm opacity-10"></i>
           </template>

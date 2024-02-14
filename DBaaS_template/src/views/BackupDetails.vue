@@ -34,35 +34,50 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header pb-0">
-                    <h6> Backup List </h6>
+                    <h6> Backup List</h6>
                   </div>
 
+
                   <div class="card-body px-0 pt-0 pb-2">
+                    <div class="pl-4">
+                      <h6>{{ serverName }}</h6>
+                    </div>
                     <div class="table-responsive p-0">
                       <table class="table align-items-center mb-0">
                         <thead>
                           <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Server Name
+                            <th class="text-uppercase text-secondary font-weight-bolder opacity-7">Backup Id
                             </th>
-                            <th class="text-secondary opacity-7"></th>
+                            <th class="text-uppercase text-secondary font-weight-bolder opacity-7">Backup Name</th>
+                            <th class="text-uppercase text-secondary font-weight-bolder opacity-7">Status</th>
+                            <th class="text-uppercase text-secondary font-weight-bolder opacity-7">Time</th>
+                            <th class="text-uppercase text-secondary font-weight-bolder opacity-7">Size</th>
                           </tr>
                         </thead>
-                        <tbody>
-                          <tr v-for="(description, serverName) in servers" :key="serverName">
+                        <tbody v-for="backup in backupList[serverName]" :key="backup.backup_id">
+                          <tr >
                             <td>
                               <div class="d-flex px-2 py-1">
                                 <div>
                                   <img src="../assets/img/db-png.png" class="avatar avatar-sm me-3" alt="user1" />
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                  <h6 class="mb-0 text-sm">{{ serverName }}</h6>
+                                  <h6 class="mb-0 text-sm">{{ backup.backup_id }}</h6>
                                   <p class="text-xs text-secondary mb-0"></p>
                                 </div>
                               </div>
                             </td>
+                            <td class="align-middle pl-4">
+                              {{backup.backup_name}}
+                            </td>
                             <td class="align-middle">
-                              <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                                data-original-title="View server" @click="viewServer(serverName)">View</a>
+                              {{backup.status}}
+                            </td>
+                            <td class="align-middle">
+                              {{backup.end_time}}
+                            </td>
+                            <td class="align-middle">
+                              {{backup.size}}
                             </td>
                           </tr>
 
@@ -87,13 +102,21 @@ import Card from "@/examples/Cards/Card.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 
 export default {
-  name: "backup-details",
+  name: "BackupDetails",
+  props: {
+    serverName: {
+      type: String,
+      required: true
+    }
+  },
   components: {
     Card,
     ArgonButton
   },
+  
   data() {
     return {
+      backupList:[],
       stats: {
         money: {
           title: "All Backups",
@@ -108,17 +131,18 @@ export default {
   },
   mounted() {
     // Fetch data when the component is mounted
-    this.fetchServers();
+    this.fetchBackups();
   },
   methods: {
-    async fetchServers() {
+    async fetchBackups() {
+      console.log(this.serverName)
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.131:5000/barman/list-servers');
+        const response = await axios.get(`http://172.16.1.131:5000/barman/list-backups?server_name=${this.serverName}&storage_method=nfs`);
 
         // Update the clusters data with the fetched data
-        this.servers = response.data.message;
-        console.log(this.servers);
+        this.backupList = response.data.message;
+        console.log(this.backupList);
       } catch (error) {
         console.error('Error fetching servers:', error);
       }

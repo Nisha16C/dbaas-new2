@@ -25,6 +25,7 @@ import Profile from "../views/Profile.vue";
 import ProjectSelect from "../views/UserDashboard/ProjectSelect.vue";
 import ActivityLog from "../views/ActivityLog.vue";
 import USER from "../views/USER.vue"; 
+// import BackupDetails from "../views/BackupDetails.vue";
 
 
 const routes = [
@@ -56,10 +57,12 @@ const routes = [
     component: RestoreBackup,
   },
   {
-    path: "/backup-details",
-    name: "Backup Details",
+    path: "/backup/:serverName",
+    name: "BackupDetails",
     component: BackupDetails,
-  },
+    props:true,
+  }
+,
   {
     path: "/User-dashboard",
     name: "User Dashboard",

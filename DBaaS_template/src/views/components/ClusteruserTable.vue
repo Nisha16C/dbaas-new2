@@ -106,7 +106,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button @click="deleteCluster(clusters_list.cluster_name)" type="button" class="btn btn-danger"> Delete</button>
+          <button @click="deleteCluster()" type="button" class="btn btn-danger"> Delete</button>
         </div>
       </div>
     </div>
@@ -122,10 +122,19 @@ import ArgonButton from "@/components/ArgonButton.vue";
    
     ArgonButton,
   },
+  created() {
+    this.user_id = sessionStorage.getItem("user_id");
+ 
+  },
   data(){
     return{
         contentList: [],
-        deleteClusterName: ''
+        deleteClusterName: '',
+        clusterName:'',
+    
+      user_id: '',
+  
+     
     }
   },
     props: {
@@ -137,11 +146,14 @@ import ArgonButton from "@/components/ArgonButton.vue";
   methods: {
     prepareDelete(clusterName) {
       this.deleteClusterName = clusterName;
+   
     },
     deleteCluster() {
+  
       const formData = {
         cluster_name: this.deleteClusterName
       };
+      console.log(`form data ${formData}`);
       this.$router.push('/delete');
       axios.post("http://172.16.1.92:8002/api/v2/deletecluster/",  formData)
         .then(response => {

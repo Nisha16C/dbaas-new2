@@ -247,8 +247,32 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
                 cluster_logger.info(log_entry)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+                
             else:            
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        elif provider_name == 'Cloudstack' and cluster_type == 'multiple':
+            response = trigger_single(base_url, project_id, headers, 'ha-postgres-cluster')
+            print("CloudStack branch trigger.....")
+            if response == 200:
+                cluster = Cluster(
+                    user=user,
+                    project=project,
+                    cluster_name=cluster_name,
+                    cluster_type=cluster_type,
+                    database_version=database_version,
+                    provider=provider_name
+                )
+                cluster.save()
+                serializer = ClusterSerializers(cluster)
+                # Log cluster creation information
+                log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
+                cluster_logger.info(log_entry)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                
+            else:            
+                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         else:
             return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -312,6 +336,8 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
         print('delete-cluster')
         global clusterName 
         clusterName  = request.data.get('cluster_name')
+
+        print(clusterName)
         
 
         try:
@@ -321,9 +347,7 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             log_entry = f"user={cluster.user.username} clusterName={cluster.cluster_name} msg={cluster.cluster_name} deleted"
             deletecluster_logger.info(log_entry)
             
-
-            # Delete the cluster from the databas
-        
+            # Delete the cluster from the databas        
             project_id = "1"
             private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
             base_url = "http://gitlab-ce.os3.com/api/v4/"
@@ -346,8 +370,6 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             return Response({"error": "Cluster not found."},
                             status=status.HTTP_404_NOT_FOUND)
 
-
-
 def trigger_single(base_url, project_id, headers, branch_name):
     formData = {
         "ref": branch_name,
@@ -364,6 +386,7 @@ def trigger_single(base_url, project_id, headers, branch_name):
     pipeline_status = "pending"
 
     while pipeline_status in ["pending", "running"]:
+        print(f'Pipeline statu: -  {pipeline_status}')
         time.sleep(1)
 
         pipeline_info_response = requests.get(base_url + f"projects/{project_id}/pipelines/{pipeline_id}",
@@ -490,7 +513,7 @@ def get_variables(request):
         'password': password,
         'database_name': cluster_name,
         'postgres_version': postgres_version,
-        'delete-cluster' : "test-pr",
+        'delete-cluster' : deleteCluster_name,
     }
 
     return JsonResponse(data)

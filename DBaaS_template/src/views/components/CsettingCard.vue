@@ -62,7 +62,13 @@
             </select>
             <!-- Error message for database version -->
           <div v-if="errorDatabaseVersion" class="text-red-500 mt-2">{{ errorDatabaseVersion }}</div>
- 
+            
+
+          <h6 class="mb-3 mt-3 text-sm">Backup Methods</h6>
+            <select class="form-select" aria-label="Default select example" @change="updateVersion" v-model="postgres_version">
+              <option value="nfs" selected>nfs</option>
+              <option value="s3">s3 Storage</option>
+            </select>
           </div>
         </li>
       </ul>
@@ -89,8 +95,8 @@ export default {
       selectedTools: [],
       postgres_version: '',
       cluster_name: '',
-      project_id: '29',
-      user_id: '26',
+     
+      user_id: '',
       provider_info: '',
       errorClusterName: '',
       errorDatabaseVersion: '',
@@ -98,41 +104,51 @@ export default {
       errorNoSelectedProject: '',
       backendError: '',
       db_user: '',
-      db_password: '',Username: 'preeti'
+      db_password: '',
+
+      Username: ''
     };
   },
- 
+
+  created() {
+    this.Username = sessionStorage.getItem('username');
+    this.user_id = sessionStorage.getItem('user_id');
+  },
+
   methods: {
     ...mapActions(['updateSelectedVersion']),
     updateVersion() {
       this.updateSelectedVersion(this.postgres_version);
     },
-    // checkClusterNameExists() {
-    //     // Reset error message
-    //     this.errorClusterNameExists = '';
+
+    checkClusterNameExists() {
+
+      console.log(`project id and name ${this.project_id} ${this.project_name}`)
+        // Reset error message
+        this.errorClusterNameExists = '';
  
-    //     if (!this.cluster_name) {
-    //       // No need to check if the cluster name is empty
-    //       return;
-    //     }
+        if (!this.cluster_name) {
+          // No need to check if the cluster name is empty
+          return;
+        }
  
-    //     // Check if cluster name already exists
-    //     axios
-    //     .get(`http://172.16.1.92:8002/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
-    //       .then((response) => {
-    //         if (response.data.exists) {
-    //           // Cluster name already exists
-    //           this.errorClusterNameExists = 'Cluster with the same name already exists';
-    //           setTimeout(() => {
-    //             this.errorClusterNameExists = '';
-    //           }, 5000);
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         console.log(error);
-    //         // Handle errors from the cluster check API if needed
-    //       });
-    //   },
+        // Check if cluster name already exists
+        axios
+        .get(`http://172.16.1.92:8002/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
+          .then((response) => {
+            if (response.data.exists) {
+              // Cluster name already exists
+              this.errorClusterNameExists = 'Cluster with the same name already exists';
+              setTimeout(() => {
+                this.errorClusterNameExists = '';
+              }, 5000);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            // Handle errors from the cluster check API if needed
+          });
+      },
     createCluster() {
       // Reset error messages
       this.errorClusterName = '';
@@ -199,18 +215,14 @@ export default {
               console.log(error);
              
             });
-        })
- 
-      
-        
-         
+        })       
     },
   },
  
  
   computed: {
-    ...mapState(['selectedType', 'selectedProvider','postgres_version']),
-    
+    ...mapState(['selectedType', 'selectedProvider','postgres_version','project_name', 'project_id']),
+     
   },
 };
 </script>

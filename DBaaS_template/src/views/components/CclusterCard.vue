@@ -67,7 +67,7 @@
                     <input class="visually-hidden" type="radio" id="Cloudstack" value="Cloudstack"
                       v-model="selectedProvider" @change="updateProvider" />
                     <img style="width: 100px; height: 100px;" class="object-contain max-w-full rounded-lg"
-                      src="@/assets/img/Vmware.png" alt="Cloudstack" />
+                      src="@/assets/img/cloudstack.png" alt="Cloudstack" />
                   </label>
                 </div>
               </div>
@@ -175,7 +175,7 @@ export default {
       selectedType: '',
       selectedProvider: '',
  
-      // user_id: '26',
+      user_id: '',
       provider_info: [],
       error: ''
     };

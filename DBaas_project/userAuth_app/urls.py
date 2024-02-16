@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path,include
 from userAuth_app.views import UserAuthViewSet, LoginViewSet,AddRoleViewset
+from .views import get_user_role
 from rest_framework import routers
 # from . import views
 
@@ -15,6 +16,6 @@ router.register(r'add_roles_to_user', AddRoleViewset, basename='add_roles_to_use
 urlpatterns = [
     
     path("", include(router.urls)),
-   
+    path('get_user_role/<int:user_id>/', get_user_role, name='get_user_role'),
     
 ]

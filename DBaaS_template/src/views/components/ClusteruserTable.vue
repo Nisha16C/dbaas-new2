@@ -142,24 +142,18 @@ import ArgonButton from "@/components/ArgonButton.vue";
       const formData = {
         cluster_name: this.deleteClusterName
       };
- 
-      console.log('Deleting cluster with name:', this.deleteClusterName);
       this.$router.push('/delete');
-      axios.post("http://172.16.1.92:8002/api/v2/deletecluster/", formData)
+      axios.post("http://172.16.1.92:8002/api/v2/deletecluster/",  formData)
         .then(response => {
-
           console.log('Cluster deleted successfully:', response.data);
-
-          this.clusters_list = this.clusters_list.filter(cluster => cluster.cluster_name !== this.deleteClusterName);
           this.fetchclusters_list();
-
         })
         .catch(error => {
           console.error('Error deleting cluster:', error);
-          // Handle error, show a message, etc.
           this.toggleModal1();
         });
     },
+
     viewCluster(clusterName) {
       this.clusterName=clusterName;
       axios.get(`http://172.16.1.92:8002/api/v2/result/content/${clusterName}/`)
@@ -174,8 +168,7 @@ import ArgonButton from "@/components/ArgonButton.vue";
       addLineBreaks(text) {
       const formattedContent = text.replace(/([^:\n]+):/g, '<h class="text-sm text-purple-600">$1</h>:');
       return formattedContent.replace(/\n/g, '<br>');
-      // Replace '\n' with '<br>' for rendering line breaks in HTML
-      // return text.replace(/\n/g, '<br>');
+      
     },
  
     async fetchclusters_list() {

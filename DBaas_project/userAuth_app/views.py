@@ -14,6 +14,8 @@ from .serializers import userAuthSerializers
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view
 import logging
 
 # Create a logger instance
@@ -115,6 +117,25 @@ class AddRoleViewset(viewsets.ModelViewSet):
             return JsonResponse({'success': False, 'message': 'User does not exist'}, status=404)
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=500)
+    
+@api_view(['GET'])
+def get_user_role(request, user_id):
+    print('nishahellonononono')
+    try:
+            # Retrieve the user
+        user = get_object_or_404(User, pk=user_id)
+
+            # Retrieve user roles
+        user_roles = UserRole.objects.filter(user=user)
+
+            # Create a list of user role strings
+        user_role_strings = [f"{user.username} - {user_role.role}" for user_role in user_roles]
+
+        return Response({'user_roles': user_role_strings})
+    except User.DoesNotExist:
+        return Response({'success': False, 'message': 'User does not exist'}, status=404)
+    except Exception as e:
+        return Response({'success': False, 'message': str(e)}, status=500)
 
 # Create a logger instance
 login_logger = logging.getLogger('login_logger')

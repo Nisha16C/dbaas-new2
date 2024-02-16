@@ -50,12 +50,10 @@
                 <span class="text-secondary text-xs font-weight-bold">{{ formatDate(user.last_login) }}</span>
               </td>
               <td class="align-middle">
-                <!-- <a
-                  href="javascript:;"
-                  class="text-secondary font-weight-bold text-xs"
-                  data-toggle="tooltip"
-                  data-original-title="Edit user"
-                >Assign Roles</a> -->
+                <argon-button color="success" size="md" variant="gradient" @click="prepareUserRole(user)" type="button"
+                  class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
+                  View Role
+                </argon-button>
                 <argon-button color="success" size="md" variant="gradient" @click="prepareAssignRoles(user)" type="button"
                   class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                   Assign Roles
@@ -98,6 +96,34 @@
       </div>
     </div>
   </div>
+
+
+  <div class="modal fade" ref="myModal" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel">User Role</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- Inside your modal body -->
+        <div class="form-check" v-if="selectedUser">
+          <label class="form-check-label">Username: {{ selectedUser.username }}</label><br>
+          <label class="form-check-label">Assigned Role: {{ formattedRoles || 'No Role Assign' }}</label>
+        </div>
+
+        <div class="modal-footer">
+          <argon-button color="secondary" size="md" variant="gradient" @click="isModalVisible = false" type="button"
+            class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
+            Close
+          </argon-button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
   
 <script>
@@ -123,8 +149,9 @@ export default {
         { id: 3, name: 'Editor' },
         // Add more roles as needed
       ],
-      selectedRoles: '',
+      selectedRoles: [],
       selectedUser: null,
+      successMessage: null,
     };
   },
   mounted() {
@@ -132,7 +159,41 @@ export default {
     this.fetchusers();
     this.fetchRoles();
   },
+  computed: {
+    formattedRoles() {
+      if (Array.isArray(this.selectedRoles)) {
+        return this.selectedRoles.join(', ');
+      }
+      return ''; // or some default value if selectedRoles is not an array
+    },
+  },
+
   methods: {
+    async prepareUserRole(user) {
+      try {
+        // Assign the user before fetching user roles
+        this.selectedUser = user;
+        // Fetch user roles dynamically using the user's ID
+        const response = await axios.get(`http://172.16.1.92:8002/api/v1/get_user_role/${this.selectedUser.id}/`);
+        console.log('API Response:', response);
+
+        if (response.data && Array.isArray(response.data.user_roles)) {
+          // Extract roles from the array of strings
+          this.selectedRoles = response.data.user_roles.map(roleString => {
+            // Assuming roleString is in the format 'username - role'
+            const parts = roleString.split(' - ');
+            return parts[1];  // Extract the role part
+          });
+
+          console.log('User roles fetched successfully:', this.selectedRoles);
+          this.isModalVisible = true;
+        } else {
+          console.error('Failed to fetch user roles:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching user roles:', error);
+      }
+    },
     prepareAssignRoles(user) {
       // Set the selected user and reset selected roles
       this.selectedUser = user;
@@ -144,9 +205,9 @@ export default {
     async fetchRoles() {
       try {
         const response = await axios.get(`http://172.16.1.92:8002/api/v1/users/`,
-        {
-          user_id: this.selectedUser.id,
-        });
+          {
+            user_id: this.selectedUser.id,
+          });
         console.log('API Response:', response)
 
         if (response && response.data && response.data.success) {
@@ -176,15 +237,17 @@ export default {
 
         if (response.data.success) {
           console.log('Roles assigned successfully:', response.data.message);
-          // this.selectedUser.roles = this.selectedRoles.localeCompare(roleName => ({name: roleName}));
-          this.isModalVisible = false;
-        } else {
-          console.error('Failed to assign roles:', response.data.message);
+          // Assuming the API response structure includes an updatedRoles field
+          const updatedRoles = response.data.updatedRoles.map(role => role.name);
+
+          // Update the roles array with the updated roles at the 0 index
+          this.selectedRoles.splice(0, this.selectedRoles.length, ...updatedRoles);
         }
+        // Close the modal
+        this.isModalVisible = false;
       } catch (error) {
         console.error('Error assigning roles:', error);
       }
-
     },
 
 
@@ -209,4 +272,3 @@ export default {
   },
 };
 </script>
-  

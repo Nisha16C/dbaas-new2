@@ -152,23 +152,18 @@ export default {
       this.deleteClusterName = clusterName;
     },
     deleteCluster() {
+    
       const formData = {
         cluster_name: this.deleteClusterName
       };
  
-      console.log('Deleting cluster with name:', this.deleteClusterName);
       this.$router.push('/delete');
       axios.post("http://172.16.1.92:8002/api/v2/deletecluster/", formData)
         .then(response => {
           // Handle successful deletion
           console.log('Cluster deleted successfully:', response.data);
- 
-          // Remove the deleted cluster from the frontend
-          this.clusters = this.clusters.filter(cluster => cluster.cluster_name !== this.deleteClusterName);
- 
-          // You may want to update the clusters list or perform other actions after deletion
           this.fetchClusters();
-          // this.toggleModal1(); // Example: Refresh the clusters list
+          this.toggleModal1(); // Example: Refresh the clusters list
         })
         .catch(error => {
           console.error('Error deleting cluster:', error);

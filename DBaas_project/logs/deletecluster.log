@@ -5,3 +5,4 @@
 2024-02-09 09:03:04,044 level=INFO user=preeti clusterName=db-test-2 msg=db-test-2 is deleted 
 2024-02-09 09:07:10,811 level=INFO user=preeti clusterName=db-2      msg=db-2 is deleted 
 2024-02-09 12:56:46,430 level=INFO user=preeti clusterName=test123   msg=test123 is deleted2024-02-15 11:04:33,805 level=INFO user=preeti clusterName=ha-db1 msg=ha-db1 deleted 
+2024-02-16 07:02:36,299 level=INFO user=ashish clusterName=ha-test msg=ha-test deleted 

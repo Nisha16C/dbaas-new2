@@ -1,7 +1,24 @@
 <template>
   <div class="card">
-    <div class="card-header pb-0">
-      <h6> Server List </h6>
+    <div class="card-header pb-0 d-flex">
+      
+        <h6 class=""> Server List </h6>
+      
+      <div class="col-lg-5">
+        <div class="d-flex">
+          <label class="text-sm  col-sm-3">Backup Method :</label>
+          <select @click="fetchServers()" class="form-select col-sm-5 mb-2" aria-label="Default select example"
+            v-model="backup_method">
+            <option value="nfs">nfs</option>
+            <option value="s3">s3</option>
+          </select>
+        </div>
+        </div>
+      <div class="col-lg-6">
+        <router-link to="/scheduled-backups" class="text-xl text-success font-weight-bold">
+         See Scheduled Backups Lists
+        </router-link>
+      </div>
     </div>
 
     <div class="card-body px-0 pt-0 pb-2">
@@ -14,15 +31,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr  v-for="(description, serverName) in servers" :key="serverName">
+            <tr v-for="(description, serverName) in servers" :key="serverName">
               <td>
                 <div class="d-flex px-2 py-1">
                   <div>
-                    <img
-                      src="../../assets/img/db-png.png"
-                      class="avatar avatar-sm me-3"
-                      alt="user1"
-                    />
+                    <img src="../../assets/img/db-png.png" class="avatar avatar-sm me-3" alt="user1" />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
                     <h6 class="mb-0 text-sm">{{ serverName }}</h6>
@@ -31,13 +44,8 @@
                 </div>
               </td>
               <td class="align-middle">
-                <a
-                href="javascript:;"
-                class="text-secondary font-weight-bold text-xs"
-                data-toggle="tooltip"
-                data-original-title="View server"
-                @click="viewServer(serverName)"
-              >View</a>
+                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                  data-original-title="View server" @click="viewServer(serverName)">View</a>
               </td>
             </tr>
 
@@ -47,42 +55,44 @@
     </div>
   </div>
 </template>
-
+  
 <script>
 import axios from "axios";
 export default {
   name: "server-table",
   data() {
-  return {
-    servers: [],
-    serverName:'', // Initialize clusters as an empty array
-  };
-},
-mounted() {
-  // Fetch data when the component is mounted
-  this.fetchServers();
-},
-methods: {
-  async fetchServers() {
-    try {
-      // Make a GET request to the endpoint
-      const response = await axios.get('http://172.16.1.131:5000/barman/list-servers?storage_method=nfs');
-      
-      // Update the clusters data with the fetched data
-      this.servers = response.data.message;
-      console.log(this.servers);
-    } catch (error) {
-      console.error('Error fetching servers:', error);
+    return {
+      servers: [],
+      serverName: '', // Initialize clusters as an empty array
+      backup_method: 'nfs',
+    };
+  },
+  mounted() {
+    // Fetch data when the component is mounted
+    this.fetchServers();
+  },
+  methods: {
+    async fetchServers() {
+      try {
+        // Make a GET request to the endpoint
+        const response = await axios.get(`http://172.16.1.131:5000/barman/list-servers?storage_method=${this.backup_method}`);
+
+        // Update the clusters data with the fetched data
+        this.servers = response.data.message;
+        console.log(this.servers);
+      } catch (error) {
+        console.error('Error fetching servers:', error);
+      }
+    },
+    viewServer(serverName) {
+      console.log(serverName)
+      this.serverName = serverName
+      // Navigate to another component with the server name
+      this.$router.push({ name: 'BackupDetails', params: { serverName } });
+
     }
   },
-  viewServer(serverName) {
-    console.log(serverName)
-    this.serverName=serverName
-    // Navigate to another component with the server name
-    this.$router.push({ name: 'BackupDetails', params: { serverName } });
-  
-  }
-},
 };
 </script>
 
+  

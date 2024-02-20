@@ -8,8 +8,8 @@
       class="nav-link-text text-center"
       :class="'ms-1'"
       >{{ project_name ? project_name : ' SELECT PROJECT ' }}</span>
-        </router-link>
-      </li> <hr>
+        </router-link> <hr>
+      </li> 
     
       <li class="nav-item" v-if="username === 'admin'">
         <sidenav-item url="/admin-dashboard" :class="getRoute() === 'admin-dashboard' ? 'active' : ''"
@@ -199,22 +199,12 @@ computed: {
   },
   methods: {
     
-
-  // ...mapActions(['updateGlobalProjectName', 'updateGlobalProjectId']),
-
-  //   updateGlobalProjectName(){
-  //     this.updateGlobalProjectId(this.project_)
-  //   },
-  //   updateGlobalProjectId(){
-  //     this.updateGlobalProjectId(this.project_name)
-
-  //   },
-
-    getRoute() {
+  getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
     },
-    fetchProject() {
+
+  fetchProject() {
       this.$store.dispatch('fetchFirstProject', this.user_id);
     },
 

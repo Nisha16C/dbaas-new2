@@ -25,6 +25,8 @@ import Profile from "../views/Profile.vue";
 import ProjectSelect from "../views/UserDashboard/ProjectSelect.vue";
 import ActivityLog from "../views/ActivityLog.vue";
 import USER from "../views/USER.vue"; 
+
+import BackupSchedule from "../views/BackupSchedule.vue";
 // import BackupDetails from "../views/BackupDetails.vue";
 
 
@@ -36,6 +38,12 @@ const routes = [
   },
 
   // Admin route
+
+  {
+    path: "/scheduled-backups",
+    name: "Schedule Backup",
+    component: BackupSchedule,
+  },
   {
     path: "/admin-dashboard",
     name: "Dashboard",

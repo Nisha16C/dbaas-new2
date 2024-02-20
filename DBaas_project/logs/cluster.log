@@ -9,3 +9,5 @@
 2024-02-10 11:34:05,238 level=INFO user=preeti ClusterName=test2       Provider=Cloudstack Project=test-1 msg=test2 created 
 2024-02-15 10:21:28,330 level=INFO user=preeti clustername=ha-db1 provider=Cloudstack project=test-1 msg=ha-db1 created 
 2024-02-15 12:12:35,384 level=INFO user=ashish clustername=ha-test provider=Cloudstack project=ashish-first-project msg=ha-test created 
+2024-02-20 06:59:14,182 level=INFO user=ashish clustername=k8s provider=Kubernetes project=ashish-first-project msg=k8s created 
+2024-02-20 07:06:30,583 level=INFO user=ashish clustername=hkjsahdj provider=Kubernetes project=ashish-first-project msg=hkjsahdj created 

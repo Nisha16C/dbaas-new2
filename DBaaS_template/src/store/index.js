@@ -14,6 +14,7 @@ export default createStore({
     isAbsolute: false,
     showNavs: true,
 
+    backup_method:'',
     showSidenav: true,
     
     showNavbar: true,
@@ -35,6 +36,10 @@ export default createStore({
     setGlobalProjectId(state, project_id) {
       state.project_id = project_id;
     },
+    setSelectedMethod(state, backup_method) {
+      state.backup_method= backup_method;
+    },
+
 
     setSelectedType(state, selectedType) {
       state.selectedType = selectedType;
@@ -81,6 +86,10 @@ export default createStore({
     },
     updateGlobalProjectId(context, project_id) {
       context.commit('setGlobalProjectId', project_id);
+    },
+    
+    updateSelectedMethod(context, backup_method) {
+      context.commit('setSelectedMethod', backup_method);
     },
 
     updateSelectedType(context, selectedType) {

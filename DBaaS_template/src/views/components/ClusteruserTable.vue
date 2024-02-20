@@ -91,7 +91,7 @@
     </div>
   </div>
  <!-- Delete Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div v-show="deleteModal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -133,8 +133,8 @@ import ArgonButton from "@/components/ArgonButton.vue";
         clusterName:'',
     
       user_id: '',
-  
-     
+      deleteModal:  false,
+      viewModal:  false     
     }
   },
     props: {
@@ -145,6 +145,7 @@ import ArgonButton from "@/components/ArgonButton.vue";
   },
   methods: {
     prepareDelete(clusterName) {
+      this.deleteModal = true
       this.deleteClusterName = clusterName;
    
     },
@@ -153,11 +154,12 @@ import ArgonButton from "@/components/ArgonButton.vue";
       const formData = {
         cluster_name: this.deleteClusterName
       };
-      console.log(`form data ${formData}`);
+     
       this.$router.push('/delete');
       axios.post("http://172.16.1.92:8002/api/v2/deletecluster/",  formData)
         .then(response => {
           console.log('Cluster deleted successfully:', response.data);
+          this.deleteModal = false
           this.fetchclusters_list();
         })
         .catch(error => {
@@ -171,14 +173,14 @@ import ArgonButton from "@/components/ArgonButton.vue";
       axios.get(`http://172.16.1.92:8002/api/v2/result/content/${clusterName}/`)
         .then(response => {
           this.contentList = response.data;
-          console.log(this.contentList);
+          
         })
         .catch(error => {
           console.error('Error fetching data:', error);
         });
       },
       addLineBreaks(text) {
-      const formattedContent = text.replace(/([^:\n]+):/g, '<h class="text-sm text-purple-600">$1</h>:');
+      const formattedContent = text.replace(/([^:\n]+):/g, '<h class="text-sm fw-bolder">$1</h>:');
       return formattedContent.replace(/\n/g, '<br>');
       
     },

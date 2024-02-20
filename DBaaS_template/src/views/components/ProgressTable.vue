@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-5">
       <div class="alert  text-center" v-show="!isCompleted && !isFailed">
-        <h4 class="font-weight-bold blink p-2 text-danger">
+        <h4 class="font-weight-bold blink p-2 text-warning">
           Please do not refresh or close this page until the progress is
           completed!
         </h4>
@@ -78,7 +78,7 @@ export default {
 
     methods: {
         RedirectclusterPage(){
-            this.$router.push("/overview");
+            this.$router.push("/Clusters");
         },
         logout() {
             console.log("logout");

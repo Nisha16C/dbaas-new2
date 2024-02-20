@@ -1,56 +1,79 @@
 <template>
   <div class="card">
+    <div v-if="successMessage" class="alert alert-success mb-3">
+      <!-- Show success message when backup is completed -->
+      {{ successMessage }}
+    </div>
     <div class="card-header pb-0 px-3">
       <h6 class="mb-0">Enter the Server Name and Backup Name.</h6>
     </div>
     <div class="card-body pt-4 p-3">
+
       <ul class="list-group">
-        <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-          <div class="d-flex flex-column">
-            <h6 class="mb-3 text-sm">Server and Backup Name</h6>
-            <form>
-              <label class="mt-3 text-sm">Server Name</label>
-              <select v-model="serverName" class="form-select" aria-label="Default select example">
-                <option v-for="(description, serverName) in servers" :key="serverName" :value=serverName selected>{{
-                  serverName }}
-                </option>
+        <li class="list-group-item border-0  p-4 mb-2 bg-gray-100 border-radius-lg">
 
-              </select>
+          <div v-if="loading" class="text-center">
+            <!-- Show loader while loading -->
+            <h6 class="mb-2">
+              Backup in progress...
+            </h6>
+            <div class="spinner-border spinner-border-lg p-3 text-secondary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="d-flex flex-column">
+              <h6 class="mb-3 text-sm">Server and Backup Name</h6>
+              <form>
 
-              <div class="form-group mt-3">
-                <label class="text-sm" for="">Backup Name</label>
-                <input v-model="backup_name" type="email" class="form-control" id="backup_name"
-                  placeholder="Backup Name" />
-              </div>
+                <label class="mt-3 text-sm">Backup Method</label>
+                <select class="form-select" aria-label="Default select example" v-model="backup_method"
+                  @click="fetchServers()">
+                  <option value="nfs">nfs</option>
+                  <option value="s3">s3</option>
+                </select>
 
-              <label class="mt-3 text-sm">Backup Method</label>
-            <select class="form-select" aria-label="Default select example"
-              v-model="backup_method">
-              <option value="nfs">nfs</option>
-              <option value="s3">s3</option>
-            </select>
+                <label class="mt-3 text-sm">Server Name</label>
+                <select v-model="serverName" class="form-select" aria-label="Default select example">
+                  <option v-for="(description, serverName) in servers" :key="serverName" :value=serverName selected>{{
+                    serverName }}
+                  </option>
 
-              <div>
-                <div class="form-check form-switch mt-3">
-                  <input class="form-check-input" @click="toggleBackupSchedule()" type="checkbox">
-                  <label class=" text-sm mt-2" for="backupSwitch">Schedule Backup (Optional)</label>
+                </select>
+
+                <div v-show="!isBackupScheduled" class="form-group mt-3">
+                  <label class="text-sm" for="">Backup Name</label>
+                  <input v-model="backup_name" type="email" class="form-control" id="backup_name"
+                    placeholder="Backup Name" />
                 </div>
 
-                <div v-if="isBackupScheduled" class="form-group mt-3">
-                  <label class="text-sm" for="retentionPeriod">Retention Period:</label>
-                  <div class="input-group">
-                  <input type="number" class="form-control" id="retentionPeriod" v-model="retentionPeriod">
-                  <span class="input-group-text bg-light px-5 font-semibold" id="days">days</span>
-                  
+
+                <div>
+                  <div class="form-check form-switch mt-3">
+                    <input class="form-check-input" @click="toggleBackupSchedule()" type="checkbox">
+                    <label class=" text-sm mt-2" for="backupSwitch">Schedule Backup (Optional)</label>
+                  </div>
+
+                  <div v-if="isBackupScheduled" class="form-group mt-3">
+                    <label class="text-sm" for="retentionPeriod">Retention Period:</label>
+                    <div class="input-group">
+                      <input type="email" class="form-control" id="retentionPeriod" v-model="retentionPeriod">
+                      <select class="form-select bg-light" aria-label="Default select example" v-model="selected_value">
+                        <option value="d" selected>days</option>
+                        <option value="m">months</option>
+                        <option value="y">years</option>
+                      </select>
+
+                    </div>
                   </div>
                 </div>
-              </div>
 
-            </form>
+              </form>
+            </div>
           </div>
-
         </li>
       </ul>
+
       <div class="px-2">
         <argon-button v-show="!isBackupScheduled" @click="Backup()" color="success" size="md" variant="gradient">
           Create Backup
@@ -80,13 +103,13 @@ export default {
       backup_name: '',
       isBackupScheduled: false,
       retentionPeriod: '',
-      backup_method:'',
+      selected_value: '',
+      backup_method: '',
+      loading: false, // Track loading state
+      successMessage: "", // Success message
     };
   },
-  mounted() {
-    // Fetch data when the component is mounted
-    this.fetchServers();
-  },
+
   methods: {
     toggleBackupSchedule() {
       this.isBackupScheduled = !this.isBackupScheduled;
@@ -95,7 +118,7 @@ export default {
     async fetchServers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.131:5000/barman/list-servers?storage_method=nfs');
+        const response = await axios.get(`http://172.16.1.131:5000/barman/list-servers?storage_method=${this.backup_method}`);
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;
@@ -105,32 +128,46 @@ export default {
       }
     },
     Backup() {
+      this.loading = true; // Set loading to true before making the request
       axios
-        .post(`http://172.16.1.131:5000/barman/backup?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}`,)
+        .post(
+          `http://172.16.1.131:5000/barman/backup?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}`
+        )
         .then((response) => {
-          console.log(response)
-          console.log("Backup done successfully");
-          this.$router.push('/admin-backup');
+          console.log(response);
+          this.successMessage = "Backup done successfully"; // Set success message
+          setTimeout(() => {
+            this.$router.push("/admin-backup"); // Redirect after 5 seconds
+          }, 5000);
         })
         .catch((error) => {
           console.log(error);
-
+        })
+        .finally(() => {
+          this.loading = false; // Set loading to false regardless of success or failure
         });
-
     },
+
+    // Schedule backup method
     scheduleBackup() {
+      this.loading = true; // Set loading to true before making the request
       axios
-        .post(`http://172.16.1.131:5000/barman/backup?server_name=${this.serverName}&backup_name=${this.retentionPeriod}&storage_method=nfs`,)
+        .post(
+          `http://172.16.1.131:5000/barman/schedule-backup?server_name=${this.serverName}&retention=${this.retentionPeriod}${this.selected_value}&storage_method=${this.backup_method}`
+        )
         .then((response) => {
-          console.log(response)
-          console.log("Backup scheduled successfully");
-          this.$router.push('/admin-backup');
+          console.log(response);
+          this.successMessage = "Backup scheduled successfully"; // Set success message
+          setTimeout(() => {
+            this.$router.push("/scheduled-backups"); // Redirect after 5 seconds
+          }, 5000);
         })
         .catch((error) => {
           console.log(error);
-
+        })
+        .finally(() => {
+          this.loading = false; // Set loading to false regardless of success or failure
         });
-
     },
 
   },

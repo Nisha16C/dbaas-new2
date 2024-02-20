@@ -12,7 +12,6 @@
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> User Name & ID </th>
 
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status </th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Role </th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created On</th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Last Login</th>
 
@@ -37,11 +36,6 @@
               <td class="align-middle text-center text-sm">
                 <span v-if="!user.isActive" class="badge badge-sm bg-gradient-success">Active</span>
                 <span v-else class="badge badge-sm bg-gradient-danger">Inactive</span>
-              </td>
-              <td class="align-middle text-center">
-                <span v-for="role in user.roles" :key="role.name" class="text-secondary text-xs font-weight-bold">{{
-                  role.name }}</span>
-                <!-- <span v-if="user.roles.length > 1 && user.roles.indexOf(role) !== user.roles.length - 1">,</span> -->
               </td>
               <td class="align-middle text-center">
                 <span class="text-secondary text-xs font-weight-bold">{{ formatDate(user.date_joined) }}</span>

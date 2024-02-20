@@ -183,7 +183,7 @@ export default {
         });
       },
       addLineBreaks(text) {
-      const formattedContent = text.replace(/([^:\n]+):/g, '<h class="text-sm text-purple-600">$1</h>:');
+      const formattedContent = text.replace(/([^:\n]+):/g, '<h class="text-sm fw-bolder">$1</h>:');
       return formattedContent.replace(/\n/g, '<br>');
       // Replace '\n' with '<br>' for rendering line breaks in HTML
       // return text.replace(/\n/g, '<br>');

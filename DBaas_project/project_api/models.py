@@ -22,11 +22,12 @@ class Cluster(ExportModelOperationsMixin('cluster'), models.Model):
     provider = models.CharField(max_length=100)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
+    backup_method = models.CharField(max_length=10, null=True)
 
     def __str__(self):
         return self.cluster_name
 
-
+# blank=True, null=True
 
 
 class DBcredentials(ExportModelOperationsMixin('dbcredentials'), models.Model):

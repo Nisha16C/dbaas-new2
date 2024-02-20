@@ -65,7 +65,7 @@
             
 
           <h6 class="mb-3 mt-3 text-sm">Backup Methods</h6>
-            <select class="form-select" aria-label="Default select example" @change="updateVersion" v-model="postgres_version">
+            <select class="form-select" aria-label="Default select example" @change="updateMethod" v-model="backup_method">
               <option value="nfs" selected>nfs</option>
               <option value="s3">s3 Storage</option>
             </select>
@@ -105,7 +105,7 @@ export default {
       backendError: '',
       db_user: '',
       db_password: '',
-
+      backup_method:'',
       Username: ''
     };
   },
@@ -119,6 +119,10 @@ export default {
     ...mapActions(['updateSelectedVersion']),
     updateVersion() {
       this.updateSelectedVersion(this.postgres_version);
+    },
+    ...mapActions(['updateSelectedMethod']),
+    updateMethod() {
+      this.updateSelectedMethod(this.backup_method);
     },
 
     checkClusterNameExists() {
@@ -202,6 +206,7 @@ export default {
             provider_endpoint: this.provider_info.provider_url,
             provider_access_token: this.provider_info.access_token,
             provider_secret_key: this.provider_info.secret_key,
+            backup_method: this.backup_method
           };
  
           this.$router.push('/result');
@@ -221,7 +226,7 @@ export default {
  
  
   computed: {
-    ...mapState(['selectedType', 'selectedProvider','postgres_version','project_name', 'project_id']),
+    ...mapState(['selectedType', 'selectedProvider','postgres_version','project_name', 'project_id','backup_method']),
      
   },
 };

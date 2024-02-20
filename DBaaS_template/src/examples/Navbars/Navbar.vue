@@ -15,7 +15,7 @@
         </div>
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item d-flex align-items-center">
-            <a @click="logout" class="px-0 nav-link font-weight-bold text-white c" target="_blank">
+            <a @click="logout" class="px-0 nav-link font-weight-bold text-white cursor-pointer" target="_blank">
               <i class="fa fa-user" :class="'me-sm-2'"></i>
               <span class="d-sm-inline d-none">Logout</span>
             </a>

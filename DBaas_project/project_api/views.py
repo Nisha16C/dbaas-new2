@@ -1,5 +1,3 @@
-# api/views.py
-
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from .models import Project, Cluster, Db_credentials, Db_credentials
@@ -125,6 +123,7 @@ temp_variables = {}
 clusterName = ''
 clusterType = ''
 databaseVersion = ''
+backupMethod=''
 providerName = ''
 userId = ''
 projectID = ''
@@ -140,6 +139,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global clusterName 
         global clusterType 
         global databaseVersion 
+        global backupMethod
         global providerName 
         global userId 
         global projectId 
@@ -151,15 +151,19 @@ class ClusterViewSet(viewsets.ModelViewSet):
         cluster_name = request.data.get('cluster_name')
         cluster_type = request.data.get('cluster_type')
         database_version = request.data.get('postgres_version')
+        backup_method = request.data.get('backup_method')
+
         provider_name = request.data.get('provider')
         provider_endpoint = request.data.get('provider_endpoint')
         provider_access_token = request.data.get('provider_access_token')
         provider_secret_key = request.data.get('provider_secret_key')
 
+
         # Adding global variable
         clusterName = cluster_name
         clusterType = cluster_type
         databaseVersion = database_version
+        backupMethod = backup_method
         providerName = provider_name
         userId = user_id
         projectId = project_id
@@ -169,6 +173,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
             'password': password,
             'cluster_name': cluster_name,   
             'postgres_version': database_version,
+            'backup_method' : backup_method,
         }
         print(f'Create function global variable {clusterType} and {userId}')
 
@@ -216,6 +221,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     cluster_name=cluster_name,
                     cluster_type=cluster_type,
                     database_version=database_version,
+                    backup_method=backup_method,
                     provider=provider_name
                 )
                 cluster.save()
@@ -239,6 +245,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     cluster_name=cluster_name,
                     cluster_type=cluster_type,
                     database_version=database_version,
+                    backup_method=backup_method,
                     provider=provider_name
                 )
                 cluster.save()
@@ -247,32 +254,8 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
                 cluster_logger.info(log_entry)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-                
             else:            
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        elif provider_name == 'Cloudstack' and cluster_type == 'multiple':
-            response = trigger_single(base_url, project_id, headers, 'ha-postgres-cluster')
-            print("CloudStack branch trigger.....")
-            if response == 200:
-                cluster = Cluster(
-                    user=user,
-                    project=project,
-                    cluster_name=cluster_name,
-                    cluster_type=cluster_type,
-                    database_version=database_version,
-                    provider=provider_name
-                )
-                cluster.save()
-                serializer = ClusterSerializers(cluster)
-                # Log cluster creation information
-                log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
-                cluster_logger.info(log_entry)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-                
-            else:            
-                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
         else:
             return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -301,6 +284,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global clusterName
         global clusterType
         global databaseVersion
+        global backupMethod
         global providerName
         global userId
         global projectID
@@ -336,8 +320,6 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
         print('delete-cluster')
         global clusterName 
         clusterName  = request.data.get('cluster_name')
-
-        print(clusterName)
         
 
         try:
@@ -347,7 +329,9 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             log_entry = f"user={cluster.user.username} clusterName={cluster.cluster_name} msg={cluster.cluster_name} deleted"
             deletecluster_logger.info(log_entry)
             
-            # Delete the cluster from the databas        
+
+            # Delete the cluster from the databas
+        
             project_id = "1"
             private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
             base_url = "http://gitlab-ce.os3.com/api/v4/"
@@ -370,6 +354,8 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             return Response({"error": "Cluster not found."},
                             status=status.HTTP_404_NOT_FOUND)
 
+
+
 def trigger_single(base_url, project_id, headers, branch_name):
     formData = {
         "ref": branch_name,
@@ -386,7 +372,6 @@ def trigger_single(base_url, project_id, headers, branch_name):
     pipeline_status = "pending"
 
     while pipeline_status in ["pending", "running"]:
-        print(f'Pipeline statu: -  {pipeline_status}')
         time.sleep(1)
 
         pipeline_info_response = requests.get(base_url + f"projects/{project_id}/pipelines/{pipeline_id}",
@@ -505,6 +490,7 @@ def get_variables(request):
     password = temp_variables.get('password', '')
     cluster_name = temp_variables.get('cluster_name', '')
     postgres_version = temp_variables.get('postgres_version', '')
+    backup_method = temp_variables.get('backup_method', '')
     deleteCluster_name = clusterName
     print(deleteCluster_name)
 
@@ -513,7 +499,8 @@ def get_variables(request):
         'password': password,
         'database_name': cluster_name,
         'postgres_version': postgres_version,
-        'delete-cluster' : deleteCluster_name,
+        'backup_method': backup_method,
+        'delete-cluster' : "test-pr",
     }
 
     return JsonResponse(data)
@@ -547,6 +534,7 @@ def display_clusters(request):
             'cluster_type': cluster.cluster_type,
             'database_version': cluster.database_version,
             'provider': cluster.provider,
+            'backup_method': backup_method,
             }}
         clusters_data.append(cluster_data)
 

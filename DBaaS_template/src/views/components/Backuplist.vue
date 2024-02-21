@@ -26,8 +26,8 @@
         <table class="table align-items-center mb-0">
           <thead>
             <tr>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Server Name</th>
-              <th class="text-secondary opacity-7"></th>
+              <th class="text-uppercase text-secondary  font-weight-bolder opacity-7">Server Name</th>
+              <th class="text-uppercase text-secondary  font-weight-bolder opacity-7"> View Backups</th>
             </tr>
           </thead>
           <tbody>
@@ -43,9 +43,13 @@
                   </div>
                 </div>
               </td>
-              <td class="align-middle">
-                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
-                  data-original-title="View server" @click="viewServer(serverName)">View</a>
+              <td class="align-middle ">
+                <argon-button color="success" size="md" variant="gradient"  @click="viewServer(serverName)" type="button"
+                  class="btn btn-danger" data-toggle="modal" data-target="#viewModal">
+                  View
+                </argon-button>
+                <!-- <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                  data-original-title="View server" @click="viewServer(serverName)">View</a> -->
               </td>
             </tr>
 
@@ -58,8 +62,13 @@
   
 <script>
 import axios from "axios";
+import ArgonButton from '@/components/ArgonButton.vue';
 export default {
   name: "server-table",
+  components:{
+    ArgonButton
+
+  },
   data() {
     return {
       servers: [],

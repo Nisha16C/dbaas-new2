@@ -1,57 +1,61 @@
 <template>
     <div class="container mt-5">
-      <div class="alert  text-center" v-show="!isCompleted && !isFailed">
-        <h4 class="font-weight-bold blink p-2 text-warning">
-          Please do not refresh or close this page until the progress is
-          completed!
-        </h4>
-      </div>
-  
-      <div class="card shadow-sm" v-show="!isCompleted">
-        <div class="card-header text-center justify-content-between">
-          <h5 class="mb-0">Database Installation Result</h5>
-          
-          <div class="spinner-border mt-3 p-4 spinner-border-md text-primary" v-show="!isCompleted" role="status" aria-hidden="true"></div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">Installation Status...</h2>
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{ width: progress }" role="progressbar" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}</div>
-          </div>
-  
-          <ul class="list-group list-group-flush mt-3" v-for="(status, index) in latestPipelineStatus" :key="index">
-            <li class="list-group-item">{{ status }}</li>
-          </ul>
-  
-        </div>
-      </div>
-  
-      <div class="card shadow-sm" v-show="isCompleted">
-        <div class="card-header">
-          <h5 class="mb-0">Database Credentials</h5>
-        </div>
-        <div class="card-body">
-          <ul class="list-group list-group-flush">
-            <li v-for="(artifact, index) in extractedArtifacts" :key="index" class="list-group-item" v-html="addLineBreaks(artifact.value)"></li>
-          </ul>
-  
-          <div class="text-center mt-3">
-            <h4 class="text-primary">
-              We are redirecting you to the cluster list page. If you are not redirected,
-              <a @click.prevent="RedirectclusterPage" class="text-dark">click here</a>
+        <div class="alert  text-center" v-show="!isCompleted && !isFailed">
+            <h4 class="font-weight-bold blink p-2 text-warning">
+                Please do not refresh or close this page until the progress is
+                completed!
             </h4>
-          </div>
         </div>
-      </div>
+
+        <div class="card shadow-sm" v-show="!isCompleted">
+            <div class="card-header text-center justify-content-between">
+                <h5 class="mb-0">Database Installation Result</h5>
+
+                <div class="spinner-border mt-3 p-4 spinner-border-md text-primary" v-show="!isCompleted" role="status"
+                    aria-hidden="true"></div>
+            </div>
+            <div class="card-body">
+                <h2 class="card-title">Installation Status...</h2>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{ width: progress }"
+                        role="progressbar" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}
+                    </div>
+                </div>
+
+                <ul class="list-group list-group-flush mt-3" v-for="(status, index) in latestPipelineStatus" :key="index">
+                    <li class="list-group-item">{{ status }}</li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="card shadow-sm" v-show="isCompleted">
+            <div class="card-header">
+                <h5 class="mb-0">Database Credentials</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li v-for="(artifact, index) in extractedArtifacts" :key="index" class="list-group-item"
+                        v-html="addLineBreaks(artifact.value)"></li>
+                </ul>
+
+                <div class="text-center mt-3">
+                    <h4 class="text-primary">
+                        We are redirecting you to the cluster list page. If you are not redirected,
+                        <a @click.prevent="RedirectclusterPage" class="text-dark">click here</a>
+                    </h4>
+                </div>
+            </div>
+        </div>
     </div>
-  </template>
+</template>
   
 <script>
 
 import axios from "axios";
 
 export default {
-    
+
     data() {
         return {
             isDropdownOpen: false,
@@ -71,13 +75,13 @@ export default {
             extractedArtifacts: [],
             stopFetching: false,
             isPopupVisible: false,
-            popupMessage: "",showcred: false,
+            popupMessage: "", showcred: false,
 
         };
     },
 
     methods: {
-        RedirectclusterPage(){
+        RedirectclusterPage() {
             this.$router.push("/Clusters");
         },
         logout() {
@@ -108,7 +112,7 @@ export default {
             if (this.stopFetching) {
                 return;
             }
-            const url = 'http://172.16.1.69:8000/api/v2/get_pipeline_status/';
+            const url = 'http://172.16.1.92:8002/api/v2/get_pipeline_status/';
 
             try {
                 const response = await axios.get(url);
@@ -123,7 +127,8 @@ export default {
                 this.completionColor = this.isCompleted ? 'green' : (this.isFailed ? 'red' : '');
 
                 this.latestPipelineStatus = data.pipelines.map(pipeline => `Database Installation Status : ${pipeline.status}`);
-                this.artifacts = this.extractArtifacts(data.pipelines);
+                // this.extractArtifacts = this.extractArtifacts(data.pipelines);
+                this.extractArtifacts(data.pipelines);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -136,49 +141,67 @@ export default {
                 this.showFailedPopup();
             }
 
-            setTimeout(this.updateLatestPipelineStatusAndArtifacts, 5000);
+            setTimeout(() => {
+                this.updateLatestPipelineStatusAndArtifacts();
+            }, 5000);
+
         },
         calculateAverageProgress(pipelines) {
             let totalProgress = 0;
-            let numPipelines = pipelines.length;
+            let totalJobs = 0;
 
             pipelines.forEach(pipeline => {
-                switch (pipeline.status) {
-                    case 'created':
-                        totalProgress += 10;
-                        break;
-                    case 'pending':
-                        totalProgress += 25;
-                        break;
-                    case 'running':
-                        totalProgress += 50;
-                        break;
-                    case 'success':
-                        totalProgress += 100;
-                        break;
-                    case 'failed':
-                        // Handle 'failed' status separately (you can adjust the value as needed)
-                        totalProgress += 99.9;
-                        break;
-                    default:
-                        // Handle other statuses if needed
-                        break;
+                let pipelineProgress = 0;
+                let numJobs = pipeline.jobs ? pipeline.jobs.length : 0;
+
+                if (numJobs > 0) {
+                    let completedJobs = 0;
+                    // Calculate progress based on individual job statuses
+                    if (pipeline.jobs) {
+                        pipeline.jobs.forEach(job => {
+                            switch (job.status) {
+                                case 'created':
+                                case 'pending':
+                                case 'running':
+                                    // Increment progress for 'created', 'pending', 'running'
+                                    pipelineProgress += 1 / numJobs;
+                                    break;
+                                case 'success':
+                                    completedJobs++;
+                                    break;
+                                case 'failed':
+                                    // Handle 'failed' status separately (you can adjust the value as needed)
+                                    pipelineProgress += 0.7 / numJobs; // Increment progress for 'failed'
+                                    break;
+                                default:
+                                    // Handle other statuses if needed
+                                    break;
+                            }
+                        });
+                        // Update pipeline progress based on completed jobs
+                        pipelineProgress += (completedJobs / numJobs) * 100;
+                    }
                 }
+
+                totalJobs += numJobs;
+                totalProgress += pipelineProgress;
             });
 
-            // Calculate the average progress
-            let averageProgress =  Math.floor(totalProgress / numPipelines);
+            // Calculate the overall average progress based on total jobs
+            let averageProgress = totalJobs > 0 ? Math.floor(totalProgress / totalJobs) : 0;
 
             return averageProgress;
         },
+
+
 
         extractArtifacts(pipelines) {
             const artifacts = [];
 
             pipelines.forEach(pipeline => {
                 pipeline.artifacts.forEach(artifact => {
-                    
-                     if (artifact.filename === 'info.txt') {
+
+                    if (artifact.filename === 'info.txt') {
                         artifacts.push({
                             type: 'Info',
                             value: artifact.content,
@@ -191,10 +214,10 @@ export default {
         },
         showSuccessPopup() {
             this.popupMessage = "Installation successful!";
-            
+
             this.showcred = true
             setTimeout(() => {
-                
+
                 // Redirect to the overview page here
                 this.$router.push("/Clusters");
             }, 10000);
@@ -203,23 +226,23 @@ export default {
         showFailedPopup() {
             console.log("faild");
             this.popupMessage = "Installation failed. Please try again.";
-          
+
             this.showcred = true
             setTimeout(() => {
-                
+
                 // Redirect to the overview page here
                 this.$router.push("/Clusters");
             }, 10000);
         },
         addLineBreaks(text) {
-      // Replace '\n' with '<br>' for rendering line breaks in HTML
-      return text.replace(/\n/g, '<br>');
-    },
-     
+            // Replace '\n' with '<br>' for rendering line breaks in HTML
+            return text.replace(/\n/g, '<br>');
+        },
+
 
     },
 
-    created(){
+    created() {
         this.Username = sessionStorage.getItem('username');
     },
 
@@ -237,19 +260,19 @@ export default {
             console.log("after 10sec. mount mtd run");
             this.updateLatestPipelineStatusAndArtifacts();
         }, 10000);
-        
+
         // setInterval(this.updateLatestPipelineStatusAndArtifacts, 5000);
     },
-    unmounted(){
+    unmounted() {
         console.log("unmount");
         this.popupMessage = '',
-        window.location.reload()
+            window.location.reload()
         this.stopFetching = true;
     },
-    beforeUnmount(){
+    beforeUnmount() {
         this.stopFetching = true
         this.popupMessage = '',
-        console.log("before-unmount");
+            console.log("before-unmount");
         window.location.reload();
         // this.stopFetching = true
 

@@ -13,7 +13,7 @@
                     <div class="row gx-4">
                         <div class="col-auto">
                             <div class="avatar avatar-xl position-relative">
-                                <img src="../assets/img/team-1.jpg" alt="profile_image"
+                                <img src="../assets/img/team-6.jpg" alt="profile_image"
                                     class="shadow-sm w-100 border-radius-lg" />
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <label for="phone" class="form-control-label">Phone Number</label>
                                     <argon-input v-model="userData.phone" type="text" placeholder="123-456-789" />
-                                    <!-- <div class="text-danger">{{ errors.phone }}</div> -->
+                                    <div class="text-danger">{{ errors.phone }}</div>
                                 </div>
                                 <div class="col-md-12">
                                     <label for="email" class="form-control-label">Email Address</label>
@@ -168,7 +168,7 @@ export default {
             console.log(userData);
 
             // Make a POST request to create a new user
-            axios.post(`http://172.16.1.69:8000/api/v1/users/`, this.userData)
+            axios.post(`http://172.16.1.92:8002/api/v1/users/`, this.userData)
                 .then(response => {
                     // Handle the response, for example, show a success message
                     console.log(response.data);

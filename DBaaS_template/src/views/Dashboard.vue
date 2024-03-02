@@ -79,7 +79,7 @@
         <div class="row mt-4">
           <div class="col-lg-14 mb-lg-0 mb-4">
             <div class="card">
-              <div class="card-header">Welcome Admin</div>
+              <div class="card-header">Welcome Admin!!</div>
               <div class="card-body">
                 <h5 class="card-title">
                   Empower Your Data Journey with BitBlast!!
@@ -115,7 +115,7 @@ export default {
           percentage: "",
           iconClass: "ni ni-world",
           iconBackground: "bg-gradient-danger",
-          detail: "Till Today",
+          detail: "",
         },
         user: {
           title: "All Users",
@@ -123,14 +123,14 @@ export default {
           percentage: "",
           iconClass: "ni ni-world",
           iconBackground: "bg-gradient-danger",
-          detail: "Till Today",
+          detail: "",
         },
         project: {
         title: "All Projects",
         value: " ",
         percentage: " ",
         iconClass: "ni ni-money-coins",
-        detail: "Till Today",
+        detail: "",
         iconBackground: "bg-gradient-primary",
       },
 
@@ -173,7 +173,7 @@ export default {
   methods: {
     // Method to fetch clusters and update stats.cluster.value
     fetchClusters() {
-      axios.get(`http://172.16.1.69:8000/api/v2/cluster/`)
+      axios.get(`http://172.16.1.92:8002/api/v2/cluster/`)
         .then(response => {
           this.stats.cluster.value = response.data.length.toString();  // Update stats.cluster.value
         })
@@ -182,7 +182,7 @@ export default {
         });
     },
     fetchUsers(){
-      axios.get(`http://172.16.1.69:8000/api/v1/users/`)
+      axios.get(`http://172.16.1.92:8002/api/v1/users/`)
         .then(response => {
           this.stats.user.value = response.data.length.toString();  // Update totalClusters
         })
@@ -192,7 +192,7 @@ export default {
     },
     fetchProjectCount() {
       // Make an API request to get the project count
-      axios.get(`http://172.16.1.69:8000/api/v2/project/`)
+      axios.get(`http://172.16.1.92:8002/api/v2/project/`)
         .then(response => {
           this.stats.project.value = response.data.length.toString();
         })

@@ -18,6 +18,7 @@ import UserManagement from "../views/UserMgmt.vue";
 import Signin from "../views/Signin.vue";
 import Backup from "../views/Backup.vue";
 import BackupForm from "../views/BackupForm.vue";
+import Cconfiguration from "../views/UserDashboard/Dbconfig.vue";
 import RestoreBackup from "../views/RestoreBackup.vue";
 import BackupDetails from "../views/BackupDetails.vue";
 
@@ -48,6 +49,11 @@ const routes = [
     path: "/admin-dashboard",
     name: "Dashboard",
     component: Dashboard,
+  },
+  {
+    path: "/Cconfiguration",
+    name: "Cconfiguration",
+    component: Cconfiguration,
   },
   {
     path: "/admin-backup",

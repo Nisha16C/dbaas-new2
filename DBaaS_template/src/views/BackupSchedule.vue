@@ -56,7 +56,7 @@
             value: "2",
             percentage: "",
             iconClass: "ni ni-money-coins",
-            detail: "Till Today",
+            detail: "",
             iconBackground: "bg-gradient-primary",
           },
         },

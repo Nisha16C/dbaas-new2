@@ -55,7 +55,7 @@
  
  
         <!-- Providers Lists -->
-        <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
+<li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
           <div class="d-flex flex-column">
             <h6 class="mb-3 text-sm">Providers</h6>
  
@@ -74,7 +74,7 @@
  
               <!-- Harvester Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Harvester' }">
-                <div class="ml-md-4 bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center">
+                <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center">
                   <label>
                     <input class="visually-hidden" type="radio" id="Harvester" value="Harvester"
                       v-model="selectedProvider" @change="updateProvider" />
@@ -89,7 +89,7 @@
  
               <!-- Vmware Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Vmware' }">
-                <div class="bg-transparent border-4 rounded-md text-center p-3
+                <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Vmware' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Vmware" value="Vmware" v-model="selectedProvider"
@@ -102,7 +102,7 @@
  
               <!-- Kubernetes Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Kubernetes' }">
-                <div class="ml-md-4 bg-transparent border-4 rounded-md text-center p-3
+                <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Kubernetes' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Kubernetes" value="Kubernetes"
@@ -116,7 +116,7 @@
               <!-- Nutanix Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Nutanix' }">
                 <label>
-                  <div class="bg-transparent border-4 rounded-md text-center p-3
+                  <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Nutanix' ? 'selected' : '' }}">
  
                     <input type="radio" class="visually-hidden" id="Nutanix" value="Nutanix" v-model="selectedProvider"
@@ -130,7 +130,7 @@
  
               <!-- Openstack Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Openstack' }">
-                <div class="ml-md-4 bg-transprent border-4 rounded-md text-center p-3
+                <div class="bg-transprent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Openstack' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Openstack" value="Openstack"
@@ -214,7 +214,7 @@ export default {
   },
  
     getAllProviderData() {
-      axios.get(`http://172.16.1.69:8000/api/v3/providers/by-user/${this.user_id}/`)
+      axios.get(`http://172.16.1.92:8002/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data
           console.log(response.data);

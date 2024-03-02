@@ -1,3 +1,4 @@
+[9:34 AM] Aastha Gupta
 <template>
   <div class="py-4 container-fluid">
     <div class="row">
@@ -15,7 +16,7 @@
             >
             </card>
           </div>
-
+ 
           <div class="col-lg-8 col-md-12 col-12">
             <div class="card">
               <div class="p-3 card-body">
@@ -26,11 +27,13 @@
                       class="block  text-sm font-medium text-gray-900 dark:text-black"
                       >Project Name</label
                     >
-                    <argon-input type="text" placeholder="Project Name" v-model="project.project_name"
+                    <argon-input type="text" placeholder="Project Name" v-model="project.project_name" @input="validateProjectName"
                     :class="{
               error: input1Error,
               shake: shakingInput === 'project.project_name',
             }" />
+             <div  v-if="onTheFlyValidation && project.project_name.trim() !== ''" class="text-danger">Project name should be between 10 and 20 characters.</div>
+  
                     <argon-button color="success" size="md" variant="gradient"
                      @click="saveProject" >Create Project</argon-button
                     >
@@ -39,7 +42,7 @@
               </div>
             </div>
           </div>
-
+ 
           <div class="py-4 container-fluid">
             <div class="row">
               <div class="col-12">
@@ -52,15 +55,15 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 import axios from 'axios';
-
+ 
 import Card from "@/examples/Cards/Card.vue";
 import ProjectTable from "@/views/components/ProjectUserTable.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
-
+ 
 export default {
   name: "Cluster",
   components: {
@@ -77,8 +80,9 @@ export default {
           value: "",
           percentage: "",
           iconClass: "ni ni-money-coins",
-          detail: "since today",
+          detail: "",
           iconBackground: "bg-gradient-primary",
+ 
         },
       },
       project: {
@@ -86,7 +90,8 @@ export default {
         user: '',
       },
       input1Error: false, shakingInput: null,
-
+      onTheFlyValidation: false,
+ 
       projectsData: [],
     };
   },
@@ -99,16 +104,18 @@ export default {
       
       const user_id = this.project.user
       console.log(user_id);
-      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${user_id}/`)
+      axios.get(`http://172.16.1.92:8002/api/v2/project/user/${user_id}/`)
         .then((response) => {
           this.projectsData = response.data;
           this.stats.money.value = this.projectsData.length
           this.loading = false;
         })
     },
+    validateProjectName() {
+      const projectName = this.project.project_name;
+      this.onTheFlyValidation = projectName.trim() !== '' && (projectName.length < 10 || projectName.length > 20);    },
     saveProject() {   
-      this.input1Error = this.project.project_name === '';
-      if (this.input1Error) {
+      this.input1Error = this.project.project_name === '' || this.onTheFlyValidation;      if (this.input1Error) {
         this.shakingInput = 'project.project_name'
         setTimeout(() => {
           this.shakingInput = null;
@@ -116,7 +123,7 @@ export default {
       }
       else {
         console.log(this.project)
-        axios.post("http://172.16.1.69:8000/api/v2/project/", this.project)
+        axios.post("http://172.16.1.92:8002/api/v2/project/", this.project)
           .then(() => {
             this.fetchProject()
             this.project.project_name =''
@@ -134,26 +141,26 @@ export default {
   }
 };
 </script>
-
+ 
 <style scoped>
 .error {
   border: 2px solid red;
 }
-
+ 
 .main_content {
   background: linear-gradient(90deg, #25316D 0%, #8b7c59 100%);
-
+ 
 }
-
+ 
 .shake {
   animation: shake 0.5s ease-in-out 8 alternate;
 }
-
+ 
 @keyframes shake {
   0% {
     transform: translate(0, 0);
   }
-
+ 
   100% {
     transform: translate(10px, 0);
   }

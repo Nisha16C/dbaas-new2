@@ -1,4 +1,4 @@
-
+[9:31 AM] Aastha Gupta
 <template>
   <main class="mt-0 main-content">
     <section>
@@ -26,6 +26,7 @@
                         size="lg"
                         isRequired="true"
                       />
+                      <span class="text-danger" v-if="!username && showErrorMessages">Username is required</span>
                     </div>
                     <div class="mb-3">
                       <argon-input
@@ -34,10 +35,16 @@
                         placeholder="Password"
                         name="password"
                         size="lg"
+                        @keyup.enter="login"
                       />
+                      <span class="text-danger" v-if="!password && showErrorMessages">Password is required</span>
+  
+ 
                     </div>
  
                     <div class="text-center">
+                     <div v-if="error" class="text-danger  ">{{ error }}</div>
+  
  
                       <argon-button
                         @click.prevent="login"
@@ -46,7 +53,7 @@
                         color="success"
                         fullWidth
                         size="lg"
-                        >Sign in</argon-button>
+                        >sign in</argon-button>
                     </div>
                   </form>
                 </div>
@@ -66,10 +73,10 @@
                 <h4
                   class="mt-5 text-white font-weight-bolder position-relative"
                 >
-                  "Attention User is the new Database"
+                  "Empower Your Data Journey with BitBlast!!"
                 </h4>
                 <p class="text-white position-relative">
-                  The more effortless way to manage you databases.
+                  The most effortless way to manage your database.
                 </p>
               </div>
             </div>
@@ -101,6 +108,7 @@ export default {
       username: '',
       password: '',
       error: null,
+      showErrorMessages: false,
     };
   },
  
@@ -121,6 +129,13 @@ export default {
  
   methods: {
     login() {
+      if (!this.username || !this.password) {
+        this.showErrorMessages = true;
+        setTimeout(() => {
+          this.showErrorMessages = false;
+        }, 5000);
+        return; // Do not proceed with login if fields are empty
+      }
       console.log('login form')
       const formData = {
         username_or_email: this.username,  // Use 'username' instead of 'username_or_email'
@@ -129,7 +144,7 @@ export default {
       console.log(formData)
  
       axios
-        .post('http://172.16.1.69:8000/api/v1/login/', formData)
+        .post('http://172.16.1.92:8002/api/v1/login/', formData)
         .then((response) => {
           // const token = response.data.token;
           this.userdata = response.data.user_data;
@@ -147,11 +162,12 @@ export default {
         })
         .catch((error) => {
           this.error = error.response.data.error;
+          this.error = "Invalid credentials. Please check again";
           this.password = null;
           this.username = null;
           setTimeout(() => {
             this.error = null;
-          }, 1000);
+          }, 3000);
         });
     },
   },

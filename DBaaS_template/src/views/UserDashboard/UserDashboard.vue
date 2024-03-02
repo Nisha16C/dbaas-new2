@@ -30,22 +30,10 @@
           </div>
         </div>
 
-        <!-- <div class="row">
-              <div class="col-lg-7 mb-lg">
-                line chart 
-                <div class="card z-index-2">
-                  <gradient-line-chart />
-                </div>
-              </div>
-              <div class="col-lg-5">
-                <carousel />
-              </div>
-            </div> -->
-
         <div class="row mt-4">
           <div class="col-lg-14 mb-lg-0 mb-4">
             <div class="card">
-              <div class="card-header">Welcome User</div>
+              <div class="card-header">Welcome {{ getUsername() }}!!</div>
               <div class="card-body">
                 <h5 class="card-title">
                   Empower Your Data Journey with BitBlast!!
@@ -88,7 +76,7 @@ export default {
           value: "",
           percentage: "",
           iconClass: "ni ni-project-coins",
-          detail: "Till Today",
+          detail: " ",
           iconBackground: "bg-gradient-primary",
         },
         cluster: {
@@ -97,10 +85,11 @@ export default {
           percentage: "",
           iconClass: "ni ni-world",
           iconBackground: "bg-gradient-danger",
-          detail: "Till Today",
+          detail: " ",
         },
       },
   clusterData: [],
+  username: "",
 
     };
   },
@@ -112,12 +101,16 @@ export default {
     this.user_id = sessionStorage.getItem("user_id");
     this.getProject();
     this.getCluster();
+    this.username = sessionStorage.getItem("username");
   },
 
   methods:{
+    getUsername(){
+      return this.username || "User";
+    },
     getCluster(){
  
-      axios.get(`http://172.16.1.69:8000/api/v2/cluster/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.92:8002/api/v2/cluster/user/${this.user_id}/`)
         .then(response => {
     
           this.stats.cluster.value =  response.data.length.toString();
@@ -126,7 +119,7 @@ export default {
 
     },
     getProject(){
-      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.92:8002/api/v2/project/user/${this.user_id}/`)
         .then(response => {
           this.stats.project.value = response.data.length.toString();
           console.log(response.data.length.toString);

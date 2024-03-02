@@ -23,7 +23,7 @@
           </div>
           <div class="d-flex">
             <div class="d-flex flex-column">
-              <h6 class="mb-3 text-sm">Server and Backup Name</h6>
+              <h6 class="mb-3 text-sm">Database and Backup Name</h6>
               <form>
 
                 <label class="mt-3 text-sm">Backup Method</label>
@@ -33,7 +33,7 @@
                   <option value="s3">S3</option>
                 </select>
 
-                <label class="mt-3 text-sm">Server Name</label>
+                <label class="mt-3 text-sm">Select Database</label>
                 <select v-model="serverName" class="form-select" aria-label="Default select example">
                   <option v-for="(description, serverName) in servers" :key="serverName" :value=serverName selected>{{
                     serverName }}
@@ -118,7 +118,7 @@ export default {
     async fetchServers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-servers/?storage_method=${this.backup_method}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-servers?storage_method=${this.backup_method}`);
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;
@@ -131,7 +131,7 @@ export default {
       this.loading = true; // Set loading to true before making the request
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/backup/?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}`
+          `http://172.16.1.131:8000/api/v4/barman/backup?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}`
         )
         .then((response) => {
           console.log(response);
@@ -153,7 +153,7 @@ export default {
       this.loading = true; // Set loading to true before making the request
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/schedule-backup/?server_name=${this.serverName}&retention=${this.retentionPeriod}${this.selected_value}&storage_method=${this.backup_method}`
+          `http://172.16.1.131:8000/api/v4/barman/schedule-backup?server_name=${this.serverName}&retention=${this.retentionPeriod}${this.selected_value}&storage_method=${this.backup_method}`
         )
         .then((response) => {
           console.log(response);

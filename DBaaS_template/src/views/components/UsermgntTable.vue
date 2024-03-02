@@ -14,6 +14,7 @@
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status </th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created On</th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Last Login</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Email Address</th>
 
               <th class="text-secondary opacity-7"></th>
             </tr>
@@ -43,7 +44,10 @@
               <td class="align-middle text-center">
                 <span class="text-secondary text-xs font-weight-bold">{{ formatDate(user.last_login) }}</span>
               </td>
-              <td class="align-middle">
+              <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">{{user.email}}</span>
+              </td>
+              <!-- <td class="align-middle">
                 <argon-button color="success" size="md" variant="gradient" @click="prepareUserRole(user)" type="button"
                   class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
                   View Role
@@ -52,7 +56,7 @@
                   class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                   Assign Roles
                 </argon-button>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>
@@ -168,7 +172,7 @@ export default {
         // Assign the user before fetching user roles
         this.selectedUser = user;
         // Fetch user roles dynamically using the user's ID
-        const response = await axios.get(`http://172.16.1.69:8000/api/v1/get_user_role/${this.selectedUser.id}/`);
+        const response = await axios.get(`http://172.16.1.92:8002/api/v1/get_user_role/${this.selectedUser.id}/`);
         console.log('API Response:', response);
 
         if (response.data && Array.isArray(response.data.user_roles)) {
@@ -198,7 +202,7 @@ export default {
     },
     async fetchRoles() {
       try {
-        const response = await axios.get(`http://172.16.1.69:8000/api/v1/users/`,
+        const response = await axios.get(`http://172.16.1.92:8002/api/v1/users/`,
           {
             user_id: this.selectedUser.id,
           });
@@ -222,7 +226,7 @@ export default {
           console.error('No user selected.');
           return;
         }
-        const response = await axios.post(`http://172.16.1.69:8000/api/v1/add_roles_to_user/`,
+        const response = await axios.post(`http://172.16.1.92:8002/api/v1/add_roles_to_user/`,
           {
             user_id: this.selectedUser.id,
             roles: this.selectedRoles,
@@ -248,7 +252,7 @@ export default {
     async fetchusers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.69:8000/api/v1/users/');
+        const response = await axios.get('http://172.16.1.92:8002/api/v1/users/');
 
         // Update the clusters data with the fetched data
         this.users = response.data;

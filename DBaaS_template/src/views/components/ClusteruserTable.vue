@@ -1,75 +1,99 @@
+[9:39 AM] Aastha Gupta
 <template>
-    <div class="card">
-      <div class="card-header pb-0">
-        <h6> Database info  User</h6>
+  <div class="card">
+    <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+  <h6> Database info User</h6>
+  
+  <div class="dropdown">
+    <button class="btn btn-transparent dropdown-toggle" type="button" id="projectDropdown" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      <span class="font-extrabold">Project:</span> {{ selectedProject ? projects.find(project => project.id === selectedProject).project_name : 'All Projects' }}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="projectDropdown">
+      <a class="dropdown-item" @click="selectedProject = ''; fetchClustersByProject()">All Projects</a>
+      <a v-for="project in projects" :key="project.id" class="dropdown-item" @click="selectedProject = project.id; fetchClustersByProject()">{{ project.project_name }}</a>
+    </div>
+  </div>
+</div>
+ 
+ 
+ 
+    <div class="card-body px-0 pt-0 pb-2">
+      <div class="text-center mx-auto" v-if="clusters.length === 0">
+        <span class="text-gray-400 mb-2 text-2xl">No Cluster found in the Selected Project</span>
       </div>
-  
-      <div class="card-body px-0 pt-0 pb-2">
-        <div class="table-responsive p-0">
-          <table class="table align-items-center mb-0">
-            <thead>
-              <tr>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Database Name & ID </th>
-                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Database Type &
-                  Versions</th>
-  
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Provider Name
-                </th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created On</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Updated On</th>
-  
-                <th class="text-secondary opacity-7"></th>
-              </tr>
-            </thead>
-  
-            <tbody>
-              <tr v-for="(cluster, index) in clusters" :key="index">
-                <td>
-                  <div class="d-flex px-2 py-1">
-                    <div>
-                      <!-- You can customize the image source or remove it based on your needs -->
-                      <img src="../../assets/img/db-png.png" class="avatar avatar-sm me-3" alt="clusterImage" />
-                    </div>
-                    <div class="d-flex flex-column justify-content-center">
-                      <h6 class="mb-0 text-sm">{{ cluster.id }}</h6>
-                      <p class="text-xs text-secondary mb-0">{{ cluster.cluster_name }}</p>
-                    </div>
+ 
+      <div v-else class="table-responsive p-0">
+ 
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Database Name & ID </th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Database Type &
+                Versions</th>
+ 
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Provider Name
+              </th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created On</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Updated On</th>
+ 
+              <th class="text-secondary opacity-7"></th>
+            </tr>
+          </thead>
+ 
+          <tbody>
+            <tr v-for="(cluster, index) in clusters" :key="index">
+              <td>
+                <div class="d-flex px-2 py-1">
+                  <div v-if="cluster.cluster_type === 'Standalone'">
+                    <!-- You can customize the image source or remove it based on your needs -->
+                    <img src="../../assets/img/db-png.png" class="avatar avatar-sm me-3" alt="clusterImage" />
                   </div>
-                </td>
-                <td>
-                  <p class="text-xs font-weight-bold mb-0">{{ cluster.cluster_type }}</p>
-                  <p class="text-xs text-secondary mb-0">{{ cluster.database_version }}</p>
-                </td>
-                <td class="align-middle text-center text-sm">
-                  <!-- Assuming 'provider' is a property in your cluster data -->
-                  <span class="badge badge-sm bg-gradient-success">{{ cluster.provider }}</span>
-                </td>
-                <td class="align-middle text-center">
-                  <span class="text-secondary text-xs font-weight-bold">{{ formatDate(cluster.created_date) }}</span>
-                </td>
-                <td class="align-middle text-center">
-                  <span class="text-secondary text-xs font-weight-bold">{{ formatDate(cluster.updated_date) }}</span>
-                </td>
-                <td class="align-middle">
-               
-                <argon-button color="success" size="md" variant="gradient" @click="viewCluster(cluster.cluster_name)" type="button"
-                  class="btn btn-danger" data-toggle="modal" data-target="#viewModal">
+ 
+                  <div v-else>
+                    <!-- You can customize the image source or remove it based on your needs -->
+                    <img src="../../assets/img/ha.webp" class="avatar avatar-sm me-3" alt="clusterImage" />
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-sm">{{ cluster.id }}</h6>
+                    <p class="text-xs text-secondary mb-0">{{ cluster.cluster_name }}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="text-xs font-weight-bold mb-0">{{ cluster.cluster_type }}</p>
+                <p class="text-xs text-secondary mb-0">{{ cluster.database_version }}</p>
+              </td>
+              <td class="align-middle text-center text-sm">
+                <!-- Assuming 'provider' is a property in your cluster data -->
+                <span class="badge badge-sm bg-gradient-success">{{ cluster.provider }}</span>
+              </td>
+              <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">{{ formatDate(cluster.created_date) }}</span>
+              </td>
+              <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">{{ formatDate(cluster.updated_date) }}</span>
+              </td>
+              <td class="align-middle">
+ 
+                <argon-button color="success" size="md" variant="gradient" @click="viewCluster(cluster.cluster_name)"
+                  type="button" class="btn btn-danger" data-toggle="modal" data-target="#viewModal">
                   View
                 </argon-button>
-                <argon-button color="danger" size="md" variant="gradient" @click="prepareDelete(cluster.cluster_name)" type="button"
-                  class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                <argon-button color="danger" size="md" variant="gradient" @click="prepareDelete(cluster.cluster_name)"
+                  type="button" class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                   Delete
                 </argon-button>
               </td>
-              </tr>
-            </tbody>
-  
-          </table>
-        </div>
+            </tr>
+          </tbody>
+ 
+        </table>
       </div>
     </div>
-
-    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  </div>
+ 
+  <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -80,19 +104,19 @@
           </button>
         </div>
         <div class="modal-body">
-          <h3>{{ clusterName }}</h3> 
+          <h3>{{ clusterName }}</h3>
           <p v-if="contentList.length > 0" v-html="addLineBreaks(contentList[0].content)"></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          
+ 
         </div>
       </div>
     </div>
   </div>
- <!-- Delete Modal -->
-  <div v-show="deleteModal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+  <!-- Delete Modal -->
+  <div v-show="deleteModal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -111,52 +135,63 @@
       </div>
     </div>
   </div>
-  </template>
+</template>
   
-  <script>
-  import axios from "axios";
+<script>
+import axios from "axios";
 import ArgonButton from "@/components/ArgonButton.vue";
-  export default {
-    name: "UserCluster-table",
-    components: {
-   
+export default {
+  name: "UserCluster-table",
+  components: {
+ 
     ArgonButton,
   },
   created() {
     this.user_id = sessionStorage.getItem("user_id");
+    this.fetchProjects();
+    this.fetchClusters();
  
   },
-  data(){
-    return{
-        contentList: [],
-        deleteClusterName: '',
-        clusterName:'',
-    
+  data() {
+    return {
+      contentList: [],
+      deleteClusterName: '',
+      clusterName: '',
+      selectedProject: "",
+      selectedCluster: '',
+      projects: [],
+ 
+ 
+ 
+      clusters: {
+        type: Array,
+        required: true,
+      },
       user_id: '',
-      deleteModal:  false,
-      viewModal:  false     
+      deleteModal: false,
+      viewModal: false
     }
   },
-    props: {
-    clusters: {
-      type: Array,
-      required: true,
-    },
-  },
+  // props: {
+  //   clusters: {
+  //     type: Array,
+  //     required: true,
+  //   },
+  // },
   methods: {
     prepareDelete(clusterName) {
       this.deleteModal = true
       this.deleteClusterName = clusterName;
-   
+ 
     },
     deleteCluster() {
-  
+ 
       const formData = {
         cluster_name: this.deleteClusterName
       };
-     
+ 
       this.$router.push('/delete');
-      axios.post("http://172.16.1.69:8000/api/v2/deletecluster/",  formData)
+      axios.post("http://172.16.1.56:8002/api/v2/deletecluster/", formData)
         .then(response => {
           console.log('Cluster deleted successfully:', response.data);
           this.deleteModal = false
@@ -167,33 +202,58 @@ import ArgonButton from "@/components/ArgonButton.vue";
           this.toggleModal1();
         });
     },
-
+ 
     viewCluster(clusterName) {
-      this.clusterName=clusterName;
-      axios.get(`http://172.16.1.69:8000/api/v2/result/content/${clusterName}/`)
+      this.clusterName = clusterName;
+      axios.get(`http://172.16.1.56:8002/api/v2/result/content/${clusterName}/`)
         .then(response => {
           this.contentList = response.data;
-          
+ 
         })
         .catch(error => {
           console.error('Error fetching data:', error);
         });
-      },
-      addLineBreaks(text) {
+    },
+    addLineBreaks(text) {
       const formattedContent = text.replace(/([^:\n]+):/g, '<h class="text-sm fw-bolder">$1</h>:');
       return formattedContent.replace(/\n/g, '<br>');
-      
+ 
     },
  
     async fetchclusters_list() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.69:8000/api/v2/cluster/');
+        const response = await axios.get('http://172.16.1.56:8002/api/v2/cluster/');
  
         // Update the clusters_list data with the fetched data
         this.clusters_list = response.data;
       } catch (error) {
         console.error('Error fetching clusters_list:', error);
+      }
+    },
+ 
+    fetchProjects() {
+      axios.get(`http://172.16.1.56:8002/api/v2/project/user/${this.user_id}/`)
+        .then(response => {
+          this.projects = response.data;
+ 
+        });
+    },
+    fetchClusters() {
+      axios.get(`http://172.16.1.56:8002/api/v2/cluster/user/${this.user_id}/`)
+        .then(response => {
+          this.clusters = response.data;
+          this.loading = false;
+        });
+    },
+    fetchClustersByProject() {
+      if (this.selectedProject) {
+        axios.get(`http://172.16.1.56:8002/api/v2/cluster/project/${this.selectedProject}/`)
+          .then(response => {
+            this.clusters = response.data;
+          });
+      } else {
+        this.fetchClusters();
       }
     },
     toggleModal1: function () {
@@ -204,9 +264,9 @@ import ArgonButton from "@/components/ArgonButton.vue";
       return new Date(dateString).toLocaleDateString('en-US', options);
     },
   }
-
-    
-
-  };
-  </script>
+ 
+ 
+ 
+};
+</script>
   

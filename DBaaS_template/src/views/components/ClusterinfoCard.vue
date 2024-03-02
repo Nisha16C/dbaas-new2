@@ -1,3 +1,12 @@
+[9:42 AM] Ashish Sahu
+phir kuch files update karni hai ab
+ 
+ 
+ 
+ClusterinfoCard.vue
+ 
+ 
+ 
 <template>
   <div class="card mt-4">
     <div class="card-header pb-0 p-3">
@@ -63,17 +72,14 @@
                 </li>
                 &nbsp; &nbsp; &nbsp;
                 <li class="nav-item">
-                  <a
-                    href="#"
-                    class="nav-link disabled"
-                    aria-disabled="true"
+                  <router-link to="/Cconfiguration"
+                    class="nav-link "     
                     :class="
-                      getRoute() === 'cluster-dbconfig'
+                      getRoute() === 'Cconfiguration'
                         ? 'text-success'
                         : 'text-muted'
                     "
-                    >DB Configuration</a
-                  >
+                    >DB Configuration </router-link>
                   <hr />
                 </li>
                 &nbsp; &nbsp; &nbsp;
@@ -96,7 +102,7 @@
               data-bs-original-title="Edit Card"
               aria-label="Edit Card"
             ></i> -->
-
+ 
             <!-- <span class="sr-only">Edit Card</span> -->
           </div>
         </div>
@@ -104,12 +110,12 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 // import ArgonButton from "@/components/ArgonButton.vue";
 import img1 from "@/assets/img/logos/mastercard.png";
 import img2 from "@/assets/img/logos/visa.png";
-
+ 
 export default {
   name: "payment-card",
   components: {
@@ -129,9 +135,10 @@ export default {
   },
 };
 </script>
-
+ 
 <style scoped>
 .hr_style {
   border: 1px solid green;
 }
 </style>
+ 

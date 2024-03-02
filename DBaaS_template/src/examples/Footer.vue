@@ -16,7 +16,7 @@
               target="_blank"
               >BitBlast Team</a
             >
-            for a better Database as service.
+            for a better Database as a Service (DBaaS).
           </div>
         </div>
         <div class="col-lg-6">

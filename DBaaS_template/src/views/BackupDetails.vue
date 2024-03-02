@@ -132,7 +132,7 @@ export default {
       console.log(this.serverName)
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.69:8000/barman/list-backups/?server_name=${this.serverName}&storage_method=nfs`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups/?server_name=${this.serverName}&storage_method=nfs`);
 
         // Update the clusters data with the fetched data
         this.backupList = response.data.message;

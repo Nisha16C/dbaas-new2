@@ -29,8 +29,8 @@
                 <label class="mt-3 text-sm">Backup Method</label>
                 <select class="form-select" aria-label="Default select example" v-model="backup_method"
                   @click="fetchServers()">
-                  <option value="nfs">nfs</option>
-                  <option value="s3">s3</option>
+                  <option value="nfs">NFS</option>
+                  <option value="s3">S3</option>
                 </select>
 
                 <label class="mt-3 text-sm">Server Name</label>
@@ -118,7 +118,7 @@ export default {
     async fetchServers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:5000/barman/list-servers?storage_method=${this.backup_method}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-servers/?storage_method=${this.backup_method}`);
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;
@@ -131,7 +131,7 @@ export default {
       this.loading = true; // Set loading to true before making the request
       axios
         .post(
-          `http://172.16.1.131:5000/barman/backup?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}`
+          `http://172.16.1.131:8000/api/v4/barman/backup/?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}`
         )
         .then((response) => {
           console.log(response);
@@ -153,7 +153,7 @@ export default {
       this.loading = true; // Set loading to true before making the request
       axios
         .post(
-          `http://172.16.1.131:5000/barman/schedule-backup?server_name=${this.serverName}&retention=${this.retentionPeriod}${this.selected_value}&storage_method=${this.backup_method}`
+          `http://172.16.1.131:8000/api/v4/barman/schedule-backup/?server_name=${this.serverName}&retention=${this.retentionPeriod}${this.selected_value}&storage_method=${this.backup_method}`
         )
         .then((response) => {
           console.log(response);

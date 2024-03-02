@@ -26,32 +26,34 @@
           <div class="d-flex flex-column">
             <h6 class="mb-3 text-sm">Server and Backup id</h6>
             <form >
-
-              <label class="mt-3 text-sm">Backup Method</label>
+                <div class="form-group mt-3 ">
+              <label class=" text-sm">Backup Method</label>
               <select class="form-select " aria-label="Default select example" v-model="backup_method"
                 @click="fetchServers()">
-                <option value="nfs">nfs</option>
-                <option value="s3">s3</option>
+                <option value="nfs">NFS</option>
+                <option value="s3">S3</option>
               </select>
+              </div>
 
-              <label class="mt-3 text-sm">Server Name</label>
+              <div class="form-group mt-3 ">
+              <label class=" text-sm">Server Name</label>
               <select v-model="serverName" class="form-select" @click="fetchBackups()"
                 aria-label="Default select example">
                 <option v-for="(description, serverName) in servers" :key="serverName" :value=serverName selected>{{
                   serverName }}
                 </option>
-
               </select>
+              </div>
 
-              <div class="form-group mt-3">
+              <div class="form-group mt-3 ">
                 <label class="text-sm" for=""> Backup id</label>
                 <select v-model="backup_id" class="form-select" aria-label="Default select example">
-                  <option v-for="backup in backupList[serverName]" :key="backup.backup_id" selected>{{ backup.backup_id }}
+                  <option v-for="backup in backupList[serverName]" :key="backup.backup_id" selected>{{ backup.backup_id }} --  {{ backup.end_time }}
                   </option>
 
                 </select>
               </div>
-
+             
 
               <div class="form-group mt-3">
                 <label class="text-sm" for="">Destination Directory</label>
@@ -60,7 +62,7 @@
               </div>
               <div class="form-group mt-3">
                 <label class="text-sm" for=""> Target server Name</label>
-                <input type="email" class="form-control" id="Postgres_Username" placeholder="Destination directory"
+                <input type="email" class="form-control" id="Postgres_Username" placeholder="Target server name"
                   v-model="target_server" />
               </div>
 
@@ -104,7 +106,7 @@ export default {
     async fetchServers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:5000/barman/list-servers?storage_method=${this.backup_method}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-servers/?storage_method=${this.backup_method}`);
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;
@@ -117,7 +119,7 @@ export default {
       console.log(this.serverName)
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:5000/barman/list-backups?server_name=${this.serverName}&storage_method=${this.backup_method}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups/?server_name=${this.serverName}&storage_method=${this.backup_method}`);
 
         // Update the clusters data with the fetched data
         this.backupList = response.data.message;
@@ -129,7 +131,7 @@ export default {
     Restore() {
       this.loading = true;
       axios
-        .post(`http://172.16.1.131:5000/barman/recover?server_name=${this.serverName}&backup_id=${this.backup_id}&destination_directory=${this.destination_dir}&target_server_name=${this.target_server}&storage_method=${this.backup_method}`,)
+        .post(`http://172.16.1.131:8000/api/v4/barman/recover/?server_name=${this.serverName}&backup_id=${this.backup_id}&destination_directory=${this.destination_dir}&target_server_name=${this.target_server}&storage_method=${this.backup_method}`,)
         .then((response) => {
           console.log(response)
           this.successMessage = "Backup restored successfully"; // Set success message

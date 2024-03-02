@@ -9,8 +9,8 @@
           <label class="text-sm  col-sm-3">Backup Method :</label>
           <select @click="fetchServers()" class="form-select col-sm-5 mb-2" aria-label="Default select example"
             v-model="backup_method">
-            <option value="nfs">nfs</option>
-            <option value="s3">s3</option>
+            <option value="nfs">NFS</option>
+            <option value="s3">S3</option>
           </select>
         </div>
         </div>
@@ -84,7 +84,7 @@ export default {
     async fetchServers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.69:8000/api/v4/barman/list-servers/?storage_method=${this.backup_method}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-servers/?storage_method=${this.backup_method}`);
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;

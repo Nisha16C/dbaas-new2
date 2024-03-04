@@ -110,6 +110,73 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer = projectSerializers(project)
         return Response(serializer.data, status=status.HTTP_200_OK)         
 
+# Compute offering
+from rest_framework.views import APIView
+import urllib
+import base64
+import urllib.parse
+import urllib.request
+import json
+import hashlib
+import hmac
+
+    
+class ComputeOfferingsAPIView(APIView):
+    def get(self, request):
+        # Define the endpoint of the Cloud, the command that you want to execute, and the keys of the user
+        baseurl = 'http://10.0.0.102:8080/client/api?'
+        request_data = {
+            'command': 'listServiceOfferings',
+            'response': 'json',
+            'apikey': 'i6g5Skzgme-1TdBCWE-ViOiQYSSsZfMahUkJXc-nhJZDHWFE_xQz98-jOqD7elGo7_TGOPvLx0MpalfSuZpidA'
+        }
+        secret_key = 'POJLZ1-QnNVmnkxSwTUHmOqlXTnQY7PXWDYnXEXfEsxXUMzyDGFBaKcV8Bshe9Vg-SMIY0ELE84wU7plndf4fQ'.encode('utf-8')
+
+        # Build the request string
+        request_str = '&'.join(['='.join([k, urllib.parse.quote_plus(request_data[k])]) for k in request_data.keys()])
+
+        # Compute the signature with hmac, do a 64-bit encoding, and URL encoding
+        sig_str = '&'.join(['='.join([k.lower(), urllib.parse.quote_plus(request_data[k]).lower().replace('+', '%20')])
+                            for k in sorted(request_data.keys())])
+
+        sig = urllib.parse.quote_plus(
+            base64.b64encode(hmac.new(secret_key, sig_str.encode('utf-8'), hashlib.sha1).digest()).
+            strip())
+
+        req = baseurl + request_str + '&signature=' + sig
+
+        # Make the API request
+        try:
+            res = urllib.request.urlopen(req)
+            response_data = json.loads(res.read().decode('utf-8'))
+
+            # Extract and return relevant information in JSON format
+            if 'listserviceofferingsresponse' in response_data:
+                service_offerings = response_data['listserviceofferingsresponse'].get('serviceoffering', [])
+
+                # Create a list to store compute offerings
+                compute_offerings = []
+
+                # Add data to the list
+                for offering in service_offerings:
+                    compute_offerings.append({
+                        'name': offering['name'],
+                        'cpunumber': offering['cpunumber'],
+                        'cpuspeed': offering['cpuspeed'],
+                        'memory': offering['memory']
+                    })
+
+                return Response({'compute_offerings': compute_offerings})
+            else:
+                error_message = "Error: Unable to fetch compute offerings."
+        except Exception as e:
+            error_message = f"Error: {str(e)}"
+
+        return Response({'error': error_message}, status=500)   
+    
+
+
+
 @api_view(['GET'])
 def get_projects_by_user(request, user_id):
     projects = Project.objects.filter(user_id=user_id)

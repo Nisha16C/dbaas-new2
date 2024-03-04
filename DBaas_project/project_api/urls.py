@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from project_api.views import ProjectViewSet, ClusterViewSet, ClusterDeleteViewSet, get_projects_by_user, display_artifacts, get_variables, ContentByClusterNameView, display_clusters
+from project_api.views import ProjectViewSet,ComputeOfferingsAPIView , ClusterViewSet, ClusterDeleteViewSet, get_projects_by_user, display_artifacts, get_variables, ContentByClusterNameView, display_clusters
 
 from rest_framework import routers
 
@@ -21,5 +21,6 @@ urlpatterns = [
     # New URL for checking if a cluster name already exists
     path('api/v2/cluster/check_cluster_exists/', ClusterViewSet.as_view({'get': 'check_cluster_exists'}), name='check-cluster-exists'),
     path("api/v2/project/<int:pk>/rename/", ProjectViewSet.as_view({'put': 'rename_project'}), name='rename-project'),
+     path('compute_offerings/', ComputeOfferingsAPIView.as_view(), name='compute-offerings'),
     path("", include(router.urls)),
 ]

@@ -1,8 +1,7 @@
-[9:37 AM] Ashish Sahu
-UserDasboard/Dbconfig.vue  new banana h file
+
  
  
- 
+
 <template>
     <div class="container-fluid">
       <div class="row">
@@ -31,7 +30,7 @@ UserDasboard/Dbconfig.vue  new banana h file
   import InfoCard from "@/views/components/ClusterinfoCard.vue";
   // import InvoiceCard from "./components/InvoiceCard.vue";
   import ClusterCard from "@/views/components/Cconfiguration.vue";
-  import TransactionCard from "@/views/components/TransactionCard.vue";
+  import TransactionCard from "@/views/components/CSummaryCard.vue";
   
   export default {
     name: "Billing",

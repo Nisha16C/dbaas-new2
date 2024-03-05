@@ -53,7 +53,7 @@
 import InfoCard from "@/views/components/ClusterinfoCard.vue";
 // import InvoiceCard from "./components/InvoiceCard.vue";
 import ClusterCard from "@/views/components/CclusterCard.vue";
-import TransactionCard from "@/views/components/TransactionCard.vue";
+import TransactionCard from "@/views/components/CSummaryCard.vue";
 
 export default {
   name: "Billing",

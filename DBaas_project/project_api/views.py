@@ -456,25 +456,23 @@ def trigger_single(base_url, project_id, headers, branch_name):
 # Status fetch function
 def get_latest_pipeline_statuses(base_url, project_id, headers, count=1):
     response = requests.get(base_url + f"projects/{project_id}/pipelines", headers=headers, verify=False)
-
+ 
     if response.status_code != 200:
         raise ValueError(f"Error fetching pipelines: {response.status_code}, {response.json()}")
-
+ 
     pipelines = response.json()
     if not pipelines:
         return []
-
+ 
     latest_pipelines = pipelines[:count]
     latest_statuses = []
-
+ 
     for pipeline in latest_pipelines:
         latest_status = pipeline['status']
         latest_statuses.append({"id": pipeline['id'], "status": latest_status})
-
+ 
     return latest_statuses
-
-
-
+ 
 def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName,clusterType,databaseVersion,providerName,userId,projectID):
     user = User.objects.get(pk=userId)
     project = Project.objects.get(pk=projectId)
@@ -482,7 +480,7 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
     print(f'cluster name artifatcat wale function se {clusterName} and userId {userId} and {clusterType}')
     if response.status_code != 200:
         raise ValueError(f"Error fetching pipeline jobs: {response.status_code}, {response.json()}")
-
+ 
     jobs = response.json()
     artifacts = []
     # customer_name = request.POST.get('customer_name', '')
@@ -503,7 +501,7 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
                             pipeline_id=pipeline_id,
                             filename=artifact_name
                         ).first()
-
+ 
                         if existing_artifact:
                             # Update the content of the existing artifact
                             existing_artifact.content = content
@@ -523,11 +521,29 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
                                 content=content,
                             )
                             artifact.save()
-
+ 
     return artifacts
-
-
+ 
 def display_artifacts(request):
+    # Retrieve all saved artifacts from the database
+    artifacts = Db_credentials.objects.all()
+ 
+    # Prepare a list to hold artifact data
+    artifacts_data = []
+ 
+    for artifact in artifacts:
+        artifact_data = {
+            'clusterName' : artifact.clusterName,
+            'pipeline_id': artifact.pipeline_id,
+            'filename': artifact.filename,
+            'content': artifact.content,
+            
+        }
+        artifacts_data.append(artifact_data)
+ 
+  
+    return JsonResponse({'artifacts': artifacts_data})
+ 
     # Retrieve all saved artifacts from the database
     artifacts = Db_credentials.objects.all()
 

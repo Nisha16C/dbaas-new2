@@ -76,7 +76,7 @@
       fetchProject() {       
         const user_id = this.project.user
         console.log(user_id);
-        axios.get(`http://172.16.1.92:8002/api/v2/project/user/${user_id}/`)
+        axios.get(`http://172.16.1.56:8002/api/v2/project/user/${user_id}/`)
           .then((response) => {
             this.projectsData = response.data;
             this.stats.money.value = this.projectsData.length        

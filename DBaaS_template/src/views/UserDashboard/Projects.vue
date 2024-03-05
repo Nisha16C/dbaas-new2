@@ -17,7 +17,7 @@
             </card>
           </div>
  
-          <div class="col-lg-8 col-md-12 col-12">
+          <div class="col-lg-8 col-md-12 col-12 w-50">
             <div class="card">
               <div class="p-3 card-body">
                 <div class="">
@@ -104,7 +104,7 @@ export default {
       
       const user_id = this.project.user
       console.log(user_id);
-      axios.get(`http://172.16.1.92:8002/api/v2/project/user/${user_id}/`)
+      axios.get(`http://172.16.1.56:8002/api/v2/project/user/${user_id}/`)
         .then((response) => {
           this.projectsData = response.data;
           this.stats.money.value = this.projectsData.length
@@ -113,7 +113,7 @@ export default {
     },
     validateProjectName() {
       const projectName = this.project.project_name;
-      this.onTheFlyValidation = projectName.trim() !== '' && (projectName.length < 10 || projectName.length > 20);    },
+      this.onTheFlyValidation = projectName.trim() !== '' && (projectName.length < 5 || projectName.length > 15);    },
     saveProject() {   
       this.input1Error = this.project.project_name === '' || this.onTheFlyValidation;      if (this.input1Error) {
         this.shakingInput = 'project.project_name'
@@ -123,7 +123,7 @@ export default {
       }
       else {
         console.log(this.project)
-        axios.post("http://172.16.1.92:8002/api/v2/project/", this.project)
+        axios.post("http://172.16.1.56:8002/api/v2/project/", this.project)
           .then(() => {
             this.fetchProject()
             this.project.project_name =''

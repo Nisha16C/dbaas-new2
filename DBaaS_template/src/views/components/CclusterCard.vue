@@ -54,92 +54,124 @@
  
  
  
-        <!-- Providers Lists -->
+        <!-- Providers Lists row 1 -->
 <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
           <div class="d-flex flex-column">
             <h6 class="mb-3 text-sm">Providers</h6>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
  
-            <div class="row row-cols-1 row-cols-md-2 g-5" style="width: 66.6667% ">
-              <!-- Cloudstack Provider -->
               <div  class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Cloudstack' }">
                 <div class="bg-transparent border-4 rounded-md text-center p-3 d-flex align-items-center">
                   <label>
                     <input class="visually-hidden" type="radio" id="Cloudstack" value="Cloudstack"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img style="width: 100px; height: 100px;" class="object-contain max-w-full rounded-lg"
-                      src="@/assets/img/cloudstack.png" alt="Cloudstack" />
+                    <img style="width: 150px;;height: 120px;" class="object-contain max-w-full rounded-lg"
+                      src="@/assets/img/withoutcloud-removebg-preview.png" alt="Cloudstack" />
                   </label>
                 </div>
               </div>
- 
-              <!-- Harvester Provider -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Harvester' }">
-                <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center">
+                <div class="bg-transparent border-4 rounded-md text-center p-5  d-flex align-items-center">
                   <label>
                     <input class="visually-hidden" type="radio" id="Harvester" value="Harvester"
                       v-model="selectedProvider" @change="updateProvider" />
                       <div class="avatar avatar-xl position-relative">
-                  <img style="width: 100px; height: 100px; " class="object-contain max-w-full rounded-lg" src="@/assets/img/harvester.jpg " alt="harvester" />
+                  <img style="width: 150px;;height: 100px;  " class="object-contain max-w-full rounded-lg" src="@/assets/img/wh1.webp" alt="harvester" />
                 </div>
                   </label>
                 </div>
               </div>
- 
- 
- 
-              <!-- Vmware Provider -->
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Vmware' }">
+
+              
+</div>
+<br>
+<!-- provider image row2-->
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
+
+  <!-- vmware -->
+  <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Vmware' }">
                 <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Vmware' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Vmware" value="Vmware" v-model="selectedProvider"
                       @change="updateProvider" />
-                    <img style="width: 100px; height: 100px;" class="object-contain max-w-full rounded-lg"
-                      src="@/assets/img/Vmware.png" alt="Vmware" />
+                    <img style="width: 150px;;height: 100px;" class="object-contain max-w-full rounded-lg"
+                      src="@/assets/img/wv1-removebg-preview.png" alt="Vmware" />
                   </label>
                 </div>
               </div>
- 
-              <!-- Kubernetes Provider -->
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Kubernetes' }">
+
+              <!-- k8s -->
+  <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Kubernetes' }">
                 <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Kubernetes' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Kubernetes" value="Kubernetes"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img style="width: 100px; height: 100px;" class="object-contain max-w-full rounded-lg"
-                      src="@/assets/img/k8s.png" alt="Kubernetes" />
+                    <img style="width: 150px;;height: 100px;" class="object-contain max-w-full rounded-lg"
+                      src="@/assets/img/wk1.png" alt="Kubernetes" />
                   </label>
                 </div>
               </div>
+
  
-              <!-- Nutanix Provider -->
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Nutanix' }">
+</div>
+
+<br>
+<!-- ro3 -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
+ <!-- nutanix -->
+  <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Nutanix' }">
                 <label>
                   <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Nutanix' ? 'selected' : '' }}">
  
                     <input type="radio" class="visually-hidden" id="Nutanix" value="Nutanix" v-model="selectedProvider"
                       @change="updateProvider" />
-                    <img style="width: 100px; height: 100px;" class="object-contain max-w-full rounded-lg"
-                      src="@/assets/img/nutanix.png" alt="Nutanix" />
+                    <img style="width: 150px;;height: 120px;" class="object-contain max-w-full rounded-lg"
+                      src="@/assets/img/wn1-removebg-preview.png" alt="Nutanix" />
  
                   </div>
                 </label>
               </div>
- 
-              <!-- Openstack Provider -->
+
+              <!-- openstack -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Openstack' }">
                 <div class="bg-transprent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Openstack' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Openstack" value="Openstack"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img style="width: 100px; height: 100px;" class="object-contain max-w-full rounded-lg"
+                    <img style="width: 150px;;height: 100px;" class="object-contain max-w-full rounded-lg"
                       src="@/assets/img/Openstack.png " alt="Openstack" />
                   </label>
                 </div>
               </div>
+
+ 
+</div>
+ 
+            <div class="row row-cols-1 row-cols-md-2 g-5" style="width: 66.6667% ">
+              <!-- Cloudstack Provider -->
+            
+ 
+              <!-- Harvester Provider -->
+             
+ 
+ 
+ <!-- comment -->
+              
+ 
+              <!-- Kubernetes Provider -->
+             
+ 
+              <!-- Nutanix Provider -->
+             
+ 
+              <!-- Openstack Provider -->
+             
+
+            
  
             </div>
             <argon-alert v-if="error" color="danger" icon="icon-danger" dismissible>
@@ -214,7 +246,7 @@ export default {
   },
  
     getAllProviderData() {
-      axios.get(`http://172.16.1.92:8002/api/v3/providers/by-user/${this.user_id}/`)
+      axios.get(`http://172.16.1.56:8002/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data
           console.log(response.data);

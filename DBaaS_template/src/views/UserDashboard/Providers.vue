@@ -355,15 +355,15 @@
                     <label for="api_name" class="form-label">API Name</label>
                     <input type="text" class="form-control" id="api_name" v-model="api_name" required>
                     <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
-                      Api Name is required
+                      API Name is required
                     </argon-alert>
                   </div>
  
                   <div class="mb-3">
-                    <label for="api_endpoint" class="form-label">Api Endpoint</label>
+                    <label for="api_endpoint" class="form-label">API Endpoint</label>
                     <input type="text" class="form-control" id="api_endpoint" v-model="api_endpoint" required>
                     <argon-alert v-if="!api_endpoint && showErrorMessages" color="danger" icon="icon-danger" dismissible>
-                      Api Endpoint is required
+                      API Endpoint is required
                     </argon-alert>                  </div>
  
                   <div class="mb-3">
@@ -588,7 +588,7 @@ export default {
  
       };
       console.log("data")
-      await axios.post(`http://172.16.1.92:8002/api/v3/providers/`, fromData)
+      await axios.post(`http://172.16.1.56:8002/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisibles = !this.isModalVisibles;
@@ -617,7 +617,7 @@ export default {
         "access_token": this.access_key,
       };
  
-      await axios.post(`http://172.16.1.92:8002/api/v3/providers/`, fromData)
+      await axios.post(`http://172.16.1.56:8002/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisible = !this.isModalVisible;
@@ -627,7 +627,7 @@ export default {
         });
     },
     getAllProviderData() {
-      axios.get(`http://172.16.1.92:8002/api/v3/providers/by-user/${this.user_id}/`)
+      axios.get(`http://172.16.1.56:8002/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data;
           console.log(response.data);

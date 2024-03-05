@@ -22,12 +22,13 @@ export default createStore({
     showMain: true,
     layout: "default",
     username: null,
-    selectedType: '',
-    selectedProvider: '',
+    selectedType: 'Standalone',
+    selectedProvider: 'Cloudstack',
     postgres_version:'',
 
     project_name: '',
     project_id: '',
+    selectedComputeOffering: null,
   },
   mutations: {
     setGlobalProjectName(state, project_name) {
@@ -53,6 +54,12 @@ export default createStore({
     toggleConfigurator(state) {
       state.showConfig = !state.showConfig;
     },
+    setSelectedOffering(state, selectedComputeOffering) {
+      state.selectedComputeOffering = selectedComputeOffering;
+    },
+    // setSelectedMemory(state, memory) {
+    //   state.selectedMemory = memory;
+    // },
     navbarMinimize(state) {
       const sidenav_show = document.querySelector(".g-sidenav-show");
  
@@ -101,14 +108,29 @@ export default createStore({
     updateSelectedVersion(context, postgres_version) {
       context.commit('setSelectedVersion', postgres_version);
     },
+    // updateSelectedCPUNumber(context, cpunumber) {
+    //   context.commit('setSelectedCPUNumber', cpunumber);
+    // },
+    // updateSelectedMemory(context, memory) {
+    //   context.commit('setSelectedMemory', memory);
+    // },
+    updateComputeOffering(context, selectedComputeOffering){
+      context.commit('setSelectedOffering', selectedComputeOffering);
+    },
     
     toggleSidebarColor({ commit }, payload) {
       commit("sidebarType", payload);
     },
+
+    // selectedOffering(project) {
+    //   this.$store.commit('setSelectedCPUNumber', project.cpunumber);
+    //   this.$store.commit('setSelectedMemory', project.memory);
+    //   this.selectedComputeOffering = project.name;
+    // },
  
     fetchFirstProject({ commit,  }, userId) {
       console.log(`store.js se call ${userId}`);
-      axios.get(`http://172.16.1.92:8002/api/v2/project/user/${userId}/`)
+      axios.get(`http://172.16.1.56:8002/api/v2/project/user/${userId}/`)
         .then(response => {
           const firstProject = response.data[0];
           commit('setGlobalProjectName', firstProject.project_name);
@@ -121,6 +143,10 @@ export default createStore({
   },
   getters: {
     getUsername: (state) => state.username,
+    getSelectedCPUNumber: (state) => state.selectedCPUNumber,
+    getSelectedMemory: (state) => state.selectedMemory,
   },
+   
+
 });
  

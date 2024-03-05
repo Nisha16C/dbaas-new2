@@ -49,10 +49,14 @@
               <td>{{postgres_version}}</td>           
             </tr>
  
-            <tr>
-              <th>Instance Size</th>
-              <td>2vcpu, 8gb</td>           
-            </tr>
+            <!-- Inside the Cluster Summary Template -->
+<tr>
+  <th>Instance Name</th>
+  <td>{{ selectedComputeOffering }} </td>
+</tr>
+
+
+
  
             <tr>
               <th>Volume Type</th>
@@ -65,8 +69,10 @@
  
             <tr>
               <th>Networking</th>
-              <td>Private</td>           
+              <td>{{backup_method}}</td>           
             </tr>
+
+          
  
           </tbody>
         </table>
@@ -99,7 +105,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['selectedType', 'selectedProvider','postgres_version']),
+    ...mapState(['selectedType', 'selectedProvider','postgres_version','selectedComputeOffering']),
  
   },
 };

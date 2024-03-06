@@ -210,6 +210,7 @@ export default {
             user: this.user_id,
             project: this.project_id,
             provider: this.selectedProvider,
+            
             cluster_type: this.selectedType,
             cluster_name: this.cluster_name,
             postgres_version: this.postgres_version,
@@ -218,6 +219,7 @@ export default {
             provider_secret_key: this.provider_info.secret_key,
             backup_method: this.backup_method
           };
+          console.log(this.fromData)
  
           this.$router.push('/result');
           axios

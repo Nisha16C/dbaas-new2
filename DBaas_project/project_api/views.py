@@ -194,6 +194,10 @@ backupMethod=''
 providerName = ''
 userId = ''
 projectID = ''
+apiEndpoint = ''
+accessKey = ''
+secretKey = ''
+
 
 # Define a logger for cluster-related actions
 cluster_logger = logging.getLogger('cluster_logger')
@@ -209,7 +213,10 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global backupMethod
         global providerName 
         global userId 
-        global projectId 
+        global projectId
+        global apiEndpoint 
+        global accessKey 
+        global secretKey 
 
         username = request.data.get('db_user')
         password = request.data.get('db_password')
@@ -234,6 +241,10 @@ class ClusterViewSet(viewsets.ModelViewSet):
         providerName = provider_name
         userId = user_id
         projectId = project_id
+        apiEndpoint = provider_endpoint
+        accessKey = provider_access_token
+        secretKey = provider_secret_key
+
 
         temp_variables = {
             'username': username,
@@ -241,6 +252,10 @@ class ClusterViewSet(viewsets.ModelViewSet):
             'cluster_name': cluster_name,   
             'postgres_version': database_version,
             'backup_method' : backup_method,
+            'provider_endpoint': provider_endpoint,
+            'provider_access_token ': provider_access_token,
+            'provider_secret_key': provider_secret_key,
+
         }
         print(f'Create function global variable {clusterType} and {userId}')
 
@@ -289,7 +304,10 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     cluster_type=cluster_type,
                     database_version=database_version,
                     backup_method=backup_method,
-                    provider=provider_name
+                    provider=provider_name,
+                    provider_endpoint= provider_endpoint,
+                    provider_access_token = provider_access_token,
+                    provider_secret_key =provider_secret_key,
                 )
                 cluster.save()
                 
@@ -313,7 +331,10 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     cluster_type=cluster_type,
                     database_version=database_version,
                     backup_method=backup_method,
-                    provider=provider_name
+                    provider=provider_name,
+                    provider_endpoint= provider_endpoint,
+                    provider_access_token = provider_access_token,
+                    provider_secret_key =provider_secret_key,
                 )
                 cluster.save()
                 serializer = ClusterSerializers(cluster)
@@ -355,6 +376,9 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global providerName
         global userId
         global projectID
+        global apiEndpoint 
+        global accessKey 
+        global secretKey 
  
         print(f'global variable get pipeline status and artifact start {clusterName}, and {clusterType}, {projectID}')
         # Replace these variables with your actual GitLab project ID and private token
@@ -574,6 +598,9 @@ def get_variables(request):
     cluster_name = temp_variables.get('cluster_name', '')
     postgres_version = temp_variables.get('postgres_version', '')
     backup_method = temp_variables.get('backup_method', '')
+    provider_endpoint = temp_variables.get('provider_endpoint','')
+    provider_access_token = temp_variables.get('provider_access_token','')
+    provider_secret_key = temp_variables.get('provider_secret_key','')
     deleteCluster_name = clusterName
     print(deleteCluster_name)
 
@@ -618,6 +645,9 @@ def display_clusters(request):
             'database_version': cluster.database_version,
             'provider': cluster.provider,
             'backup_method': backup_method,
+            'provider_endpoint': provider_endpoint,
+            'provider_access_token ': provider_access_token,
+            'provider_secret_key': provider_secret_key,
             }}
         clusters_data.append(cluster_data)
 

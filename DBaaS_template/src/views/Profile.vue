@@ -1,4 +1,6 @@
-
+[9:21 AM] Nisha Chaurasiya
+[Yesterday 5:54 pm] Nisha Chaurasiya
+ 
 <template>
   <main>
     <div class="container-fluid">
@@ -14,9 +16,15 @@
       </div>
       <div class="card shadow-lg mt-n6  w-full" >
         <div class="card-body p-3">
+          <!-- Overlay Text "Monitor" -->
+          <div class="overlay-text">
+            <h2 class="mb-0">Database Monitoring</h2>
+          </div>
           <div class="row gx-4">
-      <iframe class="min-vh-100" width="100%" height="100%" :src="embedUrl2" frameborder="0" allowfullscreen></iframe>
-    </div>
+            <!-- Placeholder for the iframe content -->
+            <!-- <div class="iframe-placeholder"></div> -->
+            <iframe class="min-vh-100" width="100%" height="100%" :src="embedUrl2" frameborder="0" allowfullscreen></iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -67,4 +75,22 @@ export default {
   }
 };
 </script>
+ 
+<style scoped>
+.overlay-text {
+  position: absolute;
+  top: 1%;
+  left: 0%;
+  width: 100%;
+  height: 8%;
+  /* transform: translateX(-50%); */
+  text-align: center;
+  color: black; /* Change the text color if needed */
+  background-color: white; /* Set white background color */
+  padding: 10px; /* Optional: Add padding for better visual appearance */
+  border-radius: 8px; /* Optional: Add rounded corners for a softer look */
+  z-index: 2; /* Ensures the text appears on top of other elements */
+}
+ 
+</style>
  

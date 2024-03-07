@@ -402,8 +402,6 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
         print('delete-cluster')
         global clusterName
         clusterName  = request.data.get('cluster_name')
-        provider_name = request.data.get('provider')
-
         
  
         try:
@@ -422,7 +420,7 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
  
             headers = {"PRIVATE-TOKEN" : private_token}
  
-            branch_name = 'destroy-postgres-k8s'  # Replace with the actual branch name for destroy pipeline
+            branch_name = 'destroy'  # Replace with the actual branch name for destroy pipeline
  
             # Trigger the "Destroy" pipeline
             response = trigger_single(base_url, project_id, headers, branch_name)
@@ -469,6 +467,7 @@ def trigger_single(base_url, project_id, headers, branch_name):
    
  
  
+# Status fetch function
 # Status fetch function
 def get_latest_pipeline_statuses(base_url, project_id, headers, count=1):
     response = requests.get(base_url + f"projects/{project_id}/pipelines", headers=headers, verify=False)
@@ -560,29 +559,11 @@ def display_artifacts(request):
   
     return JsonResponse({'artifacts': artifacts_data})
  
-    # Retrieve all saved artifacts from the database
-    artifacts = Db_credentials.objects.all()
- 
-    # Prepare a list to hold artifact data
-    artifacts_data = []
- 
-    for artifact in artifacts:
-        artifact_data = {
-            'clusterName' : artifact.clusterName,
-            'pipeline_id': artifact.pipeline_id,
-            'filename': artifact.filename,
-            'content': artifact.content,
-            
-        }
-        artifacts_data.append(artifact_data)
- 
-  
-    return JsonResponse({'artifacts': artifacts_data})
- 
  
  
 def get_variables(request):
     global temp_variables
+    global accessKey
  
     # Your code here, using the retrieved values
     username = temp_variables.get('username', '')
@@ -591,7 +572,7 @@ def get_variables(request):
     postgres_version = temp_variables.get('postgres_version', '')
     backup_method = temp_variables.get('backup_method', '')
     provider_endpoint = temp_variables.get('provider_endpoint','')
-    provider_access_token = temp_variables.get('provider_access_token','')
+    provider_access_token = accessKey
     provider_secret_key = temp_variables.get('provider_secret_key','')
     deleteCluster_name = clusterName
     print(deleteCluster_name)

@@ -79,7 +79,7 @@ export default {
  
     methods: {
         RedirectclusterPage(){
-            this.$router.push("/overview");
+            this.$router.push("/Clusters");
         },
         logout() {
             console.log("logout");

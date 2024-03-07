@@ -8,3 +8,8 @@
 2024-02-16 07:02:36,299 level=INFO user=ashish clusterName=ha-test msg=ha-test deleted 
 2024-02-16 11:36:10,473 level=INFO user=ashish clusterName=ha-test msg=ha-test deleted 
 2024-03-05 09:18:18,065 level=INFO user=aastha clusterName=test msg=test deleted 
+2024-03-06 10:30:24,844 level=INFO user=aastha clusterName=k045 msg=k045 deleted 
+2024-03-06 10:36:07,759 level=INFO user=aastha clusterName=k045 msg=k045 deleted 
+2024-03-06 11:02:05,710 level=INFO user=aastha clusterName=cluster-cloud msg=cluster-cloud deleted 
+2024-03-06 11:04:48,317 level=INFO user=aastha clusterName=cluster45 msg=cluster45 deleted 
+2024-03-06 11:15:16,801 level=INFO user=aastha clusterName=k890 msg=k890 deleted 

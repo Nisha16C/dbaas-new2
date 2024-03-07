@@ -13,19 +13,19 @@ from django.http import JsonResponse
 import time
 import logging
 from datetime import datetime
-
+ 
 # from rest_framework.decorators import action
-
-
+ 
+ 
 # Define a logger for project-related actions
 project_logger = logging.getLogger('project_logger')
 rename_project_logger = logging.getLogger('rename_project_logger')
-
-
+ 
+ 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = projectSerializers
-
+ 
     def create(self, request, *args, **kwargs):
         user_id = request.data.get('user')
         project_name = request.data.get('project_name')
@@ -33,50 +33,50 @@ class ProjectViewSet(viewsets.ModelViewSet):
         if not user_id:
             return Response({
                 "error":"user_id is required "
-
+ 
             },status = status.HTTP_400_BAD_REQUEST)
         if not project_name:            
             return Response({
                 "error":"project name is required "
-
+ 
             },status = status.HTTP_400_BAD_REQUEST)   
-
+ 
         existing_project = Project.objects.filter(project_name= project_name).exists()
         print (existing_project)
-
+ 
         if existing_project == True:
             return Response({
                 "error":"project Already exists"
-            },status = status.HTTP_400_BAD_REQUEST) 
+            },status = status.HTTP_400_BAD_REQUEST)
         try:
             user = User.objects.get(pk= user_id)
             print (user)
             project = Project.objects.create(user=user, project_name=project_name)
-
+ 
         except User.DoestNotExist:
             return Response({"error": "User with the provided ID does not exist."},
-                            status=status.HTTP_404_NOT_FOUND) 
-
-        # project= Project(user= user, project_name = project_name) 
+                            status=status.HTTP_404_NOT_FOUND)
+ 
+        # project= Project(user= user, project_name = project_name)
         project.save()
-
+ 
           # Log project creation information with username, project_name, date, and time
         log_entry = f"user={user.username} projectName={project.project_name} msg={project.project_name} created "
-        project_logger.info(log_entry) 
-
+        project_logger.info(log_entry)
+ 
         serializer= projectSerializers(project)
-
+ 
         return Response(
             serializer.data,status = status.HTTP_201_CREATED)   
     
-
-
-
+ 
+ 
+ 
     @action(detail=True, methods=['PUT'])
-    def rename_project(self, request, pk=None): 
+    def rename_project(self, request, pk=None):
         """
         Rename a project by its ID.
-
+ 
         Expected JSON payload:
         {
             "new_project_name": "new_name"
@@ -84,14 +84,14 @@ class ProjectViewSet(viewsets.ModelViewSet):
         """
         project = self.get_object()
         new_project_name = request.data.get('new_project_name')
-
+ 
         if not new_project_name:
             return Response({
                 "error": "new_project_name is required"
             }, status=status.HTTP_400_BAD_REQUEST)
-
+ 
         existing_project = Project.objects.exclude(pk=project.id).filter(project_name=new_project_name).exists()
-
+ 
         if existing_project:
             return Response({
                 "error": "Project with the new name already exists"
@@ -99,17 +99,17 @@ class ProjectViewSet(viewsets.ModelViewSet):
         # Log information before the project is renamed
         # log_entry_before_rename = f"BeforeProjectRename - User={project.user.username}, ProjectId={project.id}, ProjectName={project.project_name}, msg={ project.project_name } is a old name"
         # rename_project_logger.info(log_entry_before_rename)
-
+ 
         project.project_name = new_project_name
         project.save()
-
+ 
         # Log information after the project is renamed
         log_entry_after_rename = f"user={project.user.username} projectname={project.project_name} msg={ project.project_name } renamed"
         rename_project_logger.info(log_entry_after_rename)
-
+ 
         serializer = projectSerializers(project)
         return Response(serializer.data, status=status.HTTP_200_OK)         
-
+ 
 # Compute offering
 from rest_framework.views import APIView
 import urllib
@@ -119,7 +119,7 @@ import urllib.request
 import json
 import hashlib
 import hmac
-
+ 
     
 class ComputeOfferingsAPIView(APIView):
     def get(self, request):
@@ -131,32 +131,32 @@ class ComputeOfferingsAPIView(APIView):
             'apikey': 'i6g5Skzgme-1TdBCWE-ViOiQYSSsZfMahUkJXc-nhJZDHWFE_xQz98-jOqD7elGo7_TGOPvLx0MpalfSuZpidA'
         }
         secret_key = 'POJLZ1-QnNVmnkxSwTUHmOqlXTnQY7PXWDYnXEXfEsxXUMzyDGFBaKcV8Bshe9Vg-SMIY0ELE84wU7plndf4fQ'.encode('utf-8')
-
+ 
         # Build the request string
         request_str = '&'.join(['='.join([k, urllib.parse.quote_plus(request_data[k])]) for k in request_data.keys()])
-
+ 
         # Compute the signature with hmac, do a 64-bit encoding, and URL encoding
         sig_str = '&'.join(['='.join([k.lower(), urllib.parse.quote_plus(request_data[k]).lower().replace('+', '%20')])
                             for k in sorted(request_data.keys())])
-
+ 
         sig = urllib.parse.quote_plus(
             base64.b64encode(hmac.new(secret_key, sig_str.encode('utf-8'), hashlib.sha1).digest()).
             strip())
-
+ 
         req = baseurl + request_str + '&signature=' + sig
-
+ 
         # Make the API request
         try:
             res = urllib.request.urlopen(req)
             response_data = json.loads(res.read().decode('utf-8'))
-
+ 
             # Extract and return relevant information in JSON format
             if 'listserviceofferingsresponse' in response_data:
                 service_offerings = response_data['listserviceofferingsresponse'].get('serviceoffering', [])
-
+ 
                 # Create a list to store compute offerings
                 compute_offerings = []
-
+ 
                 # Add data to the list
                 for offering in service_offerings:
                     compute_offerings.append({
@@ -165,18 +165,16 @@ class ComputeOfferingsAPIView(APIView):
                         'cpuspeed': offering['cpuspeed'],
                         'memory': offering['memory']
                     })
-
+ 
                 return Response({'compute_offerings': compute_offerings})
             else:
                 error_message = "Error: Unable to fetch compute offerings."
         except Exception as e:
             error_message = f"Error: {str(e)}"
-
+ 
         return Response({'error': error_message}, status=500)   
     
-
-
-
+ 
 @api_view(['GET'])
 def get_projects_by_user(request, user_id):
     projects = Project.objects.filter(user_id=user_id)
@@ -185,7 +183,7 @@ def get_projects_by_user(request, user_id):
  
    
 # CLUSTER CREATE API GET CLUSTER BY USER ID AND & PROJECT I
-
+ 
 temp_variables = {}
 clusterName = ''
 clusterType = ''
@@ -197,27 +195,27 @@ projectID = ''
 apiEndpoint = ''
 accessKey = ''
 secretKey = ''
-
-
+ 
+ 
 # Define a logger for cluster-related actions
 cluster_logger = logging.getLogger('cluster_logger')
 class ClusterViewSet(viewsets.ModelViewSet):
     queryset = Cluster.objects.all()
     serializer_class = ClusterSerializers
-
+ 
     def create(self, request, *args, **kwargs):
-        global temp_variables 
-        global clusterName 
-        global clusterType 
-        global databaseVersion 
+        global temp_variables
+        global clusterName
+        global clusterType
+        global databaseVersion
         global backupMethod
-        global providerName 
-        global userId 
+        global providerName
+        global userId
         global projectId
-        global apiEndpoint 
-        global accessKey 
-        global secretKey 
-
+        global apiEndpoint
+        global accessKey
+        global secretKey
+ 
         username = request.data.get('db_user')
         password = request.data.get('db_password')
         user_id = request.data.get('user')
@@ -226,13 +224,14 @@ class ClusterViewSet(viewsets.ModelViewSet):
         cluster_type = request.data.get('cluster_type')
         database_version = request.data.get('postgres_version')
         backup_method = request.data.get('backup_method')
-
+ 
         provider_name = request.data.get('provider')
         provider_endpoint = request.data.get('provider_endpoint')
         provider_access_token = request.data.get('provider_access_token')
         provider_secret_key = request.data.get('provider_secret_key')
-
-
+ 
+        print(f'{provider_endpoint} and {provider_access_token} and {provider_secret_key}')
+ 
         # Adding global variable
         clusterName = cluster_name
         clusterType = cluster_type
@@ -244,8 +243,8 @@ class ClusterViewSet(viewsets.ModelViewSet):
         apiEndpoint = provider_endpoint
         accessKey = provider_access_token
         secretKey = provider_secret_key
-
-
+ 
+ 
         temp_variables = {
             'username': username,
             'password': password,
@@ -255,21 +254,20 @@ class ClusterViewSet(viewsets.ModelViewSet):
             'provider_endpoint': provider_endpoint,
             'provider_access_token ': provider_access_token,
             'provider_secret_key': provider_secret_key,
-
+ 
         }
-        print(f'Create function global variable {clusterType} and {userId}')
-
+ 
         # Check if cluster with the same name already exists in the project
         existing_cluster = Cluster.objects.filter(project=project_id, cluster_name=cluster_name).exists()
-
+ 
         if existing_cluster:
             return Response({"error": "Cluster with the same name already exists in the project"}, status=status.HTTP_400_BAD_REQUEST)
-
+ 
         try:
             user = User.objects.get(pk=user_id)
             project = Project.objects.get(pk=project_id)
             # provider = Provider.objects.get(provider_name=provider_name, user=user)
-
+ 
         except User.DoesNotExist:
             return Response({"error": "User with the provided ID does not exist."}, status=status.HTTP_404_NOT_FOUND)
         except Project.DoesNotExist:
@@ -281,17 +279,17 @@ class ClusterViewSet(viewsets.ModelViewSet):
         project_id = "1"
         private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
         base_url = "http://gitlab-ce.os3.com/api/v4/"
-
+ 
         # project_id = "132"
         # private_token = "GDNoxgBaU_vQ_Q6QzjyQ"
         # base_url = "https://gitlab.os3.com/api/v4/"
-
-
+ 
+ 
         headers = {"PRIVATE-TOKEN": private_token}
         cluster_type1 = False
      
-
-
+ 
+ 
         if provider_name == 'Kubernetes' and cluster_type == 'Standalone':
             print ("k8s pipeline")
             response = trigger_single(base_url, project_id, headers, 'deploy-postgres-k8s')
@@ -305,9 +303,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     database_version=database_version,
                     backup_method=backup_method,
                     provider=provider_name,
-                    provider_endpoint= provider_endpoint,
-                    provider_access_token = provider_access_token,
-                    provider_secret_key =provider_secret_key,
+                    
                 )
                 cluster.save()
                 
@@ -317,9 +313,9 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 cluster_logger.info(log_entry)
               
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-
+ 
+ 
+ 
         elif provider_name == 'Cloudstack' and cluster_type == 'Standalone':
             response = trigger_single(base_url, project_id, headers, 'infra-and-db')
             print("CloudStack branch trigger.....")
@@ -332,9 +328,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     database_version=database_version,
                     backup_method=backup_method,
                     provider=provider_name,
-                    provider_endpoint= provider_endpoint,
-                    provider_access_token = provider_access_token,
-                    provider_secret_key =provider_secret_key,
+                    
                 )
                 cluster.save()
                 serializer = ClusterSerializers(cluster)
@@ -346,22 +340,20 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+ 
     
         
     @action(detail=False, methods=['get'])
     def check_cluster_exists(self, request, *args, **kwargs):
-        """
-        Check if a cluster with the given name already exists in the project.
-        """
+ 
         cluster_name = request.query_params.get('cluster_name', None)
         project_id = request.query_params.get('project_id', None)
-
+ 
         if not cluster_name or not project_id:
             return Response({"error": "Cluster name and project ID are required parameters."}, status=status.HTTP_400_BAD_REQUEST)
-
+ 
         existing_cluster = Cluster.objects.filter( cluster_name=cluster_name).exists()
-
+ 
         if existing_cluster:
             return Response({"exists": True}, status=status.HTTP_200_OK)
         else:
@@ -376,43 +368,44 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global providerName
         global userId
         global projectID
-        global apiEndpoint 
-        global accessKey 
-        global secretKey 
+        # global apiEndpoint
+        # global accessKey
+        # global secretKey
  
-        print(f'global variable get pipeline status and artifact start {clusterName}, and {clusterType}, {projectID}')
         # Replace these variables with your actual GitLab project ID and private token
         project_id = "1"
         private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
         base_url = "http://gitlab-ce.os3.com/api/v4/"
-
-
+ 
+ 
         headers = {"PRIVATE-TOKEN": private_token}
         pipeline_count = 1
-
+ 
         # Get the statuses of the latest pipelines
         latest_pipeline_statuses = get_latest_pipeline_statuses(base_url, project_id, headers, pipeline_count)
-
+ 
         # Get the artifacts for each of the latest pipelines
         all_artifacts = []
         for pipeline_status in latest_pipeline_statuses:
             pipeline_id = pipeline_status["id"]
             artifacts = get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName,clusterType,databaseVersion,providerName,userId,projectID)
             all_artifacts.append({"status": pipeline_status["status"], "artifacts": artifacts})
-
+ 
         return JsonResponse({"pipelines": all_artifacts})
     
 # Define a logger for cluster-related actions
 deletecluster_logger = logging.getLogger('deletecluster_logger')    
-
+ 
 class ClusterDeleteViewSet(viewsets.ModelViewSet):
    
-    def create(self , request, *args, **kwargs): 
+    def create(self , request, *args, **kwargs):
         print('delete-cluster')
-        global clusterName 
+        global clusterName
         clusterName  = request.data.get('cluster_name')
-        
+        provider_name = request.data.get('provider')
 
+        
+ 
         try:
              # Check if the cluster exists in the database
             cluster = Cluster.objects.get(cluster_name=clusterName)
@@ -420,20 +413,20 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             log_entry = f"user={cluster.user.username} clusterName={cluster.cluster_name} msg={cluster.cluster_name} deleted"
             deletecluster_logger.info(log_entry)
             
-
+ 
             # Delete the cluster from the databas
         
             project_id = "1"
             private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
             base_url = "http://gitlab-ce.os3.com/api/v4/"
-
+ 
             headers = {"PRIVATE-TOKEN" : private_token}
-
-            branch_name = 'destroy'  # Replace with the actual branch name for destroy pipeline
-
+ 
+            branch_name = 'destroy-postgres-k8s'  # Replace with the actual branch name for destroy pipeline
+ 
             # Trigger the "Destroy" pipeline
             response = trigger_single(base_url, project_id, headers, branch_name)
-
+ 
             if response == 200:
                 cluster.delete()
                 return Response({"message": "Destroy pipeline triggered successfully."},
@@ -444,39 +437,38 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
         except Cluster.DoesNotExist:
             return Response({"error": "Cluster not found."},
                             status=status.HTTP_404_NOT_FOUND)
-
-
-
+ 
+ 
 def trigger_single(base_url, project_id, headers, branch_name):
     formData = {
         "ref": branch_name,
     }
     # print(formData)
-
+ 
     response = requests.post(base_url + f"projects/{project_id}/pipeline", headers=headers, json=formData,
                              verify=False)
-
+ 
     if response.status_code != 201:
         return {"error": f"Failed to create cluster. Status code: {response.status_code}"}
-
+ 
     pipeline_id = response.json().get("id")
     pipeline_status = "pending"
-
+ 
     while pipeline_status in ["pending", "running"]:
         time.sleep(1)
-
+ 
         pipeline_info_response = requests.get(base_url + f"projects/{project_id}/pipelines/{pipeline_id}",
                                               headers=headers, verify=False)
         pipeline_info = pipeline_info_response.json()
         pipeline_status = pipeline_info.get("status")
-
+ 
     if pipeline_status == "success":
         return 200
     else:
         return {"error": f"Pipeline failed with status: {pipeline_status}"}
    
-
-
+ 
+ 
 # Status fetch function
 def get_latest_pipeline_statuses(base_url, project_id, headers, count=1):
     response = requests.get(base_url + f"projects/{project_id}/pipelines", headers=headers, verify=False)
@@ -570,10 +562,10 @@ def display_artifacts(request):
  
     # Retrieve all saved artifacts from the database
     artifacts = Db_credentials.objects.all()
-
+ 
     # Prepare a list to hold artifact data
     artifacts_data = []
-
+ 
     for artifact in artifacts:
         artifact_data = {
             'clusterName' : artifact.clusterName,
@@ -583,15 +575,15 @@ def display_artifacts(request):
             
         }
         artifacts_data.append(artifact_data)
-
+ 
   
     return JsonResponse({'artifacts': artifacts_data})
-
-
-
+ 
+ 
+ 
 def get_variables(request):
     global temp_variables
-
+ 
     # Your code here, using the retrieved values
     username = temp_variables.get('username', '')
     password = temp_variables.get('password', '')
@@ -603,39 +595,42 @@ def get_variables(request):
     provider_secret_key = temp_variables.get('provider_secret_key','')
     deleteCluster_name = clusterName
     print(deleteCluster_name)
-
+ 
     data = {
         'username': username,
         'password': password,
         'database_name': cluster_name,
         'postgres_version': postgres_version,
         'backup_method': backup_method,
-        'delete-cluster' : "test-pr",
+        'delete-cluster' : clusterName,
+        'endpoint': provider_endpoint,
+        'secret-key': provider_secret_key,
+        'access-key': provider_access_token
     }
-
+ 
     return JsonResponse(data)
-
+ 
 def extract_host(content):
     import re
     match = re.search(r'HOST:\s*([\d\.]+)', content)
     if match:
         return match.group(1)
     return None
-
+ 
 def display_clusters(request):
     artifacts = Db_credentials.objects.all()
-
+ 
     # Prepare a list to hold artifact data
     artifacts_data = []
-
+ 
     for artifact in artifacts:
         host_ip = extract_host(artifact.content)
-
+ 
     clusters = Cluster.objects.all()
-
+ 
     # Prepare a list to hold cluster data
     clusters_data = []
-
+ 
     for cluster in clusters:
         cluster_data = {
             'targets': [f"{host_ip}:9187"],
@@ -650,40 +645,40 @@ def display_clusters(request):
             'provider_secret_key': provider_secret_key,
             }}
         clusters_data.append(cluster_data)
-
+ 
     result_data = clusters_data
-
+ 
     # Return the combined data as JSON response
     return JsonResponse(result_data,safe=False)
-
-
+ 
+ 
 from .serializers import ClusterSerializers
 @api_view(['GET'])
 def get_clusters_details(request):
     clusters = Cluster.objects.filter(user_id=user_id)
     serializer = ClusterSerializers(clusters, many=True)
     return Response(serializer.data)
-
-
+ 
+ 
 @api_view(['GET'])
 def get_clusters_by_user(request, user_id):
     clusters = Cluster.objects.filter(user_id=user_id)
     serializer = ClusterSerializers(clusters, many=True)
     return Response(serializer.data)
-
-
+ 
+ 
 @api_view(['GET'])
 def get_clusters_by_project(request, project_id):
     clusters = Cluster.objects.filter(project_id=project_id)
     serializer = ClusterSerializers(clusters, many=True)
     return Response(serializer.data)
-
-
+ 
+ 
 from rest_framework import generics
 from rest_framework.response import Response
 from .models import Db_credentials
 from .serializers import DbcredentialsSerializer
-
+ 
 class ContentByClusterNameView(generics.ListAPIView):
     serializer_class = DbcredentialsSerializer
  
@@ -691,3 +686,4 @@ class ContentByClusterNameView(generics.ListAPIView):
         cluster_name = self.kwargs['cluster_name']
         return Db_credentials.objects.filter(cluster_name=cluster_name)
         
+ 

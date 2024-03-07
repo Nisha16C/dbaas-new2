@@ -47,9 +47,9 @@
   </template>
   
 <script>
-
+ 
 import axios from "axios";
-
+ 
 export default {
     
     data() {
@@ -72,10 +72,10 @@ export default {
             stopFetching: false,
             isPopupVisible: false,
             popupMessage: "",showcred: false,
-
+ 
         };
     },
-
+ 
     methods: {
         RedirectclusterPage(){
             this.$router.push("/overview");
@@ -94,40 +94,40 @@ export default {
         toggleDarkMode() {
             this.toggleDark();
         },
-
+ 
         toggleDropdown() {
-
+ 
             this.isDropdownOpen = !this.isDropdownOpen
         },
-
+ 
         userToggle() {
             this.UserToggle = !this.UserToggle;
         },
-
+ 
         async updateLatestPipelineStatusAndArtifacts() {
             if (this.stopFetching) {
                 return;
             }
             const url = 'http://172.16.1.56:8002/api/v2/get_pipeline_status/';
-
+ 
             try {
                 const response = await axios.get(url);
                 const data = response.data;
-
+ 
                 // Update the component's data properties based on the received data
                 this.averageProgress = this.calculateAverageProgress(data.pipelines);
-
+ 
                 this.isCompleted = this.averageProgress === 100;
                 this.isFailed = this.averageProgress === 99;
                 this.completionText = this.isCompleted ? 'Completed' : (this.isFailed ? 'Failed' : 'Loading...');
                 this.completionColor = this.isCompleted ? 'green' : (this.isFailed ? 'red' : '');
-
+ 
                 this.latestPipelineStatus = data.pipelines.map(pipeline => `Database Deletion Status : ${pipeline.status}`);
                 this.artifacts = this.extractArtifacts(data.pipelines);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
-
+ 
             if (this.isCompleted) {
                 console.log("Success");
                 this.showSuccessPopup();
@@ -135,13 +135,13 @@ export default {
                 console.log("Failed");
                 this.showFailedPopup();
             }
-
+ 
             setTimeout(this.updateLatestPipelineStatusAndArtifacts, 5000);
         },
         calculateAverageProgress(pipelines) {
             let totalProgress = 0;
             let numPipelines = pipelines.length;
-
+ 
             pipelines.forEach(pipeline => {
                 switch (pipeline.status) {
                     case 'created':
@@ -165,16 +165,16 @@ export default {
                         break;
                 }
             });
-
+ 
             // Calculate the average progress
             let averageProgress =  Math.floor(totalProgress / numPipelines);
-
+ 
             return averageProgress;
         },
-
+ 
         extractArtifacts(pipelines) {
             const artifacts = [];
-
+ 
             pipelines.forEach(pipeline => {
                 pipeline.artifacts.forEach(artifact => {
                     
@@ -186,7 +186,7 @@ export default {
                     }
                 });
             });
-
+ 
             this.extractedArtifacts = artifacts;
         },
         showSuccessPopup() {
@@ -199,7 +199,7 @@ export default {
                 this.$router.push("/Clusters");
             }, 10000);
         },
-
+ 
         showFailedPopup() {
             console.log("faild");
             this.popupMessage = "Installation failed. Please try again.";
@@ -208,7 +208,7 @@ export default {
             setTimeout(() => {
                 
                 // Redirect to the overview page here
-                this.$router.push("/overview");
+                this.$router.push("/Clusters");
             }, 10000);
         },
         addLineBreaks(text) {
@@ -216,13 +216,13 @@ export default {
       return text.replace(/\n/g, '<br>');
     },
      
-
+ 
     },
-
+ 
     created(){
         this.Username = sessionStorage.getItem('username');
     },
-
+ 
     computed: {
         progress() {
             return this.averageProgress + '%'
@@ -252,12 +252,12 @@ export default {
         console.log("before-unmount");
         window.location.reload();
         // this.stopFetching = true
-
+ 
     }
-
+ 
 };
 </script>
-
+ 
 <style scoped>
 .blink {
     animation:
@@ -267,7 +267,7 @@ export default {
     font-family:
         sans-serif;
 }
-
+ 
 @keyframes blinker {
     50% {
         opacity:

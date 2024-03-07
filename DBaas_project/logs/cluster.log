@@ -13,3 +13,9 @@
 2024-02-20 07:06:30,583 level=INFO user=ashish clustername=hkjsahdj provider=Kubernetes project=ashish-first-project msg=hkjsahdj created 
 2024-02-20 12:28:07,246 level=INFO user=ashish clustername=test-k8s provider=Kubernetes project=ashish-first-project msg=test-k8s created 
 2024-03-05 09:03:45,592 level=INFO user=aastha clustername=test provider=Cloudstack project=aasthagupta1 msg=test created 
+2024-03-06 08:56:12,919 level=INFO user=aastha clustername=aks provider=Kubernetes project=aasthagupta1 msg=aks created 
+2024-03-06 10:06:45,669 level=INFO user=aastha clustername=k045 provider=Kubernetes project=aasthagupta1 msg=k045 created 
+2024-03-06 10:49:35,318 level=INFO user=aastha clustername=c89 provider=Kubernetes project=aasthagupta1 msg=c89 created 
+2024-03-06 10:53:28,089 level=INFO user=aastha clustername=cluster45 provider=Cloudstack project=aasthagupta1 msg=cluster45 created 
+2024-03-06 11:01:07,490 level=INFO user=aastha clustername=cluster-cloud provider=Cloudstack project=aasthagupta1 msg=cluster-cloud created 
+2024-03-06 11:14:57,429 level=INFO user=aastha clustername=k890 provider=Kubernetes project=aasthagupta1 msg=k890 created 

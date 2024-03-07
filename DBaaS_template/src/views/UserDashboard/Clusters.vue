@@ -24,7 +24,7 @@
             </div>
           </div>
 
-          <!-- <div class="col-lg-3 col-md-12 col-12 mx-auto ">
+          <!-- <div class="col-lg-3 col-md-12 col-12 mx-auto custom-right-align">
             <div class="mb-4 card">
               <div class="p-3 card-body">
                 <div class="px-4">
@@ -43,31 +43,42 @@
           
 
 
-          <div class="col-lg-3 col-md-12 col-12 mx-auto">
+          <div class="col-lg-3 col-md-12 col-12  ">
     <div class="mb-4 card">
-      <div class="p-3 card-body">
-        <div class="px-4">
-          <div class="mb-2 mt-2">
-            <select class="form-select" v-model="selectedProject" @change="fetchClustersByProject">
-              <option value="">All Projects</option>
-              <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.project_name }}</option>
-            </select>
-          </div>
+        <div class="p-3 card-body">
+            <div class="px-4">
+                <div class="mb-2 mt-2">
+                    <select class="form-select" v-model="selectedProject" @change="fetchClustersByProject">
+                        <option value="">All Projects</option>
+                        <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.project_name }}</option>
+                    </select>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+
  
-          <div class="py-4 container-fluid">
-            <div class="row">
-              <div class="col-12">
-                <clusters-table :clusters="clusterData" />
+  <div class="py-4 container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-4 card">
+              <div class="card-body px-0 pt-0 pb-2">
+                <div class="text-center"  style= "height: 100px;" v-if="clusters.length === 0">
+                  <span class="text-gray-400 text-2xl mt-5">No Cluster found in the Selected Project</span>
+                </div>
+
+                <div v-else class="table-responsive p-0">
+                  <clusters-table :clusters="clusterData" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  </div>
   </div>
 </template>
  
@@ -164,17 +175,7 @@ export default {
  
     },
  
-    async fetchclusters_list() {
-      try {
-        // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.56:8002/api/v2/cluster/');
- 
-        // Update the clusters_list data with the fetched data
-        this.clusters_list = response.data;
-      } catch (error) {
-        console.error('Error fetching clusters_list:', error);
-      }
-    },
+   
  
     fetchProjects() {
       axios.get(`http://172.16.1.56:8002/api/v2/project/user/${this.user_id}/`)
@@ -186,7 +187,10 @@ export default {
     fetchClusters() {
       axios.get(`http://172.16.1.56:8002/api/v2/cluster/user/${this.user_id}/`)
         .then(response => {
-          this.clusters = response.data;
+          this.clusterData = response.data;
+          console.log(response.data);
+          this.stats.money.value = this.clusterData.length
+
           this.loading = false;
         });
     },
@@ -210,4 +214,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+    .custom-right-align {
+        direction: rtl;
+        text-align: right;
+    }
+</style>
+
  

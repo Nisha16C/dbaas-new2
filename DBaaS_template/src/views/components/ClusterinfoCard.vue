@@ -1,11 +1,4 @@
-[9:42 AM] Ashish Sahu
-phir kuch files update karni hai ab
- 
- 
- 
-ClusterinfoCard.vue
- 
- 
+[5:22 AM] Ashish Sahu
  
 <template>
   <div class="card mt-4">
@@ -52,6 +45,23 @@ ClusterinfoCard.vue
                   />
                 </li>&nbsp; &nbsp; &nbsp;
                 <li class="nav-item">
+                  <router-link to="/Cconfiguration"
+                    class="nav-link "     
+                    :class="
+                      getRoute() === 'Cconfiguration'
+                        ? 'text-success'
+                        : 'text-muted'
+                    "
+                    >DB Configuration </router-link>
+                    <hr
+                    :class="
+                      getRoute() === 'Cconfiguration'
+                        ? 'text-success'
+                        : 'text-muted'
+                    "
+                  />
+                </li>&nbsp; &nbsp; &nbsp;
+                <li class="nav-item">
                   <router-link
                     class="nav-link"
                     :class="
@@ -71,18 +81,7 @@ ClusterinfoCard.vue
                   />
                 </li>
                 &nbsp; &nbsp; &nbsp;
-                <li class="nav-item">
-                  <router-link to="/Cconfiguration"
-                    class="nav-link "     
-                    :class="
-                      getRoute() === 'Cconfiguration'
-                        ? 'text-success'
-                        : 'text-muted'
-                    "
-                    >DB Configuration </router-link>
-                  <hr />
-                </li>
-                &nbsp; &nbsp; &nbsp;
+       
                 <li class="nav-item">
                   <a href="#" class="nav-link disabled" aria-disabled="true"
                     >Additional Settings</a

@@ -1,4 +1,5 @@
-
+[12:05 PM] Ashish Sahu
+ 
 <template>
   <div class="card h-100 mb-4">
     <div class="card-header pb-0 px-3">
@@ -51,27 +52,27 @@
  
             <!-- Inside the Cluster Summary Template -->
 <tr>
-  <th>Instance Name</th>
+  <th>Instance Type</th>
   <td>{{ selectedComputeOffering }} </td>
 </tr>
-
-
-
+ 
+ 
+ 
  
             <tr>
               <th>Volume Type</th>
-              <td>General Purpose SSD(gp3)</td>           
+              <td>General Purpose HDD(gp3)</td>           
             </tr>
             <tr>
               <th>Volume Properties</th>
-              <td>4 Gi, 3000 IOPS, 125 Mb/s Disk</td>           
+            <td>{{ selectedStorageOffering }} Gi, 3000 IOPS, 125 Mb/s Disk</td>           
             </tr>
  
             <tr>
               <th>Networking</th>
-              <td>{{backup_method}}</td>           
+              <td> Private </td>           
             </tr>
-
+ 
           
  
           </tbody>
@@ -105,7 +106,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['selectedType', 'selectedProvider','postgres_version','selectedComputeOffering']),
+    ...mapState(['selectedType', 'selectedProvider','postgres_version','selectedComputeOffering','selectedStorageOffering']),
  
   },
 };

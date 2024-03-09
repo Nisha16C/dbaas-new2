@@ -1,4 +1,5 @@
-
+[5:24 AM] Ashish Sahu
+ 
 <template>
   <div class="card">
     <div class="card-header pb-0 px-3">
@@ -62,7 +63,7 @@
             </select>
             <!-- Error message for database version -->
           <div v-if="errorDatabaseVersion" class="text-red-500 mt-2">{{ errorDatabaseVersion }}</div>
-
+ 
           <!-- <div class="form-group">
             <label for="Compute_Offering">Compute Offering</label>
             <select class="form-select" aria-label="Default select example" v-model="selectedComputeOffering">
@@ -70,7 +71,7 @@
             </select>
           </div> -->
             
-
+ 
           <h6 class="mb-3 mt-3 text-sm">Backup Method</h6>
             <select class="form-select" aria-label="Default select example" @change="updateMethod" v-model="backup_method">
               <option value="nfs" selected>NFS</option>
@@ -81,8 +82,7 @@
       </ul>
  
       <argon-button @click="createCluster" color="success" size="md" variant="gradient">
-        Create Cluster
-      </argon-button>
+        Create Cluster     </argon-button>
     </div>
   </div>
 </template>
@@ -103,7 +103,7 @@ export default {
       postgres_version: '',
       cluster_name: '',
       computeOfferings: [],  // New property to store compute offerings
-      selectedComputeOffering: '', 
+     
      
       user_id: '',
       provider_info: '',
@@ -118,37 +118,34 @@ export default {
       Username: ''
     };
   },
-
+ 
   created() {
     this.Username = sessionStorage.getItem('username');
     this.user_id = sessionStorage.getItem('user_id');
-    this.fetchComputeOfferings();
+    // this.fetchComputeOfferings();
   },
-
+ 
   methods: {
     ...mapActions(['updateSelectedVersion']),
     updateVersion() {
       this.updateSelectedVersion(this.postgres_version);
     },
-    ...mapActions(['updateSelectedMethod']),
-    updateMethod() {
-      this.updateSelectedMethod(this.backup_method);
-    },
-
+    // ...mapActions(['updateSelectedMethod']),
+    // updateMethod() {
+    //   this.updateSelectedMethod(this.backup_method);
+    // },
+ 
     checkClusterNameExists() {
-
-      console.log(`project id and name ${this.project_id} ${this.project_name}`)
-        // Reset error message
         this.errorClusterNameExists = '';
  
         if (!this.cluster_name) {
-          // No need to check if the cluster name is empty
+ 
           return;
         }
  
         // Check if cluster name already exists
         axios
-        .get(`http://172.16.1.56:8002/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
+        .get(`http://172.16.1.92:8002/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
           .then((response) => {
             if (response.data.exists) {
               // Cluster name already exists
@@ -198,12 +195,11 @@ export default {
           }, 5000);
           return;
         }
-        // this.$router.push('/result');
         axios
         .get(`http://172.16.1.56:8002/api/v3/providers/by-username-and-name/${this.Username}/${this.selectedProvider}/`)
         .then((response)=>{
           this.provider_info = response.data;
-          console.log(response.data);
+          
           const fromData = {
             db_user: this.db_user,
             db_password: this.db_password,
@@ -212,6 +208,8 @@ export default {
             provider: this.selectedProvider,
             
             cluster_type: this.selectedType,
+            computeOffering: this.selectedComputeOffering,
+            storageOffering: this.selectedStorageOffering,
             cluster_name: this.cluster_name,
             postgres_version: this.postgres_version,
             provider_endpoint: this.provider_info.provider_url,
@@ -219,14 +217,14 @@ export default {
             provider_secret_key: this.provider_info.secret_key,
             backup_method: this.backup_method
           };
-          console.log(this.fromData)
+          
  
           this.$router.push('/result');
           axios
             .post(`http://172.16.1.56:8002/api/v2/cluster/`, fromData)
-            .then((response) => {
-              console.log(response)
-               console.log("CLuster creation successfull");
+            .then(() => {
+              
+               
             })
             .catch((error) => {
               console.log(error);
@@ -234,7 +232,7 @@ export default {
             });
         })       
     },
-
+ 
     fetchComputeOfferings() {
       axios
         .get('http://172.16.1.56:8002/api/v2/compute_offerings/')
@@ -249,9 +247,13 @@ export default {
  
  
   computed: {
-    ...mapState(['selectedType', 'selectedProvider','postgres_version','project_name', 'project_id','backup_method']),
+    ...mapState(['selectedType','selectedComputeOffering', 'selectedProvider','postgres_version','project_name', 'project_id']),
      
   },
 };
 </script>
  
+ 
+ 
+ 
+CsettingCard.vue

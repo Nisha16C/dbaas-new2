@@ -208,7 +208,7 @@ export default {
             setTimeout(() => {
                 
                 // Redirect to the overview page here
-                this.$router.push("/Clusters");
+                this.$router.push("/overview");
             }, 10000);
         },
         addLineBreaks(text) {

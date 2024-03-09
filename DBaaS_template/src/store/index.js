@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import axios  from "axios";
-
+ 
 export default createStore({
   state: {
     hideConfigButton: false,
@@ -13,8 +13,8 @@ export default createStore({
     isNavFixed: false,
     isAbsolute: false,
     showNavs: true,
-
-    backup_method:'',
+ 
+    // backup_method:'',
     showSidenav: true,
     
     showNavbar: true,
@@ -25,10 +25,11 @@ export default createStore({
     selectedType: 'Standalone',
     selectedProvider: 'Cloudstack',
     postgres_version:'',
-
+ 
     project_name: '',
     project_id: '',
     selectedComputeOffering: null,
+    selectedStorageOffering: null
   },
   mutations: {
     setGlobalProjectName(state, project_name) {
@@ -37,11 +38,11 @@ export default createStore({
     setGlobalProjectId(state, project_id) {
       state.project_id = project_id;
     },
-    setSelectedMethod(state, backup_method) {
-      state.backup_method= backup_method;
-    },
-
-
+    // setSelectedMethod(state, backup_method) {
+    //   state.backup_method= backup_method;
+    // },
+ 
+ 
     setSelectedType(state, selectedType) {
       state.selectedType = selectedType;
     },
@@ -57,9 +58,9 @@ export default createStore({
     setSelectedOffering(state, selectedComputeOffering) {
       state.selectedComputeOffering = selectedComputeOffering;
     },
-    // setSelectedMemory(state, memory) {
-    //   state.selectedMemory = memory;
-    // },
+    setSelectedStorage(state, selectedStorageOffering) {
+      state.selectedStorageOffering = selectedStorageOffering;
+    },
     navbarMinimize(state) {
       const sidenav_show = document.querySelector(".g-sidenav-show");
  
@@ -95,10 +96,10 @@ export default createStore({
       context.commit('setGlobalProjectId', project_id);
     },
     
-    updateSelectedMethod(context, backup_method) {
-      context.commit('setSelectedMethod', backup_method);
-    },
-
+    // updateSelectedMethod(context, backup_method) {
+    //   context.commit('setSelectedMethod', backup_method);
+    // },
+ 
     updateSelectedType(context, selectedType) {
       context.commit('setSelectedType', selectedType);
     },
@@ -111,9 +112,9 @@ export default createStore({
     // updateSelectedCPUNumber(context, cpunumber) {
     //   context.commit('setSelectedCPUNumber', cpunumber);
     // },
-    // updateSelectedMemory(context, memory) {
-    //   context.commit('setSelectedMemory', memory);
-    // },
+    updateSelectedStorage(context, selectedStorageOffering) {
+      context.commit('setSelectedStorage', selectedStorageOffering);
+    },
     updateComputeOffering(context, selectedComputeOffering){
       context.commit('setSelectedOffering', selectedComputeOffering);
     },
@@ -121,7 +122,7 @@ export default createStore({
     toggleSidebarColor({ commit }, payload) {
       commit("sidebarType", payload);
     },
-
+ 
     // selectedOffering(project) {
     //   this.$store.commit('setSelectedCPUNumber', project.cpunumber);
     //   this.$store.commit('setSelectedMemory', project.memory);
@@ -129,7 +130,6 @@ export default createStore({
     // },
  
     fetchFirstProject({ commit,  }, userId) {
-      console.log(`store.js se call ${userId}`);
       axios.get(`http://172.16.1.56:8002/api/v2/project/user/${userId}/`)
         .then(response => {
           const firstProject = response.data[0];
@@ -147,6 +147,6 @@ export default createStore({
     getSelectedMemory: (state) => state.selectedMemory,
   },
    
-
+ 
 });
  

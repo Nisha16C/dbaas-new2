@@ -110,12 +110,12 @@
         </h6>
       </li>
 
-      <li class="mt-3 nav-item" v-else>
+      <!-- <li class="mt-3 nav-item" v-else>
         <h6 class="text-xs ps-3 text-uppercase font-weight-bolder opacity-6"
           :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'">
           Observability & Backup
         </h6>
-      </li>
+      </li> -->
       <li class="nav-item" v-if="username === 'admin'">
         <sidenav-item url="/profile" :class="getRoute() === 'profile' ? 'active' : ''" :navText="'Monitoring'">
           <template v-slot:icon>
@@ -123,13 +123,13 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item" v-else>
+      <!-- <li class="nav-item" v-else>
         <sidenav-item url="/profile" :class="getRoute() === 'profile' ? 'active' : ''" :navText="'Monitoring'">
           <template v-slot:icon>
             <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-      </li>
+      </li> -->
       <li class="nav-item" v-if="username === 'admin'">
         <sidenav-item url="/admin-Backup" :class="getRoute() === 'admin-Backup' ? 'active' : ''" :navText="'Backup'">
           <template v-slot:icon>
@@ -137,13 +137,13 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item" v-else>
+      <!-- <li class="nav-item" v-else>
         <sidenav-item url="/admin-Backup" :class="getRoute() === 'admin-Backup' ? 'active' : ''" :navText="'Backup'">
           <template v-slot:icon>
             <i class="ni ni-money-coins text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-      </li>
+      </li> -->
 
       <li class="nav-item" v-if="username === 'admin'">
         <sidenav-item url="/ActivityLog" :class="getRoute() === ' ' ? 'active' : ''" :navText="'Activity Log'">

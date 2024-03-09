@@ -183,7 +183,8 @@ def get_projects_by_user(request, user_id):
  
    
 # CLUSTER CREATE API GET CLUSTER BY USER ID AND & PROJECT I
- 
+k8s_variables = {} 
+deleteCluster_name = ''
 temp_variables = {}
 clusterName = ''
 clusterType = ''
@@ -196,6 +197,7 @@ apiEndpoint = ''
 accessKey = ''
 secretKey = ''
  
+computeOffering = ''
  
 # Define a logger for cluster-related actions
 cluster_logger = logging.getLogger('cluster_logger')
@@ -215,7 +217,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global apiEndpoint
         global accessKey
         global secretKey
- 
+        global computeOffering
         username = request.data.get('db_user')
         password = request.data.get('db_password')
         user_id = request.data.get('user')
@@ -229,8 +231,11 @@ class ClusterViewSet(viewsets.ModelViewSet):
         provider_endpoint = request.data.get('provider_endpoint')
         provider_access_token = request.data.get('provider_access_token')
         provider_secret_key = request.data.get('provider_secret_key')
+                # kubeconfig_data: this.kubeconfigData,
+
  
-        print(f'{provider_endpoint} and {provider_access_token} and {provider_secret_key}')
+        computeOffering  = request.data.get('computeOffering')
+        print(f'{computeOffering} <= computeOffering')
  
         # Adding global variable
         clusterName = cluster_name
@@ -279,6 +284,8 @@ class ClusterViewSet(viewsets.ModelViewSet):
         project_id = "1"
         private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
         base_url = "http://gitlab-ce.os3.com/api/v4/"
+
+        
  
         # project_id = "132"
         # private_token = "GDNoxgBaU_vQ_Q6QzjyQ"
@@ -302,8 +309,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     cluster_type=cluster_type,
                     database_version=database_version,
                     backup_method=backup_method,
-                    provider=provider_name,
-                    
+                    provider=provider_name,                    
                 )
                 cluster.save()
                 
@@ -392,21 +398,45 @@ class ClusterViewSet(viewsets.ModelViewSet):
             all_artifacts.append({"status": pipeline_status["status"], "artifacts": artifacts})
  
         return JsonResponse({"pipelines": all_artifacts})
-    
+  
 # Define a logger for cluster-related actions
 deletecluster_logger = logging.getLogger('deletecluster_logger')    
  
 class ClusterDeleteViewSet(viewsets.ModelViewSet):
    
     def create(self , request, *args, **kwargs):
-        print('delete-cluster')
-        global clusterName
-        clusterName  = request.data.get('cluster_name')
+        global k8s_variables
+        global deleteCluster_name
+
+        # global clusterName
+        # global providerName
+        # global apiEndpoint
+        global accessKey
+        # global secretKey
+        deleteCluster_name   = request.data.get('cluster_name')
+        # provider_name = request.data.get('provider_name')
+        provider_name = request.data.get('provider_name')
+        print (f"{provider_name} and {deleteCluster_name}")
+        provider_endpoint = request.data.get('provider_endpoint')
+        accessKey = request.data.get('provider_access_token')
+        provider_secret_key = request.data.get('provider_secret_key')
+        kubeconfig_data = request.data.get('kubeconfig_data')
+
+
+        k8s_variables = {
+            'provider_endpoint' : provider_endpoint,
+            'provider_secret_key' : provider_secret_key,
+            'provider_name' : provider_name,
+            'kubeconfig_data': kubeconfig_data,
+        }
+        print (k8s_variables) 
+
         
  
         try:
              # Check if the cluster exists in the database
-            cluster = Cluster.objects.get(cluster_name=clusterName)
+            cluster = Cluster.objects.get(cluster_name=deleteCluster_name )
+            
             # Log delete cluster information
             log_entry = f"user={cluster.user.username} clusterName={cluster.cluster_name} msg={cluster.cluster_name} deleted"
             deletecluster_logger.info(log_entry)
@@ -420,11 +450,16 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
  
             headers = {"PRIVATE-TOKEN" : private_token}
  
-            branch_name = 'destroy'  # Replace with the actual branch name for destroy pipeline
- 
-            # Trigger the "Destroy" pipeline
-            response = trigger_single(base_url, project_id, headers, branch_name)
- 
+            # branch_name = 'destroy-postgres-k8s'  # Replace with the actual branch name for destroy pipeline
+
+            if provider_name == 'Kubernetes':
+                branch_name = 'destroy-postgres-k8s'
+                response = trigger_single(base_url, project_id, headers, branch_name)
+            else :
+                branch_name = 'destroy'
+
+                response = trigger_single(base_url, project_id, headers, 'destroy')
+                print("CloudStack branch trigger.....")
             if response == 200:
                 cluster.delete()
                 return Response({"message": "Destroy pipeline triggered successfully."},
@@ -435,6 +470,7 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
         except Cluster.DoesNotExist:
             return Response({"error": "Cluster not found."},
                             status=status.HTTP_404_NOT_FOUND)
+ 
  
  
 def trigger_single(base_url, project_id, headers, branch_name):
@@ -564,6 +600,7 @@ def display_artifacts(request):
 def get_variables(request):
     global temp_variables
     global accessKey
+    global computeOffering
  
     # Your code here, using the retrieved values
     username = temp_variables.get('username', '')
@@ -586,10 +623,42 @@ def get_variables(request):
         'delete-cluster' : clusterName,
         'endpoint': provider_endpoint,
         'secret-key': provider_secret_key,
-        'access-key': provider_access_token
+        'access-key': provider_access_token,
+        'computeOffering': computeOffering
     }
  
     return JsonResponse(data)
+
+def get_dlt_k8s_variables(request):
+    global k8s_variables
+    global deleteCluster_name
+    global accessKey
+
+    # global provider_endpoint
+ 
+    # Your code here, using the retrieved values
+
+    provider_name = k8s_variables.get('provider_name')
+
+    provider_endpoint = k8s_variables.get('provider_endpoint','')
+    provider_access_token = accessKey
+    provider_secret_key = k8s_variables.get('provider_secret_key','')
+    deleteCluster_name = deleteCluster_name
+    kubeconfig_data = k8s_variables.get('kubeconfig_data','')
+    print(deleteCluster_name)
+ 
+    data = {
+      
+        'providerName': provider_name,
+        'delete-cluster' : deleteCluster_name ,
+        'endpoint': provider_endpoint,
+        'secret-key': provider_secret_key,
+        'access-key': provider_access_token,
+        'kubeconfigData': kubeconfig_data,
+    }
+    print (data)
+ 
+    return JsonResponse(data)    
  
 def extract_host(content):
     import re

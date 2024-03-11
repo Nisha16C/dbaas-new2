@@ -1,4 +1,4 @@
-[11:15 AM] Ashish Sahu
+[5:41 AM] Ashish Sahu
 <template>
   <div>
     <div class="card">
@@ -59,10 +59,10 @@
           </table>
           <hr>
           <div class="form-group ml-3 mt-2 row">
-            <label class="text-sm col-lg-5" for="retentionPeriod">Custom Storage:</label>
+            <label class="text-sm col-lg-5" for="retentionPeriod">Custom Storage(Gi):</label>
             <div class="input-group d-flex">
-              <input type="number" class="form-control col-5" id="retentionPeriod" v-model="selectedStorageOffering" @change="updateStorage">
-              GB
+              <input type="text" class="form-control col-5" id="retentionPeriod" v-model="selectedStorageOffering" @change="updateStorage">
+             <!-- <span class="text-md mt-1 ml-2"> </span> -->
               
             </div>
           </div>           

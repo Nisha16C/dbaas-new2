@@ -236,7 +236,7 @@ export default {
     );
  
     if (selectedProviderInfo && selectedProviderInfo.is_connected) {
-      this.$router.push('/Cluster-Setting');
+      this.$router.push('/Cconfiguration');
     } else {
       this.error = "This provider is not connected";
       setTimeout(() => {

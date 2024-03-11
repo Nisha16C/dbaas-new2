@@ -145,7 +145,7 @@ export default {
  
         // Check if cluster name already exists
         axios
-        .get(`http://172.16.1.92:8002/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
+        .get(`http://172.16.1.56:8002/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
           .then((response) => {
             if (response.data.exists) {
               // Cluster name already exists
@@ -199,6 +199,8 @@ export default {
         .get(`http://172.16.1.56:8002/api/v3/providers/by-username-and-name/${this.Username}/${this.selectedProvider}/`)
         .then((response)=>{
           this.provider_info = response.data;
+          // this.selectedStorageOffering = this.selectedStorageOffering.toString()+'GB;'
+          // console.log(this.selectedStorageOffering)
           
           const fromData = {
             db_user: this.db_user,
@@ -215,6 +217,8 @@ export default {
             provider_endpoint: this.provider_info.provider_url,
             provider_access_token: this.provider_info.access_token,
             provider_secret_key: this.provider_info.secret_key,
+            kubeconfig_data: this.provider_info.kubeconfigData,
+
             backup_method: this.backup_method
           };
           
@@ -247,7 +251,7 @@ export default {
  
  
   computed: {
-    ...mapState(['selectedType','selectedComputeOffering', 'selectedProvider','postgres_version','project_name', 'project_id']),
+    ...mapState(['selectedType','selectedComputeOffering', 'selectedProvider','postgres_version','project_name', 'project_id', 'selectedStorageOffering']),
      
   },
 };

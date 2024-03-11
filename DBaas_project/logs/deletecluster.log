@@ -36,3 +36,16 @@
 2024-03-09 12:24:18,865 level=INFO user=aastha clusterName=user12 msg=user12 deleted 
 2024-03-09 12:28:58,463 level=INFO user=aastha clusterName=k8s234 msg=k8s234 deleted 
 2024-03-09 12:34:02,695 level=INFO user=aastha clusterName=k8s0983 msg=k8s0983 deleted 
+2024-03-09 12:50:59,141 level=INFO user=aastha clusterName=k8s0983 msg=k8s0983 deleted 
+2024-03-11 04:40:01,300 level=INFO user=aastha clusterName=k8s0983 msg=k8s0983 deleted 
+2024-03-11 04:57:20,832 level=INFO user=aastha clusterName=k11 msg=k11 deleted 
+2024-03-11 05:00:00,642 level=INFO user=aastha clusterName=cloud-stack-key msg=cloud-stack-key deleted 
+2024-03-11 06:15:33,716 level=INFO user=aastha clusterName=k113 msg=k113 deleted 
+2024-03-11 06:25:38,659 level=INFO user=aastha clusterName=cloud-k msg=cloud-k deleted 
+2024-03-11 06:56:12,380 level=INFO user=aastha clusterName=cloud-k msg=cloud-k deleted 
+2024-03-11 06:57:58,504 level=INFO user=aastha clusterName=check1 msg=check1 deleted 
+2024-03-11 07:27:18,340 level=INFO user=aastha clusterName=k8s0983 msg=k8s0983 deleted 
+2024-03-11 08:38:46,447 level=INFO user=ankit clusterName=ankit msg=ankit deleted 
+2024-03-11 08:39:48,470 level=INFO user=ankit clusterName=dwivedi msg=dwivedi deleted 
+2024-03-11 08:47:57,534 level=INFO user=ankit clusterName=ad msg=ad deleted 
+2024-03-11 11:31:33,742 level=INFO user=aastha clusterName=k8sgdgh msg=k8sgdgh deleted 

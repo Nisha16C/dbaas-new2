@@ -231,11 +231,13 @@ class ClusterViewSet(viewsets.ModelViewSet):
         provider_endpoint = request.data.get('provider_endpoint')
         provider_access_token = request.data.get('provider_access_token')
         provider_secret_key = request.data.get('provider_secret_key')
+        # kubeconfig_data = request.data.get('kubeconfig_data')
                 # kubeconfig_data: this.kubeconfigData,
 
  
         computeOffering  = request.data.get('computeOffering')
-        print(f'{computeOffering} <= computeOffering')
+        storageOffering = request.data.get('storageOffering')
+        print(f'{storageOffering} <= storageOffering')
  
         # Adding global variable
         clusterName = cluster_name
@@ -248,6 +250,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         apiEndpoint = provider_endpoint
         accessKey = provider_access_token
         secretKey = provider_secret_key
+        
  
  
         temp_variables = {
@@ -259,6 +262,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
             'provider_endpoint': provider_endpoint,
             'provider_access_token ': provider_access_token,
             'provider_secret_key': provider_secret_key,
+            'storageOffering': storageOffering
  
         }
  
@@ -319,6 +323,8 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 cluster_logger.info(log_entry)
               
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:            
+                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
  
  
  
@@ -452,14 +458,22 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
  
             # branch_name = 'destroy-postgres-k8s'  # Replace with the actual branch name for destroy pipeline
 
+            # if provider_name == 'Kubernetes':
+            #     branch_name = 'destroy-postgres-k8s'
+            #     response = trigger_single(base_url, project_id, headers, branch_name)
+            # else :
+            #     branch_name = 'destroy-postgres-k8s'
+
+            #     response = trigger_single(base_url, project_id, headers, 'destroy')
+            #     print("CloudStack branch trigger.....")
+
             if provider_name == 'Kubernetes':
                 branch_name = 'destroy-postgres-k8s'
-                response = trigger_single(base_url, project_id, headers, branch_name)
-            else :
-                branch_name = 'destroy'
+            else:
+                branch_name = 'destroy'  # Use a different branch name if provider is not 'Kubernetes'
 
-                response = trigger_single(base_url, project_id, headers, 'destroy')
-                print("CloudStack branch trigger.....")
+            response = trigger_single(base_url, project_id, headers, branch_name)
+
             if response == 200:
                 cluster.delete()
                 return Response({"message": "Destroy pipeline triggered successfully."},
@@ -611,6 +625,7 @@ def get_variables(request):
     provider_endpoint = temp_variables.get('provider_endpoint','')
     provider_access_token = accessKey
     provider_secret_key = temp_variables.get('provider_secret_key','')
+    storageOffering = temp_variables.get('storageOffering', '')
     deleteCluster_name = clusterName
     print(deleteCluster_name)
  
@@ -624,7 +639,8 @@ def get_variables(request):
         'endpoint': provider_endpoint,
         'secret-key': provider_secret_key,
         'access-key': provider_access_token,
-        'computeOffering': computeOffering
+        'computeOffering': computeOffering,
+        'storageOffering': storageOffering
     }
  
     return JsonResponse(data)

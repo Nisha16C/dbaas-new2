@@ -166,9 +166,10 @@ methods: {
             provider_endpoint: this.provider_info.provider_url,
             provider_access_token: this.provider_info.access_token,
             provider_secret_key: this.provider_info.secret_key,
-            kubeconfig_data: this.provider_info.kubeconfigData,
+            kubeconfig_data: this.provider_info.kubeconfig_data,
 
           };
+          console.log(formData)
           
  
           this.$router.push('/delete');

@@ -1,4 +1,3 @@
-[11:56] Aastha Gupta
 <template>
   <div class="card">
     <div class="card-header pb-0 px-3">
@@ -13,7 +12,7 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 106.6667%">
  
               <div class="col mx-auto">
-                <div class="h-100 w-100  border-primary rounded-md text-center text-wrap p-3"
+                <div class="h-100 w-100 border border-success rounded-md text-center text-wrap p-3"
                   :class="{ 'bg-light': selectedType === 'Standalone' }">
                   <label for="Standalone">
                     <input type="radio" id="Standalone" class="visually-hidden" value="Standalone" v-model="selectedType"
@@ -32,7 +31,7 @@
               </div>
               <div class="col mx-auto">
                 <div :class="{ 'bg-light': selectedType === 'multiple' }"
-                  class="h-100  border-4 rounded-md text-center p-3">
+                  class="h-100  border border-success  rounded-md text-center p-3">
                   <label for="multiple">
                     <input type="radio" class="visually-hidden" id="multiple" value="multiple" v-model="selectedType"
                       @change="updateType" />
@@ -204,8 +203,8 @@ export default {
   },
   data() {
     return {
-      selectedType: '',
-      selectedProvider: '',
+      selectedType: 'Standalone',
+      selectedProvider: 'Cloudstack',
  
       user_id: '',
       provider_info: [],
@@ -234,9 +233,26 @@ export default {
     const selectedProviderInfo = this.provider_info.find(
       (provider) => provider.provider_name.toLowerCase() === this.selectedProvider.toLowerCase()
     );
- 
+
     if (selectedProviderInfo && selectedProviderInfo.is_connected) {
-      this.$router.push('/Cconfiguration');
+      // Determine the route based on the selected provider
+      let route = '';
+
+      switch (this.selectedProvider.toLowerCase()) {
+        case 'kubernetes':
+          route = '/Cluster-Setting'; // Change this to the actual route for Kubernetes
+          break;
+        case 'cloudstack':
+          route = '/Cconfiguration'; // Change this to the actual route for Cloudstack
+          break;
+        // Add more cases for other providers if needed
+
+        default:
+          // Handle default case or add additional logic
+          break;
+      }
+
+      this.$router.push(route);
     } else {
       this.error = "This provider is not connected";
       setTimeout(() => {

@@ -231,7 +231,8 @@ class ClusterViewSet(viewsets.ModelViewSet):
         provider_endpoint = request.data.get('provider_endpoint')
         provider_access_token = request.data.get('provider_access_token')
         provider_secret_key = request.data.get('provider_secret_key')
-        # kubeconfig_data = request.data.get('kubeconfig_data')
+        kubeconfig_data = request.data.get('kubeconfig_data')
+        print (kubeconfig_data)
                 # kubeconfig_data: this.kubeconfigData,
 
  
@@ -250,6 +251,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         apiEndpoint = provider_endpoint
         accessKey = provider_access_token
         secretKey = provider_secret_key
+        kubeconfig_data = kubeconfig_data
         
  
  
@@ -312,8 +314,8 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     cluster_name=cluster_name,
                     cluster_type=cluster_type,
                     database_version=database_version,
-                    backup_method=backup_method,
-                    provider=provider_name,                    
+                    # backup_method=backup_method,
+                    provider=provider_name,  
                 )
                 cluster.save()
                 
@@ -422,11 +424,13 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
         deleteCluster_name   = request.data.get('cluster_name')
         # provider_name = request.data.get('provider_name')
         provider_name = request.data.get('provider_name')
-        print (f"{provider_name} and {deleteCluster_name}")
         provider_endpoint = request.data.get('provider_endpoint')
         accessKey = request.data.get('provider_access_token')
         provider_secret_key = request.data.get('provider_secret_key')
         kubeconfig_data = request.data.get('kubeconfig_data')
+        print (f"{accessKey} and {deleteCluster_name}")
+
+        print (kubeconfig_data)
 
 
         k8s_variables = {
@@ -456,16 +460,7 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
  
             headers = {"PRIVATE-TOKEN" : private_token}
  
-            # branch_name = 'destroy-postgres-k8s'  # Replace with the actual branch name for destroy pipeline
-
-            # if provider_name == 'Kubernetes':
-            #     branch_name = 'destroy-postgres-k8s'
-            #     response = trigger_single(base_url, project_id, headers, branch_name)
-            # else :
-            #     branch_name = 'destroy-postgres-k8s'
-
-            #     response = trigger_single(base_url, project_id, headers, 'destroy')
-            #     print("CloudStack branch trigger.....")
+          
 
             if provider_name == 'Kubernetes':
                 branch_name = 'destroy-postgres-k8s'
@@ -670,7 +665,7 @@ def get_dlt_k8s_variables(request):
         'endpoint': provider_endpoint,
         'secret-key': provider_secret_key,
         'access-key': provider_access_token,
-        'kubeconfigData': kubeconfig_data,
+        'kubeconfig_data': kubeconfig_data,
     }
     print (data)
  

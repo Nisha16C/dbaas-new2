@@ -1,4 +1,4 @@
-[5:22 AM] Ashish Sahu
+[8:44 AM] Ashish Sahu
  
 <template>
   <div class="card mt-4">
@@ -44,7 +44,7 @@
                     "
                   />
                 </li>&nbsp; &nbsp; &nbsp;
-                <li class="nav-item">
+                <li class="nav-item" v-if="selectedProvider !== 'Kubernetes'">
                   <router-link to="/Cconfiguration"
                     class="nav-link "     
                     :class="
@@ -61,6 +61,8 @@
                     "
                   />
                 </li>&nbsp; &nbsp; &nbsp;
+           
+ 
                 <li class="nav-item">
                   <router-link
                     class="nav-link"
@@ -115,10 +117,16 @@
 import img1 from "@/assets/img/logos/mastercard.png";
 import img2 from "@/assets/img/logos/visa.png";
  
+import { mapState } from 'vuex';
+ 
 export default {
   name: "payment-card",
   components: {
     // ArgonButton,
+  },
+  computed: {
+    ...mapState(['selectedProvider']),
+ 
   },
   data() {
     return {

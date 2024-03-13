@@ -56,3 +56,10 @@
 2024-03-12 05:48:52,233 level=INFO user=aastha clusterName=k8s0983 msg=k8s0983 deleted 
 2024-03-12 05:55:35,702 level=INFO user=aastha clusterName=cloud-t msg=cloud-t deleted 
 2024-03-12 06:07:44,644 level=INFO user=aastha clusterName=cluster-k8s1 msg=cluster-k8s1 deleted 
+2024-03-13 06:26:02,164 level=INFO user=aastha clusterName=cluster-k1 msg=cluster-k1 deleted 
+2024-03-13 06:27:10,901 level=INFO user=aastha clusterName=cluster-k1 msg=cluster-k1 deleted 
+2024-03-13 06:48:18,460 level=INFO user=aastha clusterName=test-again msg=test-again deleted 
+2024-03-13 06:49:10,867 level=INFO user=aastha clusterName=pv-name-c msg=pv-name-c deleted 
+2024-03-13 06:54:24,964 level=INFO user=aastha clusterName=k8s-cluster-postgres msg=k8s-cluster-postgres deleted 
+2024-03-13 07:25:54,551 level=INFO user=aastha clusterName=cluster-new msg=cluster-new deleted 
+2024-03-13 07:37:22,283 level=INFO user=aastha clusterName=k8s-blue msg=k8s-blue deleted 

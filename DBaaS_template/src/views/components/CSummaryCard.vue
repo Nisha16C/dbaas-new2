@@ -1,5 +1,4 @@
-[12:05 PM] Ashish Sahu
- 
+[8:45 AM] Ashish Sahu
 <template>
   <div class="card h-100 mb-4">
     <div class="card-header pb-0 px-3">
@@ -19,62 +18,56 @@
           <tbody>
             <tr>
               <th>Cluster Type</th>
-              <td>{{selectedType}}</td>              
+              <td>{{ selectedType }}</td>
             </tr>
  
             <tr>
               <th>Cluster Nodes</th>
-              <td v-if="selectedType=='Standalone'"> 1 Node</td>
-        
-              <td v-if="selectedType=='multiple'"> 3 Node</td>
-           
+              <td v-if="selectedType == 'Standalone'"> 1 Node</td>
+ 
+              <td v-if="selectedType == 'multiple'"> 3 Node</td>
+ 
             </tr>
  
             <tr>
               <th>Provider</th>
-              <td>{{selectedProvider}}</td>           
+              <td>{{ selectedProvider }}</td>
             </tr>
  
             <tr>
               <th>Cluster Name</th>
-              <td>Default</td>           
+              <td>Default</td>
             </tr>
  
             <tr>
               <th>Postgress Type</th>
-              <td>PostreSQL</td>           
+              <td>PostreSQL</td>
             </tr>
  
             <tr>
               <th>Postgres Versions</th>
-              <td>{{postgres_version}}</td>           
+              <td>{{ postgres_version }}</td>
             </tr>
  
             <!-- Inside the Cluster Summary Template -->
-<tr>
-  <th>Instance Type</th>
-  <td>{{ selectedComputeOffering }} </td>
-</tr>
- 
- 
- 
- 
-            <tr>
-              <th>Volume Type</th>
-              <td>General Purpose HDD(gp3)</td>           
+            <tr v-if="selectedProvider !== 'Kubernetes'">
+              <th>Instance Type</th>
+              <td>{{ selectedComputeOffering }} </td>
             </tr>
-            <tr>
+ 
+            <tr v-if="selectedProvider !== 'Kubernetes'" >
+              <th>Volume Type</th>
+              <td>General Purpose HDD(gp3)</td>
+            </tr>
+            <tr v-if="selectedProvider !== 'Kubernetes'">
               <th>Volume Properties</th>
-            <td>{{ selectedStorageOffering }} Gi, 3000 IOPS, 125 Mb/s Disk</td>           
+              <td>{{ selectedStorageOffering }} Gi, 3000 IOPS, 125 Mb/s Disk</td>
             </tr>
  
             <tr>
               <th>Networking</th>
-              <td> Private </td>           
+              <td> Private </td>
             </tr>
- 
-          
- 
           </tbody>
         </table>
       </div>
@@ -106,9 +99,8 @@ export default {
     },
   },
   computed: {
-    ...mapState(['selectedType', 'selectedProvider','postgres_version','selectedComputeOffering','selectedStorageOffering']),
+    ...mapState(['selectedType', 'selectedProvider', 'postgres_version', 'selectedComputeOffering', 'selectedStorageOffering']),
  
   },
 };
 </script>
- 

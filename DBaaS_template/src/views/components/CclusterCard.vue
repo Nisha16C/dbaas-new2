@@ -233,31 +233,18 @@ export default {
     const selectedProviderInfo = this.provider_info.find(
       (provider) => provider.provider_name.toLowerCase() === this.selectedProvider.toLowerCase()
     );
-
+ 
     if (selectedProviderInfo && selectedProviderInfo.is_connected) {
-      // Determine the route based on the selected provider
-      let route = '';
-
-      switch (this.selectedProvider.toLowerCase()) {
-        case 'kubernetes':
-          route = '/Cluster-Setting'; // Change this to the actual route for Kubernetes
-          break;
-        case 'cloudstack':
-          route = '/Cconfiguration'; // Change this to the actual route for Cloudstack
-          break;
-        // Add more cases for other providers if needed
-
-        default:
-          // Handle default case or add additional logic
-          break;
-      }
-
-      this.$router.push(route);
+      if(this.selectedProvider === 'Kubernetes'){
+        this.$router.push('/Cluster-Setting');
+      }else{
+      this.$router.push('/Cconfiguration');
+    }
     } else {
       this.error = "This provider is not connected";
       setTimeout(() => {
         this.error = '';
-      }, 5000); // 5000 milliseconds (5 seconds)
+      }, 5000);
     }
   },
  

@@ -100,7 +100,7 @@ export default {
   mounted() {
     // Fetch data from the backend
     // Replace this with your actual API endpoint
-    fetch('http://172.16.1.56:8002/api/v2/compute_offerings/')
+    fetch('http://172.16.1.69:8000/api/v2/compute_offerings/')
       .then(response => response.json())
       .then(data => {
         // Assuming the data is structured as { "compute_offerings": [...] }

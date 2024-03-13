@@ -21,6 +21,7 @@ import BackupForm from "../views/BackupForm.vue";
 import Cconfiguration from "../views/UserDashboard/Dbconfig.vue";
 import RestoreBackup from "../views/RestoreBackup.vue";
 import BackupDetails from "../views/BackupDetails.vue";
+import StorageMethod from "../views/StorageMethod.vue";
 
 import Profile from "../views/Profile.vue";
 import ProjectSelect from "../views/UserDashboard/ProjectSelect.vue";
@@ -59,6 +60,11 @@ const routes = [
     path: "/admin-backup",
     name: "Backup",
     component: Backup,
+  },
+  {
+    path: "/mount-backup-method",
+    name: "Backup Method",
+    component: StorageMethod,
   },
   {
     path: "/admin-backup/form",

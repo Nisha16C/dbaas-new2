@@ -115,7 +115,7 @@ export default {
       const payload = { new_project_name: this.newProjectName };
       axios
         .put(
-          `http://172.16.1.56:8002/api/v2/project/${this.renamingProjectId}/rename/`,
+          `http://172.16.1.69:8000/api/v2/project/${this.renamingProjectId}/rename/`,
           payload
         )
         .then((response) => {
@@ -131,7 +131,7 @@ export default {
     async fetchProjects() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.56:8002/api/v2/project/');
+        const response = await axios.get('http://172.16.1.69:8000/api/v2/project/');
 
         // Update the projects data with the fetched data
         this.projects = response.data;

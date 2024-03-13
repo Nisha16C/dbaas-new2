@@ -144,7 +144,7 @@ export default {
       console.log(formData)
  
       axios
-        .post('http://172.16.1.56:8002/api/v1/login/', formData)
+        .post('http://172.16.1.69:8000/api/v1/login/', formData)
         .then((response) => {
           // const token = response.data.token;
           this.userdata = response.data.user_data;

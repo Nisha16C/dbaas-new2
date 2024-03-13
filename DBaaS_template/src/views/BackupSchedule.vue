@@ -24,6 +24,27 @@
               </div>
             </div>
           </div>
+          <div class="col-lg-3 col-md-12 col-12 d-flex">
+                        <div class="mb-4 card">
+                            <div class="p-3 card-body">
+                                <div class=" px-3 d-flex">
+                                    <div class="mb-3 mt-4 mx-1">
+                                        <router-link to="/admin-backup">
+                                            <argon-button color="success" size="md" variant="gradient">Backups
+                                                List</argon-button>
+                                        </router-link>
+                                    </div>
+                                    <div class="mb-3 mt-4 mx-1">
+                                        <router-link to="/scheduled-backups">
+                                            <argon-button color="success" size="md" variant="gradient">Schedule Backups
+                                                List</argon-button>
+                                        </router-link>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
   
             <div class="py-4 container-fluid">
               <div class="row">

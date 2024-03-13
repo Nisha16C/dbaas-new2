@@ -218,6 +218,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global accessKey
         global secretKey
         global computeOffering
+        user = User.objects.get(pk=user_id)
         username = request.data.get('db_user')
         password = request.data.get('db_password')
         user_id = request.data.get('user')
@@ -256,6 +257,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
  
  
         temp_variables = {
+            'user': user,
             'username': username,
             'password': password,
             'cluster_name': cluster_name,   
@@ -612,6 +614,7 @@ def get_variables(request):
     global computeOffering
  
     # Your code here, using the retrieved values
+    user = temp_variables.get('user', '')
     username = temp_variables.get('username', '')
     password = temp_variables.get('password', '')
     cluster_name = temp_variables.get('cluster_name', '')
@@ -625,6 +628,7 @@ def get_variables(request):
     print(deleteCluster_name)
  
     data = {
+        'user': user,
         'username': username,
         'password': password,
         'database_name': cluster_name,

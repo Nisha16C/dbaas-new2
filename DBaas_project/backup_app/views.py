@@ -9,52 +9,90 @@ import json
 import os
 from django.views.decorators.csrf import csrf_exempt
 from crontab import CronTab
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+import tempfile
+
 
 CONFIG_DIR = '/etc/barman.d'
 PGPASS_FILE = os.path.join(os.path.expanduser("~barman"), ".pgpass")
 AUTH_KEYS_FILE = os.path.join(os.path.expanduser("~barman"), ".ssh/authorized_keys")
 
-def execute_command(command, storage_method):
+S3_CREDENTIALS_DIR = "/var/lib/barman/.s3-creds"
+
+
+def execute_command(command, storage_method, username):
+   
     try:
         if storage_method not in ['nfs', 's3']:
             return {'status': 'error', 'message': 'Invalid storage method specified.'}
 
-        config_file = f'/etc/barman-{storage_method}.conf'
+        # Choose the appropriate Barman configuration file
+        # config_file = f'/etc/barman-{storage_method}.conf'
+        if username == "":
+            return {'status': 'error', 'message': 'Invalid value in Username.'}
+        config_file = f'/etc/barman.d/{username}/barman-{storage_method}.conf'
+
+        # Insert --format json after the barman command
         command_with_json_format = command[:1] + ['-c', config_file, '--format', 'json'] + command[1:]
+
+        # Execute the modified command
         result = subprocess.run(command_with_json_format, capture_output=True, text=True, check=True)
         return {'status': 'success', 'message': json.loads(result.stdout)}
     except subprocess.CalledProcessError as e:
         return {'status': 'error', 'message': str(e)}
 
+def remove_mount_point_from_fstab(mount_point):
+    try:
+        # Create a temporary file to store the modified fstab content
+        with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp_file:
+            with open('/etc/fstab', 'r') as fstab_file:
+                for line in fstab_file:
+                    if mount_point not in line:
+                        tmp_file.write(line)
+
+        # Replace the original fstab file with the modified one using subprocess
+        subprocess.run(['sudo', 'mv', tmp_file.name, '/etc/fstab'], check=True)
+
+        return True
+    except Exception as e:
+        print(f"Error: {e}")
+        return False
+
+
+
 @api_view(['GET'])
 def check_server_status(request):
     server_name = request.query_params.get('server_name')
     storage_method = request.query_params.get('storage_method')
+    username = request.query_params.get('username')
 
     if not server_name:
         return Response({'status': 'error', 'message': 'Server name is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response(execute_command(['barman', 'check', server_name], storage_method))
+    return Response(execute_command(['barman', 'check', server_name], storage_method, username))
 
 @api_view(['GET'])
 def list_servers(request):
     storage_method = request.query_params.get('storage_method')
+    username = request.query_params.get('username')
 
     if not storage_method:
         return Response({'status': 'error', 'message': 'Storage method is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    result = execute_command(['barman', 'list-servers'], storage_method)
+    result = execute_command(['barman', 'list-servers'], storage_method, username)
     return Response(result)
 
 @api_view(['GET'])
 def list_backups(request):
     server_name = request.query_params.get('server_name')
     storage_method = request.query_params.get('storage_method')
+    username = request.query_params.get('username')
 
     if not server_name:
         return Response({'status': 'error', 'message': 'Server name is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    result = execute_command(['barman', 'list-backups', server_name], storage_method)
+    result = execute_command(['barman', 'list-backups', server_name], storage_method, username)
     return Response(result)
 
 @api_view(['POST'])
@@ -62,6 +100,7 @@ def create_backup(request):
     server_name = request.query_params.get('server_name')
     backup_name = request.query_params.get('backup_name')
     storage_method = request.query_params.get('storage_method')
+    username = request.query_params.get('username')
 
     if not server_name:
         return Response({'status': 'error', 'message': 'Server name is required.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -70,7 +109,7 @@ def create_backup(request):
     if backup_name:
         command.extend(['--name', backup_name])
 
-    return Response(execute_command(command, storage_method))
+    return Response(execute_command(command, storage_method, username))
 
 @api_view(['POST'])
 def switch_wal(request):
@@ -82,7 +121,7 @@ def switch_wal(request):
 
     command = ['barman', 'switch-wal', '--force', '--archive', server_name]
 
-    return Response(execute_command(command, storage_method))
+    return Response(execute_command(command, storage_method, username))
 
 @api_view(['POST'])
 def recover_backup(request):
@@ -91,6 +130,7 @@ def recover_backup(request):
     destination_directory = request.query_params.get('destination_directory')
     target_server_name = request.query_params.get('target_server_name')
     storage_method = request.query_params.get('storage_method')
+    username = request.query_params.get('username')
 
     if not (server_name, backup_id, destination_directory, target_server_name):
         return Response({'status': 'error', 'message': 'All parameters are required.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -98,7 +138,7 @@ def recover_backup(request):
     command = ['barman', 'recover', '--remote-ssh-command', f'ssh postgres@{target_server_name}',
                server_name, backup_id, destination_directory]
 
-    return Response(execute_command(command, storage_method))
+    return Response(execute_command(command, storage_method, username))
 
 @csrf_exempt
 @api_view(['POST'])
@@ -284,6 +324,7 @@ def add_server_config(request):
         db_pass = request.query_params.get('db_pass')
         ssh_key = request.query_params.get('ssh_key')
         storage_method = request.query_params.get('storage_method')
+        username = request.query_params.get('username')
 
         if not (server_name, ssh_host, db_name, db_pass, ssh_key, storage_method):
             return Response({'status': 'error', 'message': 'All parameters are required.'}, status=400)
@@ -298,20 +339,197 @@ backup_method = rsync
 archiver = on
 backup_options = concurrent_backup
 """
-
+        user_server_config = f"{CONFIG_DIR}/{username}/server_config/{storage_method}" 
+        if not os.path.exists(user_server_config):
+            try:
+                mkdir_user_config_command = f"sudo mkdir -p {user_server_config} && sudo chmod 777 {user_server_config}"
+                subprocess.run(mkdir_user_config_command, shell=True, check=True)
+            except OSError as e:
+                print(f"Error: {e.strerror}")
         # Write the configuration content to a new file
-        config_file_path = os.path.join(CONFIG_DIR, f'{server_name}.conf')
+        config_file_path = os.path.join(user_server_config, f'{server_name}.conf') # /etc/barman.d/username/server_config/<storage_method>/<server_name>.conf
         with open(config_file_path, 'w') as config_file:
             config_file.write(config_content)
-
+    
         # Append the new entry to the .pgpass file
         with open(PGPASS_FILE, 'a') as pgpass_file:
             pgpass_file.write(f"{ssh_host}:5432:postgres:barman:{db_pass}\n")
-
-        # Append public key
+        
+        # Append public key 
         with open(AUTH_KEYS_FILE, 'a') as f:
             f.write(ssh_key + '\n')
+
+
 
         return Response({'status': 'success', 'message': f'Configuration file created for {server_name}'}, status=200)
     except Exception as e:
         return Response({'status': 'error', 'message': str(e)}, status=500)
+
+@api_view(['POST'])
+def add_nfs_mount(request):
+    try:
+        remote_host = request.query_params.get('remote_host')
+        remote_path = request.query_params.get('remote_path')
+        username = request.query_params.get('username')
+
+        if not all([remote_host, remote_path, username]):
+            return JsonResponse({'status': 'error', 'message': 'All parameters are required.'}, status=400)
+
+        local_path = f"/var/lib/barman/nfs/{username}"
+        mkdir_command = f"mkdir -p {local_path}"    
+        subprocess.run(mkdir_command, shell=True, check=True)
+
+        # Add entry to /etc/fstab with sudo
+        fstab_entry = f"{remote_host}:{remote_path} {local_path}    nfs defaults	0	0"
+        fstab_command = f"echo '{fstab_entry}' | sudo tee -a /etc/fstab > /dev/null"
+        subprocess.run(fstab_command, shell=True, check=True)
+        
+        # mount
+        mount_nfs = "sudo mount -a"
+        subprocess.run(mount_nfs, shell=True, check=True)
+
+        # Create Barman Config file
+        barman_user_config_dir = f"{CONFIG_DIR}/{username}"
+        if not os.path.exists(barman_user_config_dir):
+            try:
+                mkdir_config_dir_command = f"sudo mkdir -p {barman_user_config_dir}/server_config"
+                subprocess.run(mkdir_config_dir_command, shell=True, check=True)
+            except OSError as e:
+                print(f"Error: {e.strerror}")
+
+        barman_config_data = f"""barman_home = {local_path} \nconfiguration_files_directory = /etc/barman.d/{username}/server_config/nfs"""
+        barman_config_command = f"echo '{barman_config_data}' | sudo tee -a {barman_user_config_dir}/barman-s3.conf > /dev/null"     
+        copy_sample_config_command = f"sudo cp /etc/barman.conf.sample {barman_user_config_dir}/barman-s3.conf"
+        subprocess.run(copy_sample_config_command, shell=True, check=True)   
+        subprocess.run(barman_config_command, shell=True, check=True)
+
+        return JsonResponse({'message': 'NFS mount point added successfully and entry added to /etc/fstab','status': 'success'}, status=200)
+    except subprocess.CalledProcessError as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@api_view(['POST'])
+def mount_s3_bucket(request):
+    try:
+        bucket_name = request.query_params.get('bucket_name')
+        access_key = request.query_params.get('access_key')
+        secret_key = request.query_params.get('secret_key')
+        url = request.query_params.get('url')
+        username = request.query_params.get('username')
+
+        if not all([bucket_name, access_key, secret_key, url, username]):
+            return JsonResponse({'status': 'error', 'message': 'All parameters are required.'}, status=400)
+
+        local_path = f"/var/lib/barman/s3/{username}"
+        mkdir_command = f"mkdir -p {local_path}"    
+        subprocess.run(mkdir_command, shell=True, check=True)
+
+        passwd_file_content = f"{access_key}:{secret_key}"
+        passwd_file_path = f"{S3_CREDENTIALS_DIR}/.passwd-s3fs-{username}"
+
+        # Write the .passwd-s3fs file
+        with open(passwd_file_path, 'w') as f:
+            f.write(passwd_file_content)
+
+        # Change permission
+        passwd_file_command = f"chmod 600 {passwd_file_path}"
+        subprocess.run(passwd_file_command, shell=True, check=True)
+
+        # Mount the bucket
+        mount_command = f"s3fs {bucket_name} {local_path} -o passwd_file={passwd_file_path},use_path_request_style,url={url}"
+        subprocess.run(mount_command, shell=True, check=True)
+
+        # Create Barman Config file
+        barman_user_config_dir = f"{CONFIG_DIR}/{username}"
+        if not os.path.exists(barman_user_config_dir):
+            try:
+                mkdir_config_dir_command = f"sudo mkdir -p {barman_user_config_dir}/server_config"
+                subprocess.run(mkdir_config_dir_command, shell=True, check=True)
+            except OSError as e:
+                print(f"Error: {e.strerror}")
+
+        barman_config_data = f"""barman_home = {local_path} \nconfiguration_files_directory = /etc/barman.d/{username}/server_config/s3"""
+        barman_config_command = f"echo '{barman_config_data}' | sudo tee -a {barman_user_config_dir}/barman-s3.conf > /dev/null"     
+        copy_sample_config_command = f"sudo cp /etc/barman.conf.sample {barman_user_config_dir}/barman-s3.conf"
+        subprocess.run(copy_sample_config_command, shell=True, check=True)   
+        subprocess.run(barman_config_command, shell=True, check=True)
+
+        return JsonResponse({'message': f'S3 bucket {bucket_name} mounted successfully','status': 'success'}, status=200)
+    except subprocess.CalledProcessError as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@api_view(['GET'])
+def list_mount_points(request):
+    try:
+        username = request.query_params.get('username')
+
+        if not (username):
+            return JsonResponse({'status': 'error', 'message': 'Invalid Username.'}, status=400)
+
+        # Define the directories where mount points are located
+        nfs_mount_points_dir = f'/var/lib/barman/nfs/{username}'
+        s3_mount_points_dir = f'/var/lib/barman/s3/{username}'
+
+        # Retrieve the list of NFS mount points from /etc/fstab
+        nfs_mount_points = []
+        with open('/etc/fstab', 'r') as fstab_file:
+            for line in fstab_file:
+                # Check if the line contains the user's NFS mount point
+                if nfs_mount_points_dir in line:
+                    # Extract host:path and mount point
+                    parts = line.strip().split()
+                    if len(parts) >= 2:
+                        host_path = parts[0]
+                        mount_point = parts[1]
+                        nfs_mount_points.append({'host_path': host_path, 'mount_point': mount_point})
+
+        # Read the S3 credentials file
+        s3_creds_file = f'/var/lib/barman/.s3-creds/.passwd-s3fs-{username}'
+        s3_mount_points = []
+        if os.path.exists(s3_creds_file):
+            with open(s3_creds_file, 'r') as f:
+                s3_creds = f.read().strip().split(':')
+                access_key = s3_creds[0]
+                secret_key = s3_creds[1]
+                # Assuming the URL is common for all S3 mounts
+                # s3_url = "https://s3.amazonaws.com"  # Replace this with your actual S3 URL
+                s3_mount_points = [{'access_key': access_key, 'secret_key': secret_key, 'mount_point': s3_mount_points_dir}]
+
+        return JsonResponse({'status': 'success', 'nfs_mount_points': nfs_mount_points, 's3_mount_points': s3_mount_points}, status=200)
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+@api_view(['POST'])
+def unmount(request):
+    try:
+        username = request.query_params.get('username')
+        mount_type = request.query_params.get('storage_method')  # 'nfs' or 's3'
+
+        if not (username, mount_type):
+            return JsonResponse({'status': 'error', 'message': 'Invalid parameters.'}, status=400)
+
+        # Define the mount directory based on the mount type
+        mount_point = f"/var/lib/barman/{mount_type}/{username}"
+
+        # Check if the mount point exists
+        if not os.path.exists(mount_point):
+            return JsonResponse({'status': 'error', 'message': 'Mount point not found.'}, status=404)
+
+        # Unmount the specified mount point
+        unmount_command = f'sudo umount {mount_point}'
+        subprocess.run(unmount_command, shell=True, check=True)
+
+        # Remove the mount point entry from /etc/fstab using sudo
+        if mount_type == 'nfs':
+            if remove_mount_point_from_fstab(mount_point):
+                print(f"Mount point {mount_point} removed from /etc/fstab.")
+            else:
+                print("Failed to remove mount point.")
+
+        # Apply changes to /etc/fstab
+        subprocess.run('sudo mount -a', shell=True, check=True)
+
+        return JsonResponse({'status': 'success', 'message': f'{mount_point} unmounted successfully.'}, status=200)
+
+    except subprocess.CalledProcessError as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)

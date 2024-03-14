@@ -8,7 +8,7 @@
         <table class="table align-items-center mb-0">
           <thead>
             <tr>
-              <th class="text-secondary opacity-7 align-middle">Server Name</th>
+              <th class="text-secondary opacity-7 align-middle">Database Name</th>
               <th class="text-secondary opacity-7 ">Retention Period</th>
               <th class="text-secondary opacity-7">Action</th>
             </tr>

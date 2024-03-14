@@ -1,4 +1,3 @@
-[10:57 AM] Ashish Sahu
 <template>
     <div class="container mt-5">
       <div class="alert  text-center" v-show="!isCompleted && !isFailed">

@@ -183,7 +183,7 @@ def get_projects_by_user(request, user_id):
  
    
 # CLUSTER CREATE API GET CLUSTER BY USER ID AND & PROJECT I
-k8s_variables = {} 
+k8s_variables = {}
 deleteCluster_name = ''
 temp_variables = {}
 clusterName = ''
@@ -196,7 +196,7 @@ projectID = ''
 apiEndpoint = ''
 accessKey = ''
 secretKey = ''
- 
+appUser= ''
 computeOffering = ''
  
 # Define a logger for cluster-related actions
@@ -218,7 +218,8 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global accessKey
         global secretKey
         global computeOffering
-        user = User.objects.get(pk=user_id)
+        # global appUser
+        
         username = request.data.get('db_user')
         password = request.data.get('db_password')
         user_id = request.data.get('user')
@@ -233,13 +234,11 @@ class ClusterViewSet(viewsets.ModelViewSet):
         provider_access_token = request.data.get('provider_access_token')
         provider_secret_key = request.data.get('provider_secret_key')
         kubeconfig_data = request.data.get('kubeconfig_data')
-        print (kubeconfig_data)
-                # kubeconfig_data: this.kubeconfigData,
-
+ 
  
         computeOffering  = request.data.get('computeOffering')
         storageOffering = request.data.get('storageOffering')
-        print(f'{storageOffering} <= storageOffering')
+       
  
         # Adding global variable
         clusterName = cluster_name
@@ -252,12 +251,12 @@ class ClusterViewSet(viewsets.ModelViewSet):
         apiEndpoint = provider_endpoint
         accessKey = provider_access_token
         secretKey = provider_secret_key
-        kubeconfig_data = kubeconfig_data
+       
         
- 
+        user = User.objects.get(pk=user_id)
  
         temp_variables = {
-            'user': user,
+            'user': user.username,
             'username': username,
             'password': password,
             'cluster_name': cluster_name,   
@@ -266,10 +265,11 @@ class ClusterViewSet(viewsets.ModelViewSet):
             'provider_endpoint': provider_endpoint,
             'provider_access_token ': provider_access_token,
             'provider_secret_key': provider_secret_key,
-            'storageOffering': storageOffering
+            'storageOffering': storageOffering,
+            'kubeconfig': kubeconfig_data
  
         }
- 
+       
         # Check if cluster with the same name already exists in the project
         existing_cluster = Cluster.objects.filter(project=project_id, cluster_name=cluster_name).exists()
  
@@ -292,7 +292,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         project_id = "1"
         private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
         base_url = "http://gitlab-ce.os3.com/api/v4/"
-
+ 
         
  
         # project_id = "132"
@@ -417,7 +417,7 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
     def create(self , request, *args, **kwargs):
         global k8s_variables
         global deleteCluster_name
-
+ 
         # global clusterName
         # global providerName
         # global apiEndpoint
@@ -431,18 +431,18 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
         provider_secret_key = request.data.get('provider_secret_key')
         kubeconfig_data = request.data.get('kubeconfig_data')
         print (f"{accessKey} and {deleteCluster_name}")
-
+ 
         print (kubeconfig_data)
-
-
+ 
+ 
         k8s_variables = {
             'provider_endpoint' : provider_endpoint,
             'provider_secret_key' : provider_secret_key,
             'provider_name' : provider_name,
             'kubeconfig_data': kubeconfig_data,
         }
-        print (k8s_variables) 
-
+        print (k8s_variables)
+ 
         
  
         try:
@@ -463,14 +463,14 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             headers = {"PRIVATE-TOKEN" : private_token}
  
           
-
+ 
             if provider_name == 'Kubernetes':
                 branch_name = 'destroy-postgres-k8s'
             else:
                 branch_name = 'destroy'  # Use a different branch name if provider is not 'Kubernetes'
-
+ 
             response = trigger_single(base_url, project_id, headers, branch_name)
-
+ 
             if response == 200:
                 cluster.delete()
                 return Response({"message": "Destroy pipeline triggered successfully."},
@@ -612,9 +612,11 @@ def get_variables(request):
     global temp_variables
     global accessKey
     global computeOffering
+    # global appUser
+    
  
     # Your code here, using the retrieved values
-    user = temp_variables.get('user', '')
+    appUser = temp_variables.get('user', '')
     username = temp_variables.get('username', '')
     password = temp_variables.get('password', '')
     cluster_name = temp_variables.get('cluster_name', '')
@@ -624,37 +626,39 @@ def get_variables(request):
     provider_access_token = accessKey
     provider_secret_key = temp_variables.get('provider_secret_key','')
     storageOffering = temp_variables.get('storageOffering', '')
-    deleteCluster_name = clusterName
-    print(deleteCluster_name)
+    kubeconfig_data = temp_variables.get('kubeconfig', '')
+   
+ 
  
     data = {
-        'user': user,
-        'username': username,
+        'appUser': appUser,
+        'dbUser': username,
         'password': password,
         'database_name': cluster_name,
         'postgres_version': postgres_version,
         'backup_method': backup_method,
-        'delete-cluster' : clusterName,
+        
         'endpoint': provider_endpoint,
         'secret-key': provider_secret_key,
         'access-key': provider_access_token,
         'computeOffering': computeOffering,
-        'storageOffering': storageOffering
+        'storageOffering': storageOffering,
+        'kubeconfig_data': kubeconfig_data
     }
- 
+    print(data)
     return JsonResponse(data)
-
+ 
 def get_dlt_k8s_variables(request):
     global k8s_variables
     global deleteCluster_name
     global accessKey
-
+ 
     # global provider_endpoint
  
     # Your code here, using the retrieved values
-
+ 
     provider_name = k8s_variables.get('provider_name')
-
+ 
     provider_endpoint = k8s_variables.get('provider_endpoint','')
     provider_access_token = accessKey
     provider_secret_key = k8s_variables.get('provider_secret_key','')

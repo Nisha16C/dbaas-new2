@@ -115,6 +115,7 @@ def create_backup(request):
 def switch_wal(request):
     server_name = request.query_params.get('server_name')
     storage_method = request.query_params.get('storage_method')
+    username = request.query_params.get('username')
 
     if not server_name:
         return Response({'status': 'error', 'message': 'Server name is required.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -146,6 +147,7 @@ def schedule_backup(request):
     server_name = request.query_params.get('server_name')
     storage_method = request.query_params.get('storage_method')
     retention_str = request.query_params.get('retention')  
+    username = request.query_params.get('username')  
 
     if not (server_name, storage_method, retention_str):
         return JsonResponse({'status': 'error', 'message': 'All parameters are required.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -160,7 +162,7 @@ def schedule_backup(request):
                 return Response({'status': 'error', 'message': f'A cron job already exists for server "{server_name}".'}, status=400)
 
         # Proceed with scheduling the backup if no existing cron job found
-        config_file_path = os.path.join(CONFIG_DIR, f'{server_name}.conf')
+        config_file_path = os.path.join(CONFIG_DIR, f'{username}/server_config/{server_name}.conf')
         with open(config_file_path, 'a') as config_file:
             for retention in retention_str.split('\n'):
                 print(retention)
@@ -189,6 +191,7 @@ def schedule_backup(request):
 
 @api_view(['GET'])
 def get_scheduled_servers(request):
+    username = request.query_params.get('username')  
     try:
         cron = CronTab(user=True)
         scheduled_servers = []
@@ -207,7 +210,7 @@ def get_scheduled_servers(request):
         servers_with_retention = []
         for server_name in scheduled_servers:
             retention_period = None
-            config_file_path = os.path.join(CONFIG_DIR, f'{server_name}.conf')
+            config_file_path = os.path.join(CONFIG_DIR, f'{username}/server_config/{server_name}.conf')
             if os.path.exists(config_file_path):
                 with open(config_file_path, 'r') as config_file:
                     for line in config_file:
@@ -221,18 +224,19 @@ def get_scheduled_servers(request):
         return Response({'status': 'error', 'message': str(e)}, status=500)
 
 @api_view(['POST'])
-def update_scheduled_backup(request):
+def update_scheduled_backup(request):  
     try:
         server_name = request.query_params.get('server_name')
         storage_method = request.query_params.get('storage_method')
         retention_str = request.query_params.get('retention')
         remove_job = request.query_params.get('remove_job')
+        username = request.query_params.get('username')  
         print(retention_str)
 
         if not (server_name, storage_method):
             return Response({'status': 'error', 'message': 'Server name and storage method are required.'}, status=400)
 
-        config_file_path = os.path.join(CONFIG_DIR, f'{server_name}.conf')
+        config_file_path = os.path.join(CONFIG_DIR, f'{username}/server_config/{server_name}.conf')
         retention_policy_line = "retention_policy"
 
         if remove_job == 'true':

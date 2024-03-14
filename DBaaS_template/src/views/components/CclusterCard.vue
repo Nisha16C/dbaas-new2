@@ -203,8 +203,8 @@ export default {
   },
   data() {
     return {
-      selectedType: 'Standalone',
-      selectedProvider: 'Cloudstack',
+      selectedType: '',
+      selectedProvider: '',
  
       user_id: '',
       provider_info: [],

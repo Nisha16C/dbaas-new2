@@ -5,7 +5,7 @@
       {{ successMessage }}
     </div>
     <div class="card-header pb-0 px-3">
-      <h6 class="mb-0">Enter the Server Name and Backup Name.</h6>
+      <h6 class="mb-0">Enter the Database Name and Backup Name.</h6>
     </div>
     <div class="card-body pt-4 p-3">
 
@@ -23,10 +23,9 @@
           </div>
           <div class="d-flex">
             <div class="d-flex flex-column">
-              <h6 class="mb-3 text-sm">Database and Backup Name</h6>
               <form>
 
-                <label class="mt-3 text-sm">Backup Method</label>
+                <label class="mt-1 text-sm">Backup Method</label>
                 <select class="form-select" aria-label="Default select example" v-model="backup_method"
                   @click="fetchServers()">
                   <option value="nfs">NFS</option>

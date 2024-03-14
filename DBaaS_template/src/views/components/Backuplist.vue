@@ -2,8 +2,6 @@
   <div class="card">
     <div class="card-header pb-0 d-flex">
       
-        <h6 class=""> Server List </h6>
-      
       <div class="col-lg-5">
         <div class="d-flex">
           <label class="text-sm  col-sm-3">Backup Method :</label>
@@ -14,11 +12,7 @@
           </select>
         </div>
         </div>
-      <div class="col-lg-6">
-        <router-link to="/scheduled-backups" class="text-xl text-success font-weight-bold">
-         See Scheduled Backups Lists
-        </router-link>
-      </div>
+      
     </div>
 
     <div class="card-body px-0 pt-0 pb-2">
@@ -26,8 +20,8 @@
         <table class="table align-items-center mb-0">
           <thead>
             <tr>
-              <th class="text-uppercase text-secondary  font-weight-bolder opacity-7">Server Name</th>
-              <th class="text-uppercase text-secondary  font-weight-bolder opacity-7"> View Backups</th>
+              <th class="text-uppercase text-secondary  font-weight-bolder opacity-7">Database Name</th>
+              <th class="text-uppercase text-secondary  font-weight-bolder opacity-7">View Backups</th>
             </tr>
           </thead>
           <tbody>

@@ -1,4 +1,10 @@
 <template>
+    <div v-if="successMessage" class="alert alert-success mb-3">
+        <!-- Show success message when backup is completed -->
+        <div class="text-center">
+            {{ successMessage }}
+        </div>
+    </div>
     <div class="card">
         <div class="card-header pb-0 px-3">
             <h6 class="mb-0">Backup Method.</h6>
@@ -38,8 +44,11 @@
                                 <h4 class="mx-5">NFS</h4>
                             </div>
                             <div class="d-flex">
-                                <div class="mx-5">
-                                    X Not Connected
+                                <div class="mx-5 text-success" v-if="nfsMountpoints.length > 0">
+                                    Connected
+                                </div>
+                                <div class="mx-5 text-danger" v-else>
+                                    Not Connected
                                 </div>
                                 <a @click="toggleOptions()">
                                     <svg width="30px" height="30px" viewBox="0 0 16 16"
@@ -56,7 +65,8 @@
                     <div v-show='showDropdown' class="z-100 text-end">
                         <div>
                             <div><a data-toggle="modal" data-target="#mountnfsModal">Mount NFS</a></div>
-                            <div><a data-toggle="modal" data-target="#viewModal" @click="listMountpoints()">View NFS</a>
+                            <div><a data-toggle="modal" data-target="#nfsviewModal" @click="listMountpoints()">View
+                                    NFS</a>
                             </div>
                             <div><a data-toggle="modal" data-target="#nfsModal">Unmount NFS</a></div>
 
@@ -93,8 +103,11 @@
                                 <h4 class="mx-5">S3</h4>
                             </div>
                             <div class="d-flex">
-                                <div class="mx-5">
-                                    X Not Connected
+                                <div class="mx-5 text-success" v-if="s3Mountpoints.length > 0">
+                                    Connected
+                                </div>
+                                <div class="mx-5 text-danger" v-else>
+                                    Not Connected
                                 </div>
                                 <a @click="toggleOptions1()">
                                     <svg width="30px" height="30px" viewBox="0 0 16 16"
@@ -109,7 +122,8 @@
                     <div v-show='showDropdown1' class="z-100 text-end">
                         <div>
                             <div><a data-toggle="modal" data-target="#mounts3Modal">Mount S3</a></div>
-                            <div><a data-toggle="modal" data-target="#viewModal">View S3</a></div>
+                            <div><a data-toggle="modal" data-target="#s3viewModal" @click="listMountpoints()">View
+                                    S3</a></div>
                             <div><a data-toggle="modal" data-target="#s3Modal">Unmount S3</a></div>
 
                         </div>
@@ -149,7 +163,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" @click="MountNFS()"> Mount</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="MountNFS()">
+                        Mount</button>
                 </div>
             </div>
         </div>
@@ -193,13 +208,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" @click="MountS3()"> Mount</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="MountS3()"> Mount</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- View Modal -->
-    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- nfs View Modal -->
+    <div class="modal fade" id="nfsviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -209,10 +224,32 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    Access Key:
-                    Secret Key:
-                    Url:
+                <div class="modal-body" v-for="nfs in nfsMountpoints" :key="nfs.host_path">
+                    <div><b>Host Name: </b>{{ nfs.host_path }}</div>
+                    <div><b>Mount Point: </b>{{ nfs.mount_point }}</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- s3 View Modal -->
+    <div class="modal fade" id="s3viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Mount Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" v-for="s3 in s3Mountpoints" :key="s3.access_key">
+                    <div><b>Access Key: </b>{{ s3.access_key }}</div>
+                    <div><b>Secret Key: </b>{{ s3.secret_key }}</div>
+                    <div><b>Mount Point: </b>{{ s3.mount_point }}</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -237,7 +274,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" @click="unmountNFS"> Unmount</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="unmountNFS">
+                        Unmount</button>
                 </div>
             </div>
         </div>
@@ -258,7 +296,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" @click="unmountS3"> Unmount</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="unmountS3">
+                        Unmount</button>
                 </div>
             </div>
         </div>
@@ -285,11 +324,13 @@ export default {
             username: '',
             showDropdown: false,
             showDropdown1: false,
-            mountpoints: [],
+            nfsMountpoints: [],
+            s3Mountpoints: [],
         };
     },
     created() {
         this.username = sessionStorage.getItem('username');
+        this.listMountpoints();
     },
     methods: {
         toggleOptions() {
@@ -312,12 +353,14 @@ export default {
                     setTimeout(() => {
                         this.$router.push("/mount-backup-method");
                     }, 5000);
+                    this.listMountpoints();
                 })
                 .catch((error) => {
                     console.error('Error mounting nfs:', error);
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.closeModal();
                 });
         },
         MountS3() {
@@ -327,16 +370,18 @@ export default {
             )
                 .then((response) => {
                     console.log(response);
-                    this.successMessage = "Backup scheduled successfully";
+                    this.successMessage = "S3 mount successfully";
                     setTimeout(() => {
                         this.$router.push("/mount-backup-method");
                     }, 5000);
+                    this.listMountpoints();
                 })
                 .catch((error) => {
                     console.error('Error mounting s3:', error);
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.closeModal();
                 });
         },
         unmountNFS() {
@@ -346,16 +391,18 @@ export default {
             )
                 .then((response) => {
                     console.log(response);
-                    this.successMessage = "Backup scheduled successfully";
+                    this.successMessage = "NFS unmount successfully";
                     setTimeout(() => {
                         this.$router.push("/mount-backup-method");
                     }, 5000);
+                    this.listMountpoints();
                 })
                 .catch((error) => {
                     console.error('Error mounting s3:', error);
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.closeModal();
                 });
         },
         unmountS3() {
@@ -365,16 +412,18 @@ export default {
             )
                 .then((response) => {
                     console.log(response);
-                    this.successMessage = "Backup scheduled successfully";
+                    this.successMessage = "S3 unmount successfully";
                     setTimeout(() => {
                         this.$router.push("/mount-backup-method");
                     }, 5000);
+                    this.listMountpoints();
                 })
                 .catch((error) => {
                     console.error('Error mounting s3:', error);
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.closeModal();
                 });
         },
         listMountpoints() {
@@ -383,10 +432,9 @@ export default {
                 `http://172.16.1.131:8000/api/v4/barman/list-mount-points?username=${this.username}`
             )
                 .then((response) => {
-                    console.log(response);
-                    this.mountpoints = response.data.message;
-                    console.log(this.mountpoints);
-                    this.successMessage = "Backup scheduled successfully";
+                    this.nfsMountpoints = response.data.nfs_mount_points;
+                    this.s3Mountpoints = response.data.s3_mount_points;
+                    console.log(this.s3Mountpoints);
                     setTimeout(() => {
                         this.$router.push("/mount-backup-method");
                     }, 5000);
@@ -403,6 +451,10 @@ export default {
             setTimeout(() => {
                 this.errorMessage = "";
             }, delay);
+        },
+
+        closeModal() {
+            this.isOpen = false; // Close modal using jQuery
         },
     },
 };

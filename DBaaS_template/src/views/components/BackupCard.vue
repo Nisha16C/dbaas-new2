@@ -105,9 +105,13 @@ export default {
       retentionPeriod: '',
       selected_value: '',
       backup_method: '',
+      username: '',
       loading: false, // Track loading state
       successMessage: "", // Success message
     };
+  },
+  created() {
+    this.username = sessionStorage.getItem('username');
   },
 
   methods: {
@@ -118,7 +122,7 @@ export default {
     async fetchServers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-servers?storage_method=${this.backup_method}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-servers?storage_method=${this.backup_method}&username=${this.username}`);
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;
@@ -131,7 +135,7 @@ export default {
       this.loading = true; // Set loading to true before making the request
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/backup?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}`
+          `http://172.16.1.131:8000/api/v4/barman/backup?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}&username=${this.username}`
         )
         .then((response) => {
           console.log(response);
@@ -153,7 +157,7 @@ export default {
       this.loading = true; // Set loading to true before making the request
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/schedule-backup?server_name=${this.serverName}&retention=${this.retentionPeriod}${this.selected_value}&storage_method=${this.backup_method}`
+          `http://172.16.1.131:8000/api/v4/barman/schedule-backup?server_name=${this.serverName}&retention=${this.retentionPeriod}${this.selected_value}&storage_method=${this.backup_method}&username=${this.username}`
         )
         .then((response) => {
           console.log(response);

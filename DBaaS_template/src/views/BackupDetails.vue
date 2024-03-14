@@ -132,6 +132,7 @@ export default {
   data() {
     return {
       backupList:[],
+      username:'',
       stats: {
         money: {
           title: "All Backups",
@@ -148,12 +149,15 @@ export default {
     // Fetch data when the component is mounted
     this.fetchBackups();
   },
+  created() {
+    this.username = sessionStorage.getItem('username');
+  },
   methods: {
     async fetchBackups() {
       console.log(this.serverName)
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.serverName}&storage_method=nfs`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.serverName}&storage_method=nfs&username=${this.username}`);
 
         // Update the clusters data with the fetched data
         this.backupList = response.data.message;

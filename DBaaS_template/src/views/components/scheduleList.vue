@@ -105,6 +105,7 @@ export default {
       backups: [],
       server_name: '', // Initialize clusters as an empty array
       newRetentionPeriod: '',
+      username: '',
       selected_value: 'days',
       loading: false,
       successMessage: '',
@@ -115,11 +116,14 @@ export default {
     // Fetch data when the component is mounted
     this.fetchBackups();
   },
+  created() {
+    this.username = sessionStorage.getItem('username');
+  },
   methods: {
     async fetchBackups() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/get-scheduled-servers`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/get-scheduled-servers&username=${this.username}`);
 
         // Update the clusters data with the fetched data
         this.backups = response.data.message;
@@ -131,7 +135,7 @@ export default {
 
     Unschedule(serverName) {
       axios
-        .post(`http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?storage_method=nfs&server_name=${serverName}&remove_job=true`,)
+        .post(`http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?storage_method=nfs&server_name=${serverName}&remove_job=true&username=${this.username}`,)
         .then((response) => {
           console.log(response)
           console.log("Backup done successfully");
@@ -154,7 +158,7 @@ export default {
       this.loading = true; // Set loading to true before making the request
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?server_name=${this.server_name}&retention=${this.newRetentionPeriod}${this.selected_value}&storage_method=nfs`
+          `http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?server_name=${this.server_name}&retention=${this.newRetentionPeriod}${this.selected_value}&storage_method=nfs&username=${this.username}`
         )
         .then((response) => {
           this.successMessage = "Retention Period changed successfully";

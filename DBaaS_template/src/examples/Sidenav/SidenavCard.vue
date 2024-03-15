@@ -14,13 +14,8 @@
       <h6  class="mb-0 text-dark up">Need Help ?</h6>
      
     </div>
-   
-    <a
-      href="#"
-      target="_blank"
-      class="mb-3 btn btn-dark btn-sm w-100"
-      >Documentation</a
-    >
+   <!--  target="_blank" -->
+    <a href="/Documentation" class="mb-3 btn btn-dark btn-sm w-100">Documentation</a>
   </div>
 </template>
 <script>

@@ -189,7 +189,7 @@ export default {
       };
  
       this.$router.push('/delete');
-      axios.post("http://172.16.1.69:8000/api/v2/deletecluster/", formData)
+      axios.post("http://172.16.1.190:8002/api/v2/deletecluster/", formData)
         .then(response => {
           console.log('Cluster deleted successfully:', response.data);
           this.deleteModal = false
@@ -203,7 +203,7 @@ export default {
  
     viewCluster(clusterName) {
       this.clusterName = clusterName;
-      axios.get(`http://172.16.1.69:8000/api/v2/result/content/${clusterName}/`)
+      axios.get(`http://172.16.1.190:8002/api/v2/result/content/${clusterName}/`)
         .then(response => {
           this.contentList = response.data;
  
@@ -221,7 +221,7 @@ export default {
     async fetchclusters_list() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.69:8000/api/v2/cluster/');
+        const response = await axios.get('http://172.16.1.190:8002/api/v2/cluster/');
  
         // Update the clusters_list data with the fetched data
         this.clusters_list = response.data;
@@ -231,14 +231,14 @@ export default {
     },
  
     fetchProjects() {
-      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.190:8002/api/v2/project/user/${this.user_id}/`)
         .then(response => {
           this.projects = response.data;
  
         });
     },
     fetchClusters() {
-      axios.get(`http://172.16.1.69:8000/api/v2/cluster/user/${this.user_id}/`)
+      axios.get(`http://172.16.1.190:8002/api/v2/cluster/user/${this.user_id}/`)
         .then(response => {
           this.clusters = response.data;
           this.loading = false;
@@ -246,7 +246,7 @@ export default {
     },
     fetchClustersByProject() {
       if (this.selectedProject) {
-        axios.get(`http://172.16.1.69:8000/api/v2/cluster/project/${this.selectedProject}/`)
+        axios.get(`http://172.16.1.190:8002/api/v2/cluster/project/${this.selectedProject}/`)
           .then(response => {
             this.clusters = response.data;
           });

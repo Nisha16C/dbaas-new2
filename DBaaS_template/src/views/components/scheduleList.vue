@@ -31,12 +31,12 @@
                 </div>
               </td>
               <td class="align-middle">
-                <argon-button color="success" size="md" variant="gradient" @click="prepareDelete(backup.server_name)"
+                <argon-button color="success" size="md" variant="gradient" @click="fetchBackupMethod(backup.server_name)"
                   type="button" class="ml-4 mt-2 btn btn-success" data-toggle="modal" data-target="#exampleModal">
                   Change
                 </argon-button>
-                <argon-button color="danger" size="md" variant="gradient" @click="Unschedule(backup.server_name)"
-                  type="button" class="ml-4 mt-2 btn btn-danger">
+                <argon-button color="danger" size="md" variant="gradient" @click="fetchBackupMethod(backup.server_name)"
+                  type="button" class="ml-4 mt-2 btn btn-danger" data-toggle="modal" data-target="#unschedule">
                   Unschedule
                 </argon-button>
               </td>
@@ -45,6 +45,28 @@
           </tbody>
         </table>
       </div>
+    </div>
+
+    <div class="modal fade" id="unschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Unschedule backup</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are You Sure Want to unschedule backup !!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"  @click="Unschedule(server_name)">
+                        Unschedule</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="modal fade" :class="{ 'show': isOpen }" id="exampleModal" tabindex="-1" role="dialog"
@@ -106,10 +128,13 @@ export default {
       server_name: '', // Initialize clusters as an empty array
       newRetentionPeriod: '',
       username: '',
+      user_id:'',
       selected_value: 'days',
       loading: false,
       successMessage: '',
       isOpen: false,
+      clusters:'',
+      backup_method:'',
     };
   },
   mounted() {
@@ -118,12 +143,13 @@ export default {
   },
   created() {
     this.username = sessionStorage.getItem('username');
+    this.user_id = sessionStorage.getItem('user_id');
   },
   methods: {
     async fetchBackups() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/get-scheduled-servers&username=${this.username}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/get-scheduled-servers?username=${this.username}`);
 
         // Update the clusters data with the fetched data
         this.backups = response.data.message;
@@ -135,8 +161,8 @@ export default {
 
     Unschedule(serverName) {
       axios
-        .post(`http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?storage_method=nfs&server_name=${serverName}&remove_job=true&username=${this.username}`,)
-        .then((response) => {
+        .post(`http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?storage_method=${this.backup_method}&server_name=${serverName}&remove_job=true&username=${this.username}`,)
+       .then((response) => {
           console.log(response)
           console.log("Backup done successfully");
           this.$router.push('/scheduled-backups');
@@ -149,7 +175,7 @@ export default {
 
     },
 
-    prepareDelete(serverName) {
+    getValue(serverName) {
       this.server_name = serverName;
       this.isOpen = true;
     },
@@ -158,7 +184,7 @@ export default {
       this.loading = true; // Set loading to true before making the request
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?server_name=${this.server_name}&retention=${this.newRetentionPeriod}${this.selected_value}&storage_method=nfs&username=${this.username}`
+          `http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?server_name=${this.server_name}&retention=${this.newRetentionPeriod}${this.selected_value}&storage_method=${this.backup_method}&username=${this.username}`
         )
         .then((response) => {
           this.successMessage = "Retention Period changed successfully";
@@ -179,6 +205,21 @@ export default {
 
     closeModal() {
       this.isOpen = false; // Close modal using jQuery
+    },
+
+    async fetchBackupMethod(serverName) {
+      this.server_name = serverName;
+      this.isOpen = true;
+      try {
+        // Make a GET request to the endpoint
+        const response = await axios.get(`http://172.16.1.69:8000/api/v2/get_backup_method/${this.server_name}/`);
+
+        // Update the clusters data with the fetched data
+        this.backup_method = response.data.backup_method;
+        console.log(this.backup_method);
+      } catch (error) {
+        console.error('Error fetching backup-method:', error);
+      }
     },
   },
 };

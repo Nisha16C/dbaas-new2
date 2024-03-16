@@ -1,10 +1,9 @@
-
 <template>
   <div class="card">
     <div class="card-header pb-0 px-3">
       <h6 class="mb-0">Enter the Cluster Name and it's Password.</h6>
     </div>
- 
+
     <div class="card-body pt-4 p-3">
       <ul class="list-group">
         <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
@@ -19,22 +18,22 @@
                 <div v-if="errorClusterName" class="text-danger mt-2">{{ errorClusterName }}</div>
                 <!-- Error message for cluster name already exists -->
                 <div v-if="errorClusterNameExists" class="text-danger mt-2">{{ errorClusterNameExists }}</div>
- 
+
               </div>
- 
+
               <div class="form-group">
                 <label for="Postgres_Username"> Postgres Username</label>
                 <input type="email" class="form-control" id="Postgres_Username"
                   placeholder="Enter Your Postgres Username" v-model="db_user" />
               </div>
- 
+
               <div class="form-group">
                 <label for="Cluster_Name"> Your Password</label>
                 <input type="password" class="form-control" id="Password" placeholder="Enter Your Password "
                   v-model="db_password" />
               </div>
             </form>
- 
+
             <h6 class="mb-3 text-sm">Database Type and Versions</h6>
             <select class="form-select" aria-label="Default select example" @change="updateVersion"
               v-model="postgres_version">
@@ -45,18 +44,17 @@
             </select>
             <!-- Error message for database version -->
             <div v-if="errorDatabaseVersion" class="text-danger mt-2">{{ errorDatabaseVersion }}</div>
- 
+
             <!-- <div class="form-group">
             <label for="Compute_Offering">Compute Offering</label>
             <select class="form-select" aria-label="Default select example" v-model="selectedComputeOffering">
               <option v-for="offering in computeOfferings" :key="offering.id" :value="offering.id">{{ offering.name }}</option>
             </select>
           </div> -->
- 
- 
+
+
             <h6 class="mb-3 mt-3 text-sm">Backup Method</h6>
-            <select class="form-select" aria-label="Default select example"
-              v-model="backup_method">
+            <select class="form-select" aria-label="Default select example" v-model="backup_method">
               <option value="nfs">NFS</option>
               <option value="s3">S3</option>
             </select>
@@ -66,18 +64,30 @@
           </div>
         </li>
       </ul>
- 
+      <div class="text-danger mb-3">
+        {{ typeError }}
+      </div>
+      <div class="text-danger mb-3">
+        {{ providerError }}
+      </div>
+      <div class="text-danger mb-3">
+        {{ computeOfferingError }}
+      </div>
+      <div class="text-danger mb-3">
+        {{ storageOfferingError }}
+      </div>
+
       <argon-button @click="createCluster" color="success" size="md" variant="gradient">
         Create Cluster </argon-button>
     </div>
   </div>
 </template>
- 
+
 <script>
 import axios from 'axios';
 import { mapState, mapActions } from 'vuex';
 import ArgonButton from "@/components/ArgonButton.vue";
- 
+
 export default {
   name: "billing-card",
   components: {
@@ -89,8 +99,8 @@ export default {
       postgres_version: '',
       cluster_name: '',
       computeOfferings: [],  // New property to store compute offerings
- 
- 
+
+
       user_id: '',
       provider_info: '',
       errorClusterName: '',
@@ -104,19 +114,23 @@ export default {
       Username: '',
       nfsMountpoints: '',
       s3Mountpoints: '',
-      backupError:'',
-      mount_point:'',
- 
+      backupError: '',
+      mount_point: '',
+      typeError: '',
+      providerError: '',
+      computeOfferingError:'',
+      storageOfferingError:'',
+
     };
   },
- 
+
   created() {
     this.Username = sessionStorage.getItem('username');
     this.user_id = sessionStorage.getItem('user_id');
     this.listMountpoints();
     // this.fetchComputeOfferings();
   },
- 
+
   methods: {
     ...mapActions(['updateSelectedVersion']),
     updateVersion() {
@@ -126,15 +140,15 @@ export default {
     // updateMethod() {
     //   this.updateSelectedMethod(this.backup_method);
     // },
- 
+
     checkClusterNameExists() {
       this.errorClusterNameExists = '';
- 
+
       if (!this.cluster_name) {
- 
+
         return;
       }
- 
+
       // Check if cluster name already exists
       axios
         .get(`http://172.16.1.69:8000/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
@@ -171,9 +185,9 @@ export default {
       this.errorClusterNameExists = '';
       this.errorNoSelectedProject = '';
       this.backendError = '';
- 
+
       if (!this.cluster_name) {
- 
+
         this.errorClusterName = 'Cluster name is required';
         setTimeout(() => {
           this.errorClusterName = '';
@@ -181,62 +195,95 @@ export default {
         return;
       }
       if (!this.postgres_version) {
- 
+
         this.errorDatabaseVersion = 'Postgres version is required';
         setTimeout(() => {
           this.errorDatabaseVersion = '';
         }, 5000);
         return;
       }
- 
- 
+
+
       if (!this.project_id) {
         console.log(this.project_id);
- 
+
         this.errorNoSelectedProject = 'You have not selected any Project';
         setTimeout(() => {
           this.errorNoSelectedProject = '';
         }, 5000);
         return;
       }
- 
-      if(!this.backup_method){
-        this.backupError='This field is required';
+
+      if (!this.backup_method) {
+        this.backupError = 'This field is required';
         return;
-      }else{
+      } else {
         if (this.backup_method === 'nfs') {
-        this.mount_point = this.nfsMountpoints[0].mount_point;
-        if (this.nfsMountpoints.length <= 0){
-          this.backupError="NFS is not connected";
-          return;
-        }else{
-          this.backupError='';
-        }
-      }else{
-        this.mount_point = this.s3Mountpoints[0].mount_point;
-        if (this.s3Mountpoints.length <= 0){
-          this.backupError="S3 is not connected";
-          return;
-        }else{
-          this.backupError='';
+          this.mount_point = this.nfsMountpoints[0].mount_point;
+          if (this.nfsMountpoints.length <= 0) {
+            this.backupError = "NFS is not connected";
+            return;
+          } else {
+            this.backupError = '';
+          }
+        } else {
+          this.mount_point = this.s3Mountpoints[0].mount_point;
+          if (this.s3Mountpoints.length <= 0) {
+            this.backupError = "S3 is not connected";
+            return;
+          } else {
+            this.backupError = '';
+          }
         }
       }
-    }
-      
+
+      if (!this.selectedType) {
+
+        this.typeError = 'Cluster type is required';
+        setTimeout(() => {
+          this.typeError = '';
+        }, 5000);
+        return;
+      }
+      if (!this.selectedProvider) {
+
+        this.providerError = 'Provider is required';
+        setTimeout(() => {
+          this.providerError = '';
+        }, 5000);
+        return;
+      }
+      if (!this.selectedComputeOffering) {
+
+        this.computeOfferingError = 'Compute Offering is required';
+        setTimeout(() => {
+          this.computeOfferingError = '';
+        }, 5000);
+        return;
+      }
+      if (!this.selectedStorageOffering) {
+
+        this.storageOfferingError = 'Storage Offering is required';
+        setTimeout(() => {
+          this.storageOfferingError = '';
+        }, 5000);
+        return;
+      }
+
       axios
         .get(`http://172.16.1.69:8000/api/v3/providers/by-username-and-name/${this.Username}/${this.selectedProvider}/`)
         .then((response) => {
           this.provider_info = response.data;
           // this.selectedStorageOffering = this.selectedStorageOffering.toString()+'GB;'
           // console.log(this.selectedStorageOffering)
- 
+
           const fromData = {
             db_user: this.db_user,
             db_password: this.db_password,
             user: this.user_id,
             project: this.project_id,
             provider: this.selectedProvider,
- 
+
             cluster_type: this.selectedType,
             computeOffering: this.selectedComputeOffering,
             storageOffering: this.selectedStorageOffering,
@@ -246,26 +293,26 @@ export default {
             provider_access_token: this.provider_info.access_token,
             provider_secret_key: this.provider_info.secret_key,
             kubeconfig_data: this.provider_info.kubeconfig_data,
- 
+
             backup_method: this.backup_method,
             mount_point: this.mount_point,
           };
- 
- 
+
+
           // this.$router.push('/result');
           axios
             .post(`http://172.16.1.69:8000/api/v2/cluster/`, fromData)
             .then(() => {
- 
- 
+
+
             })
             .catch((error) => {
               console.log(error);
- 
+
             });
         })
     },
- 
+
     fetchComputeOfferings() {
       axios
         .get('http://172.16.1.69:8000/api/v2/compute_offerings/')
@@ -277,16 +324,16 @@ export default {
         });
     },
   },
- 
- 
+
+
   computed: {
     ...mapState(['selectedType', 'selectedComputeOffering', 'selectedProvider', 'postgres_version', 'project_name', 'project_id', 'selectedStorageOffering']),
- 
+
   },
 };
 </script>
- 
- 
- 
- 
+
+
+
+
 CsettingCard.vue

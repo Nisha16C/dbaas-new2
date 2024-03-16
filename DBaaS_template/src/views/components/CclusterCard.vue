@@ -1,3 +1,4 @@
+[6:24 AM] Preeti Nathani
 <template>
   <div class="card">
     <div class="card-header pb-0 px-3">
@@ -15,8 +16,8 @@
                 <div class="h-100 w-100 border border-success rounded-md text-center text-wrap p-3"
                   :class="{ 'bg-light': selectedType === 'Standalone' }">
                   <label for="Standalone">
-                    <input type="radio" id="Standalone" class="visually-hidden" value="Standalone" v-model="selectedType"
-                      @change="updateType" />
+                    <input type="radio" id="Standalone" class="visually-hidden" value="Standalone"
+                      v-model="selectedType" @change="updateType" />
                     <p class="pt-2 text-info font-size-18 text-wrap">
                       Standalone cluster
                     </p>
@@ -50,16 +51,15 @@
  
           </div>
         </li>
- 
- 
- 
+        <div v-if="typeError" class="text-danger">{{ typeError }}</div>
+        
         <!-- Providers Lists row 1 -->
-<li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
+        <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
           <div class="d-flex flex-column">
             <h6 class="mb-3 text-sm">Providers</h6>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
  
-              <div  class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Cloudstack' }">
+              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Cloudstack' }">
                 <div class="bg-transparent border-4 rounded-md text-center p-3 d-flex align-items-center">
                   <label>
                     <input class="visually-hidden" type="radio" id="Cloudstack" value="Cloudstack"
@@ -74,21 +74,22 @@
                   <label>
                     <input class="visually-hidden" type="radio" id="Harvester" value="Harvester"
                       v-model="selectedProvider" @change="updateProvider" />
-                      <div class="avatar avatar-xl position-relative">
-                  <img style="width: 150px;;height: 100px;  " class="object-contain max-w-full rounded-lg" src="@/assets/img/wh1.webp" alt="harvester" />
-                </div>
+                    <div class="avatar avatar-xl position-relative">
+                      <img style="width: 150px;;height: 100px;  " class="object-contain max-w-full rounded-lg"
+                        src="@/assets/img/wh1.webp" alt="harvester" />
+                    </div>
                   </label>
                 </div>
               </div>
-
-              
-</div>
-<br>
-<!-- provider image row2-->
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
-
-  <!-- vmware -->
-  <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Vmware' }">
+ 
+ 
+            </div>
+            <br>
+            <!-- provider image row2-->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
+ 
+              <!-- vmware -->
+              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Vmware' }">
                 <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Vmware' ? 'selected' : '' }}">
                   <label>
@@ -99,9 +100,9 @@
                   </label>
                 </div>
               </div>
-
+ 
               <!-- k8s -->
-  <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Kubernetes' }">
+              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Kubernetes' }">
                 <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Kubernetes' ? 'selected' : '' }}">
                   <label>
@@ -112,15 +113,15 @@
                   </label>
                 </div>
               </div>
-
  
-</div>
-
-<br>
-<!-- ro3 -->
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
- <!-- nutanix -->
-  <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Nutanix' }">
+ 
+            </div>
+ 
+            <br>
+            <!-- ro3 -->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
+              <!-- nutanix -->
+              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Nutanix' }">
                 <label>
                   <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ selectedProvider === 'Nutanix' ? 'selected' : '' }}">
@@ -133,7 +134,7 @@
                   </div>
                 </label>
               </div>
-
+ 
               <!-- openstack -->
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Openstack' }">
                 <div class="bg-transprent border-4 rounded-md text-center p-3  d-flex align-items-center
@@ -146,39 +147,40 @@
                   </label>
                 </div>
               </div>
-
  
-</div>
+ 
+            </div>
  
             <div class="row row-cols-1 row-cols-md-2 g-5" style="width: 66.6667% ">
               <!-- Cloudstack Provider -->
-            
+ 
  
               <!-- Harvester Provider -->
-             
  
  
- <!-- comment -->
-              
+ 
+              <!-- comment -->
+ 
  
               <!-- Kubernetes Provider -->
-             
+ 
  
               <!-- Nutanix Provider -->
-             
+ 
  
               <!-- Openstack Provider -->
-             
-
-            
+ 
+ 
+ 
  
             </div>
             <argon-alert v-if="error" color="danger" icon="icon-danger" dismissible>
-  This Provider is not connected. <router-link to="/Providers" class="text-danger">Click here</router-link>
-</argon-alert>
+              This Provider is not connected. <router-link to="/Providers" class="text-danger">Click here</router-link>
+            </argon-alert>
  
           </div>
         </li>
+        <div v-if="providerError" class="text-danger">{{ providerError }}</div>
       </ul>
       <argon-button @click="Next()" color="success" size="md" variant="gradient">
         NEXT
@@ -205,6 +207,8 @@ export default {
     return {
       selectedType: '',
       selectedProvider: '',
+      typeError: '',
+      providerError: '',
  
       user_id: '',
       provider_info: [],
@@ -230,26 +234,42 @@ export default {
     },
  
     Next() {
-    const selectedProviderInfo = this.provider_info.find(
-      (provider) => provider.provider_name.toLowerCase() === this.selectedProvider.toLowerCase()
-    );
+      if (!this.selectedType) {
  
-    if (selectedProviderInfo && selectedProviderInfo.is_connected) {
-      if(this.selectedProvider === 'Kubernetes'){
-        this.$router.push('/Cluster-Setting');
-      }else{
-      this.$router.push('/Cconfiguration');
-    }
-    } else {
-      this.error = "This provider is not connected";
-      setTimeout(() => {
-        this.error = '';
-      }, 5000);
-    }
-  },
+        this.typeError = 'Cluster type is required';
+        setTimeout(() => {
+          this.typeError = '';
+        }, 5000);
+        return;
+      }
+      if (!this.selectedProvider) {
+ 
+        this.providerError = 'Provider is required';
+        setTimeout(() => {
+          this.providerError = '';
+        }, 5000);
+        return;
+      }
+      const selectedProviderInfo = this.provider_info.find(
+        (provider) => provider.provider_name.toLowerCase() === this.selectedProvider.toLowerCase()
+      );
+ 
+      if (selectedProviderInfo && selectedProviderInfo.is_connected) {
+        if (this.selectedProvider === 'Kubernetes') {
+          this.$router.push('/Cluster-Setting');
+        } else {
+          this.$router.push('/Cconfiguration');
+        }
+      } else {
+        this.error = "This provider is not connected";
+        setTimeout(() => {
+          this.error = '';
+        }, 5000);
+      }
+    },
  
     getAllProviderData() {
-      axios.get(`http://172.16.1.190:8002/api/v3/providers/by-user/${this.user_id}/`)
+      axios.get(`http://172.16.1.69:8000/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data
           console.log(response.data);
@@ -263,5 +283,3 @@ export default {
   },
 };
 </script>
- 
- 

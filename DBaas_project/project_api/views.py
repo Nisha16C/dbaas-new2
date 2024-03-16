@@ -745,6 +745,19 @@ def get_clusters_by_project(request, project_id):
     clusters = Cluster.objects.filter(project_id=project_id)
     serializer = ClusterSerializers(clusters, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def get_backup_method_by_cluster_name(request, cluster_name):
+    try:
+        # Retrieve the cluster object based on the provided cluster name
+        cluster = Cluster.objects.get(cluster_name=cluster_name)
+        # Extract the backup method associated with the cluster
+        backup_method = cluster.backup_method
+        # Return the backup method in the response
+        return Response({'backup_method': backup_method}, status=status.HTTP_200_OK)
+    except Cluster.DoesNotExist:
+        # Return an error if the cluster with the provided name doesn't exist
+        return Response({'error': 'Cluster not found'}, status=status.HTTP_404_NOT_FOUND)
  
  
 from rest_framework import generics

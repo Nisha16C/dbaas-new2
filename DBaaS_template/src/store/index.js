@@ -22,8 +22,8 @@ export default createStore({
     showMain: true,
     layout: "default",
     username: null,
-    selectedType: 'Standalone',
-    selectedProvider: 'Cloudstack',
+    selectedType: '',
+    selectedProvider: '',
     postgres_version:'',
  
     project_name: '',
@@ -130,7 +130,7 @@ export default createStore({
     // },
  
     fetchFirstProject({ commit,  }, userId) {
-      axios.get(`http://172.16.1.190:8002/api/v2/project/user/${userId}/`)
+      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${userId}/`)
         .then(response => {
           const firstProject = response.data[0];
           commit('setGlobalProjectName', firstProject.project_name);

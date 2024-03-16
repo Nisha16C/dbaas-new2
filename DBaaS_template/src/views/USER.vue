@@ -168,7 +168,7 @@ export default {
             console.log(userData);
 
             // Make a POST request to create a new user
-            axios.post(`http://172.16.1.190:8002/api/v1/users/`, this.userData)
+            axios.post(`http://172.16.1.69:8000/api/v1/users/`, this.userData)
                 .then(response => {
                     // Handle the response, for example, show a success message
                     console.log(response.data);

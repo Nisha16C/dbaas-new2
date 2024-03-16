@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from project_api.views import ProjectViewSet,ComputeOfferingsAPIView , ClusterViewSet, ClusterDeleteViewSet, get_projects_by_user, display_artifacts, get_variables, ContentByClusterNameView, display_clusters, get_dlt_k8s_variables
+from project_api.views import ProjectViewSet,ComputeOfferingsAPIView , ClusterViewSet, ClusterDeleteViewSet, get_projects_by_user, display_artifacts, get_variables, ContentByClusterNameView, display_clusters, get_dlt_k8s_variables, get_backup_method_by_cluster_name
 
 from rest_framework import routers
 
@@ -16,7 +16,8 @@ urlpatterns = [
     path('get_pipeline_status/', ClusterViewSet.as_view({'get': 'get_pipeline_status'}), name='get-pipeline-status'),
     path('display_artifacts/', display_artifacts, name='display_artifacts'),
     path('get_variables/', get_variables, name='get_variables'),
-    path('get_dlt_k8s_variables/', get_dlt_k8s_variables, name='get_dlt_k8s_variables'),
+    path('get_variables/', get_variables, name='get_variables'),
+    path('get_backup_method/<str:cluster_name>/', get_backup_method_by_cluster_name, name='get_backup_method_by_cluster_name'),
     path('result/content/<str:cluster_name>/', ContentByClusterNameView.as_view(), name='content-by-cluster-name'),
     
     # New URL for checking if a cluster name already exists

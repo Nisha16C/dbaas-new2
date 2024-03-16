@@ -228,6 +228,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         cluster_type = request.data.get('cluster_type')
         database_version = request.data.get('postgres_version')
         backup_method = request.data.get('backup_method')
+        mount_point = request.data.get('mount_point')
  
         provider_name = request.data.get('provider')
         provider_endpoint = request.data.get('provider_endpoint')
@@ -266,7 +267,8 @@ class ClusterViewSet(viewsets.ModelViewSet):
             'provider_access_token ': provider_access_token,
             'provider_secret_key': provider_secret_key,
             'storageOffering': storageOffering,
-            'kubeconfig': kubeconfig_data
+            'kubeconfig': kubeconfig_data,
+            'mount_point': mount_point,
  
         }
        
@@ -622,6 +624,7 @@ def get_variables(request):
     cluster_name = temp_variables.get('cluster_name', '')
     postgres_version = temp_variables.get('postgres_version', '')
     backup_method = temp_variables.get('backup_method', '')
+    mount_point = temp_variables.get('mount_point', '')
     provider_endpoint = temp_variables.get('provider_endpoint','')
     provider_access_token = accessKey
     provider_secret_key = temp_variables.get('provider_secret_key','')
@@ -637,6 +640,7 @@ def get_variables(request):
         'database_name': cluster_name,
         'postgres_version': postgres_version,
         'backup_method': backup_method,
+        'mount_point': mount_point,
         
         'endpoint': provider_endpoint,
         'secret-key': provider_secret_key,

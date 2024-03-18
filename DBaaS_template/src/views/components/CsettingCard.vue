@@ -37,7 +37,8 @@
             <h6 class="mb-3 text-sm">Database Type and Versions</h6>
             <select class="form-select" aria-label="Default select example" @change="updateVersion"
               v-model="postgres_version">
-              <option value="15" selected>15</option>
+              <option value="16" selected>16</option>
+              <option value="15" >15</option>
               <option value="14">14</option>
               <option value="13">13</option>
               <option value="12">12</option>
@@ -45,17 +46,9 @@
             <!-- Error message for database version -->
             <div v-if="errorDatabaseVersion" class="text-danger mt-2">{{ errorDatabaseVersion }}</div>
 
-            <!-- <div class="form-group">
-            <label for="Compute_Offering">Compute Offering</label>
-            <select class="form-select" aria-label="Default select example" v-model="selectedComputeOffering">
-              <option v-for="offering in computeOfferings" :key="offering.id" :value="offering.id">{{ offering.name }}</option>
-            </select>
-          </div> -->
-
-
             <h6 class="mb-3 mt-3 text-sm">Backup Method</h6>
             <select class="form-select" aria-label="Default select example" v-model="backup_method">
-              <option value="nfs">NFS</option>
+              <option value="nfs" selected>NFS</option>
               <option value="s3">S3</option>
             </select>
             <div class="text-danger">
@@ -219,7 +212,9 @@ export default {
         return;
       } else {
         if (this.backup_method === 'nfs') {
+          console.log("backup_method == nfs");
           this.mount_point = this.nfsMountpoints[0].mount_point;
+          console.log(this.mount_point);
           if (this.nfsMountpoints.length <= 0) {
             this.backupError = "NFS is not connected";
             return;
@@ -227,7 +222,9 @@ export default {
             this.backupError = '';
           }
         } else {
+          console.log("backup_method == nfs");
           this.mount_point = this.s3Mountpoints[0].mount_point;
+          console.log(this.mount_point);
           if (this.s3Mountpoints.length <= 0) {
             this.backupError = "S3 is not connected";
             return;
@@ -253,7 +250,7 @@ export default {
         }, 5000);
         return;
       }
-      if (!this.selectedComputeOffering) {
+      if (this.selectedProvider !== 'Kubernetes' && !this.selectedComputeOffering){
 
         this.computeOfferingError = 'Compute Offering is required';
         setTimeout(() => {
@@ -261,7 +258,7 @@ export default {
         }, 5000);
         return;
       }
-      if (!this.selectedStorageOffering) {
+      if (this.selectedProvider !== 'Kubernetes' && !this.selectedStorageOffering) {
 
         this.storageOfferingError = 'Storage Offering is required';
         setTimeout(() => {
@@ -274,8 +271,7 @@ export default {
         .get(`http://172.16.1.69:8000/api/v3/providers/by-username-and-name/${this.Username}/${this.selectedProvider}/`)
         .then((response) => {
           this.provider_info = response.data;
-          // this.selectedStorageOffering = this.selectedStorageOffering.toString()+'GB;'
-          // console.log(this.selectedStorageOffering)
+          this.provider_info.kubeconfig_data = JSON.stringify(this.provider_info.kubeconfig_data)
 
           const fromData = {
             db_user: this.db_user,
@@ -299,7 +295,7 @@ export default {
           };
 
 
-          // this.$router.push('/result');
+          this.$router.push('/result');
           axios
             .post(`http://172.16.1.69:8000/api/v2/cluster/`, fromData)
             .then(() => {

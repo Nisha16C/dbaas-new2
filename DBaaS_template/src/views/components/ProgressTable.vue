@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-5">
       <div class="alert  text-center" v-show="!isCompleted && !isFailed">
-        <h4 class="font-weight-bold blink p-2 text-danger">
+        <h4 class="font-weight-bold  p-2 text-danger">
           Please do not refresh or close this page until the progress is
           completed!
         </h4>
@@ -15,8 +15,8 @@
         </div>
         <div class="card-body">
           <h2 class="card-title">Installation Status...</h2>
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{ width: progress }" role="progressbar" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}</div>
+          <div class="progress p-2">
+            <div class="progress-bar progress-bar-striped progress-bar-animated  "  :style="{ width: progress, height: height+'px' }" role="progressbar" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}</div>
           </div>
   
           <ul class="list-group list-group-flush mt-3" v-for="(status, index) in latestPipelineStatus" :key="index">
@@ -74,6 +74,12 @@ export default {
             popupMessage: "",showcred: false,
  
         };
+    },
+    props:{
+        height:{
+        type: Number,
+        default: 100
+        }
     },
  
     methods: {

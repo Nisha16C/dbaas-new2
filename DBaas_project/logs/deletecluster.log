@@ -63,3 +63,13 @@
 2024-03-13 06:54:24,964 level=INFO user=aastha clusterName=k8s-cluster-postgres msg=k8s-cluster-postgres deleted 
 2024-03-13 07:25:54,551 level=INFO user=aastha clusterName=cluster-new msg=cluster-new deleted 
 2024-03-13 07:37:22,283 level=INFO user=aastha clusterName=k8s-blue msg=k8s-blue deleted 
+2024-03-18 08:23:36,263 level=INFO user=preeti clusterName=hh msg=hh deleted 
+2024-03-18 08:26:43,289 level=INFO user=preeti clusterName=sds msg=sds deleted 
+2024-03-18 09:20:06,589 level=INFO user=preeti clusterName=hh msg=hh deleted 
+2024-03-18 09:24:37,379 level=INFO user=preeti clusterName=hh msg=hh deleted 
+2024-03-18 09:46:02,127 level=INFO user=preeti clusterName=hdjfhjdhfj msg=hdjfhjdhfj deleted 
+2024-03-18 10:27:37,357 level=INFO user=preeti clusterName=hdjfhjdhfj msg=hdjfhjdhfj deleted 
+2024-03-18 10:47:54,753 level=INFO user=preeti clusterName=cluster-23 msg=cluster-23 deleted 
+2024-03-18 10:59:09,013 level=INFO user=preeti clusterName=cluster-23 msg=cluster-23 deleted 
+2024-03-18 12:08:54,442 level=INFO user=preeti clusterName=rr msg=rr deleted 
+2024-03-18 12:17:55,836 level=INFO user=preeti clusterName=rrr msg=rrr deleted 

@@ -1,3 +1,5 @@
+
+
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from .models import Project, Cluster, Db_credentials, Db_credentials
@@ -119,7 +121,8 @@ import urllib.request
 import json
 import hashlib
 import hmac
- 
+import re
+import yaml
     
 class ComputeOfferingsAPIView(APIView):
     def get(self, request):
@@ -228,7 +231,6 @@ class ClusterViewSet(viewsets.ModelViewSet):
         cluster_type = request.data.get('cluster_type')
         database_version = request.data.get('postgres_version')
         backup_method = request.data.get('backup_method')
-        mount_point = request.data.get('mount_point')
  
         provider_name = request.data.get('provider')
         provider_endpoint = request.data.get('provider_endpoint')
@@ -253,7 +255,14 @@ class ClusterViewSet(viewsets.ModelViewSet):
         accessKey = provider_access_token
         secretKey = provider_secret_key
        
-        
+        # Remove newline characters from kubeconfig_data
+        kubeconfig_data = kubeconfig_data.replace('\n', ' ')
+ 
+        # Assuming kubeconfig_data is a YAML string, you can load it to ensure proper formatting
+        kubeconfig_dict = yaml.safe_load(kubeconfig_data)
+        print("Config data")
+        print(kubeconfig_data)
+ 
         user = User.objects.get(pk=user_id)
  
         temp_variables = {
@@ -267,8 +276,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
             'provider_access_token ': provider_access_token,
             'provider_secret_key': provider_secret_key,
             'storageOffering': storageOffering,
-            'kubeconfig': kubeconfig_data,
-            'mount_point': mount_point,
+            'kubeconfig': kubeconfig_data
  
         }
        
@@ -624,7 +632,6 @@ def get_variables(request):
     cluster_name = temp_variables.get('cluster_name', '')
     postgres_version = temp_variables.get('postgres_version', '')
     backup_method = temp_variables.get('backup_method', '')
-    mount_point = temp_variables.get('mount_point', '')
     provider_endpoint = temp_variables.get('provider_endpoint','')
     provider_access_token = accessKey
     provider_secret_key = temp_variables.get('provider_secret_key','')
@@ -640,7 +647,6 @@ def get_variables(request):
         'database_name': cluster_name,
         'postgres_version': postgres_version,
         'backup_method': backup_method,
-        'mount_point': mount_point,
         
         'endpoint': provider_endpoint,
         'secret-key': provider_secret_key,
@@ -712,10 +718,6 @@ def display_clusters(request):
             'cluster_type': cluster.cluster_type,
             'database_version': cluster.database_version,
             'provider': cluster.provider,
-            'backup_method': backup_method,
-            'provider_endpoint': provider_endpoint,
-            'provider_access_token ': provider_access_token,
-            'provider_secret_key': provider_secret_key,
             }}
         clusters_data.append(cluster_data)
  
@@ -745,19 +747,6 @@ def get_clusters_by_project(request, project_id):
     clusters = Cluster.objects.filter(project_id=project_id)
     serializer = ClusterSerializers(clusters, many=True)
     return Response(serializer.data)
-
-@api_view(['GET'])
-def get_backup_method_by_cluster_name(request, cluster_name):
-    try:
-        # Retrieve the cluster object based on the provided cluster name
-        cluster = Cluster.objects.get(cluster_name=cluster_name)
-        # Extract the backup method associated with the cluster
-        backup_method = cluster.backup_method
-        # Return the backup method in the response
-        return Response({'backup_method': backup_method}, status=status.HTTP_200_OK)
-    except Cluster.DoesNotExist:
-        # Return an error if the cluster with the provided name doesn't exist
-        return Response({'error': 'Cluster not found'}, status=status.HTTP_404_NOT_FOUND)
  
  
 from rest_framework import generics
@@ -773,3 +762,11 @@ class ContentByClusterNameView(generics.ListAPIView):
         return Db_credentials.objects.filter(cluster_name=cluster_name)
         
  
+@api_view(['GET'])
+def get_backup_method_by_cluster_name(request, cluster_name):
+    try:
+        cluster = Cluster.objects.get(cluster_name=cluster_name)
+        backup_method = cluster.backup_method
+        return Response({'backup_method': backup_method}, status=status.HTTP_200_OK)
+    except Cluster.DoesNotExist:
+        return Response({'error': 'Cluster not found'}, status=status.HTTP_404_NOT_FOUND) 

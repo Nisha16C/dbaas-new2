@@ -169,13 +169,9 @@ methods: {
             kubeconfig_data: this.provider_info.kubeconfig_data,
 
           };
-          console.log(formData)
-          
- 
           this.$router.push('/delete');
           axios.post("http://172.16.1.69:8000/api/v2/deletecluster/", formData)
-      .then(response => {
-
+           .then(response => {
         console.log('Cluster deleted successfully:', response.data);
 
         this.fetchclusters_list();

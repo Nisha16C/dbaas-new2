@@ -162,7 +162,7 @@ def schedule_backup(request):
                 return Response({'status': 'error', 'message': f'A cron job already exists for server "{server_name}".'}, status=400)
 
         # Proceed with scheduling the backup if no existing cron job found
-        config_file_path = os.path.join(CONFIG_DIR, f'{username}/server_config/{server_name}.conf')
+        config_file_path = os.path.join(CONFIG_DIR, f'{username}/server_config/{storage_method}/{server_name}.conf')
         with open(config_file_path, 'a') as config_file:
             for retention in retention_str.split('\n'):
                 print(retention)
@@ -192,6 +192,7 @@ def schedule_backup(request):
 @api_view(['GET'])
 def get_scheduled_servers(request):
     username = request.query_params.get('username')  
+    storage_method = request.query_params.get('storage_method')
     try:
         cron = CronTab(user=True)
         scheduled_servers = []
@@ -210,7 +211,7 @@ def get_scheduled_servers(request):
         servers_with_retention = []
         for server_name in scheduled_servers:
             retention_period = None
-            config_file_path = os.path.join(CONFIG_DIR, f'{username}/server_config/{server_name}.conf')
+            config_file_path = os.path.join(CONFIG_DIR, f'{username}/server_config/{storage_method}/{server_name}.conf')
             if os.path.exists(config_file_path):
                 with open(config_file_path, 'r') as config_file:
                     for line in config_file:
@@ -236,7 +237,7 @@ def update_scheduled_backup(request):
         if not (server_name, storage_method):
             return Response({'status': 'error', 'message': 'Server name and storage method are required.'}, status=400)
 
-        config_file_path = os.path.join(CONFIG_DIR, f'{username}/server_config/{server_name}.conf')
+        config_file_path = os.path.join(CONFIG_DIR, f'{username}/server_config/{storage_method}/{server_name}.conf')
         retention_policy_line = "retention_policy"
 
         if remove_job == 'true':

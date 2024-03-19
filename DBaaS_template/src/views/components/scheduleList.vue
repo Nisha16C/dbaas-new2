@@ -1,7 +1,16 @@
 <template>
   <div class="card">
     <div class="card-header pb-0 ">
-      <h6 class=""> Backups List </h6>
+      <div class="col-lg-5">
+        <div class="d-flex">
+          <label class="text-sm  col-sm-3">Backup Method :</label>
+          <select @click="fetchServers()" class="form-select col-sm-5 mb-2" aria-label="Default select example"
+            v-model="storage_method">
+            <option value="nfs">NFS</option>
+            <option value="s3">S3</option>
+          </select>
+        </div>
+        </div>
     </div>
     <div class="card-body px-0 pt-0 pb-2">
       <div class="table-responsive p-0">
@@ -135,6 +144,7 @@ export default {
       isOpen: false,
       clusters:'',
       backup_method:'',
+      storage_method:'',
     };
   },
   mounted() {
@@ -149,7 +159,7 @@ export default {
     async fetchBackups() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/get-scheduled-servers?username=${this.username}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/get-scheduled-servers?username=${this.username}&storage_method=${this.storage_method}`);
 
         // Update the clusters data with the fetched data
         this.backups = response.data.message;

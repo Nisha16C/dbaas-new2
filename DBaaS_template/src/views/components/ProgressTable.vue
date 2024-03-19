@@ -206,7 +206,7 @@ export default {
         },
  
         showFailedPopup() {
-            console.log("faild");
+            console.log("failed");
             this.popupMessage = "Installation failed. Please try again.";
           
             this.showcred = true

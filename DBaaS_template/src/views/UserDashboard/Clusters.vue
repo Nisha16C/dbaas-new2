@@ -86,6 +86,8 @@
 import Card from "@/examples/Cards/Card.vue";
 import ClustersTable from "@/views/components/ClusteruserTable.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
  
  
 import axios from "axios";
@@ -104,6 +106,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
       stats: {
         money: {
           title: "All Clusters",
@@ -146,7 +149,7 @@ export default {
       };
  
       this.$router.push('/delete');
-      axios.post("http://172.16.1.69:8000/api/v2/deletecluster/", formData)
+      axios.post(`${this.apiUrl}/api/v2/deletecluster/`, formData)
         .then(response => {
           console.log('Cluster deleted successfully:', response.data);
           this.deleteModal = false
@@ -160,7 +163,7 @@ export default {
  
     viewCluster(clusterName) {
       this.clusterName = clusterName;
-      axios.get(`http://172.16.1.69:8000/api/v2/result/content/${clusterName}/`)
+      axios.get(`${this.apiUrl}/api/v2/result/content/${clusterName}/`)
         .then(response => {
           this.contentList = response.data;
  
@@ -178,14 +181,14 @@ export default {
    
  
     fetchProjects() {
-      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${this.user_id}/`)
+      axios.get(`${this.apiUrl}/api/v2/project/user/${this.user_id}/`)
         .then(response => {
           this.projects = response.data;
  
         });
     },
     fetchClusters() {
-      axios.get(`http://172.16.1.69:8000/api/v2/cluster/user/${this.user_id}/`)
+      axios.get(`${this.apiUrl}/api/v2/cluster/user/${this.user_id}/`)
         .then(response => {
           this.clusterData = response.data;
           console.log(response.data);
@@ -196,7 +199,7 @@ export default {
     },
     fetchClustersByProject() {
       if (this.selectedProject) {
-        axios.get(`http://172.16.1.69:8000/api/v2/cluster/project/${this.selectedProject}/`)
+        axios.get(`${this.apiUrl}/api/v2/cluster/project/${this.selectedProject}/`)
           .then(response => {
             this.clusters = response.data;
           });

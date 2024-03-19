@@ -33,6 +33,8 @@
   import axios from 'axios';
   import Card from "@/examples/Cards/Card.vue";
   import ProjectTable from "@/views/components/ProjectselectTable.vue";
+  import { API_ENDPOINT } from '@/../apiconfig.js';
+
 //   import ArgonInput from "@/components/ArgonInput.vue";
 //   import ArgonButton from "@/components/ArgonButton.vue";
   
@@ -49,6 +51,7 @@
     },
     data() {
       return {
+        apiUrl: API_ENDPOINT, 
         stats: {
           money: {
             title: "Total Projects",
@@ -76,7 +79,7 @@
       fetchProject() {       
         const user_id = this.project.user
         console.log(user_id);
-        axios.get(`http://172.16.1.69:8000/api/v2/project/user/${user_id}/`)
+        axios.get(`${this.apiUrl}/api/v2/project/user/${user_id}/`)
           .then((response) => {
             this.projectsData = response.data;
             this.stats.money.value = this.projectsData.length        

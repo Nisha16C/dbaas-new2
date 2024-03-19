@@ -104,6 +104,8 @@ import setTooltip from "@/assets/js/tooltip.js";
 // import ProfileCard from "./components/ProfileCard.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 import axios from 'axios';
 
 const body = document.getElementsByTagName("body")[0];
@@ -112,6 +114,7 @@ export default {
     name: "USER",
     data() {
         return {
+            apiUrl: API_ENDPOINT,
             showMenu: false,
             userData: {
                 first_name: '',
@@ -168,7 +171,7 @@ export default {
             console.log(userData);
 
             // Make a POST request to create a new user
-            axios.post(`http://172.16.1.69:8000/api/v1/users/`, this.userData)
+            axios.post(`${this.apiUrl}/api/v1/users/`, this.userData)
                 .then(response => {
                     // Handle the response, for example, show a success message
                     console.log(response.data);

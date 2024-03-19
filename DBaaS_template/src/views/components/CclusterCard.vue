@@ -192,6 +192,8 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import ArgonButton from "@/components/ArgonButton.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 import ArgonAlert from "@/components/ArgonAlert.vue";
  
 // import { useInputStore } from '../../store/clusterStore';
@@ -205,6 +207,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
       selectedType: '',
       selectedProvider: '',
       typeError: '',
@@ -269,7 +272,7 @@ export default {
     },
  
     getAllProviderData() {
-      axios.get(`http://172.16.1.69:8000/api/v3/providers/by-user/${this.user_id}/`)
+      axios.get(`${this.apiUrl}/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data
           console.log(response.data);

@@ -482,13 +482,16 @@ import axios from 'axios';
 // import ProfileCard from "@/views/components/profileCard.vue";
 import ArgonAlert from "@/components/ArgonAlert.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
- 
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
+
 const body = document.getElementsByTagName("body")[0];
  
 export default {
   name: "profile",
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
       isModalVisibles: false, selectedModal: '', kubeconfigData: '',
       isModalVisible: false, user_id: '',
       selectedProvider: '',
@@ -588,7 +591,7 @@ export default {
  
       };
       console.log("data")
-      await axios.post(`http://172.16.1.69:8000/api/v3/providers/`, fromData)
+      await axios.post(`${this.apiUrl}/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisibles = !this.isModalVisibles;
@@ -617,7 +620,7 @@ export default {
         "access_token": this.access_key,
       };
  
-      await axios.post(`http://172.16.1.69:8000/api/v3/providers/`, fromData)
+      await axios.post(`${this.apiUrl}/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisible = !this.isModalVisible;
@@ -627,7 +630,7 @@ export default {
         });
     },
     getAllProviderData() {
-      axios.get(`http://172.16.1.69:8000/api/v3/providers/by-user/${this.user_id}/`)
+      axios.get(`${this.apiUrl}/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data;
           console.log(response.data);

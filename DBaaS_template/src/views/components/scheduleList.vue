@@ -129,10 +129,13 @@
     
 <script>
 import axios from "axios";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 export default {
   name: "server-table",
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
       backups: [],
       server_name: '', // Initialize clusters as an empty array
       newRetentionPeriod: '',
@@ -222,7 +225,7 @@ export default {
       this.isOpen = true;
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.69:8000/api/v2/get_backup_method/${this.server_name}/`);
+        const response = await axios.get(`${this.apiUrl}/api/v2/get_backup_method/${this.server_name}/`);
 
         // Update the clusters data with the fetched data
         this.backup_method = response.data.backup_method;

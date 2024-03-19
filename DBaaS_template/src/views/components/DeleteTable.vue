@@ -50,11 +50,14 @@
 <script>
  
 import axios from "axios";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
  
 export default {
     
     data() {
         return {
+            apiUrl: API_ENDPOINT, 
             isDropdownOpen: false,
             ProjectToggle: false,
             UserToggle: false,
@@ -109,7 +112,7 @@ export default {
             if (this.stopFetching) {
                 return;
             }
-            const url = 'http://172.16.1.69:8000/api/v2/get_pipeline_status/';
+            const url = `${this.apiUrl}/api/v2/get_pipeline_status/`;
  
             try {
                 const response = await axios.get(url);

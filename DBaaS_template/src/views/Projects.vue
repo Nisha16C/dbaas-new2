@@ -27,6 +27,11 @@
 <script>
 import Card from "@/examples/Cards/Card.vue";
 import AuthorsTable from "./components/ProjectTable.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
+
+
+
 // import ArgonInput from "@/components/ArgonInput.vue";
 // import ArgonButton from "@/components/ArgonButton.vue";
 import axios from "axios"
@@ -41,6 +46,8 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT,  
+
       stats: {
         money: {
           title: "All Projects",
@@ -76,7 +83,7 @@ export default {
       } else {
         console.log("About to send API request to create a project")
         axios
-          .post("http://172.16.1.69:8000/api/v2/project/", this.project)
+          .post(`${this.apiUrl}/api/v2/project/`, this.project)
           .then((response) => {
             console.log("Project created successfully:", response)
             this.fetchProjectCount();
@@ -93,7 +100,7 @@ export default {
     },
     fetchProjectCount() {
       // Make an API request to get the project count
-      axios.get(`http://172.16.1.69:8000/api/v2/project/`)
+      axios.get(`${this.apiUrl}/api/v2/project/`)
         .then(response => {
           this.stats.money.value = response.data.length.toString();
         })

@@ -63,6 +63,8 @@ import Card from "@/examples/Cards/Card.vue";
 import ProjectTable from "@/views/components/ProjectUserTable.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
  
 export default {
   name: "Cluster",
@@ -74,6 +76,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
       stats: {
         money: {
           title: "All Projects",
@@ -88,6 +91,7 @@ export default {
       project: {
         project_name: '',
         user: '',
+        
       },
       input1Error: false, shakingInput: null,
       onTheFlyValidation: false,
@@ -104,7 +108,7 @@ export default {
       
       const user_id = this.project.user
       console.log(user_id);
-      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${user_id}/`)
+      axios.get(`${this.apiUrl}/api/v2/project/user/${user_id}/`)
         .then((response) => {
           this.projectsData = response.data;
           this.stats.money.value = this.projectsData.length
@@ -123,7 +127,7 @@ export default {
       }
       else {
         console.log(this.project)
-        axios.post("http://172.16.1.69:8000/api/v2/project/", this.project)
+        axios.post(`${this.apiUrl}/api/v2/project/`, this.project)
           .then(() => {
             this.fetchProject()
             this.project.project_name =''

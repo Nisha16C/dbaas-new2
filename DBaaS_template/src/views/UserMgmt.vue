@@ -50,6 +50,8 @@ import Card from "@/examples/Cards/Card.vue";
 //   import AuthorsTable from "./components/ProjectTable.vue";
 import UsermgnTable from "./components/UsermgntTable.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 import axios from "axios";
 
 export default {
@@ -62,6 +64,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
       stats: {
         money: {
           title: "All Users",
@@ -82,7 +85,7 @@ export default {
 methods: {
   // Method to fetch clusters and update totalClusters
   fetchClusters() {
-    axios.get(`http://172.16.1.69:8000/api/v1/users/`)
+    axios.get(`${this.apiUrl}/api/v1/users/`)
       .then(response => {
         this.stats.money.value = response.data.length.toString();  // Update totalClusters
       })

@@ -91,7 +91,10 @@
 import axios from 'axios';
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 const body = document.getElementsByTagName("body")[0];
+
  
  
 export default {
@@ -109,6 +112,8 @@ export default {
       password: '',
       error: null,
       showErrorMessages: false,
+      apiUrl: API_ENDPOINT,  
+
     };
   },
  
@@ -144,7 +149,7 @@ export default {
       console.log(formData)
  
       axios
-        .post('http://172.16.1.69:8000/api/v1/login/', formData)
+        .post(`${this.apiUrl}/api/v1/login/`, formData)
         .then((response) => {
           // const token = response.data.token;
           this.userdata = response.data.user_data;
@@ -173,3 +178,8 @@ export default {
   },
 };
 </script>
+
+
+
+import { API_ENDPOINT } from '@/../apiconfig.js';
+apiUrl: API_ENDPOINT, 

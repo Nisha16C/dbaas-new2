@@ -117,6 +117,8 @@
   
 <script>
 import ArgonButton from "@/components/ArgonButton.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 import axios from 'axios';
 // import $ from jquery;
 //   import axios from "axios";
@@ -135,6 +137,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
       clusterName:'',
       deleteClusterName: '',
       user_id: '',
@@ -158,7 +161,7 @@ export default {
       };
  
       this.$router.push('/delete');
-      axios.post("http://172.16.1.69:8000/api/v2/deletecluster/", formData)
+      axios.post(`${this.apiUrl}/api/v2/deletecluster/`, formData)
         .then(response => {
           // Handle successful deletion
           console.log('Cluster deleted successfully:', response.data);
@@ -173,7 +176,7 @@ export default {
     },
     viewCluster(clusterName) {
       this.clusterName=clusterName;
-      axios.get(`http://172.16.1.69:8000/api/v2/result/content/${clusterName}/`)
+      axios.get(`${this.apiUrl}/api/v2/result/content/${clusterName}/`)
         .then(response => {
           this.contentList = response.data;
           console.log(this.contentList);
@@ -192,7 +195,7 @@ export default {
     async fetchClusters() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.69:8000/api/v2/cluster/');
+        const response = await axios.get(`${this.apiUrl}/api/v2/cluster/`);
  
         // Update the clusters data with the fetched data
         this.clusters = response.data;

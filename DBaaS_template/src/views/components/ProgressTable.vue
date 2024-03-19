@@ -49,11 +49,14 @@
 <script>
  
 import axios from "axios";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
  
 export default {
     
     data() {
         return {
+            apiUrl: API_ENDPOINT, 
             isDropdownOpen: false,
             ProjectToggle: false,
             UserToggle: false,
@@ -114,7 +117,7 @@ export default {
             if (this.stopFetching) {
                 return;
             }
-            const url = 'http://172.16.1.69:8000/api/v2/get_pipeline_status/';
+            const url = `${this.apiUrl}/api/v2/get_pipeline_status/`;
  
             try {
                 const response = await axios.get(url);
@@ -153,21 +156,21 @@ export default {
                     case 'created':
                         totalProgress += 10;
                         break;
-                        
+                    case 'pending':
+                        totalProgress += 25;
+                        break;
                     case 'running':
-                    totalProgress += 25;
-                    if (totalProgress < 80) {
-                        totalProgress += 1;
-                    }
-                    break;
-                    
+                        totalProgress += 50;
+                        break;
                     case 'success':
                         totalProgress += 100;
                         break;
                     case 'failed':
+                        // Handle 'failed' status separately (you can adjust the value as needed)
                         totalProgress += 99.9;
                         break;
                     default:
+                        // Handle other statuses if needed
                         break;
                 }
             });

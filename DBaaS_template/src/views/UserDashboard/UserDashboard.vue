@@ -63,6 +63,8 @@ import Card from "@/examples/Cards/Card.vue";
 // import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
 // import Carousel from "./components/Carousel.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 import axios from 'axios'
 // import CategoriesCard from "./components/CategoriesCard.vue";
 
@@ -70,6 +72,8 @@ export default {
   name: "user-dashboard",
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
+      
       stats: {
         project: {
           title: "All Project",
@@ -110,7 +114,7 @@ export default {
     },
     getCluster(){
  
-      axios.get(`http://172.16.1.69:8000/api/v2/cluster/user/${this.user_id}/`)
+      axios.get(`${this.apiUrl}/api/v2/cluster/user/${this.user_id}/`)
         .then(response => {
     
           this.stats.cluster.value =  response.data.length.toString();
@@ -119,7 +123,7 @@ export default {
 
     },
     getProject(){
-      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${this.user_id}/`)
+      axios.get(`${this.apiUrl}/api/v2/project/user/${this.user_id}/`)
         .then(response => {
           this.stats.project.value = response.data.length.toString();
           console.log(response.data.length.toString);

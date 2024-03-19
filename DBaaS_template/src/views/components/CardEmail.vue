@@ -79,6 +79,8 @@
 <script>
 import axios from 'axios';
 import { mapState, mapActions } from 'vuex';
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 import ArgonButton from "@/components/ArgonButton.vue";
 
 export default {
@@ -88,6 +90,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
       selectedTools: [],
       postgres_version: '',
       cluster_name: '',
@@ -144,7 +147,7 @@ export default {
 
       // Check if cluster name already exists
       axios
-        .get(`http://172.16.1.69:8000/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
+        .get(`${this.apiUrl}/api/v2/cluster/check_cluster_exists/?cluster_name=${this.cluster_name}&project_id=${this.project_id}`)
         .then((response) => {
           if (response.data.exists) {
             // Cluster name already exists
@@ -268,7 +271,7 @@ export default {
       }
 
       axios
-        .get(`http://172.16.1.69:8000/api/v3/providers/by-username-and-name/${this.Username}/${this.selectedProvider}/`)
+        .get(`${this.apiUrl}/api/v3/providers/by-username-and-name/${this.Username}/${this.selectedProvider}/`)
         .then((response) => {
           this.provider_info = response.data;
           this.provider_info.kubeconfig_data = JSON.stringify(this.provider_info.kubeconfig_data)
@@ -297,7 +300,7 @@ export default {
 
           this.$router.push('/result');
           axios
-            .post(`http://172.16.1.69:8000/api/v2/cluster/`, fromData)
+            .post(`${this.apiUrl}/api/v2/cluster/`, fromData)
             .then(() => {
 
 
@@ -311,7 +314,7 @@ export default {
 
     fetchComputeOfferings() {
       axios
-        .get('http://172.16.1.69:8000/api/v2/compute_offerings/')
+        .get('${this.apiUrl}/api/v2/compute_offerings/')
         .then((response) => {
           this.computeOfferings = response.data;
         })

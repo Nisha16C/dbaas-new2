@@ -80,6 +80,8 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import ArgonButton from "@/components/ArgonButton.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
  
 export default {
   components: {
@@ -87,6 +89,8 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
+
       selected_value: '',
       selectedStorageOffering: null,
       computeOfferings: [],
@@ -100,7 +104,7 @@ export default {
   mounted() {
     // Fetch data from the backend
     // Replace this with your actual API endpoint
-    fetch('http://172.16.1.69:8000/api/v2/compute_offerings/')
+    fetch(`${this.apiUrl}/api/v2/compute_offerings/`)
       .then(response => response.json())
       .then(data => {
         // Assuming the data is structured as { "compute_offerings": [...] }

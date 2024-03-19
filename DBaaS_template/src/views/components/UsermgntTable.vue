@@ -127,6 +127,8 @@
 <script>
 import axios from "axios";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 // import ArgonInput from "@/components/ArgonInput.vue";
 
 export default {
@@ -139,6 +141,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
       users: [], // Initialize clusters as an empty array
       isModalVisible: false,
       roles: [
@@ -172,7 +175,7 @@ export default {
         // Assign the user before fetching user roles
         this.selectedUser = user;
         // Fetch user roles dynamically using the user's ID
-        const response = await axios.get(`http://172.16.1.69:8000/api/v1/get_user_role/${this.selectedUser.id}/`);
+        const response = await axios.get(`${this.apiUrl}/api/v1/get_user_role/${this.selectedUser.id}/`);
         console.log('API Response:', response);
 
         if (response.data && Array.isArray(response.data.user_roles)) {
@@ -202,7 +205,7 @@ export default {
     },
     async fetchRoles() {
       try {
-        const response = await axios.get(`http://172.16.1.69:8000/api/v1/users/`,
+        const response = await axios.get(`${this.apiUrl}/api/v1/users/`,
           {
             user_id: this.selectedUser.id,
           });
@@ -226,7 +229,7 @@ export default {
           console.error('No user selected.');
           return;
         }
-        const response = await axios.post(`http://172.16.1.69:8000/api/v1/add_roles_to_user/`,
+        const response = await axios.post(`${this.apiUrl}/api/v1/add_roles_to_user/`,
           {
             user_id: this.selectedUser.id,
             roles: this.selectedRoles,
@@ -252,7 +255,7 @@ export default {
     async fetchusers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.69:8000/api/v1/users/');
+        const response = await axios.get(`${this.apiUrl}/api/v1/users/`);
 
         // Update the clusters data with the fetched data
         this.users = response.data;

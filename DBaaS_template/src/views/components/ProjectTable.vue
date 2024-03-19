@@ -83,6 +83,8 @@
 import ArgonButton from "@/components/ArgonButton.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import axios from "axios";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 
 export default {
   name: "projects-table",
@@ -94,6 +96,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT, 
       projects: [], // Initialize projects as an empty array
       renamingProjectId: null,
       newProjectName: "",
@@ -115,7 +118,7 @@ export default {
       const payload = { new_project_name: this.newProjectName };
       axios
         .put(
-          `http://172.16.1.69:8000/api/v2/project/${this.renamingProjectId}/rename/`,
+          `${this.apiUrl}/api/v2/project/${this.renamingProjectId}/rename/`,
           payload
         )
         .then((response) => {
@@ -131,7 +134,7 @@ export default {
     async fetchProjects() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get('http://172.16.1.69:8000/api/v2/project/');
+        const response = await axios.get(`${this.apiUrl}/api/v2/project/`);
 
         // Update the projects data with the fetched data
         this.projects = response.data;

@@ -33,6 +33,8 @@
 <script>
 import Card from "@/examples/Cards/Card.vue";
 import AuthorsTable from "./components/AuthorsTable.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 // import ArgonButton from "@/components/ArgonButton.vue";
 import axios from "axios";
 
@@ -44,6 +46,8 @@ export default {
   },
   data() {
     return {
+      apiUrl: API_ENDPOINT,  
+
       stats: {
         money: {
           title: "All Clusters ",
@@ -52,6 +56,7 @@ export default {
           iconClass: "ni ni-money-coins",
           detail: "",
           iconBackground: "bg-gradient-primary",
+
         },
       },
     };
@@ -64,7 +69,7 @@ export default {
   methods: {
     // Method to fetch clusters and update totalClusters
     fetchClusters() {
-      axios.get(`http://172.16.1.69:8000/api/v2/cluster/`)
+      axios.get(`${this.apiUrl}/api/v2/cluster/`)
         .then(response => {
           this.stats.money.value = response.data.length.toString();  // Update totalClusters
         })

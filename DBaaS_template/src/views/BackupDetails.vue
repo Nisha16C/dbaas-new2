@@ -132,6 +132,7 @@ export default {
   data() {
     return {
       backupList:[],
+      backup_method: '',
       username:'',
       stats: {
         money: {
@@ -147,17 +148,33 @@ export default {
   },
   mounted() {
     // Fetch data when the component is mounted
+    this.fetchBackupMethod();
     this.fetchBackups();
+
   },
   created() {
     this.username = sessionStorage.getItem('username');
   },
   methods: {
+
+    async fetchBackupMethod() {
+     
+      try {
+        // Make a GET request to the endpoint
+        const response = await axios.get(`${this.apiUrl}/api/v2/get_backup_method/${this.server_name}/`);
+
+        // Update the clusters data with the fetched data
+        this.backup_method = response.data.backup_method;
+        console.log(this.backup_method);
+      } catch (error) {
+        console.error('Error fetching backup-method:', error);
+      }
+    },
     async fetchBackups() {
       console.log(this.serverName)
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.serverName}&storage_method=nfs&username=${this.username}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.serverName}&storage_method=${this.backup_method}&username=${this.username}`);
 
         // Update the clusters data with the fetched data
         this.backupList = response.data.message;

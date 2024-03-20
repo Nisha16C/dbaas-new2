@@ -15,11 +15,11 @@ class Provider(ExportModelOperationsMixin('provider'),models.Model):
     kubeconfig_data = models.TextField(blank=True, null=True)
 
     # New fields for OpenStack provider
-    username = models.CharField(max_length=100)
-    tenant_name = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
-    auth_url = models.URLField()
-    region = models.CharField(max_length=100)
+    username = models.CharField(max_length=100, null=True)
+    tenant_name = models.CharField(max_length=100, null=True)
+    password = models.CharField(max_length=100, null=True)
+    auth_url = models.URLField(null=True)
+    region = models.CharField(max_length=100, null=True)
     
     def __str__(self):
         return f'{self.provider_name} - {self.Key_name}'

@@ -18,6 +18,16 @@ class ProviderViewSet(viewsets.ModelViewSet):
         secret_key = request.data.get('secret_key')
         access_token = request.data.get('access_token')
         kubeconfig_data = request.data.get('kubeconfig_data')
+
+        username = request.data.get ('username')
+        tenant_name = request.data.get ('tenant_name')
+        password = request.data.get ('password')
+        auth_url = request.data.get ('auth_url')
+        region = request.data.get ('region')
+
+        
+
+
         
         # Check if the provider with the same URL exists for this user
         existing_provider = Provider.objects.filter(provider_name=provider_name, user_id=user_id).first()
@@ -29,6 +39,18 @@ class ProviderViewSet(viewsets.ModelViewSet):
             existing_provider.secret_key = secret_key
             existing_provider.access_token = access_token
             existing_provider.kubeconfig_data = kubeconfig_data
+
+            existing_provider.username = username
+            existing_provider.tenant_name = tenant_name
+            existing_provider.password = password
+            existing_provider.auth_url = auth_url
+            existing_provider.region = region
+
+
+
+
+
+
             existing_provider.is_connected = True  # Assuming connection is successful
             existing_provider.save()
  
@@ -44,6 +66,13 @@ class ProviderViewSet(viewsets.ModelViewSet):
                 secret_key=secret_key,
                 access_token=access_token,
                 kubeconfig_data=kubeconfig_data,
+
+                username=username,
+                tenant_name=tenant_name,
+                password=password,
+                auth_url=auth_url,
+                region=region,
+
                 is_connected=True
             )
             provider.save()

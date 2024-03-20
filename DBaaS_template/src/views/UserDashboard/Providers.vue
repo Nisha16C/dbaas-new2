@@ -405,76 +405,7 @@
         </div>
       </div>
 
-      <!-- 3nd opensakc provider -->
-      <!--1st working vm other modal -->
-      <div>
- 
- <!-- <button @click.prevent="toggleModal" class="btn btn-primary">Open Modal</button> -->
-
- <!-- 111111111111111111111111Modal its working fo other providers -->
- <div v-show="isModalVisible" class="modal-container" tabindex="-1" role="dialog">
-   <div class="modal-dialog modal-dialog-centered" role="document">
-     <div class="modal-content">
-       <!-- Modal Header -->
-       <div class="modal-header">
-         <h5 class="modal-title">Add Provider</h5>
-         <button type="button" class="close" @click="toggleModal" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-         </button>
-       </div>
-
-       <!-- Modal Body -->
-       <div class="modal-body">
-         <!-- Form with 5 fields -->
-         <form>
-           <h3 class="mb-5 text-lg font-normal text-dark dark:text-gray-400">
-             {{ selectedProvider }}
-           </h3>
-           <div class="mb-3">
-  <label for="username" class="form-label">Username</label>
-  <input type="text" class="form-control" id="username" v-model="username" required>
-</div>
-
-<div class="mb-3">
-  <label for="tenant_name" class="form-label">Tenant Name / Project Name</label>
-  <input type="text" class="form-control" id="tenant_name" v-model="tenantName" required>
-</div>
-
-<div class="mb-3">
-  <label for="password" class="form-label">Password</label>
-  <input type="password" class="form-control" id="password" v-model="password" required>
-</div>
-
-<div class="mb-3">
-  <label for="auth_url" class="form-label">Auth URL</label>
-  <input type="text" class="form-control" id="auth_url" v-model="authUrl" required>
-</div>
-
-<div class="mb-3">
-  <label for="region" class="form-label">Region</label>
-  <input type="text" class="form-control" id="region" v-model="region" required>
-</div>
-           <!-- <div v-if="error" class="mb-3">
-             <span class="text-danger">{{ error }}</span>
-           </div> -->
-
-           <!-- Modal Footer with Add Provider and Close buttons -->
-           <div class="modal-footer">
-             <argon-button color="success" size="md" variant="gradient" @click="addProvider" type="submit">
-               Add Provider
-             </argon-button>
-
-             <argon-button color="danger" size="md" variant="gradient" @click="toggleModal">
-               Close
-             </argon-button>
-           </div>
-
-         </form>
-       </div>
-     </div>
-   </div>
- </div>
-</div>
+     
  
       <!-- working k8s modal -->
       <div>

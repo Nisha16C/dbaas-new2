@@ -177,51 +177,40 @@ class ComputeOfferingsAPIView(APIView):
  
         return Response({'error': error_message}, status=500)   
 
-# views.py
-from rest_framework import viewsets
+
+
+from rest_framework.views import APIView
 from rest_framework.response import Response
-import requests
-
-class FlavorViewSet(viewsets.ViewSet):
-    def list(self, request):
-        # OpenStack provider credentials
-        openstack_url = "http://10.0.0.151/dashboard/"
-        openstack_username = "user1"
-        openstack_password = "linux"
-
-        # URL for fetching flavor details
-        flavor_url = f"{openstack_url}/admin/flavors/"
-
-        try:
-            # Make a GET request to fetch flavor details
-            response = requests.get(flavor_url, auth=(openstack_username, openstack_password))
-
-            # Check if request was successful
-            if response.status_code == 200:
-                try:
-                    flavors = response.json()
-                    # Extract relevant information from the response and return as JSON
-                    flavor_list = []
-                    for flavor in flavors:
-                        flavor_data = {
-                            "Flavor ID": flavor['id'],
-                            "Name": flavor['name'],
-                            "vCPUs": flavor['vcpus'],
-                            "Memory in MB": flavor['ram'],
-                            "Disk in GB": flavor['disk'],
-                        }
-                        flavor_list.append(flavor_data)
-                    return Response(flavor_list)
-                except ValueError as ve:
-                    # Print response content to debug
-                    print("Response content:", response.content)
-                    return Response({"error": "Failed to parse flavor details JSON"}, status=500)
-            else:
-                return Response({"error": "Failed to fetch flavor details"}, status=response.status_code)
-        except Exception as e:
-            return Response({"error": f"An error occurred: {str(e)}"}, status=500)
-
-    
+import openstack
+ 
+class FlavorList(APIView):
+    def get(self, request):
+        # Retrieve flavors from OpenStack
+        conn = openstack.connect(
+            auth_url='http://10.0.0.151:5000',
+            project_name='project1',
+            username='user1',
+            password='linux',
+            user_domain_name='Default',
+            project_domain_name='Default'
+        )
+        flavors = conn.compute.flavors()
+ 
+        # Transform flavors data into a list of dictionaries
+        flavor_data = [
+            {
+                'flavor_id': flavor.id,
+                'name': flavor.name,
+                'ram': flavor.ram,
+                'vcpus': flavor.vcpus,
+                'disk': flavor.disk,
+                'is_public': flavor.is_public
+            }
+            for flavor in flavors
+        ]
+ 
+        # Return flavors data as JSON response
+        return Response(flavor_data)
  
 @api_view(['GET'])
 def get_projects_by_user(request, user_id):

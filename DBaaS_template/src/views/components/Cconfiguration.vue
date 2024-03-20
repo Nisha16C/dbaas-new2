@@ -1,4 +1,3 @@
-[5:41 AM] Ashish Sahu
 <template>
   <div>
     <div class="card">
@@ -7,11 +6,11 @@
       </div>
  
       <div class="card-body pt-4 p-3">
-        <div class="table-responsive p-0">
+        <div class="table-responsive p-0" v-if="selectedProvider === 'Cloudstack'">
           <table class="table align-items-center mb-0">
             <thead>
               <tr>
-                <th class="text-uppercase text-secondary font-weight-bolder opacity-7"> Select</th>
+                <th class="text-uppercase text-secondary font-weight-bolder opacity-7"> </th>
                 <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
                   Compute Offering </th>
                 <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
@@ -71,7 +70,63 @@
             NEXT
           </argon-button>
         </div>
+        
+        <div class="table-responsive p-0"  v-if="selectedProvider === 'Openstack'">
+          <table class="table align-items-center mb-0">
+            <thead>
+              <tr>
+                <th class="text-uppercase text-secondary font-weight-bolder opacity-7"> </th>
+                <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
+                  Flavours </th>
+                <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
+                  CPU Cores</th>
+                <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
+                  RAM (MB)</th>
+                  <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
+                  Root Disk (GB)</th>
+                <!-- <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
+                  Memory (MB) </th> -->
+                <th class="text-secondary opacity-7"> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="project in computeFlavors" :key="project.name">
+                <td>
+                <div class="row">
+                  <input type="radio" :value=project.name v-model="selectedFlavors" @change="updateFlavors">
+                </div>
+              </td>
  
+                <td>
+                  <div class="d-flex flex-column text-center">
+                    {{ project.name }}
+                  </div>
+                </td>
+                <td class="align-middle text-center">
+                  <span class="d-flex flex-column text-center">{{ project.vcpus }}</span>
+                </td>
+                <td>
+                  <div class="d-flex flex-column text-center">
+                    {{ project.ram }}
+                  </div>
+                </td>
+                <td class="align-middle text-center">
+                  <span class="d-flex flex-column text-center">{{ project.disk }}</span>
+                </td>
+                <td class="align-middle  text-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" v-if="isFalavours(project.name)"
+                    class="myclss  text-success mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </td>
+              </tr>
+            </tbody>
+          </table>              
+            
+          <argon-button @click="Next()" color="success" size="md" variant="gradient">
+            NEXT
+          </argon-button>
+        </div>
       </div>
     </div>
   </div>
@@ -81,7 +136,7 @@
 import { mapState, mapActions } from 'vuex';
 import ArgonButton from "@/components/ArgonButton.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
-
+import axios from 'axios'
  
 export default {
   components: {
@@ -89,25 +144,27 @@ export default {
   },
   data() {
     return {
-      apiUrl: API_ENDPOINT, 
-
+      apiUrl: API_ENDPOINT,
+ 
       selected_value: '',
       selectedStorageOffering: null,
       computeOfferings: [],
+      computeFlavors: [],
       selectedComputeOffering: null,
+      selectedFlavors: null
     };
   },
+  created(){
+    this.fetchFlavors()
+  },
   computed: {
-    ...mapState(['selectedComputeOffering', 'selectedStorageOffering']),
+    ...mapState(['selectedComputeOffering', 'selectedStorageOffering', 'selectedProvider']),
  
   },
   mounted() {
-    // Fetch data from the backend
-    // Replace this with your actual API endpoint
     fetch(`${this.apiUrl}/api/v2/compute_offerings/`)
       .then(response => response.json())
       .then(data => {
-        // Assuming the data is structured as { "compute_offerings": [...] }
         this.computeOfferings = data.compute_offerings || [];
       })
       .catch(error => console.error('Error fetching data:', error));
@@ -117,6 +174,19 @@ export default {
  
     updateOffering() {
       this.updateComputeOffering(this.selectedComputeOffering);
+    },
+    updateFlavors() {
+      this.updateComputeOffering(this.selectedFlavors);
+    },
+    fetchFlavors(){
+      axios.get(`http://172.16.1.92:8000/api/v2/flavors/`)
+      .then((response)=>{
+        this.computeFlavors = response.data
+        console.log(this.computeFlavors);
+      })
+      .catch(()=>{
+ 
+      })
     },
     updateStorage(){
       this.updateSelectedStorage(this.selectedStorageOffering)
@@ -128,6 +198,17 @@ export default {
     isSelected(projectName) {
       console.log("compute offering");
       if (this.selectedComputeOffering === projectName) {
+
+ 
+        return true
+      } else {
+        return false;
+      }
+    },
+ 
+    isFalavours(projectName) {
+    
+      if (this.selectedFlavors === projectName) {
  
         return true
       } else {

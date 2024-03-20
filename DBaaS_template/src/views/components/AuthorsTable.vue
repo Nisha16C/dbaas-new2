@@ -2,7 +2,7 @@
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6> Database info User</h6>
+      <h6> Database info</h6>
     </div>
  
     <div class="card-body px-0 pt-0 pb-2">
@@ -58,10 +58,10 @@
                   class="btn btn-danger" data-toggle="modal" data-target="#viewModal">
                   View
                 </argon-button>
-                <argon-button color="danger" size="md" variant="gradient" @click="prepareDelete(cluster.cluster_name)" type="button"
+                <!-- <argon-button color="danger" size="md" variant="gradient" @click="prepareDelete(cluster.cluster_name)" type="button"
                   class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                   Delete
-                </argon-button>
+                </argon-button> -->
               </td>
             </tr>
           </tbody>
@@ -92,7 +92,7 @@
       </div>
     </div>
   </div>
- 
+<!--  
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -112,7 +112,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
   
 <script>

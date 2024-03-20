@@ -30,7 +30,8 @@
               <div class="form-group">
                 <label for="Cluster_Name"> Your Password</label>
                 <input type="password" class="form-control" id="Password" placeholder="Enter Your Password "
-                  v-model="db_password" />
+                  v-model="db_password" @input="validatePassword" />
+                <div v-if="passwordLengthError" class="text-danger mt-2" >{{ passwordLengthError }}</div>  
               </div>
             </form>
 
@@ -117,6 +118,8 @@ export default {
       providerError: '',
       computeOfferingError:'',
       storageOfferingError:'',
+      passwordLengthError: '', 
+      passwordLengthTimeout: null, 
 
     };
   },
@@ -137,6 +140,22 @@ export default {
     // updateMethod() {
     //   this.updateSelectedMethod(this.backup_method);
     // },
+
+    validatePassword() {
+      this.passwordLengthError='';
+      clearTimeout(this.passwordLengthError);
+
+      if (this.db_password.length < 5 || this.db_password.length > 15 ) {
+        this.passwordLengthError = 'Password must be between 5 and 15 characters';
+        this.passwordLengthTimeout = setTimeout(()=> {
+          this.passwordLengthError = '';
+        },5000);
+
+      }
+      
+
+    },
+
 
     checkClusterNameExists() {
       this.errorClusterNameExists = '';

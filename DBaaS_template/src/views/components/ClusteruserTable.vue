@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6> Database info  User</h6>
+      <h6> Database info </h6>
     </div>
 
     <div class="card-body px-0 pt-0 pb-2">

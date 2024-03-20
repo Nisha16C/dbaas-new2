@@ -16,7 +16,7 @@
         <div class="card-body p-3">
           <!-- Overlay Text "Monitor" -->
           <div class="overlay-text">
-            <h2 class="mb-0">Database Monitoring</h2>
+            <h2 class="mb-0">Monitoring</h2>
           </div>
           <div class="row gx-4">
             <!-- Placeholder for the iframe content -->

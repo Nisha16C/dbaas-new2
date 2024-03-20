@@ -66,13 +66,13 @@
          whether it be the Admin Dashboard or User Dashboard, depending on their role. This approach ensures that only authorized personnel can access
           and navigate the powerful features and tools within BitBlast. Overall, the login functionality not only establishes a secure 
           gateway to the platform but also plays a crucial role in tailoring the BitBlast experience to the specific needs of each user.</p>
-           <p>We have two Dashboards - 1) User Dashboard 2) Admin Dashboard</p>
+           <p >We have two Dashboards - 1) User Dashboard 2) Admin Dashboard</p>
 
         <h2>User Dashboard</h2>
         <p>The User Dashboard is your personalized space for seamless project engagement and collaboration. 
             The User Dashboard empowers you to contribute actively to project management, 
             enabling the creation and management of clusters and the initiation of new projects.</p>
-        <h4>1. Login to Account -</h4>
+        <h4>1. Login to Account </h4>
         <p>As a user, accessing your dashboard is straightforward. Simply log in with your authorized credentials,
                 including your secure username, password and click 'sign in'.
                 This ensures a secure entry, protecting your project-related information within the BitBlast platform.</p><br>
@@ -85,7 +85,7 @@
         <p>As a new user, BitBlast automatically assigns a default project to streamline 
             your onboarding experience. This allows you to dive into your work immediately without the need for
              manual project selection.</p>
-        <p>"Additionally, at any point, you can visit the 'Project-Select Page' to view t all available projects. Here, you have the 
+        <p>"Additionally, at any point, you can visit the 'Project-Select Page' to view to all available projects. Here, you have the 
             freedom to select a different project based on your preferences or work requirements."</p>
             <img :src="require('@/Documentation/img2.png')" class="custom-image" ><br><br><hr>
 
@@ -115,7 +115,19 @@
              <img :src="require('@/Documentation/img13.png')" class="custom-image" ><br><br>
         <p>BitBlast offers a straightforward approach to adding providers and creating clusters. Users can select the desired provider and fill in its specific fields, including API Name, API Endpoint, Access Key, and Secret Key. Once these details are entered, clicking the "Add Provider" button seamlessly incorporates the chosen provider into BitBlast's system. This user-friendly process ensures that users can efficiently add providers, providing the necessary infrastructure for creating clusters. The intuitive design of BitBlast empowers users to effortlessly configure providers and proceed
              with the creation of customized and optimized clusters within their projects.</p>
-             <img :src="require('@/Documentation/img14.png')" class="custom-image" ><br><br><hr>
+             <img :src="require('@/Documentation/img14.png')" class="custom-image" ><br><br>
+        <p><b>Add Kubernetes Provider : </b>In a similar manner, users can add Kubernetes as a provider in BitBlast to 
+            facilitate the creation of clusters tailored to Kubernetes infrastructure. Users simply need to fill in the specific fields for Kubernetes,
+             including the key name and kubeconfig data.
+             Once these details are provided, clicking the "Add Provider" button seamlessly integrates Kubernetes into BitBlast's system.</p>
+        <img :src="require('@/Documentation/k8s-provider1.png')" class="custom-image" ><br><br>
+        <p>This streamlined process ensures that users can efficiently configure Kubernetes as a provider, 
+            establishing the necessary infrastructure for creating clusters compatible with Kubernetes environments. 
+            By incorporating Kubernetes into BitBlast, users gain access to its robust features and capabilities, empowering them to leverage Kubernetes' 
+            flexibility and scalability for their projects. With BitBlast's intuitive design and user-friendly approach,
+             users can seamlessly add Kubernetes as a provider and proceed with creating customized and optimized clusters within their projects.</p>
+        <img :src="require('@/Documentation/k8s-provider2.png')" class="custom-image" ><br><br>
+        <hr>
 
         <h4>6. Cluster </h4>
         <p>BitBlast's Cluster page is designed to provide a comprehensive view of your project's clusters and databases. On this page, you can easily access the total number of clusters,
@@ -139,7 +151,7 @@
              <img :src="require('@/Documentation/MicrosoftTeams-image (15).png')" class="custom-image" ><br><br>
 
         <p>Upon clicking the "Next" button on the "DB Configuration" page, BitBlast seamlessly directs users to the "Cluster Setting" page. Here, users can input essential details such as the Cluster Name, Postgres username, Password, Database version, and Backup Method. The intuitive design allows users to customize these settings according to their project requirements. After filling in the necessary information, users can view all cluster details in the Cluster Summary section, including cluster type, cluster nodes, providers, Postgres type, instance type, volume type, volume properties, and networking.
-             Clicking the "Create Cluster" button.</p>  
+             Clicking the "Create New Cluster" button.</p>  
             <img :src="require('@/Documentation/MicrosoftTeams-image (13).png')" class="custom-image" ><br><br>
         <p>After clicking the "Create Cluster" button,BitBlast displays the progress status of the database creation process. 
             Users can track the progress as the system sets up the database infrastructure.Here, users may need to wait for the progress to complete, which typically takes 2-3 minutes. During this time, the system is actively processing the requested operation,  </p>
@@ -173,7 +185,7 @@
              Clicking the "Next" button progresses users to the subsequent steps, facilitating a smooth and guided process for configuring cluster settings in BitBlast.</p>  
              <img :src="require('@/Documentation/img24.png')" class="custom-image"><br><br> 
        
-        <p>After clicking the "Create Cluster" button,BitBlast displays the progress status of the database creation process. 
+        <p>After clicking the "Create New Cluster" button,BitBlast displays the progress status of the database creation process. 
             Users can track the progress as the system sets up the database infrastructure. </p>
             <img :src="require('@/Documentation/MicrosoftTeams-image (12).png')" class="custom-image"><br><br>
         
@@ -191,6 +203,242 @@
           
         <img :src="require('@/Documentation/MicrosoftTeams-image (3).png')" class="custom-image"><br><br>
         <img :src="require('@/Documentation/MicrosoftTeams-image (2).png')" class="custom-image"><br><br><hr>
+
+            <h4>7. Backup </h4>
+            <p>In BitBlast, backups refer to the process of creating copies of your databases on the DBaaS platform for
+                safekeeping. These copies can be used to restore your database in case of data loss due to various
+                reasons like hardware malfunctions, software errors, or even accidental deletions.</p>
+            <h5>Why Backups Matter</h5>
+            <p>In today's digital landscape, data is paramount. Safeguarding your databases is crucial to ensure
+                business continuity and prevent potential data loss due to unforeseen circumstances like hardware
+                failures, software errors, or even human mistakes. Regularly backing up your databases allows you to
+                restore them quickly and efficiently, minimizing downtime and data loss.</p>
+            <h5>Introducing BitBlast Backups</h5>
+            <p>BitBlast empowers you to leverage two robust backup methods for your DBaaS deployments:</p>
+ 
+            <p><b>Scheduled Backups:</b> Configure automated backups to run at predefined intervals, ensuring your
+                databases are protected consistently. BitBlast will handle the entire backup process, storing your
+                backups securely within the platform.
+            </p>
+            <p><b>Manual Backups:</b> For added flexibility, you can initiate on-demand backups whenever needed. This
+                provides an extra layer of control for situations where you require immediate backups for specific
+                databases.</p>
+            <h5>Seamless Backup Management</h5>
+            <p>BitBlast offers a user-friendly interface for managing your backups. Here's an overview of the key
+                features:</p>
+            <ul>
+                <li>
+                    <p><b>Backup List:</b> View a comprehensive list of all your scheduled and manual backups. This list
+                        will clearly indicate the database associated with each backup, the backup creation time, and
+                        its status.</p>
+                </li>
+                <li>
+                    <p><b>Backup Scheduling:</b> Define automated backup schedules for your databases. Specify the
+                        desired frequency (e.g., daily, weekly) and retention period for backups. BitBlast will handle
+                        the scheduled backups automatically.</p>
+                </li>
+                <li>
+                    <p><b>Initiating Manual Backups:</b> With a few clicks, you can trigger a manual backup for any
+                        database on your DBaaS platform. This provides flexibility for situations where immediate
+                        backups are necessary.</p>
+                </li>
+                <li>
+                    <p><b>Backup Restoration: </b>In the event of data loss, BitBlast allows you to restore your
+                        database from a previous backup. Simply select the desired backup point from the list and
+                        initiate the restoration process. BitBlast will efficiently restore your database to its state
+                        at the chosen backup time.</p>
+                </li>
+            </ul>
+ 
+            <h5>Backup Options</h5>
+            <p>The Backup tab provides access to two main backup methods:</p>
+            <li><b>NFS (Network File System):</b> This allows you to mount a remote NFS share for storing backups.</li>
+            <li><b>S3 (Simple Storage Service):</b> This enables you to back up data to an Amazon S3 bucket.</li>
+            <br>
+            <h5>Mounting and Managing Backups</h5>
+            <p>For each backup method (NFS and S3), you'll see a list of your existing backups. Additionally, you'll
+                find three options represented by clicking on three dots on the right side of list:</p>
+            <li><b>Mount:</b> This option allows you to mount the selected backup storage.</li>
+            <li><b>Unmount:</b> This option allows you to unmount a previously mounted backup storage.</li>
+            <li><b>View:</b> This option lets you view the credentials associated with the selected backup storage.</li>
+            <br>
+            <h5>Mounting a Backup</h5>
+            <ol>
+                <li>Click the three dots next to the desired backup method (NFS or S3).</li>
+                <li>Select the "Mount" option.</li>
+                <li>A modal window will appear. Here, you'll provide details for mounting the remote storage:</li>
+                <ul>
+                    <li><b>NFS:</b></li>
+                    <ul>
+                        <li>Remote Host: Enter the hostname or IP address of the NFS server.</li>
+                        <li>Remote Path: Specify the path on the NFS server where backups will be stored.</li>
+                    </ul>
+                    <li><b>S3:</b></li>
+                    <ul>
+                        <li>Access Key: Enter your AWS access key ID.</li>
+                        <li>Secret Key: Enter your AWS secret access key.</li>
+                        <li>Bucket Name: Specify the S3 bucket where backups will be stored.</li>
+                        <li>URL: Provide the S3 endpoint URL if using a non-standard S3 service.</li>
+                    </ul>
+                </ul>
+                <li>Once you've filled in the required details, confirm the action to mount the backup storage.</li>
+ 
+            </ol>
+            <h5>Unmounting a Backup</h5>
+            <ol>
+                <li>Locate the mounted backup you want to unmount.</li>
+                <li>Click the three dots (...) next to the mounted backup.</li>
+                <li>Select the "Unmount" option.</li>
+                <li>The selected backup storage will be unmounted.</li>
+            </ol>
+            <h5>Viewing Credentials</h5>
+            <ol>
+                <li>Click the three dots (...) next to the backup method (NFS or S3).</li>
+                <li>Select the "View" option.</li>
+                <li>A modal window will display the current credentials associated with the selected backup method.</li>
+            </ol>
+ 
+            <h5>Beyond Mounting: Powerful Backup Management</h5>
+            <p>Once you've mounted an NFS or S3 storage for backups, BitBlast empowers you with a comprehensive set of
+                options:</p>
+            <ul>
+                <li><b>Backup/Schedule Backup:</b> This versatile feature allows you to either create a one-time backup
+                    or
+                    establish a recurring schedule for automated backups.</li>
+                <li><b>Restore:</b> In the event of data loss, you can seamlessly restore your database from a previous
+                    backup stored on your mounted NFS or S3 storage.</li>
+                <li><b>List Backups:</b> Gain a comprehensive overview of all existing backups, both manual and
+                    scheduled.
+                    This list will display details like backup name, storage method, cluster name, and creation time.
+                </li>
+                <li><b>List Scheduled Backups:</b> View a dedicated list of all your configured scheduled backups. This
+                    list
+                    will clearly show details like backup name, storage method, cluster name, and the defined retention
+                    period.</li>
+            </ul>
+ 
+            <h5>Creating Backups and Schedule Backups</h5>
+            <p>The "Backup/Schedule Backup" option offers two functionalities:</p>
+            <ol>
+                <li><b>Create Backup:</b> For a one-time backup, fill out the following form fields:
+                    <ul>
+                        <li><b>Backup Name:</b> Assign a descriptive name to easily identify this backup.</li>
+                        <li><b>Storage Method:</b> Select the mounted NFS or S3 storage you want to use for this backup.
+                        </li>
+                        <li><b>Cluster Name:</b> Choose the specific cluster you want to back up.</li>
+                    </ul>
+                </li>
+                <br>
+                <li>
+                    <b>Schedule Backup:</b> Configure automated backups for your databases on a recurring basis.
+                    <ul>
+                        <li><b>Storage Method:</b> Select the mounted NFS or S3 storage you want to use for scheduled
+                            backups.</li>
+                        <li><b>Cluster Name:</b> Choose the cluster you want to include in the scheduled backups.</li>
+                        <li><b>Retention Period:</b> Specify how long you want to retain the scheduled backups (e.g.,
+                            Daily, Weekly, Monthly). BitBlast will automatically manage the backup creation and deletion
+                            based on this retention period.</li>
+                    </ul>
+                </li>
+            </ol>
+ 
+            <h5>Backups List: Cataloging Your Backups</h5>
+            <p>The "Backups List" offers a comprehensive overview of all backups currently stored within your BitBlast
+                platform. This list provides valuable insights for understanding your backup history and ensuring data
+                protection.</p>
+ 
+            <b>Database View:</b>
+            <p>BitBlast organizes backups by Database. This provides a structured view, allowing you to easily identify
+                backups associated with specific Databases.</p>
+ 
+            <b>View Button:</b>
+            <p>A "View" button is located in front of each cluster name. Clicking this button will reveal a detailed
+                list of backups belonging to that specific cluster.</p>
+ 
+            <h5> Unveiling Backup Details:</h5>
+            <p>By clicking the "View" button for a cluster, you'll gain access to a comprehensive list of backups
+                associated with that cluster. This detailed list displays crucial information about each backup:</p>
+ 
+            <ul>
+                <li><strong>Backup ID:</strong> A unique identifier for each backup, aiding in easy reference and
+                    management.</li>
+                <li><strong>Backup Name:</strong> The name you assigned to the backup (if applicable) for better
+                    identification.</li>
+                <li><strong>Status:</strong> This indicates the current state of the backup, such as "Completed," "In
+                    Progress," or "Failed" (if any errors occurred).</li>
+                <li><strong>Time:</strong> The timestamp of when the backup was created, providing context for the
+                    backup history.</li>
+                <li><strong>Size:</strong> This displays the file size of the backup, giving you an idea of the storage
+                    space it occupies.</li>
+            </ul>
+ 
+            <h5>Benefits of Viewing Backup Lists</h5>
+            <p>The "Backups List" empowers you with several advantages:</p>
+ 
+            <ol>
+                <li><strong>Monitor Backup History:</strong> Gain insights into all your past backups, including those
+                    created manually or through scheduling.</li>
+                <li><strong>Verify Backup Completeness:</strong> Ensure that backups completed successfully by checking
+                    the "Status" column.</li>
+                <li><strong>Identify Backup Locations:</strong> By associating backups with specific clusters, you can
+                    understand where your backup data resides.</li>
+                <li><strong>Optimize Storage Management:</strong> Reviewing backup sizes can help you optimize storage
+                    utilization by identifying potential areas for retention policy adjustments.</li>
+            </ol>
+ 
+            <h5>Managing Scheduled Backups in BitBlast</h5>
+            <p>The "Scheduled Backups List" empowers you to effectively manage your automated backups in BitBlast.
+                Quickly filter and view your scheduled backups, adjust retention periods, unschedule unwanted backups,
+                and configure new ones, ensuring optimal data protection for your clusters.</p>
+            <ul>
+                <li>The "Scheduled Backups List" provides a consolidated view of all your configured automated backups.
+                </li>
+                <li>Each listed backup displays crucial information:
+                    <ul>
+                        <li><b>Database Name:</b> Identifies the database included in the scheduled backup process.</li>
+                        <li><b>Retention Period:</b> Shows the duration for which BitBlast will retain the scheduled
+                            backups (e.g., Daily, Weekly, Monthly).</li>
+                    </ul>
+                </li>
+                <li>Utilize the built-in filter to focus on specific backup sets.
+                    Easily switch between viewing all scheduled backups or filtering them by storage method (NFS or S3).
+                </li>
+            </ul>
+ 
+            <h5>Granular Management Options:</h5>
+            <p>Beyond viewing details, each listed backup offers two key functionalities:</p>
+            <ul>
+                <li><b>Change Retention Period:</b> Click this button to adjust the retention duration for a specific
+                    scheduled backup through a dedicated form.</li>
+                <li><b>Unschedule:</b> Click this button to initiate the process of removing a scheduled backup. A
+                    confirmation message will appear to ensure your intended action.</li>
+            </ul>
+ 
+            <h5>Recovering Your Data with BitBlast Restore</h5>
+            <p>Locate the desired backup you want to restore from the "Backups List" or "Scheduled Backups List."
+                Click the "Restore" button associated with that specific backup.</p>
+            <b>Streamlined Restore Form</b>
+            <ul>
+                <li><b>Storage Method:</b> Select the storage method (NFS or S3) where the chosen backup resides.</li>
+                <li><b>Database Name:</b> Specify the name of the database you want to restore.</li>
+                <li><b>Backup ID:</b> Enter the unique identifier of the backup you're restoring from.</li>
+                <li><b>Destination Directory:</b> Choose the desired location on your server where the restored database
+                    will be placed.</li>
+                <li><b>Target Server Name:</b> Specify the server name where the restored database will reside.</li>
+            </ul>
+ 
+            <h5>Effortless Restoration</h5>
+            <p>Once you've filled out the form details, click the "Restore" button. BitBlast will efficiently initiate
+                the restoration process, retrieving the selected backup and restoring your database to its state at the
+                chosen backup point.</p>
+ 
+            <h5>Conclusion: BitBlast - Your Backup and Restore Partner</h5>
+            <p>BitBlast empowers you with comprehensive backup functionalities. From managing scheduled backups and
+                monitoring existing ones to effortlessly restoring lost data, BitBlast ensures your valuable data is
+                always protected. Leverage BitBlast's robust backup and restore capabilities to maintain business
+                continuity and peace of mind.</p>
+ 
+            <hr>
         
 
 
@@ -270,7 +518,6 @@
             insert data, and lock tables, the monitoring dashboard empowers users to maintain optimal performance and reliability across their database. </p>
         <img :src="require('@/Documentation/img20.png')" class="custom-image" ><hr>
 
-        <h4>7. Backup </h4><hr>
 
         <h4>8. Activity Logs </h4>
         <p>Activity Logs in BitBlast serve as a comprehensive record of all actions and events within the platform, offering transparency and accountability. This log captures every significant activity, allowing users, especially administrators, to monitor and audit changes effectively. The Activity Logs encompass a variety of events, including user logins, 
@@ -293,11 +540,13 @@
 
 import html2pdf from 'html2pdf.js';
 
+
 export default {
   methods: {
 
     downloadPDF() {
-        // window.print()
+        
+        //  window.print()
       html2pdf(document.getElementById('htmlContent'), {
         margin:       1,
         filename:     'BitBlast-Document.pdf',
@@ -305,6 +554,8 @@ export default {
         // html2canvas:  { scale: 2 },
         // jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
       });
+
+
       
     }
   }
@@ -344,14 +595,30 @@ export default {
   top: 20px; 
   right: 20px;
 } */
-
-.pdf-download-button {
+/* pdf-download-button {
   background-color: #20c997;
   color: white;
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
+} */
+.pdf-download-button {
+  background-color: #20c997;
+  color: rgb(5, 5, 5);
+  border: rgb(14, 13, 13);
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  /* position: fixed; */
+  /* top: 20px; */
+  /* right: 20px; */
+  transition: transform 0.3s;
+  box-shadow: 0 0 10px rgba(112, 148, 105, 0.5);
+}
+
+.pdf-download-button:hover {
+  transform: scale(1.1);
 }
 .link {
     color : blue;
@@ -363,4 +630,10 @@ export default {
     color: rgb(97, 3, 185);
     text-decoration: underline;
 }
-  </style>
+.border {
+    border: #20c997;
+    padding: 10px; 
+    /* border-radius: 50px; */
+    box-shadow: 0 0 10px rgba(134, 241, 113, 0.5);
+}
+</style>

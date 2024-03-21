@@ -93,13 +93,13 @@
               <tr v-for="project in computeFlavors" :key="project.name">
                 <td>
                 <div class="row">
-                  <input type="radio" :value=project.name v-model="selectedFlavors" @change="updateFlavors">
-                </div>
+                  <input type="radio" :value=project.flavors v-model="selectedFlavors" @change="updateFlavors">
+                </div> 
               </td>
  
                 <td>
                   <div class="d-flex flex-column text-center">
-                    {{ project.name }}
+                    {{ project.flavors.name }}
                   </div>
                 </td>
                 <td class="align-middle text-center">
@@ -122,7 +122,7 @@
               </tr>
             </tbody>
           </table>              
-            
+            {{ selectedFlavors }}
           <argon-button @click="Next()" color="success" size="md" variant="gradient">
             NEXT
           </argon-button>
@@ -151,14 +151,14 @@ export default {
       computeOfferings: [],
       computeFlavors: [],
       selectedComputeOffering: null,
-      selectedFlavors: null
+      selectedFlavors: {}
     };
   },
   created(){
     this.fetchFlavors()
   },
   computed: {
-    ...mapState(['selectedComputeOffering', 'selectedStorageOffering', 'selectedProvider']),
+    ...mapState(['selectedComputeOffering', 'selectedStorageOffering', 'selectedProvider', 'flavor_id']),
  
   },
   mounted() {
@@ -170,16 +170,17 @@ export default {
       .catch(error => console.error('Error fetching data:', error));
   },
   methods: {
-    ...mapActions(['updateComputeOffering', 'updateSelectedStorage']),
+    ...mapActions(['updateComputeOffering', 'updateSelectedStorage', 'updateflavorId']),
  
     updateOffering() {
       this.updateComputeOffering(this.selectedComputeOffering);
     },
     updateFlavors() {
-      this.updateComputeOffering(this.selectedFlavors);
+      // this.updateComputeOffering(this.selectedFlavors);
+      this.$store.commit('setSelectedflavorId', this.selectedFlavors);
     },
     fetchFlavors(){
-      axios.get(`http://172.16.1.92:8000/api/v2/flavors/`)
+      axios.get(`http://172.16.1.56:8002/api/v2/flavors/`)
       .then((response)=>{
         this.computeFlavors = response.data
         console.log(this.computeFlavors);

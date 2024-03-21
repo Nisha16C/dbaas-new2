@@ -54,9 +54,9 @@
         <div v-if="typeError" class="text-danger">{{ typeError }}</div>
         
         <!-- Providers Lists row 1 -->
-        <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
+        <li class="list-group-item border-0 d-flex pb-5 mb-2 mt-3 bg-gray-100 border-radius-lg">
           <div class="d-flex flex-column">
-            <h6 class="mb-3 text-sm">Providers</h6>
+            <h6 class="mb-3  text-sm">Providers</h6>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
  
               <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Cloudstack' }">

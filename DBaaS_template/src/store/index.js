@@ -25,6 +25,7 @@ export default createStore({
     selectedType: '',
     selectedProvider: '',
     postgres_version:'',
+    flavorId: [],
  
     project_name: '',
     project_id: '',
@@ -61,6 +62,9 @@ export default createStore({
     setSelectedStorage(state, selectedStorageOffering) {
       state.selectedStorageOffering = selectedStorageOffering;
     },
+    setSelectedflavorId(state, flavors) {
+      state.flavorId.push(flavors);
+    },
     navbarMinimize(state) {
       const sidenav_show = document.querySelector(".g-sidenav-show");
  
@@ -94,6 +98,10 @@ export default createStore({
     },
     updateGlobalProjectId(context, project_id) {
       context.commit('setGlobalProjectId', project_id);
+    },
+
+    updateflavorId(context, flavorId) {
+      context.commit('setSelectedflavorId', flavorId);
     },
     
     // updateSelectedMethod(context, backup_method) {

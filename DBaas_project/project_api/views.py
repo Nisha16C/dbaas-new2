@@ -198,9 +198,12 @@ class FlavorList(APIView):
  
         # Transform flavors data into a list of dictionaries
         flavor_data = [
+
+            
             {
-                'flavor_id': flavor.id,
-                'name': flavor.name,
+                'flavors': {'flavor_id': flavor.id, 'name': flavor.name},
+                # 'flavor_id': flavor.id,
+                # 'name': flavor.name,
                 'ram': flavor.ram,
                 'vcpus': flavor.vcpus,
                 'disk': flavor.disk,
@@ -398,8 +401,57 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:            
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+      
+
+        elif provider_name == 'Openstack' and cluster_type == 'Standalone':
+            response = trigger_single(base_url, project_id, headers, 'openstack-provider')
+            print("Openstack Standalone branch trigger.....")
+            if response == 200:
+                cluster = Cluster(
+                    user=user,
+                    project=project,
+                    cluster_name=cluster_name,
+                    cluster_type=cluster_type,
+                    database_version=database_version,
+                    backup_method=backup_method,
+                    provider=provider_name,
+                    
+                )
+                cluster.save()
+                serializer = ClusterSerializers(cluster)
+                # Log cluster creation information
+                log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
+                cluster_logger.info(log_entry)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:            
+                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        elif provider_name == 'Openstack' and cluster_type == 'multiple':
+            response = trigger_single(base_url, project_id, headers, 'openstack-provider-ha')
+            print("Openstack HA branch trigger.....")
+            if response == 200:
+                cluster = Cluster(
+                    user=user,
+                    project=project,
+                    cluster_name=cluster_name,
+                    cluster_type=cluster_type,
+                    database_version=database_version,
+                    backup_method=backup_method,
+                    provider=provider_name,
+                    
+                )
+                cluster.save()
+                serializer = ClusterSerializers(cluster)
+                # Log cluster creation information
+                log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
+                cluster_logger.info(log_entry)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:            
+                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         else:
-            return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)        
+            
  
     
         

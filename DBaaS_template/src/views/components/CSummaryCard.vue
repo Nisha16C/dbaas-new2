@@ -4,7 +4,7 @@
     <div class="card-header pb-0 px-3">
       <div class="row">
         <div class="col-md-6">
-          <h6 class="mb-0">Your Cluster Summary</h6>
+          <h6 class="mb-0">Your Cluster Summary </h6>
         </div>
         <div class="col-md-6 d-flex justify-content-end align-items-center">
           <i class="far fa-calendar-alt me-2" aria-hidden="true"></i>
@@ -53,6 +53,12 @@
             <tr v-if="selectedProvider !== 'Kubernetes'">
               <th>Instance Type</th>
               <td>{{ selectedComputeOffering }} </td>
+              <span v-if="selectedProvider === 'Openstack'">
+                <td  v-for="(fl, index) in  flavors " :key=index>  {{ fl.name }} </td>
+
+              
+              </span>
+
             </tr>
  
             <tr v-if="selectedProvider !== 'Kubernetes'" >
@@ -70,6 +76,11 @@
             </tr>
           </tbody>
         </table>
+        <ul>
+      <li v-for="flavor in flavors" :key="flavor.flavor_id">
+        {{ flavor.name }}
+      </li>
+    </ul>
       </div>
     </div>
   </div>
@@ -99,7 +110,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['selectedType', 'selectedProvider', 'postgres_version', 'selectedComputeOffering', 'selectedStorageOffering']),
+    ...mapState(['selectedType', 'selectedProvider', 'postgres_version', 'selectedComputeOffering', 'selectedStorageOffering', 'flavors']),
  
   },
 };

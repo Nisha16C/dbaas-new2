@@ -19,9 +19,9 @@ class ProviderViewSet(viewsets.ModelViewSet):
         access_token = request.data.get('access_token')
         kubeconfig_data = request.data.get('kubeconfig_data')
 
-        username = request.data.get ('username')
+        openStackusername = request.data.get ('OpenstackUser')
         tenant_name = request.data.get ('tenant_name')
-        password = request.data.get ('password')
+        openstackpassword = request.data.get ('OpenstackPassword')
         auth_url = request.data.get ('auth_url')
         region = request.data.get ('region')
 
@@ -40,16 +40,11 @@ class ProviderViewSet(viewsets.ModelViewSet):
             existing_provider.access_token = access_token
             existing_provider.kubeconfig_data = kubeconfig_data
 
-            existing_provider.username = username
+            existing_provider.openStackusername = openStackusername
             existing_provider.tenant_name = tenant_name
-            existing_provider.password = password
+            existing_provider.openstackpassword = openstackpassword
             existing_provider.auth_url = auth_url
             existing_provider.region = region
-
-
-
-
-
 
             existing_provider.is_connected = True  # Assuming connection is successful
             existing_provider.save()
@@ -67,9 +62,9 @@ class ProviderViewSet(viewsets.ModelViewSet):
                 access_token=access_token,
                 kubeconfig_data=kubeconfig_data,
 
-                username=username,
+                openStackuser=openStackusername,
                 tenant_name=tenant_name,
-                password=password,
+                openstackpassword=openstackpassword,
                 auth_url=auth_url,
                 region=region,
 

@@ -1,4 +1,5 @@
-
+[9:24 AM] Ashish Sahu
+ 
  
 <template>
   <main>
@@ -65,8 +66,6 @@
         </button>
         <!-- vmware -->
         <button @click.prevent="toggleModal('Vmware')" class="btn btn-light">
- 
- 
           <div class="card-body p-3">
             <div class="row gx-4">
               <div class="col-auto">
@@ -169,7 +168,7 @@
  
  
         <!-- openstack -->
-        <button @click.prevent="toggleModal('Openstack')" class="btn btn-light">
+        <button @click.prevent="OpenstackModal('Openstack')" class="btn btn-light">
  
  
           <div class="card-body p-3">
@@ -329,10 +328,6 @@
  
       <!--1st working vm other modal -->
       <div>
- 
-        <!-- <button @click.prevent="toggleModal" class="btn btn-primary">Open Modal</button> -->
- 
-        <!-- 111111111111111111111111Modal its working fo other providers -->
         <div v-show="isModalVisible" class="modal-container" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -404,8 +399,6 @@
           </div>
         </div>
       </div>
-
-     
  
       <!-- working k8s modal -->
       <div>
@@ -433,7 +426,7 @@
  
                   <div class="mb-3">
                     <label for="Api_name" class="form-label">Key name</label>
-                    <input type="text" class="form-control" id="api_name" v-model="api_name" placeholder="Key Name">
+                    <input type="text" class="form-control"  v-model="api_name" placeholder="Key Name">
                     <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                       Key name is required
                     </argon-alert>
@@ -441,7 +434,7 @@
                   </div>
                   <div class="mb-3">
                     <label for="kubeconfigData" class="form-label">Kubeconfig Data</label>
-                    <textarea class="form-control" id="api_name" v-model="kubeconfigData" placeholder="Kubeconfig Data"
+                    <textarea class="form-control"  v-model="kubeconfigData" placeholder="Kubeconfig Data"
                       required></textarea>
                     <argon-alert v-if="!kubeconfigData && showErrorMessages" color="danger" icon="icon-danger"
                       dismissible>
@@ -471,6 +464,103 @@
         </div>
       </div>
  
+ 
+      <!-- Openstack mOdel -->
+      <div>
+ 
+<!-- Modal -->
+<div v-show="isModalVisibles && selectedModal === 'Openstack'" class="modal-container" tabindex="-1"
+   role="dialog">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+     <div class="modal-content">
+       <!-- Modal Header -->
+       <div class="modal-header">
+         <h5 class="modal-title">Add Provider</h5>
+         <button type="button" class="close" @click="OpenstackModal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+ 
+       <!-- Modal Body -->
+       <div class="modal-body">
+         <!-- Form with 5 fields -->
+         <form>
+           <h3 class="mb-5 text-lg font-normal text-dark dark:text-gray-400">
+             {{ selectedModal }}
+           </h3>
+
+           <div class="mb-3">
+             <label for="Api_name" class="form-label">API Name</label>
+             <input type="text" class="form-control"  v-model="api_name" placeholder="api_name">
+             <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+               apiname is required
+             </argon-alert>
+ 
+           </div>
+ 
+           <div class="mb-3">
+             <label for="Api_name" class="form-label">Username</label>
+             <input type="text" class="form-control"  v-model="OpenstackUser" placeholder="Username">
+             <argon-alert v-if="!OpenstackUser && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+               Username name is required
+             </argon-alert>
+ 
+           </div>
+           <div class="mb-3">
+             <label for="Api_name" class="form-label">Tenant/Project Name</label>
+             <input type="text" class="form-control"  v-model="tenant_name" placeholder="Tenant/Project Name">
+             <argon-alert v-if="!tenant_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+              Tenant/Project Name is required
+             </argon-alert>
+ 
+           </div>
+           <div class="mb-3">
+             <label for="Api_name" class="form-label">Password</label>
+             <input type="password" class="form-control"  v-model="OpenstackPassword" placeholder="Password">
+             <argon-alert v-if="!OpenstackPassword && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+               Password is required
+             </argon-alert>
+ 
+           </div>
+           <div class="mb-3">
+             <label for="Api_name" class="form-label">Auth URL</label>
+             <input type="text" class="form-control" v-model="auth_url" placeholder="Auth URL">
+             <argon-alert v-if="!auth_url && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+               AUTH URL name is required
+             </argon-alert>
+ 
+           </div>
+           <div class="mb-3">
+             <label for="Api_name" class="form-label">Region</label>
+             <input type="text" class="form-control"  v-model="region" placeholder="Region">
+             <argon-alert v-if="!region && showErrorMessages" color="danger" icon="icon-danger" dismissible>
+               Region is required
+             </argon-alert>
+ 
+           </div>
+           
+ 
+           
+ 
+ 
+           <!-- Modal Footer with Add Provider and Close buttons -->
+ 
+           <div class="modal-footer">
+             <argon-button color="success" size="md" variant="gradient" @click="addOpenstack" type="submit">
+               Add Provider
+             </argon-button>
+ 
+             <argon-button color="danger" size="md" variant="gradient" @click="OpenstackModal">
+               Close
+             </argon-button>
+           </div>
+ 
+         </form>
+       </div>
+     </div>
+   </div>
+</div>
+</div>
     </div>
  
   </main>
@@ -484,31 +574,27 @@ import axios from 'axios';
 // import ProfileCard from "@/views/components/profileCard.vue";
 import ArgonAlert from "@/components/ArgonAlert.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
-import { API_ENDPOINT } from '@/../apiconfig.js';
-
-
-
+ 
 const body = document.getElementsByTagName("body")[0];
  
 export default {
   name: "profile",
   data() {
     return {
-      apiUrl: API_ENDPOINT, 
+      OpenstackUser: '',
+      tenant_name: '',
+      OpenstackPassword: '',
+      auth_url: '',
+      region: '',
+ 
       isModalVisibles: false, selectedModal: '', kubeconfigData: '',
       isModalVisible: false, user_id: '',
       selectedProvider: '',
       api_name: '', api_endpoint: '', secret_key: '', access_key: '', error: '',
-      username: '',
-    tenantName: '',
-    password: '',
-    authUrl: '',
-    region: '',
       showErrorMessages: false,
  
       provider_info: [],
       showMenu: false
-
     };
   },
   components: {
@@ -579,6 +665,20 @@ export default {
       this.isModalVisibles = !this.isModalVisibles;
       console.log(this.selectedModal);
     },
+    OpenstackModal(selectedProvider) {
+      this.OpenstackUser = '';
+      this.tennat_name = '';
+      this.OpenstackPassword = '';
+      this.auth_url = '';
+      this.region = '';
+
+
+
+      this.selectedProvider = selectedProvider;
+      this.selectedModal = 'Openstack';
+      this.isModalVisibles = !this.isModalVisibles;
+      console.log(this.selectedModal);
+    },
     async addProviderk8s() {
       if (!this.api_name || !this.kubeconfigData) {
         this.showErrorMessages = true; // Show error messages
@@ -600,7 +700,7 @@ export default {
  
       };
       console.log("data")
-      await axios.post(`${this.apiUrl}/api/v3/providers/`, fromData)
+      await axios.post(`http://172.16.1.56:8002/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisibles = !this.isModalVisibles;
@@ -612,13 +712,15 @@ export default {
  
     async addProvider() {
       // Check for form validation before making the API call
-      if (!this.api_name || !this.api_endpoint || !this.access_key || !this.secret_key) {
+      console.log('addprovider');
+      if (!this.api_name || !this.api_endpoint || !this.access_key || !this.secret_key || !this.OpenstackUsername || !this.tenant_name  ) {
         this.showErrorMessages = true; // Show error messages
         setTimeout(() => {
           this.showErrorMessages = false; // Hide error messages after 5 seconds
         }, 5000);
         return;
       }
+      console.log('addpro');
  
       const fromData = {
         "user_id": this.user_id,
@@ -627,14 +729,57 @@ export default {
         "provider_url": this.api_endpoint,
         "secret_key": this.secret_key,
         "access_token": this.access_key,
-        "username": this.username,
-        "tenant_name": this.tenantName,
-        "password": this.password,
-        "auth_url": this.authUrl,
+
+        "OpenstackUsername": this.OpenstackUsername,
+        "tenant_name": this.tenant_name,
+        "OpenstackPassword": this.OpenstackPassword,
+        "auth_url": this.auth_url,
         "region": this.region,
+
+
       };
+      console.log(fromData);
  
-      await axios.post(`${this.apiUrl}/api/v3/providers/`, fromData)
+      await axios.post(`http://172.16.1.56:8002/api/v3/providers/`, fromData)
+        .then(() => {
+          this.getAllProviderData();
+          this.isModalVisible = !this.isModalVisible;
+        })
+        .catch((error) => {
+          this.error = "Error adding provider: " + error.message;
+        });
+    },
+
+    async addOpenstack() {
+      // Check for form validation before making the API call
+      console.log('addprovider');
+      // if (!this.OpenstackUser || !this.OpenstackPassword || !this.auth_url || !this.region || !this.tenant_name  ) {
+      //   this.showErrorMessages = true; // Show error messages
+      //   setTimeout(() => {
+      //     this.showErrorMessages = false; // Hide error messages after 5 seconds
+      //   }, 5000);
+      //   return;
+      // }
+      console.log('addpro');
+ 
+      const fromData = {
+        "user_id": this.user_id,
+
+        "provider_name": this.selectedProvider,
+        "key_name": this.api_name,
+       
+
+        "OpenstackUsername": this.OpenstackUser,
+        "tenant_name": this.tenant_name,
+        "OpenstackPassword": this.OpenstackPassword,
+        "auth_url": this.auth_url,
+        "region": this.region,
+
+
+      };
+      console.log(fromData);
+ 
+      await axios.post(`http://172.16.1.56:8002/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisible = !this.isModalVisible;
@@ -644,7 +789,7 @@ export default {
         });
     },
     getAllProviderData() {
-      axios.get(`${this.apiUrl}/api/v3/providers/by-user/${this.user_id}/`)
+      axios.get(`http://172.16.1.56:8002/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data;
           console.log(response.data);
@@ -656,17 +801,14 @@ export default {
 </script>
  
 <style scoped>
-/* Add your custom styling if needed */
 .modal-container {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 130%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
-  /* Adjust the background opacity as needed */
   z-index: 1050;
-  /* Ensure higher z-index than other elements on the page */
   overflow: auto;
 }
 </style>

@@ -15,9 +15,9 @@ class Provider(ExportModelOperationsMixin('provider'),models.Model):
     kubeconfig_data = models.TextField(blank=True, null=True)
 
     # New fields for OpenStack provider
-    username = models.CharField(max_length=100, null=True)
+    openStackuser = models.CharField(max_length=100, null=True)
     tenant_name = models.CharField(max_length=100, null=True)
-    password = models.CharField(max_length=100, null=True)
+    openstackpassword = models.CharField(max_length=100, null=True)
     auth_url = models.URLField(null=True)
     region = models.CharField(max_length=100, null=True)
     

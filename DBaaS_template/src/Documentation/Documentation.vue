@@ -255,6 +255,8 @@
             <li><b>NFS (Network File System):</b> This allows you to mount a remote NFS share for storing backups.</li>
             <li><b>S3 (Simple Storage Service):</b> This enables you to back up data to an Amazon S3 bucket.</li>
             <br>
+            <img :src="require('@/Documentation/b-mount.png')" class="custom-image">
+            <br><br>
             <h5>Mounting and Managing Backups</h5>
             <p>For each backup method (NFS and S3), you'll see a list of your existing backups. Additionally, you'll
                 find three options represented by clicking on three dots on the right side of list:</p>
@@ -273,6 +275,9 @@
                         <li>Remote Host: Enter the hostname or IP address of the NFS server.</li>
                         <li>Remote Path: Specify the path on the NFS server where backups will be stored.</li>
                     </ul>
+                    <br>
+                    <img :src="require('@/Documentation/b-nfs.png')" class="custom-image">
+                    <br><br>
                     <li><b>S3:</b></li>
                     <ul>
                         <li>Access Key: Enter your AWS access key ID.</li>
@@ -280,6 +285,9 @@
                         <li>Bucket Name: Specify the S3 bucket where backups will be stored.</li>
                         <li>URL: Provide the S3 endpoint URL if using a non-standard S3 service.</li>
                     </ul>
+                    <br>
+                    <img :src="require('@/Documentation/b-s3.png')" class="custom-image">
+                    <br><br>
                 </ul>
                 <li>Once you've filled in the required details, confirm the action to mount the backup storage.</li>
  
@@ -291,12 +299,18 @@
                 <li>Select the "Unmount" option.</li>
                 <li>The selected backup storage will be unmounted.</li>
             </ol>
+            <br>
+            <img :src="require('@/Documentation/b-unmount.png')" class="custom-image">
+            <br><br>
             <h5>Viewing Credentials</h5>
             <ol>
                 <li>Click the three dots (...) next to the backup method (NFS or S3).</li>
                 <li>Select the "View" option.</li>
                 <li>A modal window will display the current credentials associated with the selected backup method.</li>
             </ol>
+            <br>
+            <img :src="require('@/Documentation/b-viewmount.png')" class="custom-image">
+            <br><br>
  
             <h5>Beyond Mounting: Powerful Backup Management</h5>
             <p>Once you've mounted an NFS or S3 storage for backups, BitBlast empowers you with a comprehensive set of
@@ -329,6 +343,8 @@
                     </ul>
                 </li>
                 <br>
+                <img :src="require('@/Documentation/b-backup.png')" class="custom-image">
+                <br><br>
                 <li>
                     <b>Schedule Backup:</b> Configure automated backups for your databases on a recurring basis.
                     <ul>
@@ -340,6 +356,9 @@
                             based on this retention period.</li>
                     </ul>
                 </li>
+                <br>
+                <img :src="require('@/Documentation/b-schedule.png')" class="custom-image">
+                <br><br>
             </ol>
  
             <h5>Backups List: Cataloging Your Backups</h5>
@@ -354,6 +373,9 @@
             <b>View Button:</b>
             <p>A "View" button is located in front of each cluster name. Clicking this button will reveal a detailed
                 list of backups belonging to that specific cluster.</p>
+            <br>
+            <img :src="require('@/Documentation/b-list.png')" class="custom-image">
+            <br><br>
  
             <h5> Unveiling Backup Details:</h5>
             <p>By clicking the "View" button for a cluster, you'll gain access to a comprehensive list of backups
@@ -404,15 +426,23 @@
                     Easily switch between viewing all scheduled backups or filtering them by storage method (NFS or S3).
                 </li>
             </ul>
+            <br>
+            <img :src="require('@/Documentation/b-sslist.png')" class="custom-image">
+            <br><br>
  
             <h5>Granular Management Options:</h5>
             <p>Beyond viewing details, each listed backup offers two key functionalities:</p>
             <ul>
                 <li><b>Change Retention Period:</b> Click this button to adjust the retention duration for a specific
-                    scheduled backup through a dedicated form.</li>
+                    scheduled backup through a dedicated form.</li><br>
+                    <img :src="require('@/Documentation/b-retention.png')" class="custom-image"><br><br>
                 <li><b>Unschedule:</b> Click this button to initiate the process of removing a scheduled backup. A
                     confirmation message will appear to ensure your intended action.</li>
+                    <br>
+            
+            <img :src="require('@/Documentation/b-unschedule.png')" class="custom-image"><br><br>
             </ul>
+            
  
             <h5>Recovering Your Data with BitBlast Restore</h5>
             <p>Locate the desired backup you want to restore from the "Backups List" or "Scheduled Backups List."
@@ -431,14 +461,17 @@
             <p>Once you've filled out the form details, click the "Restore" button. BitBlast will efficiently initiate
                 the restoration process, retrieving the selected backup and restoring your database to its state at the
                 chosen backup point.</p>
+            <br>
+            <img :src="require('@/Documentation/b-restore.png')" class="custom-image"><br><br>
  
             <h5>Conclusion: BitBlast - Your Backup and Restore Partner</h5>
             <p>BitBlast empowers you with comprehensive backup functionalities. From managing scheduled backups and
                 monitoring existing ones to effortlessly restoring lost data, BitBlast ensures your valuable data is
                 always protected. Leverage BitBlast's robust backup and restore capabilities to maintain business
                 continuity and peace of mind.</p>
- 
+            <br>    
             <hr>
+            <br>
         
 
 

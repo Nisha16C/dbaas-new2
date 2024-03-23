@@ -270,7 +270,7 @@ export default {
         }, 5000);
         return;
       }
-      if (!this.selectedProvider) {
+      if (!this.providerName) {
 
         this.providerError = 'Provider is required';
         setTimeout(() => {
@@ -278,7 +278,7 @@ export default {
         }, 5000);
         return;
       }
-      if (this.selectedProvider !== 'Kubernetes' && this.selectedProvider !== 'Openstack' && !this.selectedComputeOffering){
+      if (this.providerName !== 'Kubernetes' && this.providerName !== 'Openstack' && !this.selectedComputeOffering){
 
         this.computeOfferingError = 'Compute Offering is required';
         setTimeout(() => {
@@ -286,7 +286,7 @@ export default {
         }, 5000);
         return;
       }
-      if (this.selectedProvider !== 'Kubernetes'  && this.selectedProvider !== 'Openstack' && !this.selectedStorageOffering) {
+      if (this.providerName !== 'Kubernetes'  && this.providerName !== 'Openstack' && !this.selectedStorageOffering) {
 
         this.storageOfferingError = 'Storage Offering is required';
         setTimeout(() => {
@@ -296,7 +296,7 @@ export default {
       }
 
       axios
-        .get(`${this.apiUrl}/api/v3/providers/by-username-and-name/${this.Username}/${this.selectedProvider}/`)
+        .get(`${this.apiUrl}/api/v3/providers/by-username-and-name/${this.Username}/${this.providerName}/`)
         .then((response) => {
           this.provider_info = response.data;
           this.provider_info.kubeconfig_data = JSON.stringify(this.provider_info.kubeconfig_data)
@@ -307,7 +307,7 @@ export default {
             db_password: this.db_password,
             user: this.user_id,
             project: this.project_id,
-            provider: this.selectedProvider,
+            provider: this.providerName,
 
             cluster_type: this.selectedType,
             computeOffering: this.selectedComputeOffering,
@@ -364,7 +364,7 @@ export default {
 
 
   computed: {
-    ...mapState(['selectedType', 'selectedComputeOffering', 'selectedProvider', 'postgres_version', 'project_name', 'project_id', 'selectedStorageOffering']),
+    ...mapState(['selectedType', 'selectedComputeOffering', 'providerName', 'postgres_version', 'project_name', 'project_id', 'selectedStorageOffering']),
 
   },
 };

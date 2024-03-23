@@ -1,4 +1,4 @@
-[9:10 AM] Ashish Sahu
+
 <template>
   <div>
     <div class="card">
@@ -7,7 +7,7 @@
       </div>
  
       <div class="card-body pt-4 p-3">
-        <div class="table-responsive p-0" v-if="selectedProvider === 'Cloudstack'">
+        <div class="table-responsive p-0" v-if="providerName === 'Cloudstack'">
           <table class="table align-items-center mb-0">
             <thead>
               <tr>
@@ -72,7 +72,7 @@
           </argon-button>
         </div>
         
-        <div class="table-responsive p-0"  v-if="selectedProvider === 'Openstack'">
+        <div class="table-responsive p-0"  v-if="providerName === 'Openstack'">
           <table class="table align-items-center mb-0">
             <thead>
               <tr>
@@ -158,7 +158,7 @@ export default {
     this.fetchFlavors()
   },
   computed: {
-    ...mapState(['selectedComputeOffering', 'selectedStorageOffering', 'selectedProvider', 'flavors']),
+    ...mapState(['selectedComputeOffering', 'selectedStorageOffering', 'providerName', 'flavors']),
  
   },
   mounted() {

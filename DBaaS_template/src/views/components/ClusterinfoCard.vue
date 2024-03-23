@@ -44,7 +44,7 @@
                     "
                   />
                 </li>&nbsp; &nbsp; &nbsp;
-                <li class="nav-item" v-if="selectedProvider !== 'Kubernetes'">
+                <li class="nav-item" v-if="providerName !== 'Kubernetes'">
                   <router-link to="/Cconfiguration"
                     class="nav-link "     
                     :class="
@@ -125,7 +125,7 @@ export default {
     // ArgonButton,
   },
   computed: {
-    ...mapState(['selectedProvider']),
+    ...mapState(['providerName']),
  
   },
   data() {

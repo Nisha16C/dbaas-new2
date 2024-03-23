@@ -708,7 +708,7 @@ export default {
  
       };
       console.log("data")
-      await axios.post(`http://172.16.1.56:8000/api/v3/providers/`, fromData)
+      await axios.post(`http://172.16.1.69:8000/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisibles = !this.isModalVisibles;
@@ -748,7 +748,7 @@ export default {
       };
       console.log(fromData);
  
-      await axios.post(`http://172.16.1.56:8000/api/v3/providers/`, fromData)
+      await axios.post(`http://172.16.1.69:8000/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisible = !this.isModalVisible;
@@ -787,7 +787,7 @@ export default {
       };
       console.log(fromData);
  
-      await axios.post(`http://172.16.1.56:8000/api/v3/providers/`, fromData)
+      await axios.post(`http://172.16.1.69:8000/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisible = !this.isModalVisible;
@@ -797,7 +797,7 @@ export default {
         });
     },
     getAllProviderData() {
-      axios.get(`http://172.16.1.56:8000/api/v3/providers/by-user/${this.user_id}/`)
+      axios.get(`http://172.16.1.69:8000/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data;
           console.log(response.data);

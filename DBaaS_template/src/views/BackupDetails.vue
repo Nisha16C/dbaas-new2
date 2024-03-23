@@ -149,7 +149,6 @@ export default {
   mounted() {
     // Fetch data when the component is mounted
     this.fetchBackupMethod();
-    this.fetchBackups();
 
   },
   created() {
@@ -161,11 +160,12 @@ export default {
      
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`${this.apiUrl}/api/v2/get_backup_method/${this.server_name}/`);
+        const response = await axios.get(`${this.apiUrl}/api/v2/get_backup_method/${this.serverName}/`);
 
         // Update the clusters data with the fetched data
         this.backup_method = response.data.backup_method;
         console.log(this.backup_method);
+        this.fetchBackups();
       } catch (error) {
         console.error('Error fetching backup-method:', error);
       }

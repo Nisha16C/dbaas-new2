@@ -14,7 +14,7 @@
  
               <div class="col mx-auto">
                 <div class="h-100 w-100 border border-success rounded-md text-center text-wrap p-3"
-                  :class="{ 'bg-light': selectedType === 'Standalone' }">
+                  :class="{ 'bg-light': clusterType === 'Standalone' }">
                   <label for="Standalone">
                     <input type="radio" id="Standalone" class="visually-hidden" value="Standalone"
                       v-model="selectedType" @change="updateType" />
@@ -31,7 +31,7 @@
                 </div>
               </div>
               <div class="col mx-auto">
-                <div :class="{ 'bg-light': selectedType === 'Multiple' }"
+                <div :class="{ 'bg-light': clusterType === 'Multiple' }"
                   class="h-100  border border-success  rounded-md text-center p-3">
                   <label for="Multiple">
                     <input type="radio" class="visually-hidden" id="Multiple" value="Multiple" v-model="selectedType"
@@ -59,7 +59,7 @@
             <h6 class="mb-3  text-sm">Providers</h6>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
  
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Cloudstack' }">
+              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Cloudstack' }">
                 <div class="bg-transparent border-4 rounded-md text-center p-3 d-flex align-items-center">
                   <label>
                     <input class="visually-hidden" type="radio" id="Cloudstack" value="Cloudstack"
@@ -69,7 +69,7 @@
                   </label>
                 </div>
               </div>
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Harvester' }">
+              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Harvester' }">
                 <div class="bg-transparent border-4 rounded-md text-center p-5  d-flex align-items-center">
                   <label>
                     <input class="visually-hidden" type="radio" id="Harvester" value="Harvester"
@@ -89,9 +89,9 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
  
               <!-- vmware -->
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Vmware' }">
+              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Vmware' }">
                 <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
-            {{ selectedProvider === 'Vmware' ? 'selected' : '' }}">
+            {{ providerName === 'Vmware' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Vmware" value="Vmware" v-model="selectedProvider"
                       @change="updateProvider" />
@@ -102,9 +102,9 @@
               </div>
  
               <!-- k8s -->
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Kubernetes' }">
+              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Kubernetes' }">
                 <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
-            {{ selectedProvider === 'Kubernetes' ? 'selected' : '' }}">
+            {{ providerName === 'Kubernetes' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Kubernetes" value="Kubernetes"
                       v-model="selectedProvider" @change="updateProvider" />
@@ -121,10 +121,10 @@
             <!-- ro3 -->
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
               <!-- nutanix -->
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Nutanix' }">
+              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Nutanix' }">
                 <label>
                   <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
-            {{ selectedProvider === 'Nutanix' ? 'selected' : '' }}">
+            {{ providerName === 'Nutanix' ? 'selected' : '' }}">
  
                     <input type="radio" class="visually-hidden" id="Nutanix" value="Nutanix" v-model="selectedProvider"
                       @change="updateProvider" />
@@ -136,9 +136,9 @@
               </div>
  
               <!-- openstack -->
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Openstack' }">
+              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Openstack' }">
                 <div class="bg-transprent border-4 rounded-md text-center p-3  d-flex align-items-center
-            {{ selectedProvider === 'Openstack' ? 'selected' : '' }}">
+            {{ providerName === 'Openstack' ? 'selected' : '' }}">
                   <label>
                     <input type="radio" class="visually-hidden" id="Openstack" value="Openstack"
                       v-model="selectedProvider" @change="updateProvider" />
@@ -237,7 +237,7 @@ export default {
     },
  
     Next() {
-      if (!this.selectedType) {
+      if (!this.clusterType) {
  
         this.typeError = 'Cluster type is required';
         setTimeout(() => {
@@ -245,7 +245,7 @@ export default {
         }, 5000);
         return;
       }
-      if (!this.selectedProvider) {
+      if (!this.providerName) {
  
         this.providerError = 'Provider is required';
         setTimeout(() => {
@@ -254,11 +254,11 @@ export default {
         return;
       }
       const selectedProviderInfo = this.provider_info.find(
-        (provider) => provider.provider_name.toLowerCase() === this.selectedProvider.toLowerCase()
+        (provider) => provider.provider_name.toLowerCase() === this.providerName.toLowerCase()
       );
  
       if (selectedProviderInfo && selectedProviderInfo.is_connected) {
-        if (this.selectedProvider === 'Kubernetes') {
+        if (this.providerName === 'Kubernetes') {
           this.$router.push('/Cluster-Setting');
         } else {
           this.$router.push('/Cconfiguration');
@@ -282,7 +282,7 @@ export default {
   },
  
   computed: {
-    ...mapState(['selectedType', 'selectedProvider']),
+    ...mapState(['clusterType', 'providerName']),
   },
 };
 </script>

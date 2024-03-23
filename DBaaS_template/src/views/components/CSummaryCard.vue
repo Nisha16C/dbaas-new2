@@ -19,20 +19,20 @@
           <tbody>
             <tr>
               <th>Cluster Type</th>
-              <td>{{ selectedType }}</td>
+              <td>{{ clusterType }}</td>
             </tr>
  
             <tr>
               <th>Cluster Nodes</th>
-              <td v-if="selectedType == 'Standalone'"> 1 Node</td>
+              <td v-if="clusterType == 'Standalone'"> 1 Node</td>
  
-              <td v-if="selectedType == 'Multiple'"> 3 Node</td>
+              <td v-if="clusterType == 'Multiple'"> 3 Node</td>
  
             </tr>
  
             <tr>
               <th>Provider</th>
-              <td>{{ selectedProvider }}</td>
+              <td>{{ providerName }}</td>
             </tr>
  
             <tr>
@@ -51,19 +51,19 @@
             </tr>
  
             <!-- Inside the Cluster Summary Template -->
-            <tr v-if="selectedProvider !== 'Kubernetes'">
+            <tr v-if="providerName !== 'Kubernetes'">
               <th>Instance Type</th>
-              <td v-if="selectedProvider === 'Cloudstack'">{{ selectedComputeOffering }} </td>
-              <td v-if="selectedProvider === 'Openstack'">  {{ flavors.name }} </td>  
+              <td v-if="providerName === 'Cloudstack'">{{ selectedComputeOffering }} </td>
+              <td v-if="providerName === 'Openstack'">  {{ flavors.name }} </td>  
               
  
             </tr>
  
-            <tr v-if="selectedProvider !== 'Kubernetes'" >
+            <tr v-if="providerName !== 'Kubernetes'" >
               <th>Volume Type</th>
               <td>General Purpose HDD(gp3)</td>
             </tr>
-            <tr v-if="selectedProvider !== 'Kubernetes'">
+            <tr v-if="providerName !== 'Kubernetes'">
               <th>Volume Properties</th>
               <td>{{ selectedStorageOffering }} Gi, 3000 IOPS, 125 Mb/s Disk</td>
             </tr>
@@ -105,7 +105,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['selectedType', 'selectedProvider', 'postgres_version', 'selectedComputeOffering', 'selectedStorageOffering', 'flavors']),
+    ...mapState(['clusterType', 'providerName', 'postgres_version', 'selectedComputeOffering', 'selectedStorageOffering', 'flavors']),
  
   },
 };

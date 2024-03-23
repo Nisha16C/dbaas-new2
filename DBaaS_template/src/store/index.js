@@ -22,8 +22,8 @@ export default createStore({
     showMain: true,
     layout: "default",
     username: null,
-    selectedType: '',
-    selectedProvider: '',
+    clusterType: '',
+    providerName: '',
     postgres_version:'',
     flavors: [],
     project_name: '',
@@ -39,11 +39,11 @@ export default createStore({
       state.project_id = project_id;
     },
  
-     setSelectedType(state, selectedType) {
-      state.selectedType = selectedType;
+     setSelectedType(state, clusterType) {
+      state.clusterType = clusterType;
     },
-    setSelectedProvider(state, selectedProvider) {
-      state.selectedProvider = selectedProvider;
+    setSelectedProvider(state, providerName) {
+      state.providerName = providerName;
     },
     setSelectedVersion(state, postgres_version) {
       state.postgres_version = postgres_version;
@@ -100,11 +100,11 @@ export default createStore({
       context.commit('setGlobalProjectId', project_id);
     },
  
-    updateSelectedType(context, selectedType) {
-      context.commit('setSelectedType', selectedType);
+    updateSelectedType(context, clusterType) {
+      context.commit('setSelectedType', clusterType);
     },
-    updateSelectedProvider(context, selectedProvider) {
-      context.commit('setSelectedProvider', selectedProvider);
+    updateSelectedProvider(context, providerName) {
+      context.commit('setSelectedProvider', providerName);
     },
     updateSelectedVersion(context, postgres_version) {
       context.commit('setSelectedVersion', postgres_version);
@@ -128,7 +128,7 @@ export default createStore({
     // },
  
     fetchFirstProject({ commit  }, userId) {
-      axios.get(`http://172.16.1.56:8000/api/v2/project/user/${userId}/`)
+      axios.get(`http://172.16.1.69:8000/api/v2/project/user/${userId}/`)
         .then(response => {
           const firstProject = response.data[0];
           commit('setGlobalProjectName', firstProject.project_name);

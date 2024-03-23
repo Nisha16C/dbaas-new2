@@ -85,8 +85,8 @@
   @return $result;
 }
 
-// Get multiple keys from a sass map
-@function map-get-multiple($map, $values) {
+// Get Multiple keys from a sass map
+@function map-get-Multiple($map, $values) {
   $result: ();
   @each $key, $value in $map {
     @if (index($values, $key) != null) {
@@ -96,8 +96,8 @@
   @return $result;
 }
 
-// Merge multiple maps
-@function map-merge-multiple($maps...) {
+// Merge Multiple maps
+@function map-merge-Multiple($maps...) {
   $merged-maps: ();
 
   @each $map in $maps {

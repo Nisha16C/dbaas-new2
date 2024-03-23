@@ -1,5 +1,3 @@
-
-
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from .models import Project, Cluster, Db_credentials, Db_credentials
@@ -238,6 +236,12 @@ accessKey = ''
 secretKey = ''
 appUser= ''
 computeOffering = ''
+
+OpenstackUsername = ''
+tenant_name = ''
+openstackpassword= ''
+auth_url = ''
+region = ''
  
 # Define a logger for cluster-related actions
 cluster_logger = logging.getLogger('cluster_logger')
@@ -258,6 +262,12 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global accessKey
         global secretKey
         global computeOffering
+
+        global OpenstackUsername
+        # global tenant_name 
+        global openstackpassword
+        # global auth_url
+        # global region 
         # global appUser
         
         username = request.data.get('db_user')
@@ -274,6 +284,14 @@ class ClusterViewSet(viewsets.ModelViewSet):
         provider_access_token = request.data.get('provider_access_token')
         provider_secret_key = request.data.get('provider_secret_key')
         kubeconfig_data = request.data.get('kubeconfig_data')
+
+        openStackusername = request.data.get ('OpenstackUser')
+        tenant_name = request.data.get ('tenant_name')
+        openstackpassword= request.data.get ('openstackPassword')
+
+        print(f"{openstackpassword}, openaaaaaaaaaaaaaaaaa")
+        auth_url = request.data.get ('auth_url')
+        region = request.data.get ('region')
  
  
         computeOffering  = request.data.get('computeOffering')
@@ -291,6 +309,12 @@ class ClusterViewSet(viewsets.ModelViewSet):
         apiEndpoint = provider_endpoint
         accessKey = provider_access_token
         secretKey = provider_secret_key
+        
+        openStackuser=openStackusername,
+        tenant_name=tenant_name,
+        openstackpassword=openstackpassword,
+        auth_url=auth_url,
+        region=region,
        
         # Remove newline characters from kubeconfig_data
         kubeconfig_data = kubeconfig_data.replace('\n', ' ')
@@ -313,7 +337,13 @@ class ClusterViewSet(viewsets.ModelViewSet):
             'provider_access_token ': provider_access_token,
             'provider_secret_key': provider_secret_key,
             'storageOffering': storageOffering,
-            'kubeconfig': kubeconfig_data
+            'kubeconfig': kubeconfig_data,
+
+            'openStackuser':openStackuser,
+            'tenant_name': tenant_name,
+            # 'openstackpassword': openstackpassword,
+            'auth_url': auth_url,
+            'region': region,
  
         }
        
@@ -426,7 +456,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
             else:            
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
-        elif provider_name == 'Openstack' and cluster_type == 'multiple':
+        elif provider_name == 'Openstack' and cluster_type == 'Multiple':
             response = trigger_single(base_url, project_id, headers, 'openstack-provider-ha')
             print("Openstack HA branch trigger.....")
             if response == 200:
@@ -708,6 +738,7 @@ def get_variables(request):
     global temp_variables
     global accessKey
     global computeOffering
+    global openstackpassword
     # global appUser
     
  
@@ -723,6 +754,12 @@ def get_variables(request):
     provider_secret_key = temp_variables.get('provider_secret_key','')
     storageOffering = temp_variables.get('storageOffering', '')
     kubeconfig_data = temp_variables.get('kubeconfig', '')
+
+    openStackuser = temp_variables.get ('OpenstackUser', '')
+    tenant_name = temp_variables.get ('tenant_name', '')
+    openstackpassword= openstackpassword
+    auth_url = temp_variables.get ('auth_url', '')
+    region = temp_variables.get ('region', '')
    
  
  
@@ -739,7 +776,14 @@ def get_variables(request):
         'access-key': provider_access_token,
         'computeOffering': computeOffering,
         'storageOffering': storageOffering,
-        'kubeconfig_data': kubeconfig_data
+        'kubeconfig_data': kubeconfig_data,
+
+        'OpenstackUsername': openStackuser,
+        'tenant_name': tenant_name,
+        'openstackpassword': openstackpassword,
+        'auth_url': auth_url,
+        'region': region,
+
     }
     print(data)
     return JsonResponse(data)
@@ -770,6 +814,8 @@ def get_dlt_k8s_variables(request):
         'secret-key': provider_secret_key,
         'access-key': provider_access_token,
         'kubeconfig_data': kubeconfig_data,
+
+        
     }
     print (data)
  

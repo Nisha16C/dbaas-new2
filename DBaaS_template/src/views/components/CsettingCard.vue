@@ -97,6 +97,11 @@ export default {
       postgres_version: '',
       cluster_name: '',
       computeOfferings: [],  // New property to store compute offerings
+      // OpenstackUser: '',
+      // tenant_name: '',
+      // OpenstackPassword: '',
+      // auth_url: '',
+      // region: '',
 
 
       user_id: '',
@@ -273,7 +278,7 @@ export default {
         }, 5000);
         return;
       }
-      if (this.selectedProvider !== 'Kubernetes' && !this.selectedComputeOffering){
+      if (this.selectedProvider !== 'Kubernetes' && this.selectedProvider !== 'Openstack' && !this.selectedComputeOffering){
 
         this.computeOfferingError = 'Compute Offering is required';
         setTimeout(() => {
@@ -281,7 +286,7 @@ export default {
         }, 5000);
         return;
       }
-      if (this.selectedProvider !== 'Kubernetes' && !this.selectedStorageOffering) {
+      if (this.selectedProvider !== 'Kubernetes'  && this.selectedProvider !== 'Openstack' && !this.selectedStorageOffering) {
 
         this.storageOfferingError = 'Storage Offering is required';
         setTimeout(() => {
@@ -295,6 +300,7 @@ export default {
         .then((response) => {
           this.provider_info = response.data;
           this.provider_info.kubeconfig_data = JSON.stringify(this.provider_info.kubeconfig_data)
+          console.log(this.provider_info);
 
           const fromData = {
             db_user: this.db_user,
@@ -313,12 +319,24 @@ export default {
             provider_secret_key: this.provider_info.secret_key,
             kubeconfig_data: this.provider_info.kubeconfig_data,
 
+            OpenstackUsername: this.provider_info.openStackuser,
+            tenant_name: this.provider_info.tenant_name,
+            openstackPassword: this.provider_info.openstackpassword,
+            auth_url: this.provider_info.auth_url,
+            region: this.provider_info.region,
+
+
             backup_method: this.backup_method,
             mount_point: this.mount_point,
+
+            
           };
+          // console.log(fromData);
+          console.table([fromData]);
 
 
-          this.$router.push('/result');
+
+          // this.$router.push('/result');
           axios
             .post(`${this.apiUrl}/api/v2/cluster/`, fromData)
             .then(() => {

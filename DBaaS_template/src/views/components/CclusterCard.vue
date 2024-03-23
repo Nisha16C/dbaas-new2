@@ -31,10 +31,10 @@
                 </div>
               </div>
               <div class="col mx-auto">
-                <div :class="{ 'bg-light': selectedType === 'multiple' }"
+                <div :class="{ 'bg-light': selectedType === 'Multiple' }"
                   class="h-100  border border-success  rounded-md text-center p-3">
-                  <label for="multiple">
-                    <input type="radio" class="visually-hidden" id="multiple" value="multiple" v-model="selectedType"
+                  <label for="Multiple">
+                    <input type="radio" class="visually-hidden" id="Multiple" value="Multiple" v-model="selectedType"
                       @change="updateType" />
                     <p class="pt-2 text-info font-size-18 text-wrap">
                       Primary/Standby High Availability

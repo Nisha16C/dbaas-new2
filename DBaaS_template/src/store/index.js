@@ -25,26 +25,21 @@ export default createStore({
     selectedType: '',
     selectedProvider: '',
     postgres_version:'',
-    flavorId: [],
- 
+    flavors: [],
     project_name: '',
     project_id: '',
     selectedComputeOffering: null,
     selectedStorageOffering: null
   },
   mutations: {
-    setGlobalProjectName(state, project_name) {
+      setGlobalProjectName(state, project_name) {
       state.project_name = project_name;
     },
     setGlobalProjectId(state, project_id) {
       state.project_id = project_id;
     },
-    // setSelectedMethod(state, backup_method) {
-    //   state.backup_method= backup_method;
-    // },
  
- 
-    setSelectedType(state, selectedType) {
+     setSelectedType(state, selectedType) {
       state.selectedType = selectedType;
     },
     setSelectedProvider(state, selectedProvider) {
@@ -62,9 +57,7 @@ export default createStore({
     setSelectedStorage(state, selectedStorageOffering) {
       state.selectedStorageOffering = selectedStorageOffering;
     },
-    setSelectedflavorId(state, flavors) {
-      state.flavorId.push(flavors);
-    },
+    
     navbarMinimize(state) {
       const sidenav_show = document.querySelector(".g-sidenav-show");
  
@@ -91,22 +84,21 @@ export default createStore({
     setUsername(state, username) {
       state.username = username;
     },
+    updateFlavors(state, newFlavors) {
+      state.flavors = newFlavors;
+    },
   },
   actions: {
+    setFlavors({ commit }, newFlavors) {
+      commit('updateFlavors', newFlavors);
+    },
+ 
     updateGlobalProjectName(context, project_name) {
       context.commit('setGlobalProjectName', project_name);
     },
     updateGlobalProjectId(context, project_id) {
       context.commit('setGlobalProjectId', project_id);
     },
-
-    updateflavorId(context, flavorId) {
-      context.commit('setSelectedflavorId', flavorId);
-    },
-    
-    // updateSelectedMethod(context, backup_method) {
-    //   context.commit('setSelectedMethod', backup_method);
-    // },
  
     updateSelectedType(context, selectedType) {
       context.commit('setSelectedType', selectedType);
@@ -117,9 +109,7 @@ export default createStore({
     updateSelectedVersion(context, postgres_version) {
       context.commit('setSelectedVersion', postgres_version);
     },
-    // updateSelectedCPUNumber(context, cpunumber) {
-    //   context.commit('setSelectedCPUNumber', cpunumber);
-    // },
+ 
     updateSelectedStorage(context, selectedStorageOffering) {
       context.commit('setSelectedStorage', selectedStorageOffering);
     },
@@ -137,7 +127,7 @@ export default createStore({
     //   this.selectedComputeOffering = project.name;
     // },
  
-    fetchFirstProject({ commit,  }, userId) {
+    fetchFirstProject({ commit  }, userId) {
       axios.get(`http://172.16.1.56:8002/api/v2/project/user/${userId}/`)
         .then(response => {
           const firstProject = response.data[0];
@@ -157,4 +147,6 @@ export default createStore({
    
  
 });
+ 
+ 
  

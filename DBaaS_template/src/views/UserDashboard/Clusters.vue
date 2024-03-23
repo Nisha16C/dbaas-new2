@@ -47,12 +47,13 @@
     <div class="mb-4 card">
         <div class="p-3 card-body">
             <div class="px-4">
-                <div class="mb-2 mt-2">
-                    <select class="form-select" v-model="selectedProject" @change="fetchClustersByProject">
-                        <option value="">All Projects</option>
-                        <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.project_name }}</option>
-                    </select>
-                </div>
+              <div class="mb-2 mt-2">
+                <!-- Update the option for "All Projects" to call fetchClusters() -->
+                <select class="form-select" v-model="selectedProject" @change="fetchClustersByProject">
+                  <option value="">All Projects</option>
+                  <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.project_name }}</option>
+                </select>
+              </div>
             </div>
         </div>
     </div>
@@ -125,6 +126,7 @@ export default {
       deleteClusterName: '',
       clusterName: '',
       selectedCluster: '',
+      
  
  
  

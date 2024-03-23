@@ -1,3 +1,4 @@
+[9:10 AM] Ashish Sahu
 <template>
   <div>
     <div class="card">
@@ -93,8 +94,8 @@
               <tr v-for="project in computeFlavors" :key="project.name">
                 <td>
                 <div class="row">
-                  <input type="radio" :value=project.flavors v-model="selectedFlavors" @change="updateFlavors">
-                </div> 
+                  <input type="radio" :value=project.flavors v-model="flavorIdInput" @change="updateFlavorId">
+                </div>
               </td>
  
                 <td>
@@ -114,7 +115,7 @@
                   <span class="d-flex flex-column text-center">{{ project.disk }}</span>
                 </td>
                 <td class="align-middle  text-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" v-if="isFalavours(project.name)"
+                  <svg xmlns="http://www.w3.org/2000/svg" v-if="isFalavours(project.flavors.name)"
                     class="myclss  text-success mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
@@ -122,8 +123,7 @@
               </tr>
             </tbody>
           </table>              
-            {{ selectedFlavors }}
-          <argon-button @click="Next()" color="success" size="md" variant="gradient">
+                      <argon-button @click="Next()" color="success" size="md" variant="gradient">
             NEXT
           </argon-button>
         </div>
@@ -151,14 +151,14 @@ export default {
       computeOfferings: [],
       computeFlavors: [],
       selectedComputeOffering: null,
-      selectedFlavors: {}
+      flavorIdInput: null
     };
   },
   created(){
     this.fetchFlavors()
   },
   computed: {
-    ...mapState(['selectedComputeOffering', 'selectedStorageOffering', 'selectedProvider', 'flavor_id']),
+    ...mapState(['selectedComputeOffering', 'selectedStorageOffering', 'selectedProvider', 'flavors']),
  
   },
   mounted() {
@@ -170,17 +170,18 @@ export default {
       .catch(error => console.error('Error fetching data:', error));
   },
   methods: {
-    ...mapActions(['updateComputeOffering', 'updateSelectedStorage', 'updateflavorId']),
+    ...mapActions(['updateComputeOffering', 'updateSelectedStorage','setFlavors', 'updateflavorId']),
  
     updateOffering() {
       this.updateComputeOffering(this.selectedComputeOffering);
     },
-    updateFlavors() {
-      // this.updateComputeOffering(this.selectedFlavors);
-      this.$store.commit('setSelectedflavorId', this.selectedFlavors);
+    updateFlavorId() {
+      console.log(this.flavorIdInput);
+      this.$store.dispatch('setFlavors', this.flavorIdInput);
     },
+ 
     fetchFlavors(){
-      axios.get(`http://172.16.1.56:8002/api/v2/flavors/`)
+      axios.get(`${this.apiUrl}/api/v2/flavors/`)
       .then((response)=>{
         this.computeFlavors = response.data
         console.log(this.computeFlavors);
@@ -199,7 +200,7 @@ export default {
     isSelected(projectName) {
       console.log("compute offering");
       if (this.selectedComputeOffering === projectName) {
-
+ 
  
         return true
       } else {
@@ -209,7 +210,7 @@ export default {
  
     isFalavours(projectName) {
     
-      if (this.selectedFlavors === projectName) {
+      if (this.flavors.name === projectName) {
  
         return true
       } else {

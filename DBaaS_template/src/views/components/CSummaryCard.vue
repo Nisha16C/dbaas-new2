@@ -1,4 +1,5 @@
-[8:45 AM] Ashish Sahu
+[9:08 AM] Ashish Sahu
+ 
 <template>
   <div class="card h-100 mb-4">
     <div class="card-header pb-0 px-3">
@@ -25,7 +26,7 @@
               <th>Cluster Nodes</th>
               <td v-if="selectedType == 'Standalone'"> 1 Node</td>
  
-              <td v-if="selectedType == 'multiple'"> 3 Node</td>
+              <td v-if="selectedType == 'Multiple'"> 3 Node</td>
  
             </tr>
  
@@ -52,13 +53,10 @@
             <!-- Inside the Cluster Summary Template -->
             <tr v-if="selectedProvider !== 'Kubernetes'">
               <th>Instance Type</th>
-              <td>{{ selectedComputeOffering }} </td>
-              <span v-if="selectedProvider === 'Openstack'">
-                <td  v-for="(fl, index) in  flavors " :key=index>  {{ fl.name }} </td>
-
+              <td v-if="selectedProvider === 'Cloudstack'">{{ selectedComputeOffering }} </td>
+              <td v-if="selectedProvider === 'Openstack'">  {{ flavors.name }} </td>  
               
-              </span>
-
+ 
             </tr>
  
             <tr v-if="selectedProvider !== 'Kubernetes'" >
@@ -77,9 +75,6 @@
           </tbody>
         </table>
         <ul>
-      <li v-for="flavor in flavors" :key="flavor.flavor_id">
-        {{ flavor.name }}
-      </li>
     </ul>
       </div>
     </div>
@@ -115,3 +110,5 @@ export default {
   },
 };
 </script>
+ 
+ 

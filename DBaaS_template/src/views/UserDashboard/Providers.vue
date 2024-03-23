@@ -713,7 +713,7 @@ export default {
     async addProvider() {
       // Check for form validation before making the API call
       console.log('addprovider');
-      if (!this.api_name || !this.api_endpoint || !this.access_key || !this.secret_key || !this.OpenstackUsername || !this.tenant_name  ) {
+      if (!this.api_name || !this.api_endpoint || !this.access_key || !this.secret_key || !this.OpenstackUser || !this.tenant_name  ) {
         this.showErrorMessages = true; // Show error messages
         setTimeout(() => {
           this.showErrorMessages = false; // Hide error messages after 5 seconds
@@ -730,7 +730,7 @@ export default {
         "secret_key": this.secret_key,
         "access_token": this.access_key,
 
-        "OpenstackUsername": this.OpenstackUsername,
+        "OpenstackUsername": this.OpenstackUser,
         "tenant_name": this.tenant_name,
         "OpenstackPassword": this.OpenstackPassword,
         "auth_url": this.auth_url,

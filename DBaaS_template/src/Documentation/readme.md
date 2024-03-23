@@ -23,7 +23,7 @@
           <li> 
               <p><b>Project and Cluster Creation:</b> BitBlast simplifies Project and Cluster Creation, allowing users to set up and manage their workspaces efficiently. This involves initiating new projects and creating clusters (databases) to organize and store project-related data.</p>
           </li>
-          <li> <p><b>Multi-Cluster Creation:</b> Multi-Cluster Creation is a feature that extends the capabilities of BitBlast, allowing users to create and manage multiple clusters simultaneously. This is particularly useful for users engaged in complex projects that require diverse sets of data organization.</p>
+          <li> <p><b>Multi-Cluster Creation:</b> Multi-Cluster Creation is a feature that extends the capabilities of BitBlast, allowing users to create and manage Multiple clusters simultaneously. This is particularly useful for users engaged in complex projects that require diverse sets of data organization.</p>
           </li>
           <li>  
               <p><b>Multi-Cloud Support:</b> BitBlast boasts Multi-Cloud Support, enabling users to integrate and work seamlessly across different cloud providers. This feature provides flexibility in choosing the cloud environment that best suits the project's needs.</p>
@@ -39,7 +39,7 @@
           <li>Comprehensive audit trail for security, accountability, detailed tracking, and filtering of user activities.</li>
           <li>Secure login mechanisms for user authentication.</li>
           <li>Facilitates the creation of new projects.</li>
-          <li>Supports the creation of multiple clusters for effective organization.</li>
+          <li>Supports the creation of Multiple clusters for effective organization.</li>
           <li>Assignment of projects to specific clusters during creation.</li>
           <li>Compatibility with various cloud service providers.</li>
           <li>User choice of preferred cloud provider during cluster creation.</li>
@@ -52,7 +52,7 @@
             <li><b>High Availability:</b> With built-in redundancy and failover mechanisms, BitBlast ensures high availability for your critical data.</li>
             <li><b>Security:</b> Utilizing advanced encryption techniques and strict access controls, BitBlast keeps your data safe and compliant.</li>
             <li><b>Automated Backups:</b> BitBlast automates the backup process, providing peace of mind against data loss.</li>
-            <li><b>Multi-Cloud Support:</b> BitBlast supports multiple cloud providers, offering flexibility and vendor lock-in avoidance.</li>
+            <li><b>Multi-Cloud Support:</b> BitBlast supports Multiple cloud providers, offering flexibility and vendor lock-in avoidance.</li>
             <li><b>Performance Optimization:</b> BitBlast optimizes database performance through intelligent caching and indexing strategies.</li>
             <li><b>Real-time Monitoring:</b> Keep track of your database performance and health in real-time with BitBlast's monitoring dashboard.</li>
         </ol>

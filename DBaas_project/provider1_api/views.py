@@ -19,11 +19,13 @@ class ProviderViewSet(viewsets.ModelViewSet):
         access_token = request.data.get('access_token')
         kubeconfig_data = request.data.get('kubeconfig_data')
 
-        openStackusername = request.data.get ('OpenstackUser')
+        openStackusername = request.data.get ('OpenstackUsername')
         tenant_name = request.data.get ('tenant_name')
         openstackpassword = request.data.get ('OpenstackPassword')
         auth_url = request.data.get ('auth_url')
         region = request.data.get ('region')
+
+        print (f"{openStackusername}, asdddddddd")
 
         
 
@@ -40,7 +42,7 @@ class ProviderViewSet(viewsets.ModelViewSet):
             existing_provider.access_token = access_token
             existing_provider.kubeconfig_data = kubeconfig_data
 
-            existing_provider.openStackusername = openStackusername
+            existing_provider.openStackuser = openStackusername
             existing_provider.tenant_name = tenant_name
             existing_provider.openstackpassword = openstackpassword
             existing_provider.auth_url = auth_url
@@ -53,6 +55,9 @@ class ProviderViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             # Create a new provider
+            print (f"{openStackusername}, asdddddddd")
+
+
             provider = Provider(
                 user_id=user_id,
                 provider_name=provider_name,

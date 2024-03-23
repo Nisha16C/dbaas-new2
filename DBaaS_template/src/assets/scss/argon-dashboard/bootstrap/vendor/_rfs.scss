@@ -102,7 +102,7 @@ $rfs-base-value-unit: unit($rfs-base-value);
   $rfs-base-value: divide($rfs-base-value, divide($rfs-base-value * 0 + 1, $rfs-rem-value));
 }
 
-// Cache $rfs-breakpoint unit to prevent multiple calls
+// Cache $rfs-breakpoint unit to prevent Multiple calls
 $rfs-breakpoint-unit-cache: unit($rfs-breakpoint);
 
 // Remove unit from $rfs-breakpoint for calculations

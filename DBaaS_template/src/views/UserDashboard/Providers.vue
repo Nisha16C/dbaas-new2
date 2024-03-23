@@ -1,4 +1,3 @@
-[9:24 AM] Ashish Sahu
  
  
 <template>
@@ -330,8 +329,7 @@
       <div>
         <div v-show="isModalVisible" class="modal-container" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <!-- Modal Header -->
+            <div :class="modalClasses">              <!-- Modal Header -->
               <div class="modal-header">
                 <h5 class="modal-title">Add Provider</h5>
                 <button type="button" class="close" @click="toggleModal" aria-label="Close">
@@ -407,7 +405,7 @@
         <div v-show="isModalVisibles && selectedModal === 'Kubernetes'" class="modal-container" tabindex="-1"
           role="dialog">
           <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div :class="modalClasses">              <!-- Modal Header -->
               <!-- Modal Header -->
               <div class="modal-header">
                 <h5 class="modal-title">Add Provider</h5>
@@ -472,7 +470,7 @@
 <div v-show="isModalVisibles && selectedModal === 'Openstack'" class="modal-container" tabindex="-1"
    role="dialog">
    <div class="modal-dialog modal-dialog-centered" role="document">
-     <div class="modal-content">
+    <div :class="modalClasses">              <!-- Modal Header -->
        <!-- Modal Header -->
        <div class="modal-header">
          <h5 class="modal-title">Add Provider</h5>
@@ -625,6 +623,16 @@ export default {
     body.classList.remove("profile-overview");
   },
   computed: {
+
+    isDarkMode() {
+      return this.$store.state.darkMode; // Assuming you're using Vuex to manage state
+    },
+    modalClasses() {
+      return {
+        'modal-content': true, // Always apply modal-content class
+        'modal-content-dark': this.isDarkMode // Apply modal-content-dark class only if dark mode is active
+      };
+    },
     isProviderConnected() {
       return (providerName) => {
         return this.provider_info.some(
@@ -700,7 +708,7 @@ export default {
  
       };
       console.log("data")
-      await axios.post(`http://172.16.1.56:8002/api/v3/providers/`, fromData)
+      await axios.post(`http://172.16.1.56:8000/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisibles = !this.isModalVisibles;
@@ -740,7 +748,7 @@ export default {
       };
       console.log(fromData);
  
-      await axios.post(`http://172.16.1.56:8002/api/v3/providers/`, fromData)
+      await axios.post(`http://172.16.1.56:8000/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisible = !this.isModalVisible;
@@ -779,7 +787,7 @@ export default {
       };
       console.log(fromData);
  
-      await axios.post(`http://172.16.1.56:8002/api/v3/providers/`, fromData)
+      await axios.post(`http://172.16.1.56:8000/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisible = !this.isModalVisible;
@@ -789,7 +797,7 @@ export default {
         });
     },
     getAllProviderData() {
-      axios.get(`http://172.16.1.56:8002/api/v3/providers/by-user/${this.user_id}/`)
+      axios.get(`http://172.16.1.56:8000/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data;
           console.log(response.data);
@@ -810,5 +818,10 @@ export default {
   background: rgba(0, 0, 0, 0.5);
   z-index: 1050;
   overflow: auto;
+}
+
+.modal-content-dark {
+  background-color: #1d1e52; /* Change background color for dark mode */
+  color: #fff; /* Change text color for dark mode */
 }
 </style>

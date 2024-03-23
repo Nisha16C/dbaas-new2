@@ -4,7 +4,14 @@
       <h6> Projects info</h6>
     </div>
 
-    <div class="card-body px-0 pt-0 pb-2">
+    <div v-if="loading" class="text-center mt-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+
+    <div v-else class="card-body px-0 pt-0 pb-2">
       <div v-if="projects.length === 0" class="text-center">No Projects are Available</div>
 
       <div v-else class="table-responsive p-0">
@@ -55,12 +62,28 @@
 <script> 
 export default {
   name: "projects-table",
+  data() {
+    return{
+      loading: true
+
+    };
+
+  },
+
+    
   props: {
   projects: {
     type: Array,
     required: true,
   },
 },
+
+created() {
+    // Simulate loading delay with setTimeout
+    setTimeout(() => {
+      this.loading = false; // Set loading to false after delay
+    }, 500); // Adjust delay time as needed
+  },
 methods:{
   formatTimeAgo(createdAt) {
     const createdTime = new Date(createdAt)

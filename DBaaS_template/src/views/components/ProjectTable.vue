@@ -4,7 +4,13 @@
       <h6> Projects info </h6>
     </div>
 
-    <div class="card-body px-0 pt-0 pb-2">
+    <div v-if="loading" class="text-center mt-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div v-else class="card-body px-0 pt-0 pb-2">
       <div v-if="projects.length === 0" class="text-center">No Projects are Available</div>
       <div v-else class="table-responsive p-0">
         <table class="table align-items-center mb-0">
@@ -101,6 +107,7 @@ export default {
       projects: [], // Initialize projects as an empty array
       renamingProjectId: null,
       newProjectName: "",
+      loading: true
     };
   },
   created() {
@@ -136,9 +143,11 @@ export default {
       try {
         // Make a GET request to the endpoint
         const response = await axios.get(`${this.apiUrl}/api/v2/project/`);
+        
 
         // Update the projects data with the fetched data
         this.projects = response.data;
+        this.loading = false;
       } catch (error) {
         console.error('Error fetching projects:', error);
       }

@@ -4,7 +4,13 @@
       <h6> Users info </h6>
     </div>
 
-    <div class="card-body px-0 pt-0 pb-2">
+    <div v-if="loading" class="text-center mt-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div v-else class="card-body px-0 pt-0 pb-2">
       <div v-if="users.length === 0" class="text-center">No Users are Available</div>
 
       <div v-else class="table-responsive p-0">
@@ -146,6 +152,7 @@ export default {
       apiUrl: API_ENDPOINT, 
       users: [], // Initialize clusters as an empty array
       isModalVisible: false,
+      loading : true,
       roles: [
         { id: 1, name: 'Owner' },
         { id: 2, name: 'Viewer' },
@@ -161,6 +168,7 @@ export default {
     // Fetch data when the component is mounted
     this.fetchusers();
     this.fetchRoles();
+
   },
   computed: {
     formattedRoles() {
@@ -261,6 +269,7 @@ export default {
 
         // Update the clusters data with the fetched data
         this.users = response.data;
+        this.loading = false ;
       } catch (error) {
         console.error('Error fetching users:', error);
       }

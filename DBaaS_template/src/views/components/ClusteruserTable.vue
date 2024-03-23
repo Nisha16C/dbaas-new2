@@ -4,8 +4,14 @@
       <h6> Database info </h6>
     </div>
 
-    <div class="card-body px-0 pt-0 pb-2">
-      <div v-if="clusters.length === 0" class="text-center">No Clusters are Available</div>
+    <div v-if="loading" class="text-center mt-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div v-else class="card-body px-0 pt-0 pb-2">
+      <div v-if="clusters.length === 0" class="text-center">No Cluster found in the Selected Project.</div>
       <div v-else class="table-responsive p-0">
         <table class="table align-items-center mb-0">
           <thead>
@@ -132,7 +138,8 @@ data(){
       contentList: [],
       deleteClusterName: '',
       selectedProvider: '',
-      provider_info: ''
+      provider_info: '',
+      loading: true
   }
 },
   props: {
@@ -145,6 +152,7 @@ data(){
 created() {
     this.Username = sessionStorage.getItem('username');
     this.user_id = sessionStorage.getItem('user_id');
+    this.fetchclusters_list();
     // this.fetchComputeOfferings();
   },
 methods: {
@@ -227,6 +235,7 @@ methods: {
 
       // Update the clusters_list data with the fetched data
       this.clusters_list = response.data;
+      this.loading = false;
     } catch (error) {
       console.error('Error fetching clusters_list:', error);
     }

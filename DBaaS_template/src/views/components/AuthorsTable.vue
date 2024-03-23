@@ -3,10 +3,16 @@
   <div class="card">
     <div class="card-header pb-0">
       <h6> Database info</h6>
+
+    </div>
+    <div v-if="loading" class="text-center mt-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
  
-    <div class="card-body px-0 pt-0 pb-2">
-      <div v-if="clusters.length === 0" class="text-center">No Clusters are Available</div>
+    <div v-else class="card-body px-0 pt-0 pb-2">
+      <div v-if="clusters.length === 0" class="text-center">No Cluster found in the Selected Project.</div>
       <div v-else class="table-responsive p-0">
         <table class="table align-items-center mb-0">
           <thead>
@@ -144,6 +150,7 @@ export default {
       user_id: '',
       clusters: [],
       contentList: [],
+      loading: true
     };
   },
   mounted() {
@@ -200,6 +207,7 @@ export default {
  
         // Update the clusters data with the fetched data
         this.clusters = response.data;
+        this.loading = false;
       } catch (error) {
         console.error('Error fetching clusters:', error);
       }

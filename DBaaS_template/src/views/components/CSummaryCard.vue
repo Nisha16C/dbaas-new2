@@ -53,7 +53,7 @@
             <!-- Inside the Cluster Summary Template -->
             <tr v-if="providerName !== 'Kubernetes'">
               <th>Instance Type</th>
-              <td v-if="providerName === 'Cloudstack'">{{ selectedComputeOffering }} </td>
+              <td v-if="providerName === 'Cloudstack'">{{ computeOfferings }} </td>
               <td v-if="providerName === 'Openstack'">  {{ flavors.name }} </td>  
               
  
@@ -105,7 +105,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['clusterType', 'providerName', 'postgres_version', 'selectedComputeOffering', 'selectedStorageOffering', 'flavors']),
+    ...mapState(['clusterType', 'providerName', 'postgres_version', 'computeOfferings', 'selectedStorageOffering', 'flavors']),
  
   },
 };

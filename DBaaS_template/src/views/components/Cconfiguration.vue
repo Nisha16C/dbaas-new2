@@ -158,7 +158,7 @@ export default {
     this.fetchFlavors()
   },
   computed: {
-    ...mapState(['selectedComputeOffering', 'selectedStorageOffering', 'providerName', 'flavors']),
+    ...mapState(['computeOfferings', 'selectedStorageOffering', 'providerName', 'flavors']),
  
   },
   mounted() {

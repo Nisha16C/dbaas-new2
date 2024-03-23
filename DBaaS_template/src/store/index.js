@@ -28,7 +28,7 @@ export default createStore({
     flavors: [],
     project_name: '',
     project_id: '',
-    selectedComputeOffering: null,
+    computeOfferings: null,
     selectedStorageOffering: null
   },
   mutations: {
@@ -51,8 +51,8 @@ export default createStore({
     toggleConfigurator(state) {
       state.showConfig = !state.showConfig;
     },
-    setSelectedOffering(state, selectedComputeOffering) {
-      state.selectedComputeOffering = selectedComputeOffering;
+    setSelectedOffering(state, computeOfferings) {
+      state.computeOfferings = computeOfferings;
     },
     setSelectedStorage(state, selectedStorageOffering) {
       state.selectedStorageOffering = selectedStorageOffering;
@@ -113,8 +113,8 @@ export default createStore({
     updateSelectedStorage(context, selectedStorageOffering) {
       context.commit('setSelectedStorage', selectedStorageOffering);
     },
-    updateComputeOffering(context, selectedComputeOffering){
-      context.commit('setSelectedOffering', selectedComputeOffering);
+    updateComputeOffering(context, computeOfferings){
+      context.commit('setSelectedOffering', computeOfferings);
     },
     
     toggleSidebarColor({ commit }, payload) {
@@ -124,7 +124,7 @@ export default createStore({
     // selectedOffering(project) {
     //   this.$store.commit('setSelectedCPUNumber', project.cpunumber);
     //   this.$store.commit('setSelectedMemory', project.memory);
-    //   this.selectedComputeOffering = project.name;
+    //   this.computeOfferings = project.name;
     // },
  
     fetchFirstProject({ commit  }, userId) {

@@ -1,4 +1,4 @@
-[6:24 AM] Preeti Nathani
+
 <template>
   <div class="card">
     <div class="card-header pb-0 px-3">

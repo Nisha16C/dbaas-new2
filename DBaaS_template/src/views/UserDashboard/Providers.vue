@@ -1,5 +1,3 @@
- 
- 
 <template>
   <main>
     <div class="container-fluid">
@@ -332,7 +330,7 @@
             <div :class="modalClasses">              <!-- Modal Header -->
               <div class="modal-header">
                 <h5 class="modal-title">Add Provider</h5>
-                <button type="button" class="close" @click="toggleModal" aria-label="Close">
+                <button type="button" class="close" @click.prevent="toggleModal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -382,11 +380,11 @@
  
                   <!-- Modal Footer with Add Provider and Close buttons -->
                   <div class="modal-footer">
-                    <argon-button color="success" size="md" variant="gradient" @click="addProvider" type="submit">
+                    <argon-button color="success" size="md" variant="gradient" @click.prevent="addProvider" type="submit">
                       Add Provider
                     </argon-button>
  
-                    <argon-button color="danger" size="md" variant="gradient" @click="toggleModal">
+                    <argon-button color="danger" size="md" variant="gradient" @click.prevent="toggleModal">
                       Close
                     </argon-button>
                   </div>
@@ -406,10 +404,9 @@
           role="dialog">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div :class="modalClasses">              <!-- Modal Header -->
-              <!-- Modal Header -->
               <div class="modal-header">
                 <h5 class="modal-title">Add Provider</h5>
-                <button type="button" class="close" @click="toggleModals" aria-label="Close">
+                <button type="button" class="close" @click.prevent="toggleModals" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -446,11 +443,11 @@
                   <!-- Modal Footer with Add Provider and Close buttons -->
  
                   <div class="modal-footer">
-                    <argon-button color="success" size="md" variant="gradient" @click="addProviderk8s" type="submit">
+                    <argon-button color="success" size="md" variant="gradient" @click.prevent="addProviderk8s" type="submit">
                       Add Provider
                     </argon-button>
  
-                    <argon-button color="danger" size="md" variant="gradient" @click="toggleModals">
+                    <argon-button color="danger" size="md" variant="gradient" @click.prevent="toggleModals">
                       Close
                     </argon-button>
                   </div>
@@ -470,11 +467,10 @@
 <div v-show="isModalVisibles && selectedModal === 'Openstack'" class="modal-container" tabindex="-1"
    role="dialog">
    <div class="modal-dialog modal-dialog-centered" role="document">
-    <div :class="modalClasses">              <!-- Modal Header -->
-       <!-- Modal Header -->
+    <div :class="modalClasses">       <!-- Modal Header -->
        <div class="modal-header">
          <h5 class="modal-title">Add Provider</h5>
-         <button type="button" class="close" @click="OpenstackModal" aria-label="Close">
+         <button type="button" class="close" @click.prevent="OpenstackModal" aria-label="Close">
            <span aria-hidden="true">&times;</span>
          </button>
        </div>
@@ -486,7 +482,7 @@
            <h3 class="mb-5 text-lg font-normal text-dark dark:text-gray-400">
              {{ selectedModal }}
            </h3>
-
+ 
            <div class="mb-3">
              <label for="Api_name" class="form-label">API Name</label>
              <input type="text" class="form-control"  v-model="api_name" placeholder="api_name">
@@ -544,11 +540,11 @@
            <!-- Modal Footer with Add Provider and Close buttons -->
  
            <div class="modal-footer">
-             <argon-button color="success" size="md" variant="gradient" @click="addOpenstack" type="submit">
+             <argon-button color="success" size="md" variant="gradient" @click.prevent="addOpenstack" type="submit">
                Add Provider
              </argon-button>
  
-             <argon-button color="danger" size="md" variant="gradient" @click="OpenstackModal">
+             <argon-button color="danger" size="md" variant="gradient" @click.prevent="OpenstackModal">
                Close
              </argon-button>
            </div>
@@ -568,6 +564,8 @@
 import setNavPills from "@/assets/js/nav-pills.js";
 import setTooltip from "@/assets/js/tooltip.js";
 import axios from 'axios';
+import { API_ENDPOINT } from '@/../apiconfig.js';
+ 
  
 // import ProfileCard from "@/views/components/profileCard.vue";
 import ArgonAlert from "@/components/ArgonAlert.vue";
@@ -579,6 +577,7 @@ export default {
   name: "profile",
   data() {
     return {
+      apiUrl: API_ENDPOINT,
       OpenstackUser: '',
       tenant_name: '',
       OpenstackPassword: '',
@@ -603,6 +602,8 @@ export default {
  
  
   mounted() {
+ 
+    
     this.$store.state.isAbsolute = true;
     setNavPills();
     setTooltip();
@@ -623,7 +624,6 @@ export default {
     body.classList.remove("profile-overview");
   },
   computed: {
-
     isDarkMode() {
       return this.$store.state.darkMode; // Assuming you're using Vuex to manage state
     },
@@ -659,7 +659,6 @@ export default {
       this.error = '';
       this.selectedProvider = selectedProvider
       this.isModalVisible = !this.isModalVisible;
-      console.log(this.selectedProvider)
     },
     // New method to open kubeconfig_data modal
     toggleModals(selectedProvider) {
@@ -679,9 +678,9 @@ export default {
       this.OpenstackPassword = '';
       this.auth_url = '';
       this.region = '';
-
-
-
+ 
+ 
+ 
       this.selectedProvider = selectedProvider;
       this.selectedModal = 'Openstack';
       this.isModalVisibles = !this.isModalVisibles;
@@ -708,7 +707,7 @@ export default {
  
       };
       console.log("data")
-      await axios.post(`http://172.16.1.69:8000/api/v3/providers/`, fromData)
+      await axios.post(`${this.apiUrl}/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisibles = !this.isModalVisibles;
@@ -721,7 +720,7 @@ export default {
     async addProvider() {
       // Check for form validation before making the API call
       console.log('addprovider');
-      if (!this.api_name || !this.api_endpoint || !this.access_key || !this.secret_key || !this.OpenstackUser || !this.tenant_name  ) {
+      if (!this.api_name || !this.api_endpoint || !this.access_key || !this.secret_key  ) {
         this.showErrorMessages = true; // Show error messages
         setTimeout(() => {
           this.showErrorMessages = false; // Hide error messages after 5 seconds
@@ -737,18 +736,14 @@ export default {
         "provider_url": this.api_endpoint,
         "secret_key": this.secret_key,
         "access_token": this.access_key,
-
-        "OpenstackUsername": this.OpenstackUser,
-        "tenant_name": this.tenant_name,
-        "OpenstackPassword": this.OpenstackPassword,
-        "auth_url": this.auth_url,
-        "region": this.region,
-
-
+ 
+        
+ 
+ 
       };
       console.log(fromData);
  
-      await axios.post(`http://172.16.1.69:8000/api/v3/providers/`, fromData)
+      await axios.post(`${this.apiUrl}/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisible = !this.isModalVisible;
@@ -757,7 +752,7 @@ export default {
           this.error = "Error adding provider: " + error.message;
         });
     },
-
+ 
     async addOpenstack() {
       // Check for form validation before making the API call
       console.log('addprovider');
@@ -772,22 +767,22 @@ export default {
  
       const fromData = {
         "user_id": this.user_id,
-
+ 
         "provider_name": this.selectedProvider,
         "key_name": this.api_name,
        
-
+ 
         "OpenstackUsername": this.OpenstackUser,
         "tenant_name": this.tenant_name,
         "OpenstackPassword": this.OpenstackPassword,
         "auth_url": this.auth_url,
         "region": this.region,
-
-
+ 
+ 
       };
       console.log(fromData);
  
-      await axios.post(`http://172.16.1.69:8000/api/v3/providers/`, fromData)
+      await axios.post(`${this.apiUrl}/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
           this.isModalVisible = !this.isModalVisible;
@@ -797,7 +792,7 @@ export default {
         });
     },
     getAllProviderData() {
-      axios.get(`http://172.16.1.69:8000/api/v3/providers/by-user/${this.user_id}/`)
+      axios.get(`${this.apiUrl}/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data;
           console.log(response.data);
@@ -819,9 +814,11 @@ export default {
   z-index: 1050;
   overflow: auto;
 }
-
+ 
 .modal-content-dark {
   background-color: #1d1e52; /* Change background color for dark mode */
   color: #fff; /* Change text color for dark mode */
 }
 </style>
+ 
+ 

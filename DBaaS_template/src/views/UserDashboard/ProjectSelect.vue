@@ -35,8 +35,8 @@
   import ProjectTable from "@/views/components/ProjectselectTable.vue";
   import { API_ENDPOINT } from '@/../apiconfig.js';
 
-//   import ArgonInput from "@/components/ArgonInput.vue";
-//   import ArgonButton from "@/components/ArgonButton.vue";
+//   import ArgonInput from "@/components/BB_Input.vue";
+//   import argonButton from "@/components/BB_Button.vue";
   
   export default {
     name: "Cluster",
@@ -44,7 +44,7 @@
       Card,
       ProjectTable,
     //   ArgonInput,
-    //   ArgonButton,
+    //   argonButton,
     },
     computed:{
       ...mapState(['project_name', 'project_id']),
@@ -78,7 +78,7 @@
     methods: {
       fetchProject() {       
         const user_id = this.project.user
-        console.log(user_id);
+       
         axios.get(`${this.apiUrl}/api/v2/project/user/${user_id}/`)
           .then((response) => {
             this.projectsData = response.data;

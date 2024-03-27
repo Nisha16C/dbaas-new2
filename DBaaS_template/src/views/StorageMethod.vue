@@ -65,12 +65,12 @@
 
 <script>
 import MountCard from "./components/MountCard.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 
 export default {
     name: "Cluster",
     components: {
-        ArgonButton,
+        argonButton,
         MountCard
     },
     data() {

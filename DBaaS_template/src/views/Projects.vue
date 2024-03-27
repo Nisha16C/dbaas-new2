@@ -29,11 +29,6 @@ import Card from "@/examples/Cards/Card.vue";
 import AuthorsTable from "./components/ProjectTable.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
-
-
-
-// import ArgonInput from "@/components/ArgonInput.vue";
-// import ArgonButton from "@/components/ArgonButton.vue";
 import axios from "axios"
 
 export default {
@@ -42,7 +37,7 @@ export default {
     Card,
     AuthorsTable,
     // ArgonInput,
-    // ArgonButton,
+    // argonButton,
   },
   data() {
     return {
@@ -71,26 +66,19 @@ export default {
   methods: {
     // ... other methods ...
     saveProject() {
-      console.log("Save Project button clicked");
-      console.log("Project Data:", this.project);
-      this.input1Error = this.project.project_name === "";
-      console.log("Input Error:", this.input1Error);
+      this.input1Error = this.project.project_name === "";  
       if (this.input1Error) {
         this.shakingInput = "project.project_name";
         setTimeout(() => {
           this.shakingInput = null;
         }, 500);
       } else {
-        console.log("About to send API request to create a project")
         axios
           .post(`${this.apiUrl}/api/v2/project/`, this.project)
-          .then((response) => {
-            console.log("Project created successfully:", response)
+          .then(() => {
             this.fetchProjectCount();
-            // window.location.reload();
           })
           .catch((error) => {
-            console.error("Error creating projects:", error);
             this.error = error.response ? error.response.data.error : "Unknown error";
             setTimeout(() => {
               this.error = "";

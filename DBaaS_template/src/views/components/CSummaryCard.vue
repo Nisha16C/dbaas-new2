@@ -82,13 +82,13 @@
 </template>
  
 <script>
-// import ArgonButton from "@/components/ArgonButton.vue";
+// import argonButton from "@/components/BB_Button.vue";
 import { mapState } from 'vuex';
  
 export default {
   name: "transaction-card",
   components: {
-    // ArgonButton,
+    // argonButton,
   },
   data() {
     return {

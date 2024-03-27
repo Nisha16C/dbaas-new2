@@ -191,10 +191,10 @@
  
 <script>
 import { mapState, mapActions } from 'vuex';
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
-import ArgonAlert from "@/components/ArgonAlert.vue";
+import ArgonAlert from "@/components/BB_Alert.vue";
  
 // import { useInputStore } from '../../store/clusterStore';
 import axios from 'axios';
@@ -202,7 +202,7 @@ import axios from 'axios';
 export default {
   name: "billing-card",
   components: {
-    ArgonButton,
+    argonButton,
     ArgonAlert,
   },
   data() {
@@ -275,7 +275,7 @@ export default {
       axios.get(`${this.apiUrl}/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data
-          console.log(response.data);
+          
         })
     },
  

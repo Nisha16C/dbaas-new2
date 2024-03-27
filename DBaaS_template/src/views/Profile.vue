@@ -1,4 +1,5 @@
-
+[10:46 AM] Nisha Chaurasiya
+ 
 <template>
   <main>
     <div class="container-fluid">
@@ -7,15 +8,15 @@
         style="
           /* background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); */
           margin-right: -24px;
-          margin-left: -34%;
+          margin-left: -54%;
         "
       >
         <span class="mask bg-gradient-success opacity-6"></span>
       </div>
       <div class="card shadow-lg mt-n6  w-full" >
-        <div class="card-body p-3">
+        <div class="card-body p-0">
           <!-- Overlay Text "Monitor" -->
-          <div class="overlay-text">
+          <div class="overlay-text" :class="{ 'dark-overlay': isDarkMode }">
             <h2 class="mb-0">Monitoring</h2>
           </div>
           <div class="row gx-4">
@@ -44,7 +45,9 @@ export default {
   data() {
     return {
       showMenu: false,
-      embedUrl2: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&var-DS_PROMETHEUS=bc775041-25c7-4cee-9226-c4278a324020&var-interval=%24__auto_interval_interval&var-user=Ashish&var-project=Test-project&var-clustertype=Standalonei&var-datversion=16&var-cluster=postgres-bitblast&var-datname=All&var-mode=All&from=1707215021583&to=1707215321583&theme=light'
+      embedUrl: {
+        light: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&var-DS_PROMETHEUS=bc775041-25c7-4cee-9226-c4278a324020&var-interval=%24__auto_interval_interval&var-user=Ashish&var-project=Test-project&var-clustertype=Standalonei&var-datversion=16&var-cluster=postgres-bitblast&var-datname=All&var-mode=All&from=1707215021583&to=1707215321583&theme=light',
+        dark: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&var-DS_PROMETHEUS=bc775041-25c7-4cee-9226-c4278a324020&var-interval=%24__auto_interval_interval&var-user=Ashish&var-project=Test-project&var-clustertype=Standalonei&var-datversion=16&var-cluster=postgres-bitblast&var-datname=All&var-mode=All&from=1707215021583&to=1707215321583&theme=dark'      }
     };
   },
   components: {
@@ -70,6 +73,15 @@ export default {
     this.$store.state.showFooter = true;
     this.$store.state.hideConfigButton = false;
     body.classList.remove("profile-overview");
+  },
+  computed: {
+    // Compute dark mode state
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    },
+    embedUrl2() {
+      return this.isDarkMode ? this.embedUrl.dark : this.embedUrl.light;
+    },
   }
 };
 </script>
@@ -85,6 +97,22 @@ export default {
   text-align: center;
   color: black; /* Change the text color if needed */
   background-color: white; /* Set white background color */
+  padding: 10px; /* Optional: Add padding for better visual appearance */
+  border-radius: 8px; /* Optional: Add rounded corners for a softer look */
+  z-index: 2; /* Ensures the text appears on top of other elements */
+}
+/* Conditional styling for dark mode */
+.dark-overlay {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  /* right: 0%; */
+  width: 99.5%;
+  height: 9.5%;
+  /* transform: translateX(-50%); */
+  text-align: center;
+  color: white; /* Change the text color if needed */
+  background-color: rgb(15, 15, 15); /* Set white background color */
   padding: 10px; /* Optional: Add padding for better visual appearance */
   border-radius: 8px; /* Optional: Add rounded corners for a softer look */
   z-index: 2; /* Ensures the text appears on top of other elements */

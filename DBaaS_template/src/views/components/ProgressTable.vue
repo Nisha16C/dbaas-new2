@@ -90,7 +90,6 @@ export default {
             this.$router.push("/Clusters");
         },
         logout() {
-            console.log("logout");
             sessionStorage.removeItem('user_id');
             sessionStorage.removeItem('username');
             sessionStorage.removeItem('project_id');
@@ -138,10 +137,8 @@ export default {
             }
  
             if (this.isCompleted) {
-                console.log("Success");
                 this.showSuccessPopup();
             } else if (this.isFailed) {
-                console.log("Failed");
                 this.showFailedPopup();
             }
  
@@ -209,7 +206,6 @@ export default {
         },
  
         showFailedPopup() {
-            console.log("failed");
             this.popupMessage = "Installation failed. Please try again.";
           
             this.showcred = true
@@ -236,20 +232,15 @@ export default {
             return this.averageProgress + '%'
         }
     },
-    // beforeMount(){
-    //     window.location.reload()
-    // },
+    
     mounted() {
-        // console.log("mount mtd run");
         setTimeout(() => {
-            // console.log("after 10sec. mount mtd run");
             this.updateLatestPipelineStatusAndArtifacts();
         }, 10000);
         
         // setInterval(this.updateLatestPipelineStatusAndArtifacts, 5000);
     },
     unmounted(){
-        // console.log("unmount");
         this.popupMessage = '',
         window.location.reload()
         this.stopFetching = true;
@@ -257,10 +248,7 @@ export default {
     beforeUnmount(){
         this.stopFetching = true
         this.popupMessage = '',
-        console.log("before-unmount");
-        window.location.reload();
-        // this.stopFetching = true
- 
+        window.location.reload(); 
     }
  
 };

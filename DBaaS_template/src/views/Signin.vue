@@ -89,8 +89,8 @@
  
 <script>
 import axios from 'axios';
-import ArgonInput from "@/components/ArgonInput.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import ArgonInput from "@/components/BB_Input.vue";
+import argonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
 const body = document.getElementsByTagName("body")[0];
@@ -103,7 +103,7 @@ export default {
  
     ArgonInput,
  
-    ArgonButton,
+    argonButton,
   },
  
   data() {
@@ -141,12 +141,10 @@ export default {
         }, 5000);
         return; // Do not proceed with login if fields are empty
       }
-      console.log('login form')
       const formData = {
         username_or_email: this.username,  // Use 'username' instead of 'username_or_email'
         password: this.password
       };
-      console.log(formData)
  
       axios
         .post(`${this.apiUrl}/api/v1/login/`, formData)

@@ -115,7 +115,7 @@
 <script>
 
 import axios from "axios";
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 
 export default {
   name: "BackupDetails",
@@ -126,7 +126,7 @@ export default {
     }
   },
   components: {
-    ArgonButton
+    argonButton
   },
   
   data() {
@@ -164,21 +164,21 @@ export default {
 
         // Update the clusters data with the fetched data
         this.backup_method = response.data.backup_method;
-        console.log(this.backup_method);
+        
         this.fetchBackups();
       } catch (error) {
         console.error('Error fetching backup-method:', error);
       }
     },
     async fetchBackups() {
-      console.log(this.serverName)
+      
       try {
         // Make a GET request to the endpoint
         const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.serverName}&storage_method=${this.backup_method}&username=${this.username}`);
 
         // Update the clusters data with the fetched data
         this.backupList = response.data.message;
-        console.log(this.backupList);
+        
       } catch (error) {
         console.error('Error fetching servers:', error);
       }

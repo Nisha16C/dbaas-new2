@@ -113,7 +113,7 @@
 </template>
  
 <script>
-// import ArgonButton from "@/components/ArgonButton.vue";
+// import argonButton from "@/components/BB_Button.vue";
 import img1 from "@/assets/img/logos/mastercard.png";
 import img2 from "@/assets/img/logos/visa.png";
  
@@ -122,7 +122,7 @@ import { mapState } from 'vuex';
 export default {
   name: "payment-card",
   components: {
-    // ArgonButton,
+    // argonButton,
   },
   computed: {
     ...mapState(['providerName']),

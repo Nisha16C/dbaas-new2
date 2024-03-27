@@ -1,3 +1,4 @@
+[10:40 AM] Nisha Chaurasiya
 <template>
   <div class="form-group">
     <div :class="hasIcon(icon)">
@@ -7,7 +8,7 @@
       <input
         :type="type"
         class="form-control"
-        :class="getClasses(size, valid)"
+        :class="[getClasses(size, valid), darkModeClass]"
         :name="name"
         :id="id"
         :value="modelValue"
@@ -22,7 +23,7 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 export default {
   name: "argon-input",
@@ -47,14 +48,19 @@ export default {
     type: String,
     isRequired: Boolean,
   },
+  computed: {
+    darkModeClass() {
+      return this.$store.state.darkMode ? 'dark-mode' : ''; // Add dark mode class conditionally
+    }
+  },
   methods: {
     getClasses: (size, valid) => {
       let sizeValue, isValidValue;
-
+ 
       sizeValue = size ? `form-control-${size}` : null;
-
+ 
       isValidValue = valid ? `${valid}` : "invalid";
-
+ 
       return `${sizeValue} ${isValidValue}`;
     },
     getIcon: (icon) => (icon ? icon : null),
@@ -62,3 +68,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.dark-mode { /* Define dark mode styles */
+  background-color: #1d1e52;
+  color: #ffffff;
+}
+</style>
+ 
+ 

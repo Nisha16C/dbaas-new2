@@ -1,15 +1,15 @@
+[10:33 AM] Nisha Chaurasiya
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6> Projects info </h6>
+      <h6> Projects info  </h6>
     </div>
-
     <div v-if="loading" class="text-center mt-3">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-
+ 
     <div v-else class="card-body px-0 pt-0 pb-2">
       <div v-if="projects.length === 0" class="text-center">No Projects are Available</div>
       <div v-else class="table-responsive p-0">
@@ -29,7 +29,12 @@
               <td>
                 <div class="d-flex px-2 py-1">
                   <div>
-                    <img src="@/assets/img/projectTable.png" class="avatar avatar-sm me-3" alt="logo" />
+                    <img :src="
+            this.$store.state.darkMode ||
+            this.$store.state.sidebarType === 'bg-default'
+              ? logoWhite
+              : logo"
+               class="avatar avatar-sm me-3" alt="logo" />
                   </div>
                   <div class="d-flex flex-column">
                     <h6 class="mb-0 text-sm">{{ project.id }}</h6>
@@ -58,7 +63,7 @@
   <div class="modal fade" ref="myModal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content" :class="{ 'dark-mode': isDarkMode }">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Rename Your Project: {{ newProjectName }} </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -83,16 +88,18 @@
     </div>
   </div>
 </template>
-
+ 
 <!-- ... (rest of the component) -->
-
+ 
 <script>
-import ArgonButton from "@/components/ArgonButton.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
+import ArgonButton from "@/components/BB_Button.vue";
+import ArgonInput from "@/components/BB_Input.vue";
 import axios from "axios";
 import { API_ENDPOINT } from '@/../apiconfig.js';
-
-
+import logo from "@/assets/img/db-png.png";
+import logoWhite from "@/assets/img/project.png";
+ 
+ 
 export default {
   name: "projects-table",
   components: {
@@ -103,13 +110,20 @@ export default {
   },
   data() {
     return {
-      apiUrl: API_ENDPOINT, 
+      apiUrl: API_ENDPOINT,
       projects: [], // Initialize projects as an empty array
       renamingProjectId: null,
       newProjectName: "",
-      loading: true
+      loading: true,
+      logo,
+      logoWhite
     };
   },
+  computed: {
+  isDarkMode() {
+    return this.$store.state.darkMode;
+  }
+},
   created() {
     // Fetch data when the component is mounted
     this.fetchProjects();
@@ -121,7 +135,7 @@ export default {
       this.newProjectName = project.project_name;
       this.$emit("rename-project", project);
     },
-
+ 
     renameProject() {
       const payload = { new_project_name: this.newProjectName };
       axios
@@ -143,11 +157,10 @@ export default {
       try {
         // Make a GET request to the endpoint
         const response = await axios.get(`${this.apiUrl}/api/v2/project/`);
-        
-
+ 
         // Update the projects data with the fetched data
         this.projects = response.data;
-        this.loading = false;
+        this.loading = false ;
       } catch (error) {
         console.error('Error fetching projects:', error);
       }
@@ -158,8 +171,14 @@ export default {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
     },
-
+ 
   },
 };
 </script>
+<style scoped>
+.dark-mode { /* Define dark mode styles */
+  background-color: #1d1e52;
+  color: #ffffff;
+}
+</style>
   

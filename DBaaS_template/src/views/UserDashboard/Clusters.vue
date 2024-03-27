@@ -86,7 +86,7 @@
 <script>
 import Card from "@/examples/Cards/Card.vue";
 import ClustersTable from "@/views/components/ClusteruserTable.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
  
@@ -97,7 +97,7 @@ export default {
   components: {
     Card,
     ClustersTable,
-    ArgonButton,
+    argonButton,
   },
   created() {
     this.user_id = sessionStorage.getItem("user_id");
@@ -152,8 +152,7 @@ export default {
  
       this.$router.push('/delete');
       axios.post(`${this.apiUrl}/api/v2/deletecluster/`, formData)
-        .then(response => {
-          console.log('Cluster deleted successfully:', response.data);
+        .then(() => {
           this.deleteModal = false
           this.fetchclusters_list();
         })
@@ -193,7 +192,6 @@ export default {
       axios.get(`${this.apiUrl}/api/v2/cluster/user/${this.user_id}/`)
         .then(response => {
           this.clusterData = response.data;
-          console.log(response.data);
           this.stats.money.value = this.clusterData.length
 
           this.loading = false;

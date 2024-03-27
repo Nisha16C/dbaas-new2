@@ -50,12 +50,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="phone" class="form-control-label">Phone Number</label>
-                                    <argon-input v-model="userData.phone" type="text" placeholder="123-456-789" />
+                                    <argon-input v-model="userData.phone" type="text" placeholder="1923456789" />
                                     <div class="text-danger">{{ errors.phone }}</div>
                                 </div>
                                 <div class="col-md-12">
                                     <label for="email" class="form-control-label">Email Address</label>
-                                    <argon-input v-model="userData.email" type="email" placeholder="nisha@example.com" />
+                                    <argon-input v-model="userData.email" type="email" placeholder="user@example.com" />
                                     <div class="text-danger">{{ errors.email }}</div>
                                 </div>
                                 <div class="col-md-12">
@@ -102,8 +102,8 @@
 import setNavPills from "@/assets/js/nav-pills.js";
 import setTooltip from "@/assets/js/tooltip.js";
 // import ProfileCard from "./components/ProfileCard.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import ArgonInput from "@/components/BB_Input.vue";
+import argonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
 import axios from 'axios';
@@ -136,7 +136,7 @@ export default {
             agreeTerms: false,
         };
     },
-    components: { ArgonInput, ArgonButton },
+    components: { ArgonInput, argonButton },
     methods: {
         CreateUser() {
             this.clearErrors();
@@ -172,9 +172,7 @@ export default {
 
             // Make a POST request to create a new user
             axios.post(`${this.apiUrl}/api/v1/users/`, this.userData)
-                .then(response => {
-                    // Handle the response, for example, show a success message
-                    console.log(response.data);
+                .then(() => {
                     this.successMessage = `well done! ${this.userData.username} user is Successfully Created ..`;
                     this.clearForm();
                     this.agreeTerms = false;

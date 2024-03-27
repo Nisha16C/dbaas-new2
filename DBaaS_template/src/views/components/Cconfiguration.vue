@@ -134,13 +134,13 @@
  
 <script>
 import { mapState, mapActions } from 'vuex';
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 import axios from 'axios'
  
 export default {
   components: {
-    ArgonButton
+    argonButton
   },
   data() {
     return {
@@ -176,7 +176,7 @@ export default {
       this.updateComputeOffering(this.selectedComputeOffering);
     },
     updateFlavorId() {
-      console.log(this.flavorIdInput);
+     
       this.$store.dispatch('setFlavors', this.flavorIdInput);
     },
  
@@ -184,7 +184,7 @@ export default {
       axios.get(`${this.apiUrl}/api/v2/flavors/`)
       .then((response)=>{
         this.computeFlavors = response.data
-        console.log(this.computeFlavors);
+        
       })
       .catch(()=>{
  
@@ -198,7 +198,7 @@ export default {
     },
  
     isSelected(projectName) {
-      console.log("compute offering");
+      
       if (this.selectedComputeOffering === projectName) {
  
  

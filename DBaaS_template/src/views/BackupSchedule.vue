@@ -61,13 +61,13 @@
   
   <script>
   import scheduleList from "./components/scheduleList.vue";
-  import ArgonButton from "@/components/ArgonButton.vue";
+  import argonButton from "@/components/BB_Button.vue";
   
   export default {
     name: "Cluster",
     components: {
       scheduleList,
-      ArgonButton
+      argonButton
     },
     data() {
       return {

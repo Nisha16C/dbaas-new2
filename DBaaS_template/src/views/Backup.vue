@@ -61,13 +61,13 @@
 
 <script>
 import Backuplist from "./components/Backuplist.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 
 export default {
   name: "Cluster",
   components: {
     Backuplist,
-    ArgonButton
+    argonButton
   },
   data() {
     return {

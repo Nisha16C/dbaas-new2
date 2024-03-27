@@ -62,7 +62,7 @@
 import Card from "@/examples/Cards/Card.vue";
 // import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
 // import Carousel from "./components/Carousel.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
 import axios from 'axios'
@@ -99,7 +99,7 @@ export default {
   },
   components: {
     Card,
-    ArgonButton,
+    argonButton,
   },
   created() {
     this.user_id = sessionStorage.getItem("user_id");
@@ -126,7 +126,7 @@ export default {
       axios.get(`${this.apiUrl}/api/v2/project/user/${this.user_id}/`)
         .then(response => {
           this.stats.project.value = response.data.length.toString();
-          console.log(response.data.length.toString);
+         
         })
         .catch(error => {
           console.error("Error fetching project count:", error);

@@ -3,18 +3,21 @@
     <div  id= "htmlContent">
        
         
-      <h1><img :src="require('@/Documentation/logo1.png')" class="custom-logo">  Documentation of BitBlast </h1><br>
+      <div class="color1"><img :src="require('@/Documentation/logo1.png')" class="custom-logo">  Documentation of BitBlast </div><br>
+      <!-- <div style="font-size: 48px; font-weight: bold; color: #27297e;">Heading Text</div> -->
+
       
       <p>Let's dive in BitBlast, your comprehensive platform for efficient project management. BitBlast offers a powerful suite of tools, including both the Admin and User Dashboards, designed to streamline collaboration and organization in your projects.</p>
   
-      <h4 class="get">Get started today with BitBlast and revolutionize your project management.</h4>
+      <div class="get">Get started today with BitBlast and revolutionize your project management.</div>
       <p><a href=" " class="link">BitBlast url</a></p>
        <div>
         <button @click="downloadPDF" class="pdf-download-button">Download PDF</button>
         </div>
       <hr>
  
-      <h2>Feature of Application</h2>
+      
+      <div class="color2">Feature of Application </div>
       <ol>
           <li>   <p><b>User Authentication:</b> User Authentication is a fundamental aspect of BitBlast that ensures secure and personalized access to the platform. It involves the verification of user credentials to guarantee that only authorized individuals can log in and interact with the system.</p>
           </li>
@@ -24,14 +27,14 @@
           <li> 
               <p><b>Project and Cluster Creation:</b> BitBlast simplifies Project and Cluster Creation, allowing users to set up and manage their workspaces efficiently. This involves initiating new projects and creating clusters (databases) to organize and store project-related data.</p>
           </li>
-          <li> <p><b>Multi-Cluster Creation:</b> Multi-Cluster Creation is a feature that extends the capabilities of BitBlast, allowing users to create and manage Multiple clusters simultaneously. This is particularly useful for users engaged in complex projects that require diverse sets of data organization.</p>
+          <li> <p><b>Multi-Cluster Creation:</b> Multi-Cluster Creation is a feature that extends the capabilities of BitBlast, allowing users to create and manage multiple clusters simultaneously. This is particularly useful for users engaged in complex projects that require diverse sets of data organization.</p>
           </li>
           <li>  
               <p><b>Multi-Cloud Support:</b> BitBlast boasts Multi-Cloud Support, enabling users to integrate and work seamlessly across different cloud providers. This feature provides flexibility in choosing the cloud environment that best suits the project's needs.</p>
           </li> 
       </ol>
  
-      <h2>Characteristics of Application</h2>
+      <div class="color2">Characteristics of Application</div>
   
       <ol>
           <li>Centralized control, Deletion, and monitoring of clusters.</li>
@@ -40,25 +43,25 @@
           <li>Comprehensive audit trail for security, accountability, detailed tracking, and filtering of user activities.</li>
           <li>Secure login mechanisms for user authentication.</li>
           <li>Facilitates the creation of new projects.</li>
-          <li>Supports the creation of Multiple clusters for effective organization.</li>
+          <li>Supports the creation of multiple clusters for effective organization.</li>
           <li>Assignment of projects to specific clusters during creation.</li>
           <li>Compatibility with various cloud service providers.</li>
           <li>User choice of preferred cloud provider during cluster creation.</li>
           <li>Cloud-agnostic features for seamless deployment across different cloud environments.</li>
       </ol>
 
-      <h2>Benefits of Application</h2>
+      <div class="color2">Benefits of Application</div>
         <ol>
             <li><b>Scalability:</b> BitBlast offers seamless scalability, allowing you to handle fluctuations in data volume without any hassle.</li>
             <li><b>High Availability:</b> With built-in redundancy and failover mechanisms, BitBlast ensures high availability for your critical data.</li>
             <li><b>Security:</b> Utilizing advanced encryption techniques and strict access controls, BitBlast keeps your data safe and compliant.</li>
             <li><b>Automated Backups:</b> BitBlast automates the backup process, providing peace of mind against data loss.</li>
-            <li><b>Multi-Cloud Support:</b> BitBlast supports Multiple cloud providers, offering flexibility and vendor lock-in avoidance.</li>
+            <li><b>Multi-Cloud Support:</b> BitBlast supports multiple cloud providers, offering flexibility and vendor lock-in avoidance.</li>
             <li><b>Performance Optimization:</b> BitBlast optimizes database performance through intelligent caching and indexing strategies.</li>
             <li><b>Real-time Monitoring:</b> Keep track of your database performance and health in real-time with BitBlast's monitoring dashboard.</li>
         </ol>
 
-      <h2>How to get started with BitBlast</h2>
+      <div class="color2">How to get started with BitBlast</div>
       <p>The login functionality of BitBlast is a pivotal aspect of the platform's user authentication process, ensuring a secure and personalized
          experience for each user. To access BitBlast, users are required to input their unique and authorized credentials, including a secure username 
          and password. The login functionality is designed with an emphasis on user privacy and data protection, employing encryption protocols to 
@@ -68,17 +71,17 @@
           gateway to the platform but also plays a crucial role in tailoring the BitBlast experience to the specific needs of each user.</p>
            <p >We have two Dashboards - 1) User Dashboard 2) Admin Dashboard</p>
 
-        <h2>User Dashboard</h2>
+        <div class="color2">User Dashboard</div>
         <p>The User Dashboard is your personalized space for seamless project engagement and collaboration. 
             The User Dashboard empowers you to contribute actively to project management, 
             enabling the creation and management of clusters and the initiation of new projects.</p>
-        <h4>1. Login to Account </h4>
+        <div class="color4">1. Login to Account </div>
         <p>As a user, accessing your dashboard is straightforward. Simply log in with your authorized credentials,
                 including your secure username, password and click 'sign in'.
                 This ensures a secure entry, protecting your project-related information within the BitBlast platform.</p><br>
                 <img :src="require('@/Documentation/img1.png')" class="custom-image"><br><br><hr>
        
-        <h4>2. Select Project</h4>
+        <div class="color4">2. Select Project</div>
         <p>By default, a project is automatically assigned to you by admin, making it convenient
              to start working right away. However, if you prefer to create your 
              own project or switch to another one, BitBlast offers flexibility.</p>
@@ -90,12 +93,12 @@
             <img :src="require('@/Documentation/img2.png')" class="custom-image" ><br><br><hr>
 
 
-        <h4>3. Overview </h4>
+        <div class="color4">3. Overview </div>
         <p>The Overview page in BitBlast provides a consolidated snapshot of your project landscape. Here, you can effortlessly view the total number of clusters and projects at a glance. It serves as a central hub, offering a quick and comprehensive overview of your project ecosystem, allowing you to gauge the scale and scope of your current endeavors. This streamlined presentation on the Overview page ensures that crucial information about the number of clusters and 
             projects is readily available for efficient decision-making and project management.</p>
             <img :src="require('@/Documentation/img21.png')" class="custom-image" ><br><br><hr>
         
-        <h4>4. Project </h4>
+        <div class="color4">4. Project </div>
         <p>The Project Page in BitBlast is your dedicated space for project management. Here, you have a comprehensive overview of your projects, the ability to create new projects seamlessly,
              and access to essential details about each project.</p>
         <p>"At the top of the Project Page, you'll find a clear count of the total number of projects currently active in BitBlast. This gives 
@@ -109,7 +112,7 @@
             and access critical details about each project for efficient project management."</p>
             <img :src="require('@/Documentation/img16.png')" class="custom-image" ><br><br><hr>
         
-        <h4>5. Providers </h4>
+        <div class="color4">5. Providers </div>
         <p>BitBlast simplifies the process of creating databases or clusters by requiring users to first add providers. Providers play a crucial role in defining the infrastructure for these clusters. By adding providers, users can establish the foundation for their databases, ensuring compatibility and optimization. This initial step streamlines the subsequent creation process, allowing users to seamlessly configure and customize their clusters. BitBlast's approach ensures that the addition of providers is the first step in creating robust
              and tailored database clusters, providing a user-friendly and efficient experience.</p>
              <img :src="require('@/Documentation/img13.png')" class="custom-image" ><br><br>
@@ -129,13 +132,13 @@
         <img :src="require('@/Documentation/k8s-provider2.png')" class="custom-image" ><br><br>
         <hr>
 
-        <h4>6. Cluster </h4>
+        <div class="color4">6. Cluster </div>
         <p>BitBlast's Cluster page is designed to provide a comprehensive view of your project's clusters and databases. On this page, you can easily access the total number of clusters,
              giving you an immediate understanding of your project's infrastructure scale apart is its "All Project" dropdown feature, enabling users to filter databases by project. This functionality allows users to focus on specific projects and view their associated databases.</p>
         <p>Additionally, the Cluster page displays a detailed list of all databases associated with each cluster. This list includes essential information such as the name and ID of each database, along with their respective creation and update dates. This organized presentation ensures that you have a clear and up-to-date overview of your database assets, 
             facilitating efficient management and decision-making within your project.</p> 
             <img :src="require('@/Documentation/img10.png')" class="custom-image" ><br><br>
-        <h6 class="data">Create CloudStack Clusters</h6>
+        <div class="color6">Create CloudStack Clusters</div>
         <p><b>Create Database/Cluster : </b>BitBlast simplifies the process of creating a new database or cluster with the convenience of the "Create New Cluster" button.
              By clicking this button, users can initiate the setup for a fresh database cluster seamlessly. 
              This feature streamlines the creation process, guiding users through the necessary steps to establish a new cluster within their project.
@@ -172,7 +175,7 @@
             <img :src="require('@/Documentation/MicrosoftTeams-image (9).png')" class="custom-image" ><br><br>
             <img :src="require('@/Documentation/MicrosoftTeams-image (2).png')" class="custom-image"><br><br>
 
-        <h6 class="data">Create Kubernetes Clusters</h6>
+        <div class="color6">Create Kubernetes Clusters</div>
         <p><b>Create Database/Cluster : </b> BitBlast simplifies the process of creating kubernetes new database or cluster with the convenience of the "Create Cluster" button. By clicking this button, users can initiate the setup for a fresh database cluster seamlessly. This feature streamlines the creation process, guiding users through the necessary steps to establish a new cluster within their project. Whether it's for expanding projects, accommodating additional data, or organizing information more efficiently, the "Create Cluster" button is your gateway
              to a straightforward and user-friendly database creation experience in BitBlast.</p>
              <img :src="require('@/Documentation/img10.png')" class="custom-image" ><br><br>
@@ -204,16 +207,16 @@
         <img :src="require('@/Documentation/MicrosoftTeams-image (3).png')" class="custom-image"><br><br>
         <img :src="require('@/Documentation/MicrosoftTeams-image (2).png')" class="custom-image"><br><br><hr>
 
-            <h4>7. Backup </h4>
+            <div class="color4">7. Backup </div>
             <p>In BitBlast, backups refer to the process of creating copies of your databases on the DBaaS platform for
                 safekeeping. These copies can be used to restore your database in case of data loss due to various
                 reasons like hardware malfunctions, software errors, or even accidental deletions.</p>
-            <h5>Why Backups Matter</h5>
+            <div class="color5">Why Backups Matter</div>
             <p>In today's digital landscape, data is paramount. Safeguarding your databases is crucial to ensure
                 business continuity and prevent potential data loss due to unforeseen circumstances like hardware
                 failures, software errors, or even human mistakes. Regularly backing up your databases allows you to
                 restore them quickly and efficiently, minimizing downtime and data loss.</p>
-            <h5>Introducing BitBlast Backups</h5>
+            <div class="color5">Introducing BitBlast Backups</div>
             <p>BitBlast empowers you to leverage two robust backup methods for your DBaaS deployments:</p>
  
             <p><b>Scheduled Backups:</b> Configure automated backups to run at predefined intervals, ensuring your
@@ -223,7 +226,7 @@
             <p><b>Manual Backups:</b> For added flexibility, you can initiate on-demand backups whenever needed. This
                 provides an extra layer of control for situations where you require immediate backups for specific
                 databases.</p>
-            <h5>Seamless Backup Management</h5>
+            <div class="color5">Seamless Backup Management</div>
             <p>BitBlast offers a user-friendly interface for managing your backups. Here's an overview of the key
                 features:</p>
             <ul>
@@ -250,21 +253,19 @@
                 </li>
             </ul>
  
-            <h5>Backup Options</h5>
+            <div class="color5">Backup Options</div>
             <p>The Backup tab provides access to two main backup methods:</p>
             <li><b>NFS (Network File System):</b> This allows you to mount a remote NFS share for storing backups.</li>
             <li><b>S3 (Simple Storage Service):</b> This enables you to back up data to an Amazon S3 bucket.</li>
             <br>
-            <img :src="require('@/Documentation/b-mount.png')" class="custom-image">
-            <br><br>
-            <h5>Mounting and Managing Backups</h5>
+            <div class="color5">Mounting and Managing Backups</div>
             <p>For each backup method (NFS and S3), you'll see a list of your existing backups. Additionally, you'll
                 find three options represented by clicking on three dots on the right side of list:</p>
             <li><b>Mount:</b> This option allows you to mount the selected backup storage.</li>
             <li><b>Unmount:</b> This option allows you to unmount a previously mounted backup storage.</li>
             <li><b>View:</b> This option lets you view the credentials associated with the selected backup storage.</li>
             <br>
-            <h5>Mounting a Backup</h5>
+            <div class="color5">Mounting a Backup</div>
             <ol>
                 <li>Click the three dots next to the desired backup method (NFS or S3).</li>
                 <li>Select the "Mount" option.</li>
@@ -275,9 +276,6 @@
                         <li>Remote Host: Enter the hostname or IP address of the NFS server.</li>
                         <li>Remote Path: Specify the path on the NFS server where backups will be stored.</li>
                     </ul>
-                    <br>
-                    <img :src="require('@/Documentation/b-nfs.png')" class="custom-image">
-                    <br><br>
                     <li><b>S3:</b></li>
                     <ul>
                         <li>Access Key: Enter your AWS access key ID.</li>
@@ -285,34 +283,25 @@
                         <li>Bucket Name: Specify the S3 bucket where backups will be stored.</li>
                         <li>URL: Provide the S3 endpoint URL if using a non-standard S3 service.</li>
                     </ul>
-                    <br>
-                    <img :src="require('@/Documentation/b-s3.png')" class="custom-image">
-                    <br><br>
                 </ul>
                 <li>Once you've filled in the required details, confirm the action to mount the backup storage.</li>
  
             </ol>
-            <h5>Unmounting a Backup</h5>
+            <div class="color5">Unmounting a Backup</div>
             <ol>
                 <li>Locate the mounted backup you want to unmount.</li>
                 <li>Click the three dots (...) next to the mounted backup.</li>
                 <li>Select the "Unmount" option.</li>
                 <li>The selected backup storage will be unmounted.</li>
             </ol>
-            <br>
-            <img :src="require('@/Documentation/b-unmount.png')" class="custom-image">
-            <br><br>
-            <h5>Viewing Credentials</h5>
+            <div class="color5">Viewing Credentials</div>
             <ol>
                 <li>Click the three dots (...) next to the backup method (NFS or S3).</li>
                 <li>Select the "View" option.</li>
                 <li>A modal window will display the current credentials associated with the selected backup method.</li>
             </ol>
-            <br>
-            <img :src="require('@/Documentation/b-viewmount.png')" class="custom-image">
-            <br><br>
  
-            <h5>Beyond Mounting: Powerful Backup Management</h5>
+            <div class="color5">Beyond Mounting: Powerful Backup Management</div>
             <p>Once you've mounted an NFS or S3 storage for backups, BitBlast empowers you with a comprehensive set of
                 options:</p>
             <ul>
@@ -331,7 +320,7 @@
                     period.</li>
             </ul>
  
-            <h5>Creating Backups and Schedule Backups</h5>
+            <div class="color5">Creating Backups and Schedule Backups</div>
             <p>The "Backup/Schedule Backup" option offers two functionalities:</p>
             <ol>
                 <li><b>Create Backup:</b> For a one-time backup, fill out the following form fields:
@@ -343,8 +332,6 @@
                     </ul>
                 </li>
                 <br>
-                <img :src="require('@/Documentation/b-backup.png')" class="custom-image">
-                <br><br>
                 <li>
                     <b>Schedule Backup:</b> Configure automated backups for your databases on a recurring basis.
                     <ul>
@@ -356,12 +343,9 @@
                             based on this retention period.</li>
                     </ul>
                 </li>
-                <br>
-                <img :src="require('@/Documentation/b-schedule.png')" class="custom-image">
-                <br><br>
             </ol>
  
-            <h5>Backups List: Cataloging Your Backups</h5>
+            <div class="color5">Backups List: Cataloging Your Backups</div>
             <p>The "Backups List" offers a comprehensive overview of all backups currently stored within your BitBlast
                 platform. This list provides valuable insights for understanding your backup history and ensuring data
                 protection.</p>
@@ -373,11 +357,8 @@
             <b>View Button:</b>
             <p>A "View" button is located in front of each cluster name. Clicking this button will reveal a detailed
                 list of backups belonging to that specific cluster.</p>
-            <br>
-            <img :src="require('@/Documentation/b-list.png')" class="custom-image">
-            <br><br>
  
-            <h5> Unveiling Backup Details:</h5>
+            <div class="color5"> Unveiling Backup Details:</div>
             <p>By clicking the "View" button for a cluster, you'll gain access to a comprehensive list of backups
                 associated with that cluster. This detailed list displays crucial information about each backup:</p>
  
@@ -394,7 +375,7 @@
                     space it occupies.</li>
             </ul>
  
-            <h5>Benefits of Viewing Backup Lists</h5>
+            <div class="color5">Benefits of Viewing Backup Lists</div>
             <p>The "Backups List" empowers you with several advantages:</p>
  
             <ol>
@@ -408,7 +389,7 @@
                     utilization by identifying potential areas for retention policy adjustments.</li>
             </ol>
  
-            <h5>Managing Scheduled Backups in BitBlast</h5>
+            <div class="color5">Managing Scheduled Backups in BitBlast</div>
             <p>The "Scheduled Backups List" empowers you to effectively manage your automated backups in BitBlast.
                 Quickly filter and view your scheduled backups, adjust retention periods, unschedule unwanted backups,
                 and configure new ones, ensuring optimal data protection for your clusters.</p>
@@ -426,25 +407,17 @@
                     Easily switch between viewing all scheduled backups or filtering them by storage method (NFS or S3).
                 </li>
             </ul>
-            <br>
-            <img :src="require('@/Documentation/b-sslist.png')" class="custom-image">
-            <br><br>
  
-            <h5>Granular Management Options:</h5>
+            <div class="color5">Granular Management Options:</div>
             <p>Beyond viewing details, each listed backup offers two key functionalities:</p>
             <ul>
                 <li><b>Change Retention Period:</b> Click this button to adjust the retention duration for a specific
-                    scheduled backup through a dedicated form.</li><br>
-                    <img :src="require('@/Documentation/b-retention.png')" class="custom-image"><br><br>
+                    scheduled backup through a dedicated form.</li>
                 <li><b>Unschedule:</b> Click this button to initiate the process of removing a scheduled backup. A
                     confirmation message will appear to ensure your intended action.</li>
-                    <br>
-            
-            <img :src="require('@/Documentation/b-unschedule.png')" class="custom-image"><br><br>
             </ul>
-            
  
-            <h5>Recovering Your Data with BitBlast Restore</h5>
+            <div class="color5">Recovering Your Data with BitBlast Restore</div>
             <p>Locate the desired backup you want to restore from the "Backups List" or "Scheduled Backups List."
                 Click the "Restore" button associated with that specific backup.</p>
             <b>Streamlined Restore Form</b>
@@ -457,43 +430,40 @@
                 <li><b>Target Server Name:</b> Specify the server name where the restored database will reside.</li>
             </ul>
  
-            <h5>Effortless Restoration</h5>
+            <div class="color5">Effortless Restoration</div>
             <p>Once you've filled out the form details, click the "Restore" button. BitBlast will efficiently initiate
                 the restoration process, retrieving the selected backup and restoring your database to its state at the
                 chosen backup point.</p>
-            <br>
-            <img :src="require('@/Documentation/b-restore.png')" class="custom-image"><br><br>
  
-            <h5>Conclusion: BitBlast - Your Backup and Restore Partner</h5>
+            <div class="color5">Conclusion: BitBlast - Your Backup and Restore Partner</div>
             <p>BitBlast empowers you with comprehensive backup functionalities. From managing scheduled backups and
                 monitoring existing ones to effortlessly restoring lost data, BitBlast ensures your valuable data is
                 always protected. Leverage BitBlast's robust backup and restore capabilities to maintain business
                 continuity and peace of mind.</p>
-            <br>    
+ 
             <hr>
-            <br>
         
 
 
 
 
-        <h2>Admin Dashboard</h2>
+        <div class="color2">Admin Dashboard</div>
         <p>Before we dive into the login process, let's understand the Admin Dashboard. 
             This dashboard serves as the control center, allowing administrators to oversee and 
             manage crucial components such as clusters, projects, and users. Now, let's explore 
             how administrators can log in and unleash the full potential of the Admin Dashboard.</p>
 
-        <h4>1. Login to Admin Account  </h4>
+        <div class="color4">1. Login to Admin Account  </div>
         <p>To log in to the Admin Dashboard, administrators need to visit the BitBlast login page. Here, they'll input their authorized credentials - a secure username and password. This ensures that only
              authorized personnel gain access to the powerful administrative features of BitBlast.</p>
              <img :src="require('@/Documentation/img17.png')" class="custom-image" ><br><br><hr>
 
-        <h4>2. Admin Dashboard </h4>
+        <div class="color4">2. Admin Dashboard </div>
         <p>Welcome to the Admin Dashboard of BitBlast, your central command center for seamless project management. Here, you have a comprehensive overview of essential elements - 
             the total number of clusters, projects, and users, all in one place.</p>
             <img :src="require('@/Documentation/img18.png')" class="custom-image" ><br><br><hr>
         
-        <h4>3. Clusters Management </h4>
+        <div class="color4">3. Clusters Management </div>
         <p>"Let's dive into Cluster Management, your control center for overseeing and organizing clusters in BitBlast.
              Here, you get a quick overview of the total number of clusters available."</p>
         <p>"In the Cluster Management page, you have access to detailed information about
@@ -513,7 +483,7 @@
              <p> Cluster Management in BitBlast provides a centralized space for not only viewing the total number of clusters but also detailed insights into each database. With the ability to view and delete databases,
                  you have the b control to streamline and manage your database environment effectively.</p><br><br><hr>
 
-        <h4>4. Project Management </h4>
+        <div class="color4">4. Project Management </div>
         <p>Project Management is the space where you have complete control over your projects in BitBlast.
              Let's start by getting an overview of the total number of projects available.</p>
 
@@ -527,7 +497,7 @@
         <p>Project Management in BitBlast provides not only a quick glance at the total number of projects but also offers detailed insights into each project. With the ability to edit and rename projects,
              you have the flexibility to keep your project organization precise and up-to-date.</p><hr>
 
-        <h4>5. User  Management </h4>
+        <div class="color4">5. User  Management </div>
         <p>Let's explore User Management, the central hub for overseeing and organizing users in BitBlast.
              Begin by getting an overview of the total number of users available.</p>
 
@@ -546,13 +516,13 @@
              the flexibility to manage your team efficiently and keep user information up-to-date."</p>
             <hr>
 
-        <h4>6. Monitoring </h4>
+        <div class="color4">6. Monitoring </div>
         <p>The monitoring dashboard in BitBlast provides users with detailed insights into their clusters and databases, allowing for efficient management and optimization. Users can access a wide range of information related to specific users' databases, including cluster type, database version, start time, and various performance metrics such as average CPU and memory usage. Additionally, users can monitor important metrics like open file descriptors, shared buffers, and active sessions in real-time, enabling proactive decision-making and troubleshooting. With comprehensive data on transactions, update data, fetch data, 
             insert data, and lock tables, the monitoring dashboard empowers users to maintain optimal performance and reliability across their database. </p>
         <img :src="require('@/Documentation/img20.png')" class="custom-image" ><hr>
 
 
-        <h4>8. Activity Logs </h4>
+        <div class="color4">8. Activity Logs </div>
         <p>Activity Logs in BitBlast serve as a comprehensive record of all actions and events within the platform, offering transparency and accountability. This log captures every significant activity, allowing users, especially administrators, to monitor and audit changes effectively. The Activity Logs encompass a variety of events, including user logins, 
             new user creations, project and cluster modifications, and database deletions.</p>
 
@@ -575,6 +545,11 @@ import html2pdf from 'html2pdf.js';
 
 
 export default {
+    computed: {
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    }
+  },
   methods: {
 
     downloadPDF() {
@@ -658,6 +633,43 @@ export default {
 }
 .get {
     color: rgb(93, 56, 128);
+    font-size: 20px; 
+    font-weight: bold; 
+}
+.color1 {
+    /* color:#376658 ; */
+
+    font-size: 48px; 
+    font-weight: bold; 
+    color: #27297e;
+}
+.color2 {
+    /* color:#376658 ; */
+
+    font-size: 38px; 
+    font-weight: bold; 
+    color: #27297e;
+}
+.color4 {
+    /* color:#376658 ; */
+
+    font-size: 25px; 
+    font-weight: bold; 
+    color: #27297e;
+}
+.color5 {
+    /* color:#376658 ; */
+
+    font-size: 18px; 
+    /* font-weight: 50px;  */
+    color: #303381;
+}
+.color6 {
+    /* color:#376658 ; */
+
+    font-size: 12px; 
+    font-weight: bold; 
+    color: black;
 }
 .data {
     color: rgb(97, 3, 185);

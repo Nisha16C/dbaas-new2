@@ -137,12 +137,12 @@
   
 <script>
 import axios from "axios";
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 export default {
   name: "UserCluster-table",
   components: {
  
-    ArgonButton,
+    argonButton,
   },
   created() {
     this.user_id = sessionStorage.getItem("user_id");
@@ -190,8 +190,7 @@ export default {
  
       this.$router.push('/delete');
       axios.post("${this.apiUrl}/api/v2/deletecluster/", formData)
-        .then(response => {
-          console.log('Cluster deleted successfully:', response.data);
+        .then(() => {
           this.deleteModal = false
           this.fetchclusters_list();
         })

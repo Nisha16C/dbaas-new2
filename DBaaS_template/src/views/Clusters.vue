@@ -35,14 +35,14 @@ import Card from "@/examples/Cards/Card.vue";
 import AuthorsTable from "./components/AuthorsTable.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
-// import ArgonButton from "@/components/ArgonButton.vue";
+// import argonButton from "@/components/BB_Button.vue";
 import axios from "axios";
 
 export default {
   name: "Cluster",
   components: {
     Card, AuthorsTable,
-    // ArgonButton
+    // argonButton
   },
   data() {
     return {

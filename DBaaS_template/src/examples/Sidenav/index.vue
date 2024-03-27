@@ -32,10 +32,10 @@
               ? logoWhite
               : logo
           "
-          class="navbar-brand-img h-100"
+          class="navbar-brand-img h-100 w-100                                                         "
           alt="main_logo"
         />
-        <span class="ms-2 text-2xl font-weight-bold me-2">BitBlast </span>
+        <span class="ms-2 text-2xl font-weight-bold me-2"> </span>
       </router-link>
     </div>
     <hr class="mt-0 horizontal dark" />
@@ -45,8 +45,8 @@
 </template>
 <script>
 import SidenavList from "./SidenavList.vue";
-import logo from "@/assets/img/logo1.png";
-import logoWhite from "@/assets/img/logo1.png";
+import logo from "@/assets/img/circleLogo.png";
+import logoWhite from "@/assets/img/circleLogo.png";
 
 export default {
   name: "index",

@@ -82,7 +82,6 @@ export default {
                 await this.updateGlobalProjectName(project.project_name);
 
                 await this.updateGlobalProjectId(project.id);
-                console.log('State updated successfully');
             } catch (error) {
                 console.error(error);
             }
@@ -90,7 +89,6 @@ export default {
 
         isSelected(projectName) {
             if (this.project_name === projectName) {
-                console.log("true");
                 return true
             } else {
                 return false;

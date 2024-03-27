@@ -65,7 +65,6 @@ export default {
       this.navbarMinimize();
     },
     logout() {
-      console.log("logout");
       sessionStorage.removeItem('user_id');
       sessionStorage.removeItem('username');
       sessionStorage.removeItem('project_id');

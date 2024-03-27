@@ -1,9 +1,9 @@
-
+[10:28 AM] Nisha Chaurasiya
+ 
 <template>
   <div class="card">
     <div class="card-header pb-0">
       <h6> Database info</h6>
-
     </div>
     <div v-if="loading" class="text-center mt-3">
       <div class="spinner-border text-primary" role="status">
@@ -12,7 +12,7 @@
     </div>
  
     <div v-else class="card-body px-0 pt-0 pb-2">
-      <div v-if="clusters.length === 0" class="text-center">No Cluster found in the Selected Project.</div>
+      <div v-if="clusters.length === 0" class="text-center">No Clusters are Available</div>
       <div v-else class="table-responsive p-0">
         <table class="table align-items-center mb-0">
           <thead>
@@ -36,7 +36,12 @@
                 <div class="d-flex px-2 py-1">
                   <div>
                     <!-- You can customize the image source or remove it based on your needs -->
-                    <img src="../../assets/img/db-png.png" class="avatar avatar-sm me-3" alt="clusterImage" />
+                    <img :src="
+            this.$store.state.darkMode ||
+            this.$store.state.sidebarType === 'bg-default'
+              ? logoWhite
+              : logo"
+              class="avatar avatar-sm me-3" alt="clusterImage" />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
                     <h6 class="mb-0 text-sm">{{ cluster.id }}</h6>
@@ -77,11 +82,11 @@
       </div>
     </div>
   </div>
-
+ 
   <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content" :class="{ 'dark-mode': isDarkMode }">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Cluster Details</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -89,7 +94,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <h3>{{ clusterName }}</h3> 
+          <h3>{{ clusterName }}</h3>
           <p v-if="contentList.length > 0" v-html="addLineBreaks(contentList[0].content)"></p>
         </div>
         <div class="modal-footer">
@@ -123,9 +128,11 @@
 </template>
   
 <script>
-import ArgonButton from "@/components/ArgonButton.vue";
+import ArgonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
-
+import logo from "@/assets/img/db-png.png";
+import logoWhite from "@/assets/img/logo3.png";
+ 
 import axios from 'axios';
 // import $ from jquery;
 //   import axios from "axios";
@@ -144,15 +151,22 @@ export default {
   },
   data() {
     return {
-      apiUrl: API_ENDPOINT, 
+      logo,
+      logoWhite,
+      apiUrl: API_ENDPOINT,
       clusterName:'',
       deleteClusterName: '',
       user_id: '',
       clusters: [],
       contentList: [],
-      loading: true
+      loading: true,
     };
   },
+  computed: {
+  isDarkMode() {
+    return this.$store.state.darkMode;
+  }
+},
   mounted() {
     // Fetch data when the component is mounted
     this.fetchClusters();
@@ -207,7 +221,7 @@ export default {
  
         // Update the clusters data with the fetched data
         this.clusters = response.data;
-        this.loading = false;
+        this.loading = false ;
       } catch (error) {
         console.error('Error fetching clusters:', error);
       }
@@ -220,9 +234,12 @@ export default {
       return new Date(dateString).toLocaleDateString('en-US', options);
     },
   }
- 
- 
- 
 };
 </script>
+<style scoped>
+.dark-mode { /* Define dark mode styles */
+  background-color: #1d1e52;
+  color: #ffffff;
+}
+</style>
   

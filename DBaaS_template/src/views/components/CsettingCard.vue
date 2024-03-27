@@ -80,14 +80,14 @@
 <script>
 import axios from 'axios';
 import { mapState, mapActions } from 'vuex';
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
 
 export default {
   name: "billing-card",
   components: {
-    ArgonButton,
+    argonButton,
   },
   data() {
     return {
@@ -182,9 +182,7 @@ export default {
             }, 5000);
           }
         })
-        .catch((error) => {
-          console.log(error);
-          // Handle errors from the cluster check API if needed
+        .catch(() => {
         });
     },
     listMountpoints() {
@@ -223,11 +221,7 @@ export default {
         }, 5000);
         return;
       }
-
-
       if (!this.project_id) {
-        console.log(this.project_id);
-
         this.errorNoSelectedProject = 'You have not selected any Project';
         setTimeout(() => {
           this.errorNoSelectedProject = '';
@@ -240,9 +234,9 @@ export default {
         return;
       } else {
         if (this.backup_method === 'nfs') {
-          console.log("backup_method == nfs");
+         
           this.mount_point = this.nfsMountpoints[0].mount_point;
-          console.log(this.mount_point);
+         
           if (this.nfsMountpoints.length <= 0) {
             this.backupError = "NFS is not connected";
             return;
@@ -250,9 +244,9 @@ export default {
             this.backupError = '';
           }
         } else {
-          console.log("backup_method == nfs");
+      
           this.mount_point = this.s3Mountpoints[0].mount_point;
-          console.log(this.mount_point);
+         
           if (this.s3Mountpoints.length <= 0) {
             this.backupError = "S3 is not connected";
             return;
@@ -300,7 +294,7 @@ export default {
         .then((response) => {
           this.provider_info = response.data;
           this.provider_info.kubeconfig_data = JSON.stringify(this.provider_info.kubeconfig_data)
-          console.log(this.provider_info);
+          
 
           const fromData = {
             db_user: this.db_user,
@@ -327,24 +321,15 @@ export default {
 
 
             backup_method: this.backup_method,
-            mount_point: this.mount_point,
-
-            
+            mount_point: this.mount_point,           
           };
-          // console.log(fromData);
-          console.table([fromData]);
-
-
-
-          // this.$router.push('/result');
+          this.$router.push('/result');
           axios
             .post(`${this.apiUrl}/api/v2/cluster/`, fromData)
             .then(() => {
 
-
             })
-            .catch((error) => {
-              console.log(error);
+            .catch(() => {
 
             });
         })

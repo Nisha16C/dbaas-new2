@@ -61,8 +61,8 @@ import axios from 'axios';
  
 import Card from "@/examples/Cards/Card.vue";
 import ProjectTable from "@/views/components/ProjectUserTable.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import ArgonInput from "@/components/BB_Input.vue";
+import argonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
  
@@ -72,7 +72,7 @@ export default {
     Card,
     ProjectTable,
     ArgonInput,
-    ArgonButton,
+    argonButton,
   },
   data() {
     return {
@@ -107,7 +107,7 @@ export default {
     fetchProject() {
       
       const user_id = this.project.user
-      console.log(user_id);
+  
       axios.get(`${this.apiUrl}/api/v2/project/user/${user_id}/`)
         .then((response) => {
           this.projectsData = response.data;
@@ -126,7 +126,6 @@ export default {
         }, 500);
       }
       else {
-        console.log(this.project)
         axios.post(`${this.apiUrl}/api/v2/project/`, this.project)
           .then(() => {
             this.fetchProject()

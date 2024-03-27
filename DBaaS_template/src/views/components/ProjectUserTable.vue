@@ -1,19 +1,18 @@
+[11:57 AM] Nisha Chaurasiya
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6> Projects info</h6>
+      <h6> Projects info </h6>
     </div>
-
     <div v-if="loading" class="text-center mt-3">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
-
-
+ 
     <div v-else class="card-body px-0 pt-0 pb-2">
+      
       <div v-if="projects.length === 0" class="text-center">No Projects are Available</div>
-
       <div v-else class="table-responsive p-0">
         <table class="table align-items-center mb-0">
           <thead>
@@ -30,7 +29,12 @@
                 <div class="d-flex px-2 py-1">
                   <div>
                     <!-- You can customize the image source or remove it based on your needs -->
-                    <img src="../../assets/img/projectTable.png" class="avatar avatar-sm me-3 w-3 h-3" alt="clusterImage" />
+                    <img :src="
+            this.$store.state.darkMode ||
+            this.$store.state.sidebarType === 'bg-default'
+              ? logoWhite
+              : logo"
+              class="avatar avatar-sm me-3 w-3 h-3" alt="clusterImage" />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
                     <h6 class="mb-0 text-sm">{{ project.id }}</h6>
@@ -56,40 +60,35 @@
     </div>
   </div>
 </template>
-
+ 
 <!-- ... (rest of the component) -->
-
-<script> 
+ 
+<script>
+import logo from "@/assets/img/db-png.png";
+import logoWhite from "@/assets/img/project.png";
+ 
+ 
 export default {
   name: "projects-table",
-  data() {
-    return{
-      loading: true
-
-    };
-
-  },
-
-    
   props: {
   projects: {
     type: Array,
     required: true,
   },
 },
-
-created() {
-    // Simulate loading delay with setTimeout
-    setTimeout(() => {
-      this.loading = false; // Set loading to false after delay
-    }, 500); // Adjust delay time as needed
+data() {
+    return {
+      loading: true, // Add loading state
+      logo,
+      logoWhite
+    };
   },
 methods:{
   formatTimeAgo(createdAt) {
     const createdTime = new Date(createdAt)
     const currentTime = new Date()
     const timeDifferenceInSeconds = Math.floor((currentTime - createdTime) / 1000)
-
+ 
     if (timeDifferenceInSeconds < 60) {
       return `${timeDifferenceInSeconds} sec ago`
     } else if (timeDifferenceInSeconds < 3600) {
@@ -103,8 +102,15 @@ methods:{
       return `${days} days ago`
     }
   },
-}
-
+},
+created() {
+    // Simulate loading delay with setTimeout
+    setTimeout(() => {
+      this.loading = false; // Set loading to false after delay
+    }, 500); // Adjust delay time as needed
+  },
+ 
 };
 </script>
   
+

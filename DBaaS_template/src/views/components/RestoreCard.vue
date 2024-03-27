@@ -80,13 +80,13 @@
 </template>
   
 <script>
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 
 import axios from "axios";
 export default {
   name: "backup-card",
   components: {
-    ArgonButton,
+    argonButton,
   },
   data() {
     return {
@@ -112,20 +112,15 @@ export default {
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;
-        console.log(this.servers);
       } catch (error) {
         console.error('Error fetching servers:', error);
       }
     },
     async fetchBackups() {
-      console.log(this.serverName)
       try {
         // Make a GET request to the endpoint
         const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.serverName}&storage_method=${this.backup_method}&username=${this.username}`);
-
-        // Update the clusters data with the fetched data
         this.backupList = response.data.message;
-        console.log(this.backupList);
       } catch (error) {
         console.error('Error fetching servers:', error);
       }
@@ -134,15 +129,15 @@ export default {
       this.loading = true;
       axios
         .post(`http://172.16.1.131:8000/api/v4/barman/recover?server_name=${this.serverName}&backup_id=${this.backup_id}&destination_directory=${this.destination_dir}&target_server_name=${this.target_server}&storage_method=${this.backup_method}&username=${this.username}`,)
-        .then((response) => {
-          console.log(response)
+        .then(() => {
+        
           this.successMessage = "Backup restored successfully"; // Set success message
           setTimeout(() => {
             this.$router.push("/admin-backup"); // Redirect after 5 seconds
           }, 5000);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+         
         })
         .finally(() => {
           this.loading = false; // Set loading to false regardless of success or failure

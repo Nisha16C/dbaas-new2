@@ -1,14 +1,13 @@
 <template>
   <div class="card">
-    <div class="card-header pb-0 d-flex">
-      
-      <div class="col-lg-5">
+    <div class="card-header pb-0 d-flex" >  
+      <div class="col-lg-5" >
         <div class="d-flex">
           <label class="text-sm  col-sm-3">Backup Method :</label>
           <select @click="fetchServers()" class="form-select col-sm-5 mb-2" aria-label="Default select example"
             v-model="backup_method">
             <option value="nfs">NFS</option>
-            <option value="s3">S3</option>
+            <option value="s3">S3</option>                                                                                                                                                                                                                                                                                                                             
           </select>
         </div>
         </div>
@@ -16,7 +15,8 @@
     </div>
 
     <div class="card-body px-0 pt-0 pb-2">
-      <div class="table-responsive p-0">
+      <div v-if="servers.length === 0" class="text-center">No Servers are found</div>
+      <div v-else class="table-responsive p-0">
         <table class="table align-items-center mb-0">
           <thead>
             <tr>
@@ -27,7 +27,7 @@
           <tbody>
             <tr v-for="(description, serverName) in servers" :key="serverName">
               <td>
-                <div class="d-flex px-2 py-1">
+                <div class="d-flex px-2 py-1">                                                                                                          
                   <div>
                     <img src="../../assets/img/db-png.png" class="avatar avatar-sm me-3" alt="user1" />
                   </div>
@@ -56,11 +56,11 @@
   
 <script>
 import axios from "axios";
-import ArgonButton from '@/components/ArgonButton.vue';
+import argonButton from '@/components/BB_Button.vue';
 export default {
   name: "server-table",
   components:{
-    ArgonButton
+    argonButton
 
   },
   data() {
@@ -86,13 +86,13 @@ export default {
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;
-        console.log(this.servers);
+      
       } catch (error) {
         console.error('Error fetching servers:', error);
       }
     },
     viewServer(serverName) {
-      console.log(serverName)
+     
       this.serverName = serverName
       // Navigate to another component with the server name
       this.$router.push({ name: 'BackupDetails', params: { serverName } });

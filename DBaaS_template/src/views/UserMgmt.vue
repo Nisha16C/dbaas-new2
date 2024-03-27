@@ -49,7 +49,7 @@
 import Card from "@/examples/Cards/Card.vue";
 //   import AuthorsTable from "./components/ProjectTable.vue";
 import UsermgnTable from "./components/UsermgntTable.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import argonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
 import axios from "axios";
@@ -60,7 +60,7 @@ export default {
     Card,
     UsermgnTable,
    
-    ArgonButton,
+    argonButton,
   },
   data() {
     return {

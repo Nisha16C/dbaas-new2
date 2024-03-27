@@ -9,317 +9,313 @@
         <span class="mask bg-gradient-success opacity-6"></span>
       </div>
  
-      <div class="card shadow-lg mt-n6">
-        <button @click.prevent="toggleModal('Cloudstack')" class="btn btn-light">
- 
-          <div class="card-body p-3">
-            <div class="row gx-4">
-              <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
- 
-                  <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/cloudstack.png " alt="Cloudstack" />
- 
+<div class="card shadow-lg mt-n6">
+          <button @click.prevent="toggleModal('Cloudstack')" class="btn ">
+   
+            <div class="card-body p-3">
+              <div class="row gx-4">
+                <div class="col-auto">
+                  <div class="avatar avatar-xl position-relative">
+   
+                    <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/cloudstack.png " alt="Cloudstack" />
+   
+                  </div>
                 </div>
-              </div>
- 
-              <div class="col-auto my-auto">
-                <div class="h-100">
-                  <h5 class="mb-1">Cloudstack</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+   
+                <div class="col-auto my-auto">
+                  <div class="h-100">
+                    <h5 class="mb-1">Cloudstack</h5>
+                    <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  </div>
                 </div>
-              </div>
-              <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
-                <div class="nav-wrapper position-relative end-0">
-                  <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
-                    <li class="nav-item">
-                      <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
-                        aria-selected="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Cloudstack')"
-                          class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
-                          viewBox="0 0 100 100">
-                          <circle cx="50" cy="50" r="40" fill="red" />
-                          <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
-                          <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
-                        </svg>
-                        <div class="provider_stat">
-                          <div class="text-green-500" v-if="isProviderConnected('Cloudstack')">Connected</div>
-                          <div class="text-red-500" v-else>Not Connected </div>
-                        </div>
-                      </a>
-                    </li>
- 
-                  </ul>
+                <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
+                  <div class="nav-wrapper position-relative end-0">
+                    <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
+                      <li class="nav-item">
+                        <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
+                          aria-selected="false">
+                          <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Cloudstack')"
+                            class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
+                            viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" fill="red" />
+                            <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
+                            <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
+                          </svg>
+                          <div class="provider_stat">
+                            <div class="text-green-500" v-if="isProviderConnected('Cloudstack')">Connected</div>
+                            <div class="text-red-500" v-else>Not Connected </div>
+                          </div>
+                        </a>
+                      </li>
+   
+                    </ul>
+                  </div>
                 </div>
+   
+   
+   
               </div>
- 
- 
- 
             </div>
-          </div>
- 
-        </button>
-        <!-- vmware -->
-        <button @click.prevent="toggleModal('Vmware')" class="btn btn-light">
-          <div class="card-body p-3">
-            <div class="row gx-4">
-              <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
-                  <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/Vmware.png " alt="Vmware" />
+   
+          </button>
+          <!-- vmware -->
+          <button @click.prevent="toggleModal('Vmware')" class="btn ">
+   
+   
+            <div class="card-body p-3">
+              <div class="row gx-4">
+                <div class="col-auto">
+                  <div class="avatar avatar-xl position-relative">
+                    <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/Vmware.png " alt="Vmware" />
+                  </div>
                 </div>
-              </div>
- 
-              <div class="col-auto my-auto">
-                <div class="h-100">
-                  <h5 class="mb-1">Vmware</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+   
+                <div class="col-auto my-auto">
+                  <div class="h-100">
+                    <h5 class="mb-1">Vmware</h5>
+                    <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  </div>
                 </div>
-              </div>
-              <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
-                <div class="nav-wrapper position-relative end-0">
-                  <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
-                    <li class="nav-item">
-                      <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
-                        aria-selected="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Vmware')"
-                          class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
-                          viewBox="0 0 100 100">
-                          <circle cx="50" cy="50" r="40" fill="red" />
-                          <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
-                          <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
-                        </svg>
-                        <div class="provider_stat">
-                          <div class="text-green-500" v-if="isProviderConnected('Vmware')">Connected</div>
-                          <div class="text-red-500" v-else>Not Connected </div>
-                        </div>
-                      </a>
-                    </li>
- 
-                  </ul>
+                <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
+                  <div class="nav-wrapper position-relative end-0">
+                    <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
+                      <li class="nav-item">
+                        <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
+                          aria-selected="false">
+                          <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Vmware')"
+                            class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
+                            viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" fill="red" />
+                            <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
+                            <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
+                          </svg>
+                          <div class="provider_stat">
+                            <div class="text-green-500" v-if="isProviderConnected('Vmware')">Connected</div>
+                            <div class="text-red-500" v-else>Not Connected </div>
+                          </div>
+                        </a>
+                      </li>
+   
+                    </ul>
+                  </div>
                 </div>
+   
+   
+   
               </div>
- 
- 
- 
             </div>
-          </div>
-        </button>
-        <!--  -->
-        <button @click.prevent="toggleModals('Kubernetes')" class="btn btn-light">
-          <div class="card-body p-3">
-            <div class="row gx-4">
-              <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
-                  <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/k8s.png " alt="Kubernetes" />
+          </button>
+          <!--  -->
+          <button @click.prevent="toggleModals('Kubernetes')" class="btn ">
+            <div class="card-body p-3">
+              <div class="row gx-4">
+                <div class="col-auto">
+                  <div class="avatar avatar-xl position-relative">
+                    <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/k8s.png " alt="Kubernetes" />
+                  </div>
                 </div>
-              </div>
- 
-              <div class="col-auto my-auto">
-                <div class="h-100">
-                  <h5 class="mb-1">Kubernetes</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+   
+                <div class="col-auto my-auto">
+                  <div class="h-100">
+                    <h5 class="mb-1">Kubernetes</h5>
+                    <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  </div>
                 </div>
-              </div>
-              <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
-                <div class="nav-wrapper position-relative end-0">
-                  <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
-                    <li class="nav-item">
-                      <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
-                        aria-selected="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Kubernetes')"
-                          class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
-                          viewBox="0 0 100 100">
-                          <circle cx="50" cy="50" r="40" fill="red" />
-                          <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
-                          <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
-                        </svg>
-                        <div class="provider_stat">
-                          <div class="text-green-500" v-if="isProviderConnected('Kubernetes')">Connected</div>
-                          <div class="text-red-500" v-else>Not Connected</div>
-                        </div>
- 
- 
-                        <!-- <span class="ms-1">Connected</span> -->
-                      </a>
-                    </li>
- 
-                  </ul>
+                <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
+                  <div class="nav-wrapper position-relative end-0">
+                    <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
+                      <li class="nav-item">
+                        <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
+                          aria-selected="false">
+                          <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Kubernetes')"
+                            class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
+                            viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" fill="red" />
+                            <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
+                            <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
+                          </svg>
+                          <div class="provider_stat">
+                            <div class="text-green-500" v-if="isProviderConnected('Kubernetes')">Connected</div>
+                            <div class="text-red-500" v-else>Not Connected</div>
+                          </div>
+   
+   
+                          <!-- <span class="ms-1">Connected</span> -->
+                        </a>
+                      </li>
+   
+                    </ul>
+                  </div>
                 </div>
+   
+   
+   
               </div>
- 
- 
- 
             </div>
-          </div>
-        </button>
-        <!-- d -->
- 
- 
- 
-        <!-- openstack -->
-        <button @click.prevent="OpenstackModal('Openstack')" class="btn btn-light">
- 
- 
-          <div class="card-body p-3">
-            <div class="row gx-4">
-              <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
-                  <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/Openstack.png " alt="Cloudstack" />
+          </button>
+          <!-- d -->
+          <!-- openstack -->
+          <button @click.prevent="toggleModal('Openstack')" class="btn ">
+   
+   
+            <div class="card-body p-3">
+              <div class="row gx-4">
+                <div class="col-auto">
+                  <div class="avatar avatar-xl position-relative">
+                    <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/Openstack.png " alt="Cloudstack" />
+                  </div>
                 </div>
-              </div>
- 
-              <div class="col-auto my-auto">
-                <div class="h-100">
-                  <h5 class="mb-1">Openstack</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+   
+                <div class="col-auto my-auto">
+                  <div class="h-100">
+                    <h5 class="mb-1">Openstack</h5>
+                    <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  </div>
                 </div>
-              </div>
-              <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
-                <div class="nav-wrapper position-relative end-0">
-                  <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
-                    <li class="nav-item">
-                      <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
-                        aria-selected="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Openstack')"
-                          class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
-                          viewBox="0 0 100 100">
-                          <circle cx="50" cy="50" r="40" fill="red" />
-                          <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
-                          <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
-                        </svg>
-                        <div class="provider_stat">
-                          <div class="text-green-500" v-if="isProviderConnected('Openstack')">Connected</div>
-                          <div class="text-red-500" v-else>Not Connected</div>
-                        </div>
- 
- 
-                        <!-- <span class="ms-1" v-if="isProviderConnected">Connected</span>
-                      <span class="ms-1 v-else">Not connected</span> -->
-                      </a>
-                    </li>
- 
-                  </ul>
+                <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
+                  <div class="nav-wrapper position-relative end-0">
+                    <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
+                      <li class="nav-item">
+                        <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
+                          aria-selected="false">
+                          <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Openstack')"
+                            class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
+                            viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" fill="red" />
+                            <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
+                            <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
+                          </svg>
+                          <div class="provider_stat">
+                            <div class="text-green-500" v-if="isProviderConnected('Openstack')">Connected</div>
+                            <div class="text-red-500" v-else>Not Connected</div>
+                          </div>
+   
+   
+                          <!-- <span class="ms-1" v-if="isProviderConnected">Connected</span>
+                        <span class="ms-1 v-else">Not connected</span> -->
+                        </a>
+                      </li>
+   
+                    </ul>
+                  </div>
                 </div>
+   
+   
+   
               </div>
- 
- 
- 
             </div>
-          </div>
-        </button>
- 
-        <!-- harvester -->
-        <button @click.prevent="toggleModal('Harvester')" class="btn btn-light">
-          <div class="card-body p-3">
-            <div class="row gx-4">
-              <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
-                  <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/harvester.jpg " alt="harvester" />
+          </button>
+          <!-- harvester -->
+          <button @click.prevent="toggleModal('Harvester')" class="btn ">
+            <div class="card-body p-3">
+              <div class="row gx-4">
+                <div class="col-auto">
+                  <div class="avatar avatar-xl position-relative">
+                    <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/harvester.jpg " alt="harvester" />
+                  </div>
                 </div>
-              </div>
- 
-              <div class="col-auto my-auto">
-                <div class="h-100">
-                  <h5 class="mb-1">Harvester</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+   
+                <div class="col-auto my-auto">
+                  <div class="h-100">
+                    <h5 class="mb-1">Harvester</h5>
+                    <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  </div>
                 </div>
-              </div>
-              <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
-                <div class="nav-wrapper position-relative end-0">
-                  <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
-                    <li class="nav-item">
-                      <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
-                        aria-selected="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Harvester')"
-                          class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
-                          viewBox="0 0 100 100">
-                          <circle cx="50" cy="50" r="40" fill="red" />
-                          <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
-                          <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
-                        </svg>
-                        <div class="provider_stat">
-                          <div class="text-green-500" v-if="isProviderConnected('Harvester')">Connected</div>
-                          <div class="text-red-500" v-else>Not Connected</div>
-                        </div>
-                      </a>
-                    </li>
- 
-                  </ul>
+                <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
+                  <div class="nav-wrapper position-relative end-0">
+                    <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
+                      <li class="nav-item">
+                        <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
+                          aria-selected="false">
+                          <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Harvester')"
+                            class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
+                            viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" fill="red" />
+                            <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
+                            <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
+                          </svg>
+                          <div class="provider_stat">
+                            <div class="text-green-500" v-if="isProviderConnected('Harvester')">Connected</div>
+                            <div class="text-red-500" v-else>Not Connected</div>
+                          </div>
+                        </a>
+                      </li>
+   
+                    </ul>
+                  </div>
                 </div>
+   
+   
+   
               </div>
- 
- 
- 
             </div>
-          </div>
-        </button>
-        <!-- nutanix -->
-        <button @click.prevent="toggleModal('Nutanix')" class="btn btn-light">
- 
- 
-          <div class="card-body p-3">
-            <div class="row gx-4">
-              <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
-                  <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/nutanix.png " alt="Nutanix" />
+          </button>
+          <!-- nutanix -->
+          <button @click.prevent="toggleModal('Nutanix')" class="btn ">
+            <div class="card-body p-3">
+              <div class="row gx-4">
+                <div class="col-auto">
+                  <div class="avatar avatar-xl position-relative">
+                    <img class="shadow-sm w-100 border-radius-lg" src="@/assets/img/nutanix.png " alt="Nutanix" />
+                  </div>
                 </div>
-              </div>
- 
-              <div class="col-auto my-auto">
-                <div class="h-100">
-                  <h5 class="mb-1">Nutanix</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+   
+                <div class="col-auto my-auto">
+                  <div class="h-100">
+                    <h5 class="mb-1">Nutanix</h5>
+                    <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  </div>
                 </div>
-              </div>
-              <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
-                <div class="nav-wrapper position-relative end-0">
-                  <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
-                    <li class="nav-item">
-                      <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
-                        aria-selected="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Nutanix')"
-                          class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
-                          viewBox="0 0 100 100">
-                          <circle cx="50" cy="50" r="40" fill="red" />
-                          <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
-                          <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
-                        </svg>
-                        <div class="provider_stat">
-                          <div class="text-green-500" v-if="isProviderConnected('Nutanix')">Connected</div>
-                          <div class="text-red-500" v-else>Not Connected</div>
-                        </div>
-                      </a>
-                    </li>
- 
-                  </ul>
+                <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
+                  <div class="nav-wrapper position-relative end-0">
+                    <ul class="p-1 bg-transparent nav nav-pills nav-fill" role="tablist">
+                      <li class="nav-item">
+                        <a class="px-0 py-1 mb-0 nav-link" data-bs-toggle="tab" href="javascript:;" role="tab"
+                          aria-selected="false">
+                          <svg xmlns="http://www.w3.org/2000/svg" v-if="isProviderConnected('Nutanix')"
+                            class="h-6 w-6 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" v-else width="20" height="24" class="mr-2"
+                            viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" fill="red" />
+                            <line x1="20" y1="20" x2="80" y2="80" stroke="white" stroke-width="8" />
+                            <line x1="20" y1="80" x2="80" y2="20" stroke="white" stroke-width="8" />
+                          </svg>
+                          <div class="provider_stat">
+                            <div class="text-green-500" v-if="isProviderConnected('Nutanix')">Connected</div>
+                            <div class="text-red-500" v-else>Not Connected</div>
+                          </div>
+                        </a>
+                      </li>
+   
+                    </ul>
+                  </div>
                 </div>
+   
+   
+   
               </div>
- 
- 
- 
             </div>
-          </div>
-        </button>
- 
- 
-      </div>
+          </button>
+   
+   
+        </div>
  
  
  
@@ -344,7 +340,7 @@
                   </h3>
                   <div class="mb-3">
                     <label for="api_name" class="form-label">API Name</label>
-                    <input type="text" class="form-control" id="api_name" v-model="api_name" required>
+                    <bb-input type="text" class="" id="api_name" v-model="api_name" placeholder="api name "  required />
                     <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                       API Name is required
                     </argon-alert>
@@ -352,14 +348,14 @@
  
                   <div class="mb-3">
                     <label for="api_endpoint" class="form-label">API Endpoint</label>
-                    <input type="text" class="form-control" id="api_endpoint" v-model="api_endpoint" required>
+                    <bb-input type="text" class="" id="api_endpoint" v-model="api_endpoint" placeholder="api endpoint "  required  />
                     <argon-alert v-if="!api_endpoint && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                       API Endpoint is required
                     </argon-alert>                  </div>
  
                   <div class="mb-3">
                     <label for="access_key" class="form-label">Access key</label>
-                    <input type="text" class="form-control" id="access_key" v-model="access_key" required>
+                    <bb-input type="text" class="" id="access_key" v-model="access_key" placeholder="access key "  required />
                     <argon-alert v-if="!access_key && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                       Access Key is required
                     </argon-alert>
@@ -367,7 +363,7 @@
  
                   <div class="mb-3">
                     <label for="secret_key" class="form-label">Secret Key</label>
-                    <input type="text" class="form-control" id="secret_key" v-model="secret_key" required>
+                    <bb-input type="text" class="" id="secret_key" v-model="secret_key" placeholder="secret key " required />
                     <!-- <span class="text-danger" v-if="!secret_key && showErrorMessages">Secret Key is required</span> -->
                     <argon-alert v-if="!secret_key && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                       Secret Key is required
@@ -421,7 +417,7 @@
  
                   <div class="mb-3">
                     <label for="Api_name" class="form-label">Key name</label>
-                    <input type="text" class="form-control"  v-model="api_name" placeholder="Key Name">
+                    <bb-input type="text" class="form-control"  v-model="api_name" placeholder="Key Name" />
                     <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                       Key name is required
                     </argon-alert>
@@ -485,7 +481,7 @@
  
            <div class="mb-3">
              <label for="Api_name" class="form-label">API Name</label>
-             <input type="text" class="form-control"  v-model="api_name" placeholder="api_name">
+             <bb-input type="text" class=""  v-model="api_name" placeholder="api_name" />
              <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                apiname is required
              </argon-alert>
@@ -494,7 +490,7 @@
  
            <div class="mb-3">
              <label for="Api_name" class="form-label">Username</label>
-             <input type="text" class="form-control"  v-model="OpenstackUser" placeholder="Username">
+             <bb-input type="text" class=""  v-model="OpenstackUser" placeholder="Username" />
              <argon-alert v-if="!OpenstackUser && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                Username name is required
              </argon-alert>
@@ -502,7 +498,7 @@
            </div>
            <div class="mb-3">
              <label for="Api_name" class="form-label">Tenant/Project Name</label>
-             <input type="text" class="form-control"  v-model="tenant_name" placeholder="Tenant/Project Name">
+             <bb-input type="text" class=""  v-model="tenant_name" placeholder="Tenant/Project Name" />
              <argon-alert v-if="!tenant_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
               Tenant/Project Name is required
              </argon-alert>
@@ -510,7 +506,7 @@
            </div>
            <div class="mb-3">
              <label for="Api_name" class="form-label">Password</label>
-             <input type="password" class="form-control"  v-model="OpenstackPassword" placeholder="Password">
+             <bb-input type="password" class=""  v-model="OpenstackPassword" placeholder="Password"/>
              <argon-alert v-if="!OpenstackPassword && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                Password is required
              </argon-alert>
@@ -518,7 +514,7 @@
            </div>
            <div class="mb-3">
              <label for="Api_name" class="form-label">Auth URL</label>
-             <input type="text" class="form-control" v-model="auth_url" placeholder="Auth URL">
+             <bb-input type="text" class="" v-model="auth_url" placeholder="Auth URL" />
              <argon-alert v-if="!auth_url && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                AUTH URL name is required
              </argon-alert>
@@ -526,7 +522,7 @@
            </div>
            <div class="mb-3">
              <label for="Api_name" class="form-label">Region</label>
-             <input type="text" class="form-control"  v-model="region" placeholder="Region">
+             <bb-input type="text" class=""  v-model="region" placeholder="Region" />
              <argon-alert v-if="!region && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                Region is required
              </argon-alert>
@@ -566,10 +562,11 @@ import setTooltip from "@/assets/js/tooltip.js";
 import axios from 'axios';
 import { API_ENDPOINT } from '@/../apiconfig.js';
  
- 
+import BbInput from "../../components/BB_Input.vue";
+
 // import ProfileCard from "@/views/components/profileCard.vue";
-import ArgonAlert from "@/components/ArgonAlert.vue";
-import ArgonButton from "@/components/ArgonButton.vue";
+import ArgonAlert from "@/components/BB_Alert.vue";
+import argonButton from "@/components/BB_Button.vue";
  
 const body = document.getElementsByTagName("body")[0];
  
@@ -595,9 +592,11 @@ export default {
     };
   },
   components: {
+    BbInput,
     // ProfileCard,
     ArgonAlert,
-    ArgonButton,
+    argonButton,
+  
   },
  
  
@@ -670,7 +669,7 @@ export default {
       this.selectedProvider = selectedProvider;
       this.selectedModal = 'Kubernetes';
       this.isModalVisibles = !this.isModalVisibles;
-      console.log(this.selectedModal);
+      
     },
     OpenstackModal(selectedProvider) {
       this.OpenstackUser = '';
@@ -678,13 +677,11 @@ export default {
       this.OpenstackPassword = '';
       this.auth_url = '';
       this.region = '';
- 
- 
- 
+
       this.selectedProvider = selectedProvider;
       this.selectedModal = 'Openstack';
       this.isModalVisibles = !this.isModalVisibles;
-      console.log(this.selectedModal);
+     
     },
     async addProviderk8s() {
       if (!this.api_name || !this.kubeconfigData) {
@@ -694,8 +691,6 @@ export default {
         }, 5000);
         return;
       }
- 
-      console.log("k8s");
       const fromData = {
         user_id: this.user_id,
         provider_name: this.selectedProvider,
@@ -706,7 +701,6 @@ export default {
         kubeconfig_data: this.kubeconfigData,
  
       };
-      console.log("data")
       await axios.post(`${this.apiUrl}/api/v3/providers/`, fromData)
         .then(() => {
           this.getAllProviderData();
@@ -718,8 +712,6 @@ export default {
     },
  
     async addProvider() {
-      // Check for form validation before making the API call
-      console.log('addprovider');
       if (!this.api_name || !this.api_endpoint || !this.access_key || !this.secret_key  ) {
         this.showErrorMessages = true; // Show error messages
         setTimeout(() => {
@@ -727,21 +719,15 @@ export default {
         }, 5000);
         return;
       }
-      console.log('addpro');
- 
-      const fromData = {
+       const fromData = {
         "user_id": this.user_id,
         "provider_name": this.selectedProvider,
         "key_name": this.api_name,
         "provider_url": this.api_endpoint,
         "secret_key": this.secret_key,
         "access_token": this.access_key,
- 
-        
- 
- 
+
       };
-      console.log(fromData);
  
       await axios.post(`${this.apiUrl}/api/v3/providers/`, fromData)
         .then(() => {
@@ -754,17 +740,7 @@ export default {
     },
  
     async addOpenstack() {
-      // Check for form validation before making the API call
-      console.log('addprovider');
-      // if (!this.OpenstackUser || !this.OpenstackPassword || !this.auth_url || !this.region || !this.tenant_name  ) {
-      //   this.showErrorMessages = true; // Show error messages
-      //   setTimeout(() => {
-      //     this.showErrorMessages = false; // Hide error messages after 5 seconds
-      //   }, 5000);
-      //   return;
-      // }
-      console.log('addpro');
- 
+     
       const fromData = {
         "user_id": this.user_id,
  
@@ -778,9 +754,7 @@ export default {
         "auth_url": this.auth_url,
         "region": this.region,
  
- 
-      };
-      console.log(fromData);
+       };
  
       await axios.post(`${this.apiUrl}/api/v3/providers/`, fromData)
         .then(() => {
@@ -795,14 +769,14 @@ export default {
       axios.get(`${this.apiUrl}/api/v3/providers/by-user/${this.user_id}/`)
         .then((response) => {
           this.provider_info = response.data;
-          console.log(response.data);
+          
         })
  
     },
   },
 };
 </script>
- 
+
 <style scoped>
 .modal-container {
   position: fixed;
@@ -814,11 +788,9 @@ export default {
   z-index: 1050;
   overflow: auto;
 }
- 
 .modal-content-dark {
-  background-color: #1d1e52; /* Change background color for dark mode */
+ background-color: #1d1e52; /* Change background color for dark mode */
   color: #fff; /* Change text color for dark mode */
 }
 </style>
- 
- 
+

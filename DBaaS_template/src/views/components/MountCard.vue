@@ -367,6 +367,7 @@ export default {
                     this.successMessage = "NFS mount successfully";
                     setTimeout(() => {
                         this.$router.push("/mount-backup-method");
+                        this.successMessage = ''
                     }, 5000);
                     this.listMountpoints();
                 })
@@ -387,6 +388,7 @@ export default {
                     this.successMessage = "S3 mount successfully";
                     setTimeout(() => {
                         this.$router.push("/mount-backup-method");
+                        this.successMessage = ''
                     }, 5000);
                     this.listMountpoints();
                 })

@@ -56,9 +56,10 @@
 
                   <div class="card-body px-0 pt-0 pb-2">
                     <div class="pl-4">
-                      <h6>{{ serverName }}</h6>
+                      <h6>{{ server_name }}</h6>
                     </div>
-                    <div class="table-responsive p-0">
+                    <div v-if="backupList[server_name].length === 0" class="text-center">No Backups are found</div>
+                    <div v-else class="table-responsive p-0">
                       <table class="table align-items-center mb-0">
                         <thead>
                           <tr>
@@ -143,8 +144,8 @@ export default {
   },
   mounted() {
     const { serverName, backupMethod } = this.$route.params;
-    console.log('Server Name:', serverName);
-    console.log('Backup Method:', backupMethod);
+    // console.log('Server Name:', serverName);
+    // console.log('Backup Method:', backupMethod);
     this.backup_method=backupMethod;
     this.server_name=serverName;
     this.fetchBackups();

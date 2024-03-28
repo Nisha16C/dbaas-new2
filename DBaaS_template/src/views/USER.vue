@@ -160,15 +160,7 @@ export default {
             if (hasErrors) {
                 return; // Stop execution if there are errors
             }
-            const userData = {
-                first_name: this.userData.first_name,
-                username: this.userData.username,
-                email: this.userData.email,
-                phone: this.userData.phone,
-                password: this.userData.password,
-                cpassword: this.userData.cpassword,
-            };
-            console.log(userData);
+           
 
             // Make a POST request to create a new user
             axios.post(`${this.apiUrl}/api/v1/users/`, this.userData)

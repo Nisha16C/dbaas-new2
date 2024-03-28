@@ -3,8 +3,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="row">
-          
-
+         
           <div class="col-lg-3 col-md-12 col-12 d-flex">
             <div class="mb-4 card">
               <div class="p-3 card-body">
@@ -71,7 +70,7 @@
                             <th class="text-uppercase text-secondary font-weight-bolder opacity-7">Size</th>
                           </tr>
                         </thead>
-                        <tbody v-for="backup in backupList[serverName]" :key="backup.backup_id">
+                        <tbody v-for="backup in backupList[server_name]" :key="backup.backup_id">
                           <tr >
                             <td>
                               <div class="d-flex px-2 py-1">
@@ -119,12 +118,7 @@ import argonButton from "@/components/BB_Button.vue";
 
 export default {
   name: "BackupDetails",
-  props: {
-    serverName: {
-      type: String,
-      required: true
-    }
-  },
+  
   components: {
     argonButton
   },
@@ -133,6 +127,7 @@ export default {
     return {
       backupList:[],
       backup_method: '',
+      server_name: '',
       username:'',
       stats: {
         money: {
@@ -147,34 +142,22 @@ export default {
     };
   },
   mounted() {
-    // Fetch data when the component is mounted
-    this.fetchBackupMethod();
-
+    const { serverName, backupMethod } = this.$route.params;
+    console.log('Server Name:', serverName);
+    console.log('Backup Method:', backupMethod);
+    this.backup_method=backupMethod;
+    this.server_name=serverName;
+    this.fetchBackups();
   },
   created() {
     this.username = sessionStorage.getItem('username');
   },
   methods: {
 
-    async fetchBackupMethod() {
-     
+    async fetchBackups() { 
       try {
-        // Make a GET request to the endpoint
-        const response = await axios.get(`${this.apiUrl}/api/v2/get_backup_method/${this.serverName}/`);
-
-        // Update the clusters data with the fetched data
-        this.backup_method = response.data.backup_method;
         
-        this.fetchBackups();
-      } catch (error) {
-        console.error('Error fetching backup-method:', error);
-      }
-    },
-    async fetchBackups() {
-      
-      try {
-        // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.serverName}&storage_method=${this.backup_method}&username=${this.username}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.server_name}&storage_method=${this.backup_method}&username=${this.username}`);
 
         // Update the clusters data with the fetched data
         this.backupList = response.data.message;

@@ -92,12 +92,14 @@ export default {
       }
     },
     viewServer(serverName) {
-     
-      this.serverName = serverName
-      // Navigate to another component with the server name
-      this.$router.push({ name: 'BackupDetails', params: { serverName } });
-
+  this.$router.push({
+    name: 'BackupDetails',
+    params: {
+      serverName,
+      backupMethod: this.backup_method  
     }
+  });
+}
   },
 };
 </script>

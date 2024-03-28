@@ -10,11 +10,10 @@
             <option value="s3">S3</option>
           </select>
         </div>
-        </div>
+      </div>
     </div>
     <div class="card-body px-0 pt-0 pb-2">
-    
-<div v-if="backups.length === 0" class="text-center">No Backups are found</div>
+      <div v-if="backups.length === 0" class="text-center">No Backups are found</div>
       <div v-else class="table-responsive p-0">
         <table class="table align-items-center mb-0">
           <thead>
@@ -25,7 +24,7 @@
             </tr>
           </thead>
           <tbody>
-            
+
             <tr v-for="backup in backups" :key="backup.id">
               <td>
                 <div class="d-flex px-2 py-1">
@@ -43,8 +42,9 @@
                 </div>
               </td>
               <td class="align-middle">
-                <argon-button color="success" size="md" variant="gradient" @click="fetchBackupMethod(backup.server_name)"
-                  type="button" class="ml-4 mt-2 btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                <argon-button color="success" size="md" variant="gradient"
+                  @click="fetchBackupMethod(backup.server_name)" type="button" class="ml-4 mt-2 btn btn-success"
+                  data-toggle="modal" data-target="#exampleModal">
                   Change
                 </argon-button>
                 <argon-button color="danger" size="md" variant="gradient" @click="fetchBackupMethod(backup.server_name)"
@@ -60,25 +60,25 @@
     </div>
 
     <div class="modal fade" id="unschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Unschedule backup</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are You Sure Want to unschedule backup !!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"  @click="Unschedule(server_name)">
-                        Unschedule</button>
-                </div>
-            </div>
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Unschedule backup</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are You Sure Want to unschedule backup !!
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="Unschedule(server_name)">
+              Unschedule</button>
+          </div>
         </div>
+      </div>
     </div>
 
     <div class="modal fade" :class="{ 'show': isOpen }" id="exampleModal" tabindex="-1" role="dialog"
@@ -129,7 +129,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 import axios from "axios";
 import { API_ENDPOINT } from '@/../apiconfig.js';
@@ -138,19 +138,19 @@ export default {
   name: "server-table",
   data() {
     return {
-      apiUrl: API_ENDPOINT, 
+      apiUrl: API_ENDPOINT,
       backups: [],
       server_name: '', // Initialize clusters as an empty array
       newRetentionPeriod: '',
       username: '',
-      user_id:'',
+      user_id: '',
       selected_value: 'days',
       loading: false,
       successMessage: '',
       isOpen: false,
-      clusters:'',
-      backup_method:'',
-      storage_method:'',
+      clusters: '',
+      
+      storage_method: '',
     };
   },
   mounted() {
@@ -168,23 +168,22 @@ export default {
         const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/get-scheduled-servers?username=${this.username}&storage_method=${this.storage_method}`);
 
         // Update the clusters data with the fetched data
-        this.backups = response.data.message;
-        
+        this.backups = response.data.message.filter(backup => backup.retention_period !== null);
+
       } catch (error) {
         console.error('Error fetching servers:', error);
       }
     },
-
     Unschedule(serverName) {
       axios
-        .post(`http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?storage_method=${this.backup_method}&server_name=${serverName}&remove_job=true&username=${this.username}`,)
-       .then(() => {
-         
+        .post(`http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?storage_method=${this.storage_method}&server_name=${serverName}&remove_job=true&username=${this.username}`,)
+        .then(() => {
+
           this.$router.push('/scheduled-backups');
           this.fetchBackups();
         })
         .catch(() => {
-          
+
 
         });
 
@@ -196,20 +195,18 @@ export default {
     },
 
     changeRetention() {
-      this.loading = true; // Set loading to true before making the request
+      this.loading = true; 
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?server_name=${this.server_name}&retention=${this.newRetentionPeriod}${this.selected_value}&storage_method=${this.backup_method}&username=${this.username}`
+          `http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?server_name=${this.server_name}&retention=${this.newRetentionPeriod}${this.selected_value}&storage_method=${this.storage_method}&username=${this.username}`
         )
         .then(() => {
           this.successMessage = "Retention Period changed successfully";
-          
           setTimeout(() => {
-            this.$router.push("/scheduled-backups"); // Redirect after 5 seconds
+            this.$router.push("/scheduled-backups"); 
           }, 5000);
         })
         .catch(() => {
-        
         })
         .finally(() => {
           this.loading = false; // Set loading to false regardless of success or failure
@@ -225,17 +222,7 @@ export default {
     async fetchBackupMethod(serverName) {
       this.server_name = serverName;
       this.isOpen = true;
-      try {
-      
-        const response = await axios.get(`${this.apiUrl}/api/v2/get_backup_method/${this.server_name}/`);
-        this.backup_method = response.data.backup_method;
-      
-      } catch (error) {
-        console.error('Error fetching backup-method:', error);
-      }
     },
   },
 };
 </script>
-  
-    

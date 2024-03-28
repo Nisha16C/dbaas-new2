@@ -58,7 +58,7 @@
                     <div class="pl-4">
                       <h6>{{ server_name }}</h6>
                     </div>
-                    <div v-if="backupList[server_name].length === 0" class="text-center">No Backups are found</div>
+                    <div v-if="backupList.length === 0" class="text-center">No Backups are found</div>
                     <div v-else class="table-responsive p-0">
                       <table class="table align-items-center mb-0">
                         <thead>

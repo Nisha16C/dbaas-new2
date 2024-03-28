@@ -23,23 +23,6 @@
               </div>
             </div>
           </div>
-
-          <!-- <div class="col-lg-3 col-md-12 col-12 mx-auto custom-right-align">
-            <div class="mb-4 card">
-              <div class="p-3 card-body">
-                <div class="px-4">
-                  <div class="mb-2 mt-2">
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>All Projects</option>
-                      <option value="1">First Projects</option>
-                      <option value="2">Second project</option>
-                      <option value="3">Third project</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
           
 
 
@@ -49,7 +32,7 @@
             <div class="px-4">
               <div class="mb-2 mt-2">
                 <!-- Update the option for "All Projects" to call fetchClusters() -->
-                <select class="form-select" v-model="selectedProject" @change="fetchClustersByProject">
+                <select :class="{ 'BGdark': isDarkMode }" class="form-select" v-model="selectedProject" @change="fetchClustersByProject">
                   <option value="">All Projects</option>
                   <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.project_name }}</option>
                 </select>
@@ -104,6 +87,11 @@ export default {
     this.fetchProjects();
     this.fetchClusters();
  
+  },
+  computed: {
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    }
   },
   data() {
     return {
@@ -223,6 +211,11 @@ export default {
         direction: rtl;
         text-align: right;
     }
+.BGdark {
+  background-color: #1d1e52;; /* Choose your dark mode background color */
+  color: #fff; /* Choose your dark mode text color */
+}
+
 </style>
 
  

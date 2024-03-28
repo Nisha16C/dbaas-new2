@@ -423,7 +423,7 @@
 
                   <div class="mb-3">
                     <label for="Api_name" class="form-label">Key name</label>
-                    <bb-input type="text" class="form-control" v-model="api_name" placeholder="Key Name" />
+                    <bb-input type="text" class="" v-model="api_name" placeholder="Key Name" />
                     <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                       Key name is required
                     </argon-alert>
@@ -431,7 +431,7 @@
                   </div>
                   <div class="mb-3">
                     <label for="kubeconfigData" class="form-label">Kubeconfig Data</label>
-                    <textarea class="form-control" v-model="kubeconfigData" placeholder="Kubeconfig Data"
+                    <textarea :class="{ 'bg-dark-mode': isDarkMode }" class="form-control" v-model="kubeconfigData" placeholder="Kubeconfig Data"
                       required></textarea>
                     <argon-alert v-if="!kubeconfigData && showErrorMessages" color="danger" icon="icon-danger"
                       dismissible>
@@ -805,4 +805,10 @@ export default {
   color: #fff;
   /* Change text color for dark mode */
 }
+
+.bg-dark-mode{ /* Define dark mode styles */
+  background-color: #1d1e52;
+  color: #ffffff;
+}
+
 </style>

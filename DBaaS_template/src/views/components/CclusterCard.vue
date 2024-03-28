@@ -14,7 +14,7 @@
  
               <div class="col mx-auto">
                 <div class="h-100 w-100 border border-success rounded-md text-center text-wrap p-3"
-                  :class="{ 'bg-light': clusterType === 'Standalone' }">
+                :class="{ 'bg-light': selectedType === 'Standalone', 'bg-dark': selectedType === 'Standalone' && isDarkMode }" >
                   <label for="Standalone">
                     <input type="radio" id="Standalone" class="visually-hidden" value="Standalone"
                       v-model="selectedType" @change="updateType" />
@@ -31,7 +31,7 @@
                 </div>
               </div>
               <div class="col mx-auto">
-                <div :class="{ 'bg-light': clusterType === 'Multiple' }"
+                <div :class="{ 'bg-light': selectedType === 'Multiple', 'bg-dark': selectedType === 'Multiple' && isDarkMode }"
                   class="h-100  border border-success  rounded-md text-center p-3">
                   <label for="Multiple">
                     <input type="radio" class="visually-hidden" id="Multiple" value="Multiple" v-model="selectedType"
@@ -59,7 +59,7 @@
             <h6 class="mb-3  text-sm">Providers</h6>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
  
-              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Cloudstack' }">
+              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Cloudstack' , 'bg-dark': selectedProvider === 'Cloudstack' && isDarkMode}">
                 <div class="bg-transparent border-4 rounded-md text-center p-3 d-flex align-items-center">
                   <label>
                     <input class="visually-hidden" type="radio" id="Cloudstack" value="Cloudstack"
@@ -69,7 +69,7 @@
                   </label>
                 </div>
               </div>
-              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Harvester' }">
+              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Harvester' , 'bg-dark': selectedProvider === 'Harvester' && isDarkMode}">
                 <div class="bg-transparent border-4 rounded-md text-center p-5  d-flex align-items-center">
                   <label>
                     <input class="visually-hidden" type="radio" id="Harvester" value="Harvester"
@@ -87,9 +87,9 @@
             <br>
             <!-- provider image row2-->
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
- 
               <!-- vmware -->
-              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Vmware' }">
+              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Vmware' , 'bg-dark': selectedProvider === 'Vmware' && isDarkMode}"
+>
                 <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ providerName === 'Vmware' ? 'selected' : '' }}">
                   <label>
@@ -100,9 +100,9 @@
                   </label>
                 </div>
               </div>
- 
               <!-- k8s -->
-              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Kubernetes' }">
+              <div class="col mx-auto"  :class="{ 'bg-light': selectedProvider === 'Kubernetes' , 'bg-dark': selectedProvider === 'Kubernetes' && isDarkMode}"
+>
                 <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ providerName === 'Kubernetes' ? 'selected' : '' }}">
                   <label>
@@ -116,12 +116,13 @@
  
  
             </div>
- 
+            
+
             <br>
             <!-- ro3 -->
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
               <!-- nutanix -->
-              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Nutanix' }">
+              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Nutanix' , 'bg-dark': selectedProvider === 'Nutanix' && isDarkMode}">
                 <label>
                   <div class="bg-transparent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ providerName === 'Nutanix' ? 'selected' : '' }}">
@@ -134,9 +135,9 @@
                   </div>
                 </label>
               </div>
- 
+              
               <!-- openstack -->
-              <div class="col mx-auto" :class="{ 'bg-light': providerName === 'Openstack' }">
+              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Openstack' , 'bg-dark': selectedProvider === 'Openstack' && isDarkMode}">
                 <div class="bg-transprent border-4 rounded-md text-center p-3  d-flex align-items-center
             {{ providerName === 'Openstack' ? 'selected' : '' }}">
                   <label>
@@ -283,6 +284,16 @@ export default {
  
   computed: {
     ...mapState(['clusterType', 'providerName']),
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    }
   },
 };
 </script>
+<style scoped>
+/* Define styles for dark mode */
+.bg-dark {
+  background-color: #343a40; /* Choose your dark mode background color */
+  color: #fff; /* Choose your dark mode text color */
+}
+</style>

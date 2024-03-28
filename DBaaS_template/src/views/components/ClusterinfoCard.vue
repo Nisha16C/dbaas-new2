@@ -1,13 +1,13 @@
-[8:44 AM] Ashish Sahu
+
  
 <template>
   <div class="card mt-4">
     <div class="card-header pb-0 p-3">
       <div class="row">
         <div class="col-6 d-flex align-items-center">
-          <h6 class="mb-0">Create Cluster</h6>
+          <h6 class="mb-0 text-md">Create Cluster</h6>
         </div>
-        <hr />
+       
         <!-- <div class="col-6 text-end">
           <argon-button color="dark" variant="gradient">
             <i class="fas fa-plus me-2"></i>

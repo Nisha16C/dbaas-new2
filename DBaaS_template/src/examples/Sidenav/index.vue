@@ -46,7 +46,7 @@
 <script>
 import SidenavList from "./SidenavList.vue";
 import logo from "@/assets/img/bitblastLogo.png";
-import logoWhite from "@/assets/img/bitblastLogo.png";
+import logoWhite from "@/assets/img/bitblastdarklogo.png";
  
 export default {
   name: "index",

@@ -26,7 +26,7 @@
             <tbody>
               <tr v-for="project in computeOfferings" :key="project.name">
                 <div class="row">
-                  <input type="radio" :value=project.name v-model="selectedComputeOffering" @change="updateOffering">
+                  <input type="radio" :value=project.name v-model="selectedComputeOffering" @change="updateOffering" />
  
                 </div>
                 <td>
@@ -61,7 +61,7 @@
           <div class="form-group ml-3 mt-2 row">
             <label class="text-sm col-lg-5" for="retentionPeriod">Custom Storage(Gi):</label>
             <div class="input-group d-flex">
-              <input type="text" class="form-control col-5" id="retentionPeriod" v-model="selectedStorageOffering" @change="updateStorage">
+              <bbinput type="text" class="col-5" id="retentionPeriod" v-model="selectedStorageOffering" @change="updateStorage" />
              <!-- <span class="text-md mt-1 ml-2"> </span> -->
               
             </div>
@@ -135,12 +135,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import argonButton from "@/components/BB_Button.vue";
+import bbinput from '../../components/BB_Input.vue';
 import { API_ENDPOINT } from '@/../apiconfig.js';
 import axios from 'axios'
  
 export default {
   components: {
-    argonButton
+    argonButton,
+    bbinput
   },
   data() {
     return {

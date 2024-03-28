@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="card-body px-0 pt-0 pb-2">
-      <div v-if="backups.length === 0" class="text-center">No Backups are found</div>
+      <div v-if="backups.length === 0" class="text-center mt-3">No Backups are found</div>
       <div v-else class="table-responsive p-0">
         <table class="table align-items-center mb-0">
           <thead>

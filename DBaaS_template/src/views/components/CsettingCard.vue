@@ -12,7 +12,7 @@
             <form>
               <div class="form-group">
                 <label for="Cluster_Name"> Cluster Name</label>
-                <input class="form-control" type="email" id="example-text-input" placeholder="Enter Your Cluster Name"
+                <bbInput class="" type="email" id="example-text-input" placeholder="Enter Your Cluster Name"
                   v-model="cluster_name" @blur="checkClusterNameExists" />
                 <!-- Error message for cluster name -->
                 <div v-if="errorClusterName" class="text-danger mt-2">{{ errorClusterName }}</div>
@@ -23,13 +23,13 @@
 
               <div class="form-group">
                 <label for="Postgres_Username"> Postgres Username</label>
-                <input type="email" class="form-control" id="Postgres_Username"
+                <bbInput type="email" class="" id="Postgres_Username"
                   placeholder="Enter Your Postgres Username" v-model="db_user" />
               </div>
 
               <div class="form-group">
                 <label for="Cluster_Name"> Your Password</label>
-                <input type="password" class="form-control" id="Password" placeholder="Enter Your Password "
+                <bbInput type="password" class="" id="Password" placeholder="Enter Your Password "
                   v-model="db_password" @input="validatePassword" />
                 <div v-if="passwordLengthError" class="text-danger mt-2" >{{ passwordLengthError }}</div>  
               </div>
@@ -37,7 +37,7 @@
 
             <h6 class="mb-3 text-sm">Database Type and Versions</h6>
             <select class="form-select" aria-label="Default select example" @change="updateVersion"
-              v-model="postgres_version">
+              v-model="postgres_version" :class="{ 'BGdark': isDarkMode }">
               <option value="16" selected>16</option>
               <option value="15" >15</option>
               <option value="14">14</option>
@@ -48,7 +48,7 @@
             <div v-if="errorDatabaseVersion" class="text-danger mt-2">{{ errorDatabaseVersion }}</div>
 
             <h6 class="mb-3 mt-3 text-sm">Backup Method</h6>
-            <select class="form-select" aria-label="Default select example" v-model="backup_method">
+            <select class="form-select" aria-label="Default select example" v-model="backup_method" :class="{ 'BGdark': isDarkMode }">
               <option value="nfs" selected>NFS</option>
               <option value="s3">S3</option>
             </select>
@@ -81,6 +81,7 @@
 import axios from 'axios';
 import { mapState, mapActions } from 'vuex';
 import argonButton from "@/components/BB_Button.vue";
+import bbInput from '../../components/BB_Input.vue';
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
 
@@ -88,6 +89,7 @@ export default {
   name: "billing-card",
   components: {
     argonButton,
+    bbInput
   },
   data() {
     return {
@@ -351,6 +353,17 @@ export default {
   computed: {
     ...mapState(['selectedType', 'selectedComputeOffering', 'providerName', 'postgres_version', 'project_name', 'project_id', 'selectedStorageOffering']),
 
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    }
+
   },
 };
 </script>
+<style scoped>
+/* Define styles for dark mode */
+.BGdark {
+  background-color: #1d1e52;; /* Choose your dark mode background color */
+  color: #fff; /* Choose your dark mode text color */
+}
+</style>

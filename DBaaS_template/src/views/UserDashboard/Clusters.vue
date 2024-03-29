@@ -26,21 +26,20 @@
           
 
 
-          <div class="col-lg-3 col-md-12 col-12  ">
+          <div class="col-lg-3 col-md-12 col-12">
     <div class="mb-4 card">
         <div class="p-3 card-body">
             <div class="px-4">
-              <div class="mb-2 mt-2">
                 <!-- Update the option for "All Projects" to call fetchClusters() -->
                 <select :class="{ 'BGdark': isDarkMode }" class="form-select" v-model="selectedProject" @change="fetchClustersByProject">
-                  <option value="">All Projects</option>
-                  <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.project_name }}</option>
+                    <option value="">All Projects</option>
+                    <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.project_name }}</option>
                 </select>
-              </div>
             </div>
         </div>
     </div>
 </div>
+
 
  
   <div class="py-4 container-fluid">
@@ -186,15 +185,23 @@ export default {
         });
     },
     fetchClustersByProject() {
-      if (this.selectedProject) {
-        axios.get(`${this.apiUrl}/api/v2/cluster/project/${this.selectedProject}/`)
-          .then(response => {
-            this.clusters = response.data;
-          });
-      } else {
+    if (this.selectedProject === "") {
+        // If "All Projects" is selected, fetch all clusters
         this.fetchClusters();
-      }
-    },
+    } else {
+        // Fetch clusters for the selected project
+        axios.get(`${this.apiUrl}/api/v2/cluster/project/${this.selectedProject}/`)
+            .then(response => {
+                this.clusterData = response.data;
+                this.stats.money.value = this.clusterData.length;
+                this.loading = false;
+            })
+            .catch(error => {
+                console.error('Error fetching clusters by project:', error);
+            });
+    }
+},
+
     toggleModal1: function () {
       this.showModal = !this.showModal;
     },

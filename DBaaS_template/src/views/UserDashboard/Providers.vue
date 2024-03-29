@@ -164,7 +164,8 @@
         </button>
         <!-- d -->
         <!-- openstack -->
-        <button @click.prevent="toggleModal('Openstack')" class="btn ">
+        <!-- <button @click.prevent="toggleModal('Openstack')" class="btn "> -->
+          <button @click.prevent="OpenstackModal('Openstack')" class="btn">
 
 
           <div class="card-body p-3">
@@ -545,14 +546,14 @@
                   <!-- Modal Footer with Add Provider and Close buttons -->
 
                   <div class="modal-footer">
-                    <argon-button color="success" size="md" variant="gradient" @click.prevent="addOpenstack"
-                      type="submit">
-                      Add Provider
-                    </argon-button>
+                    <argon-button color="success" size="md" variant="gradient" @click="addOpenstack" type="submit">
+               Add Provider
+             </argon-button>
+ 
+             <argon-button color="danger" size="md" variant="gradient" @click="OpenstackModal">
+               Close
+             </argon-button>
 
-                    <argon-button color="danger" size="md" variant="gradient" @click.prevent="OpenstackModal">
-                      Close
-                    </argon-button>
                   </div>
 
                 </form>

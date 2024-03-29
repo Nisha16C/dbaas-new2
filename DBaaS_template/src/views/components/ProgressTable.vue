@@ -15,7 +15,7 @@
         </div>
         <div class="card-body">
           <h2 class="card-title">Installation Status...</h2>
-          <div class="progress p-2">
+          <div class="progress ">
             <div class="progress-bar progress-bar-striped progress-bar-animated  "  :style="{ width: progress }" role="progressbar" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}</div>
           </div>
   

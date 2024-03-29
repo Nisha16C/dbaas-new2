@@ -28,14 +28,14 @@
             <form >
 
               <label class="mt-3 text-sm">Backup Method</label>
-              <select class="form-select " aria-label="Default select example" v-model="backup_method"
+              <select :class="{ 'BGdark': isDarkMode }" class="form-select " aria-label="Default select example" v-model="backup_method"
                 @click="fetchServers()">
                 <option value="nfs">NFS</option>
                 <option value="s3">S3</option>
               </select>
 
               <label class="mt-3 text-sm">Database Name</label>
-              <select v-model="serverName" class="form-select" @click="fetchBackups()"
+              <select :class="{ 'BGdark': isDarkMode }" v-model="serverName" class="form-select" @click="fetchBackups()"
                 aria-label="Default select example">
                 <option v-for="(description, serverName) in servers" :key="serverName" :value=serverName selected>{{
                   serverName }}
@@ -45,7 +45,7 @@
 
               <div class="form-group mt-3">
                 <label class="text-sm" for=""> Backup id</label>
-                <select v-model="backup_id" class="form-select" aria-label="Default select example">
+                <select :class="{ 'BGdark': isDarkMode }" v-model="backup_id" class="form-select" aria-label="Default select example">
                   <option v-for="backup in backupList[serverName]" :key="backup.backup_id" selected>{{ backup.backup_id }}
                   </option>
 
@@ -55,12 +55,12 @@
 
               <div class="form-group mt-3">
                 <label class="text-sm" for="">Destination Directory</label>
-                <input type="email" class="form-control" id="Postgres_Username" placeholder="Destination directory"
+                <bb-input type="email" class="" id="Postgres_Username" placeholder="Destination directory"
                   v-model="destination_dir" />
               </div>
               <div class="form-group mt-3">
                 <label class="text-sm" for=""> Target server Name</label>
-                <input type="email" class="form-control" id="Postgres_Username" placeholder="Destination directory"
+                <bb-input type="email" class="" id="Postgres_Username" placeholder="Destination directory"
                   v-model="target_server" />
               </div>
 
@@ -81,12 +81,15 @@
   
 <script>
 import argonButton from "@/components/BB_Button.vue";
+import bbInput from "@/components/BB_Input.vue";
+
 
 import axios from "axios";
 export default {
   name: "backup-card",
   components: {
     argonButton,
+    bbInput
   },
   data() {
     return {
@@ -103,6 +106,12 @@ export default {
   },
   created() {
     this.username = sessionStorage.getItem('username');
+  },
+
+  computed: {
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    }
   },
   methods: {
     async fetchServers() {
@@ -148,4 +157,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.BGdark {
+  background-color: #1d1e52;
+  color: #fff;
+ 
+}
+</style>
   

@@ -25,6 +25,7 @@ class ProviderViewSet(viewsets.ModelViewSet):
         auth_url = request.data.get ('auth_url')
         region = request.data.get ('region')
 
+
         print (f"{openStackusername}, asdddddddd")
 
         
@@ -67,7 +68,7 @@ class ProviderViewSet(viewsets.ModelViewSet):
                 access_token=access_token,
                 kubeconfig_data=kubeconfig_data,
 
-                openStackuser=openStackusername,
+                openStackuser=openStackusername,                
                 tenant_name=tenant_name,
                 openstackpassword=openstackpassword,
                 auth_url=auth_url,

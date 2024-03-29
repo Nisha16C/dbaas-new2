@@ -26,14 +26,14 @@
               <form>
 
                 <label class="mt-1 text-sm">Backup Method</label>
-                <select class="form-select" aria-label="Default select example" v-model="backup_method"
+                <select :class="{ 'BGdark': isDarkMode }" class="form-select" aria-label="Default select example" v-model="backup_method"
                   @click="fetchServers()">
                   <option value="nfs">NFS</option>
                   <option value="s3">S3</option>
                 </select>
 
                 <label class="mt-3 text-sm">Select Database</label>
-                <select v-model="serverName" class="form-select" aria-label="Default select example">
+                <select :class="{ 'BGdark': isDarkMode }" v-model="serverName" class="form-select" aria-label="Default select example">
                   <option v-for="(description, serverName) in servers" :key="serverName" :value=serverName selected>{{
                     serverName }}
                   </option>
@@ -42,7 +42,7 @@
 
                 <div v-show="!isBackupScheduled" class="form-group mt-3">
                   <label class="text-sm" for="">Backup Name</label>
-                  <input v-model="backup_name" type="email" class="form-control" id="backup_name"
+                  <bb-input v-model="backup_name" type="email" class="" id="backup_name"
                     placeholder="Backup Name" />
                 </div>
 
@@ -56,8 +56,8 @@
                   <div v-if="isBackupScheduled" class="form-group mt-3">
                     <label class="text-sm" for="retentionPeriod">Retention Period:</label>
                     <div class="input-group">
-                      <input type="email" class="form-control" id="retentionPeriod" v-model="retentionPeriod">
-                      <select class="form-select bg-light" aria-label="Default select example" v-model="selected_value">
+                      <bb-input type="email" class="" id="retentionPeriod" v-model="retentionPeriod"/>
+                      <select :class="{ 'BGdark': isDarkMode }"  class="form-select bg-light" aria-label="Default select example" v-model="selected_value">
                         <option value="d" selected>days</option>
                         <option value="m">months</option>
                         <option value="y">years</option>
@@ -88,12 +88,14 @@
  
 <script>
 import argonButton from "@/components/BB_Button.vue";
+import bbInput from "@/components/BB_Input.vue";
 
 import axios from "axios";
 export default {
   name: "backup-card",
   components: {
     argonButton,
+    bbInput
   },
   data() {
     return {
@@ -108,6 +110,12 @@ export default {
       loading: false, // Track loading state
       successMessage: "", // Success message
     };
+  },
+
+  computed: {
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    }
   },
   created() {
     this.username = sessionStorage.getItem('username');
@@ -175,3 +183,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.BGdark {
+  background-color: #1d1e52;
+  color: #fff;
+ 
+}
+</style>

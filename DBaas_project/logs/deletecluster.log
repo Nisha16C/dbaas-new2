@@ -73,3 +73,7 @@
 2024-03-18 10:59:09,013 level=INFO user=preeti clusterName=cluster-23 msg=cluster-23 deleted 
 2024-03-18 12:08:54,442 level=INFO user=preeti clusterName=rr msg=rr deleted 
 2024-03-18 12:17:55,836 level=INFO user=preeti clusterName=rrr msg=rrr deleted 
+2024-03-28 09:19:38,705 level=INFO user=aastha clusterName=ok-567 msg=ok-567 deleted 
+2024-03-28 10:49:48,077 level=INFO user=aastha clusterName=dfdf msg=dfdf deleted 
+2024-03-28 10:53:16,174 level=INFO user=aastha clusterName=dfdf msg=dfdf deleted 
+2024-03-28 12:19:43,291 level=INFO user=aastha clusterName=ha-cv msg=ha-cv deleted 

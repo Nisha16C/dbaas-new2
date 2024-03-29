@@ -4,7 +4,7 @@
       <div class="col-lg-5">
         <div class="d-flex">
           <label class="text-sm  col-sm-3">Backup Method :</label>
-          <select @click="fetchServers()" class="form-select col-sm-5 mb-2" aria-label="Default select example"
+          <select :class="{ 'BGdark': isDarkMode }" @click="fetchServers()" class="form-select col-sm-5 mb-2" aria-label="Default select example"
             v-model="storage_method">
             <option value="nfs">NFS</option>
             <option value="s3">S3</option>
@@ -102,8 +102,8 @@
           <div class="form-group ml-3 mt-2 row">
             <label class="text-sm col-lg-5" for="retentionPeriod">Retention Period :</label>
             <div class="input-group d-flex">
-              <input type="email" class="form-control col-5" id="retentionPeriod" v-model="newRetentionPeriod">
-              <select class="form-select bg-light col-3" aria-label="Default select example" v-model="selected_value">
+              <bb-input type="email" class=" col-5" id="retentionPeriod" v-model="newRetentionPeriod"/>
+              <select :class="{ 'BGdark': isDarkMode }" class="form-select bg-light col-3" aria-label="Default select example" v-model="selected_value">
                 <option value="d" selected>days</option>
                 <option value="m">months</option>
                 <option value="y">years</option>
@@ -133,9 +133,14 @@
 <script>
 import axios from "axios";
 import { API_ENDPOINT } from '@/../apiconfig.js';
+import bbInput from "@/components/BB_Input.vue";
+
 
 export default {
   name: "server-table",
+  components: {
+    bbInput
+  },
   data() {
     return {
       apiUrl: API_ENDPOINT,
@@ -156,6 +161,11 @@ export default {
   mounted() {
     // Fetch data when the component is mounted
     this.fetchBackups();
+  },
+  computed: {
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    }
   },
   created() {
     this.username = sessionStorage.getItem('username');
@@ -226,3 +236,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.BGdark {
+  background-color: #1d1e52;
+  color: #fff;
+ 
+}
+</style>

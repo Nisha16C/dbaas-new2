@@ -11,7 +11,7 @@
           margin-left: -54%;
         "
       >
-        <span class="mask bg-gradient-success opacity-6"></span>
+        <!-- <span class="mask bg-gradient-success opacity-6"></span> -->
       </div>
       <div class="card shadow-lg mt-n6  w-full" >
         <div class="card-body p-0">
@@ -46,8 +46,8 @@ export default {
     return {
       showMenu: false,
       embedUrl: {
-        light: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&var-DS_PROMETHEUS=bc775041-25c7-4cee-9226-c4278a324020&var-interval=%24__auto_interval_interval&var-user=Ashish&var-project=Test-project&var-clustertype=Standalonei&var-datversion=16&var-cluster=postgres-bitblast&var-datname=All&var-mode=All&from=1707215021583&to=1707215321583&theme=light',
-        dark: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&var-DS_PROMETHEUS=bc775041-25c7-4cee-9226-c4278a324020&var-interval=%24__auto_interval_interval&var-user=Ashish&var-project=Test-project&var-clustertype=Standalonei&var-datversion=16&var-cluster=postgres-bitblast&var-datname=All&var-mode=All&from=1707215021583&to=1707215321583&theme=dark'      }
+        light: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&from=1711621923109&to=1711622223109&theme=light',
+        dark: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&from=1711621923109&to=1711622223109&theme=dark'      }
     };
   },
   components: {

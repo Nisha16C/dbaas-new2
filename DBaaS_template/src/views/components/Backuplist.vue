@@ -4,7 +4,7 @@
       <div class="col-lg-5" >
         <div class="d-flex">
           <label class="text-sm  col-sm-3">Backup Method :</label>
-          <select @click="fetchServers()" class="form-select col-sm-5 mb-2" aria-label="Default select example"
+          <select :class="{ 'BGdark': isDarkMode }" @click="fetchServers()" class="form-select col-sm-5 mb-2" aria-label="Default select example"
             v-model="backup_method">
             <option value="nfs">NFS</option>
             <option value="s3">S3</option>                                                                                                                                                                                                                                                                                                                             
@@ -75,6 +75,13 @@ export default {
     // Fetch data when the component is mounted
     this.fetchServers();
   },
+
+  computed: {
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    }
+  },
+  
   created() {
     this.username = sessionStorage.getItem('username');
   },
@@ -103,5 +110,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.BGdark {
+  background-color: #1d1e52;
+  color: #fff;
+ 
+}
+</style>
 
   

@@ -405,7 +405,32 @@ class ClusterViewSet(viewsets.ModelViewSet):
               
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:            
-                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
+                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
+
+        elif provider_name == 'Cloudstack' and cluster_type == 'Multiple':
+            response = trigger_single(base_url, project_id, headers, 'ha-postgres-cluster')
+            print("CloudStack ha branch trigger.....")
+            if response == 200:
+                cluster = Cluster(
+                    user=user,
+                    project=project,
+                    cluster_name=cluster_name,
+                    cluster_type=cluster_type,
+                    database_version=database_version,
+                    backup_method=backup_method,
+
+                    provider=provider_name
+                )
+                cluster.save()
+                serializer = ClusterSerializers(cluster)
+                # Log cluster creation information
+                log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
+                cluster_logger.info(log_entry)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                    
+            else:            
+                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+         
  
  
  
@@ -755,7 +780,7 @@ def get_variables(request):
     storageOffering = temp_variables.get('storageOffering', '')
     kubeconfig_data = temp_variables.get('kubeconfig', '')
 
-    openStackuser = temp_variables.get ('OpenstackUser', '')
+    openStackuser = temp_variables.get ('OpenstackUser', '')    
     tenant_name = temp_variables.get ('tenant_name', '')
     openstackpassword= openstackpassword
     auth_url = temp_variables.get ('auth_url', '')
@@ -778,7 +803,7 @@ def get_variables(request):
         'storageOffering': storageOffering,
         'kubeconfig_data': kubeconfig_data,
 
-        'OpenstackUsername': openStackuser,
+        'OpenstackUsername': openStackuser,        
         'tenant_name': tenant_name,
         'openstackpassword': openstackpassword,
         'auth_url': auth_url,

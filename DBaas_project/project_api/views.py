@@ -237,7 +237,7 @@ secretKey = ''
 appUser= ''
 computeOffering = ''
 
-OpenstackUsername = ''
+openstackusername = ''
 tenant_name = ''
 openstackpassword= ''
 auth_url = ''
@@ -263,7 +263,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global secretKey
         global computeOffering
 
-        global OpenstackUsername
+        global openstackusername
         # global tenant_name 
         global openstackpassword
         # global auth_url
@@ -285,7 +285,11 @@ class ClusterViewSet(viewsets.ModelViewSet):
         provider_secret_key = request.data.get('provider_secret_key')
         kubeconfig_data = request.data.get('kubeconfig_data')
 
-        openStackusername = request.data.get ('OpenstackUser')
+        #openstackusernamename = request.data.get ('openStackuser')   
+        openstackusername = request.data.get ('openstackusername')
+     
+        print(f"{openstackusername}, openaaaaaaaaaaaaaaaaa")
+
         tenant_name = request.data.get ('tenant_name')
         openstackpassword= request.data.get ('openstackPassword')
 
@@ -310,7 +314,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         accessKey = provider_access_token
         secretKey = provider_secret_key
         
-        openStackuser=openStackusername,
+        openstackusername=openstackusername,
         tenant_name=tenant_name,
         openstackpassword=openstackpassword,
         auth_url=auth_url,
@@ -339,7 +343,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
             'storageOffering': storageOffering,
             'kubeconfig': kubeconfig_data,
 
-            'openStackuser':openStackuser,
+            'openstackusername':openstackusername,
             'tenant_name': tenant_name,
             # 'openstackpassword': openstackpassword,
             'auth_url': auth_url,
@@ -369,6 +373,11 @@ class ClusterViewSet(viewsets.ModelViewSet):
         project_id = "1"
         private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
         base_url = "http://gitlab-ce.os3.com/api/v4/"
+
+        # project_id = os.getenv('PROJECT_ID')
+        # private_token = os.getenv('PRIVATE_TOKEN')
+        # base_url = os.getenv('BASE_URL')
+
  
         
  
@@ -780,7 +789,7 @@ def get_variables(request):
     storageOffering = temp_variables.get('storageOffering', '')
     kubeconfig_data = temp_variables.get('kubeconfig', '')
 
-    openStackuser = temp_variables.get ('OpenstackUser', '')    
+    openstackusername = temp_variables.get ('openstackusername', '')    
     tenant_name = temp_variables.get ('tenant_name', '')
     openstackpassword= openstackpassword
     auth_url = temp_variables.get ('auth_url', '')
@@ -803,7 +812,7 @@ def get_variables(request):
         'storageOffering': storageOffering,
         'kubeconfig_data': kubeconfig_data,
 
-        'OpenstackUsername': openStackuser,        
+        'openstackusername':openstackusername,        
         'tenant_name': tenant_name,
         'openstackpassword': openstackpassword,
         'auth_url': auth_url,

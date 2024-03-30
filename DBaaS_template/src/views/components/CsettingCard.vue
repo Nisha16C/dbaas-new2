@@ -324,7 +324,7 @@ export default {
             provider_secret_key: this.provider_info.secret_key,
             kubeconfig_data: this.provider_info.kubeconfig_data,
  
-            OpenstackUsername: this.provider_info.openStackuser,
+            openstackusername: this.provider_info.openStackuser,
             tenant_name: this.provider_info.tenant_name,
             openstackPassword: this.provider_info.openstackpassword,
             auth_url: this.provider_info.auth_url,
@@ -337,7 +337,7 @@ export default {
             
           };
           // console.log(fromData);
-          console.table([fromData]);
+          // console.table([fromData]);
  
  
  
@@ -370,6 +370,10 @@ export default {
  
   computed: {
     ...mapState(['clusterType', 'computeOfferings', 'providerName', 'postgres_version', 'project_name', 'project_id', 'selectedStorageOffering']),
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    }
+    
  
   },
 };

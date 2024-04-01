@@ -13,9 +13,13 @@ from django.http import JsonResponse
 import time
 import logging
 from datetime import datetime
+import os
+from dotenv import load_dotenv
  
 # from rest_framework.decorators import action
- 
+
+# Load environment variables from .env file
+load_dotenv() 
  
 # Define a logger for project-related actions
 project_logger = logging.getLogger('project_logger')
@@ -125,13 +129,26 @@ import yaml
 class ComputeOfferingsAPIView(APIView):
     def get(self, request):
         # Define the endpoint of the Cloud, the command that you want to execute, and the keys of the user
-        baseurl = 'http://10.0.0.102:8080/client/api?'
+        # baseurl = 'http://10.0.0.102:8080/client/api?'
+        # request_data = {
+        #     'command': 'listServiceOfferings',
+        #     'response': 'json',
+        #     'apikey': 'i6g5Skzgme-1TdBCWE-ViOiQYSSsZfMahUkJXc-nhJZDHWFE_xQz98-jOqD7elGo7_TGOPvLx0MpalfSuZpidA'
+        # }
+        # secret_key = 'POJLZ1-QnNVmnkxSwTUHmOqlXTnQY7PXWDYnXEXfEsxXUMzyDGFBaKcV8Bshe9Vg-SMIY0ELE84wU7plndf4fQ'.encode('utf-8')
+        baseurl = os.getenv('BASEURL')
+        # api_key = os.getenv('API_KEY')
+
+        # Define the request data
         request_data = {
-            'command': 'listServiceOfferings',
-            'response': 'json',
-            'apikey': 'i6g5Skzgme-1TdBCWE-ViOiQYSSsZfMahUkJXc-nhJZDHWFE_xQz98-jOqD7elGo7_TGOPvLx0MpalfSuZpidA'
+                'command': 'listServiceOfferings',
+                'response': 'json',
+                'apikey': os.getenv('API_KEY')
         }
-        secret_key = 'POJLZ1-QnNVmnkxSwTUHmOqlXTnQY7PXWDYnXEXfEsxXUMzyDGFBaKcV8Bshe9Vg-SMIY0ELE84wU7plndf4fQ'.encode('utf-8')
+        secret_key = os.getenv('SECRET_KEY_ENCODED').encode('utf-8')
+
+            
+            
  
         # Build the request string
         request_str = '&'.join(['='.join([k, urllib.parse.quote_plus(request_data[k])]) for k in request_data.keys()])
@@ -185,13 +202,15 @@ class FlavorList(APIView):
     def get(self, request):
         # Retrieve flavors from OpenStack
         conn = openstack.connect(
-            auth_url='http://10.0.0.151:5000',
-            project_name='project1',
-            username='user1',
-            password='linux',
-            user_domain_name='Default',
-            project_domain_name='Default'
+            auth_url = os.getenv('AUTH_URL'),
+            project_name = os.getenv('PROJECT_NAME'),
+            username = os.getenv('USERNAME'),
+            password = os.getenv('PASSWORD'),
+            user_domain_name = os.getenv('USER_DOMAIN_NAME'),
+            project_domain_name = os.getenv('PROJECT_DOMAIN_NAME')
+
         )
+        print("Connection Object:", conn)        
         flavors = conn.compute.flavors()
  
         # Transform flavors data into a list of dictionaries
@@ -219,6 +238,20 @@ def get_projects_by_user(request, user_id):
     serializer = projectSerializers(projects, many=True)
     return Response(serializer.data)
  
+
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+project_id = os.getenv('PROJECT_ID')
+private_token = os.getenv('PRIVATE_TOKEN')
+base_url = os.getenv('BASE_URL')
+
+print (project_id)
+print(f"{private_token}, token")
+print(f"{base_url}, url") 
    
 # CLUSTER CREATE API GET CLUSTER BY USER ID AND & PROJECT I
 k8s_variables = {}
@@ -242,6 +275,7 @@ tenant_name = ''
 openstackpassword= ''
 auth_url = ''
 region = ''
+
  
 # Define a logger for cluster-related actions
 cluster_logger = logging.getLogger('cluster_logger')
@@ -370,13 +404,17 @@ class ClusterViewSet(viewsets.ModelViewSet):
         #     return Response({"error": "Provider with the provided name does not exist for this user."},
         #                     status=status.HTTP_404_NOT_FOUND)
    
-        project_id = "1"
-        private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
-        base_url = "http://gitlab-ce.os3.com/api/v4/"
+        # project_id = "1"
+        # private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
+        # base_url = "http://gitlab-ce.os3.com/api/v4/"
 
-        # project_id = os.getenv('PROJECT_ID')
-        # private_token = os.getenv('PRIVATE_TOKEN')
-        # base_url = os.getenv('BASE_URL')
+        project_id = os.getenv('PROJECT_ID')
+        private_token = os.getenv('PRIVATE_TOKEN')
+        base_url = os.getenv('BASE_URL')
+
+        print (project_id)
+        print(f"{private_token}, token")
+        print(f"{base_url}, url")
 
  
         

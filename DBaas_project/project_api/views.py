@@ -403,9 +403,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         #     return Response({"error": "Provider with the provided name does not exist for this user."},
         #                     status=status.HTTP_404_NOT_FOUND)
    
-        # project_id = "1"
-        # private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
-        # base_url = "http://gitlab-ce.os3.com/api/v4/"
+        
 
         project_id = os.getenv('PROJECT_ID')
         private_token = os.getenv('PRIVATE_TOKEN')
@@ -679,9 +677,9 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
  
             # Delete the cluster from the databas
         
-            project_id = "1"
-            private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
-            base_url = "http://gitlab-ce.os3.com/api/v4/"
+            project_id = os.getenv('PROJECT_ID')
+            private_token = os.getenv('PRIVATE_TOKEN')
+            base_url = os.getenv('BASE_URL')
  
             headers = {"PRIVATE-TOKEN" : private_token}
  

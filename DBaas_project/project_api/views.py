@@ -416,8 +416,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
         print(f"{base_url}, url")
 
  
-        
- 
+         
         # project_id = "132"
         # private_token = "GDNoxgBaU_vQ_Q6QzjyQ"
         # base_url = "https://gitlab.os3.com/api/v4/"
@@ -613,9 +612,9 @@ class ClusterViewSet(viewsets.ModelViewSet):
         # global secretKey
  
         # Replace these variables with your actual GitLab project ID and private token
-        project_id = "1"
-        private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
-        base_url = "http://gitlab-ce.os3.com/api/v4/"
+        project_id = os.getenv('PROJECT_ID')
+        private_token = os.getenv('PRIVATE_TOKEN')
+        base_url = os.getenv('BASE_URL')
  
  
         headers = {"PRIVATE-TOKEN": private_token}

@@ -78,3 +78,5 @@
 2024-03-28 10:53:16,174 level=INFO user=aastha clusterName=dfdf msg=dfdf deleted 
 2024-03-28 12:19:43,291 level=INFO user=aastha clusterName=ha-cv msg=ha-cv deleted 
 2024-03-30 09:12:03,246 level=INFO user=aastha clusterName=openg msg=openg deleted 
+2024-04-01 07:14:37,005 level=INFO user=aastha clusterName=o msg=o deleted 
+2024-04-02 06:00:38,263 level=INFO user=aastha clusterName=openstack-cluser msg=openstack-cluser deleted 

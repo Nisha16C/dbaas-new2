@@ -64,7 +64,7 @@
 <!-- ... (rest of the component) -->
  
 <script>
-import logo from "@/assets/img/db-png.png";
+import logo from "@/assets/img/projectTable.png";
 import logoWhite from "@/assets/img/project.png";
  
  

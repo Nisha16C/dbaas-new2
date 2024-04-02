@@ -210,7 +210,6 @@ class FlavorList(APIView):
             project_domain_name = os.getenv('PROJECT_DOMAIN_NAME')
 
         )
-        print("Connection Object:", conn)        
         flavors = conn.compute.flavors()
  
         # Transform flavors data into a list of dictionaries
@@ -245,13 +244,13 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
-project_id = os.getenv('PROJECT_ID')
-private_token = os.getenv('PRIVATE_TOKEN')
-base_url = os.getenv('BASE_URL')
+# project_id = os.getenv('PROJECT_ID')
+# private_token = os.getenv('PRIVATE_TOKEN')
+# base_url = os.getenv('BASE_URL')
 
-print (project_id)
-print(f"{private_token}, token")
-print(f"{base_url}, url") 
+# print (project_id)
+# print(f"{private_token}, token")
+# print(f"{base_url}, url") 
    
 # CLUSTER CREATE API GET CLUSTER BY USER ID AND & PROJECT I
 k8s_variables = {}

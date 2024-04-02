@@ -59,7 +59,7 @@
  
             </tr>
  
-            <tr v-if="providerName !== 'Kubernetes'" >
+            <!-- <tr v-if="providerName !== 'Kubernetes'" >
               <th>Volume Type</th>
               <td>General Purpose HDD(gp3)</td>
             </tr>
@@ -71,7 +71,7 @@
             <tr>
               <th>Networking</th>
               <td> Private </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
         <ul>

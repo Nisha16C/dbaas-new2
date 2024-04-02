@@ -260,7 +260,7 @@ export default {
       );
  
       if (selectedProviderInfo && selectedProviderInfo.is_connected) {
-        if (this.providerName === 'Kubernetes') {
+        if (this.providerName === 'Kubernetes' || this.providerName === 'Harvester') {
           this.$router.push('/Cluster-Setting');
         } else {
           this.$router.push('/Cconfiguration');

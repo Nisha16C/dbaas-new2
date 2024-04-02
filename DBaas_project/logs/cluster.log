@@ -68,3 +68,4 @@
 2024-03-30 11:10:05,920 level=INFO user=aastha clustername=as provider=Kubernetes project=aasthagupta1 msg=as created 
 2024-03-30 11:55:02,974 level=INFO user=aastha clustername=o provider=Openstack project=aasthagupta1 msg=o created 
 2024-04-01 10:53:02,871 level=INFO user=aastha clustername=openstack-cluser provider=Openstack project=aasthagupta1 msg=openstack-cluser created 
+2024-04-02 10:18:50,527 level=INFO user=aastha clustername=harveter provider=Harvester project=aasthagupta1 msg=harveter created 

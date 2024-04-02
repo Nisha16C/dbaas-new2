@@ -476,6 +476,33 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     
             else:            
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        
+        elif provider_name == 'Harvester' and cluster_type == 'Standalone':
+            response = trigger_single(base_url, project_id, headers, 'dummay')
+            print("CloudStack ha branch trigger.....")
+            if response == 200:
+                cluster = Cluster(
+                    user=user,
+                    project=project,
+                    cluster_name=cluster_name,
+                    cluster_type=cluster_type,
+                    database_version=database_version,
+                    backup_method=backup_method,
+
+                    provider=provider_name
+                )
+                cluster.save()
+                serializer = ClusterSerializers(cluster)
+                # Log cluster creation information
+                log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
+                cluster_logger.info(log_entry)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                    
+            else:            
+                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+         
+ 
          
  
  

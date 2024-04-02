@@ -283,7 +283,7 @@ export default {
         }, 5000);
         return;
       }
-      if (this.providerName !== 'Kubernetes' && this.providerName !== 'Openstack' && !this.computeOfferings){
+      if (this.providerName !== 'Kubernetes' && this.providerName !== 'Harvester' && this.providerName !== 'Openstack' && !this.computeOfferings){
  
         this.computeOfferingError = 'Compute Offering is required';
         setTimeout(() => {
@@ -291,7 +291,7 @@ export default {
         }, 5000);
         return;
       }
-      if (this.providerName !== 'Kubernetes'  && this.providerName !== 'Openstack' && !this.selectedStorageOffering) {
+      if (this.providerName !== 'Kubernetes'  && this.providerName !== 'Harvester' && this.providerName !== 'Openstack' && !this.selectedStorageOffering) {
  
         this.storageOfferingError = 'Storage Offering is required';
         setTimeout(() => {

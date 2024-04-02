@@ -44,7 +44,7 @@
                     "
                   />
                 </li>&nbsp; &nbsp; &nbsp;
-                <li class="nav-item" v-if="providerName !== 'Kubernetes'">
+                <li class="nav-item" v-if="providerName !== 'Harvester' ">
                   <router-link to="/Cconfiguration"
                     class="nav-link "     
                     :class="

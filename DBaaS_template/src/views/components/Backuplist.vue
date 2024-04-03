@@ -89,7 +89,7 @@ export default {
     async fetchServers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-servers?storage_method=${this.backup_method}&username=${this.username}`);
+        const response = await axios.get(`http://172.16.1.131:8001/api/v4/barman/list-servers?storage_method=${this.backup_method}&username=${this.username}`);
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;

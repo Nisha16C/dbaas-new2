@@ -170,8 +170,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [  
-    'http://localhost:8080',
-    'http://172.16.1.56:8080',
+    'http://localhost:8081',
+    'http://172.16.1.56:8081',
 ]
 REST_FRAMEWORK = {
 

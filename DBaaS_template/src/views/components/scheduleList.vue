@@ -175,7 +175,7 @@ export default {
     async fetchBackups() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/get-scheduled-servers?username=${this.username}&storage_method=${this.storage_method}`);
+        const response = await axios.get(`http://172.16.1.131:8001/api/v4/barman/get-scheduled-servers?username=${this.username}&storage_method=${this.storage_method}`);
 
         // Update the clusters data with the fetched data
         this.backups = response.data.message.filter(backup => backup.retention_period !== null);
@@ -186,7 +186,7 @@ export default {
     },
     Unschedule(serverName) {
       axios
-        .post(`http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?storage_method=${this.storage_method}&server_name=${serverName}&remove_job=true&username=${this.username}`,)
+        .post(`http://172.16.1.131:8001/api/v4/barman/update-scheduled-backups?storage_method=${this.storage_method}&server_name=${serverName}&remove_job=true&username=${this.username}`,)
         .then(() => {
 
           this.$router.push('/scheduled-backups');
@@ -208,7 +208,7 @@ export default {
       this.loading = true; 
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?server_name=${this.server_name}&retention=${this.newRetentionPeriod}${this.selected_value}&storage_method=${this.storage_method}&username=${this.username}`
+          `http://172.16.1.131:8001/api/v4/barman/update-scheduled-backups?server_name=${this.server_name}&retention=${this.newRetentionPeriod}${this.selected_value}&storage_method=${this.storage_method}&username=${this.username}`
         )
         .then(() => {
           this.successMessage = "Retention Period changed successfully";

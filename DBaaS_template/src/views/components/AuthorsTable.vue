@@ -220,7 +220,7 @@ export default {
         const response = await axios.get(`${this.apiUrl}/api/v2/cluster/`);
  
         // Update the clusters data with the fetched data
-        this.clusters = response.data;
+        this.clusters = response.data.reverse();
         this.loading = false ;
       } catch (error) {
         console.error('Error fetching clusters:', error);

@@ -274,7 +274,7 @@ export default {
         const response = await axios.get(`${this.apiUrl}/api/v1/users/`);
  
         // Update the clusters data with the fetched data
-        this.users = response.data;
+        this.users = response.data.reverse();
         this.loading = false ;
       } catch (error) {
         console.error('Error fetching users:', error);

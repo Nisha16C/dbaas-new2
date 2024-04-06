@@ -1,4 +1,3 @@
-[9:34 AM] Aastha Gupta
 <template>
   <div class="py-4 container-fluid">
     <div class="row">
@@ -110,7 +109,7 @@ export default {
   
       axios.get(`${this.apiUrl}/api/v2/project/user/${user_id}/`)
         .then((response) => {
-          this.projectsData = response.data;
+          this.projectsData = response.data.reverse();
           this.stats.money.value = this.projectsData.length
           this.loading = false;
         })

@@ -237,7 +237,7 @@ methods: {
       const response = await axios.get(`${this.apiUrl}/api/v2/cluster/`);
  
       // Update the clusters_list data with the fetched data
-      this.clusters_list = response.data;
+      this.clusters_list = response.data.reverse();
       this.loading = false ;
     } catch (error) {
       console.error('Error fetching clusters_list:', error);

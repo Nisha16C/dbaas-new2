@@ -117,7 +117,7 @@ export default {
     async fetchServers() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8001/api/v4/barman/list-servers?storage_method=${this.backup_method}&username=${this.username}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-servers?storage_method=${this.backup_method}&username=${this.username}`);
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;
@@ -128,7 +128,7 @@ export default {
     async fetchBackups() {
       try {
         // Make a GET request to the endpoint
-        const response = await axios.get(`http://172.16.1.131:8001/api/v4/barman/list-backups?server_name=${this.serverName}&storage_method=${this.backup_method}&username=${this.username}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.serverName}&storage_method=${this.backup_method}&username=${this.username}`);
         this.backupList = response.data.message;
       } catch (error) {
         console.error('Error fetching servers:', error);
@@ -137,7 +137,7 @@ export default {
     Restore() {
       this.loading = true;
       axios
-        .post(`http://172.16.1.131:8001/api/v4/barman/recover?server_name=${this.serverName}&backup_id=${this.backup_id}&destination_directory=${this.destination_dir}&target_server_name=${this.target_server}&storage_method=${this.backup_method}&username=${this.username}`,)
+        .post(`http://172.16.1.131:8000/api/v4/barman/recover?server_name=${this.serverName}&backup_id=${this.backup_id}&destination_directory=${this.destination_dir}&target_server_name=${this.target_server}&storage_method=${this.backup_method}&username=${this.username}`,)
         .then(() => {
         
           this.successMessage = "Backup restored successfully"; // Set success message

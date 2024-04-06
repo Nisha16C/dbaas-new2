@@ -52,7 +52,7 @@ export default {
         this.embedUrl = this.isDarkMode ? this.embedUrl.dark : this.embedUrl.light;
       } else {
         // If the user is not an admin, use the URL for other users
-        this.embedUrl = `http://172.16.1.54:3000/d/08/postgresql-for-other-users?orgId=1&refresh=10s&editIndex=2&var-DS_PROMETHEUS=bc775041-25c7-4cee-9226-c4278a324020&var-interval=$__auto_interval_interval&var-user=${this.username}&var-project=Test-project&var-datversion=16&var-clustertype=Standalonei&var-cluster=postgres-bitblast&var-datname=All&var-mode=All&from=now-5m&to=now`;
+        this.embedUrl = `http://172.16.1.54:3000/d/08/postgresql-for-other-users?orgId=1&refresh=10s&editIndex=2&var-DS_PROMETHEUS=bc775041-25c7-4cee-9226-c4278a324020&var-interval=$__auto_interval_interval&var-user=${this.username}&var-datname=All&var-mode=All&from=now-5m&to=now` ;
       }
     }
   },

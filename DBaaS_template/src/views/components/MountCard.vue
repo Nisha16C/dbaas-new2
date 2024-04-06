@@ -361,7 +361,7 @@ export default {
         MountNFS() {
             this.loading = true;
             axios.post(
-                `http://172.16.1.131:8001/api/v4/barman/mount-nfs?remote_host=${this.remote_host}&remote_path=${this.remote_path}&username=${this.username}`
+                `http://172.16.1.131:8000/api/v4/barman/mount-nfs?remote_host=${this.remote_host}&remote_path=${this.remote_path}&username=${this.username}`
             )
                 .then(() => {
                     this.successMessage = "NFS mount successfully";
@@ -382,7 +382,7 @@ export default {
         MountS3() {
             this.loading = true;
             axios.post(
-                `http://172.16.1.131:8001/api/v4/barman/mount-s3?bucket_name=${this.bucket_name}&access_key=${this.access_key}&secret_key=${this.secret_key}&url=${this.url}&username=${this.username}`
+                `http://172.16.1.131:8000/api/v4/barman/mount-s3?bucket_name=${this.bucket_name}&access_key=${this.access_key}&secret_key=${this.secret_key}&url=${this.url}&username=${this.username}`
             )
                 .then(() => {
                     this.successMessage = "S3 mount successfully";
@@ -403,7 +403,7 @@ export default {
         unmountNFS() {
             this.loading = true;
             axios.post(
-                `http://172.16.1.131:8001/api/v4/barman/unmount?storage_method=nfs&username=${this.username}`
+                `http://172.16.1.131:8000/api/v4/barman/unmount?storage_method=nfs&username=${this.username}`
             )
                 .then(() => {
                     this.successMessage = "NFS unmount successfully";
@@ -424,7 +424,7 @@ export default {
         unmountS3() {
             this.loading = true;
             axios.post(
-                `http://172.16.1.131:8001/api/v4/barman/unmount?storage_method=s3&username=${this.username}`
+                `http://172.16.1.131:8000/api/v4/barman/unmount?storage_method=s3&username=${this.username}`
             )
                 .then(() => {
                     this.successMessage = "S3 unmount successfully";
@@ -445,7 +445,7 @@ export default {
         listMountpoints() {
             this.loading = true;
             axios.get(
-                `http://172.16.1.131:8001/api/v4/barman/list-mount-points?username=${this.username}`
+                `http://172.16.1.131:8000/api/v4/barman/list-mount-points?username=${this.username}`
             )
                 .then((response) => {
                     this.nfsMountpoints = response.data.nfs_mount_points;

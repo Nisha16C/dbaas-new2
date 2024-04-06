@@ -47,7 +47,7 @@
           <div class="col-12">
             <div class="mb-4 card">
               <div class="card-body px-0 pt-0 pb-2">
-                <div class="text-center"  style= "height: 100px;" v-if="clusters.length === 0">
+                <div class="text-center"  style= "height: 100px;" v-if="clusterData.length === 0">
                   <span class="text-gray-400 text-2xl mt-5">No Cluster found in the Selected Project</span>
                 </div>
 
@@ -117,10 +117,10 @@ export default {
  
  
  
-      clusters: {
-        type: Array,
-        required: true,
-      },
+      // clusters: {
+      //   type: Array,
+      //   required: true,
+      // },
       deleteModal: false,
       viewModal: false
     };
@@ -141,7 +141,6 @@ export default {
       axios.post(`${this.apiUrl}/api/v2/deletecluster/`, formData)
         .then(() => {
           this.deleteModal = false
-          this.fetchclusters_list();
         })
         .catch(error => {
           console.error('Error deleting cluster:', error);
@@ -180,6 +179,7 @@ export default {
         .then(response => {
           this.clusterData = response.data;
           this.stats.money.value = this.clusterData.length
+          console.log(this.clusterData);
 
           this.loading = false;
         });

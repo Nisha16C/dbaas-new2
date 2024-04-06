@@ -129,7 +129,7 @@ export default createStore({
     // },
  
     fetchFirstProject({ commit  }, userId) {
-      axios.get(`http://172.16.1.56:8001/api/v2/project/user/${userId}/`)
+      axios.get(`http://172.16.1.56:8000/api/v2/project/user/${userId}/`)
         .then(response => {
           const firstProject = response.data[0];
           commit('setGlobalProjectName', firstProject.project_name);

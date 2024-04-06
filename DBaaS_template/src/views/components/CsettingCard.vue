@@ -194,7 +194,7 @@ export default {
     },
     // listMountpoints() {
     //   axios.get(
-    //     `http://172.16.1.131:8001/api/v4/barman/list-mount-points?username=${this.Username}`
+    //     `http://172.16.1.131:8000/api/v4/barman/list-mount-points?username=${this.Username}`
     //   )
     //     .then((response) => {
     //       this.nfsMountpoints = response.data.nfs_mount_points;
@@ -341,7 +341,7 @@ export default {
  
  
  
-          // this.$router.push('/result');
+          this.$router.push('/result');
           axios
             .post(`${this.apiUrl}/api/v2/cluster/`, fromData)
             .then(() => {

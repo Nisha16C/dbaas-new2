@@ -158,7 +158,7 @@ export default {
     async fetchBackups() { 
       try {
         
-        const response = await axios.get(`http://172.16.1.131:8001/api/v4/barman/list-backups?server_name=${this.server_name}&storage_method=${this.backup_method}&username=${this.username}`);
+        const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.server_name}&storage_method=${this.backup_method}&username=${this.username}`);
 
         // Update the clusters data with the fetched data
         this.backupList = response.data.message;

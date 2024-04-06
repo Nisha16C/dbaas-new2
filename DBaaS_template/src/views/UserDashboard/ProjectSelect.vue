@@ -81,7 +81,7 @@
        
         axios.get(`${this.apiUrl}/api/v2/project/user/${user_id}/`)
           .then((response) => {
-            this.projectsData = response.data;
+            this.projectsData = response.data.reverse();
             this.stats.money.value = this.projectsData.length        
           })
       },

@@ -4,15 +4,9 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="col-lg-3 col-md-6 col-12">
-            <card
-              :title="stats.money.title"
-              :value="stats.money.value"
-              :percentage="stats.money.percentage"
-              :iconClass="stats.money.iconClass"
-              :iconBackground="stats.money.iconBackground"
-              :detail="stats.money.detail"
-              directionReverse
-            >
+            <card :title="stats.money.title" :value="stats.money.value" :percentage="stats.money.percentage"
+              :iconClass="stats.money.iconClass" :iconBackground="stats.money.iconBackground"
+              :detail="stats.money.detail" directionReverse>
             </card>
           </div>
           <div class="col-lg-3 col-md-12 col-12">
@@ -20,10 +14,11 @@
               <div class="p-3 card-body">
                 <div class="px-4">
                   <div class="mb-3 mt-4">
-                    <router-link to="/USER">
-                      <argon-button color="success" size="md" variant="gradient"
-                        >Create New User</argon-button
-                      >
+                    <router-link to="/USER" style="margin-right: 10px;">
+                      <argon-button color="success" size="md" variant="gradient">Create New User</argon-button>
+                    </router-link>
+                    <router-link to="/ADauthoprovider">
+                      <argon-button color="success" size="md" variant="gradient">Auth Provider</argon-button>
                     </router-link>
                   </div>
                 </div>
@@ -59,12 +54,12 @@ export default {
   components: {
     Card,
     UsermgnTable,
-   
+
     argonButton,
   },
   data() {
     return {
-      apiUrl: API_ENDPOINT, 
+      apiUrl: API_ENDPOINT,
       stats: {
         money: {
           title: "All Users",
@@ -78,22 +73,22 @@ export default {
     };
   },
   created() {
-  // Fetch clusters when the component is created
-  this.fetchClusters();
-},
-
-methods: {
-  // Method to fetch clusters and update totalClusters
-  fetchClusters() {
-    axios.get(`${this.apiUrl}/api/v1/users/`)
-      .then(response => {
-        this.stats.money.value = response.data.length.toString();  // Update totalClusters
-      })
-      .catch(error => {
-        console.error('Error fetching clusters:', error);
-      });
+    // Fetch clusters when the component is created
+    this.fetchClusters();
   },
-  // ... (rest of your methods)
-},
+
+  methods: {
+    // Method to fetch clusters and update totalClusters
+    fetchClusters() {
+      axios.get(`${this.apiUrl}/api/v1/users/`)
+        .then(response => {
+          this.stats.money.value = response.data.length.toString();  // Update totalClusters
+        })
+        .catch(error => {
+          console.error('Error fetching clusters:', error);
+        });
+    },
+    // ... (rest of your methods)
+  },
 };
 </script>

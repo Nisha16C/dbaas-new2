@@ -85,3 +85,5 @@
 2024-04-10 05:58:23,348 level=INFO user=aastha clusterName=aaaaa msg=aaaaa deleted 
 2024-04-10 06:01:25,569 level=INFO user=aastha clusterName=a msg=a deleted 
 2024-04-10 06:03:38,470 level=INFO user=aastha clusterName=h msg=h deleted 
+2024-04-10 06:09:56,591 level=INFO user=nisha clusterName=kubernetes-n msg=kubernetes-n deleted 
+2024-04-10 06:11:25,749 level=INFO user=aastha clusterName=asasasa msg=asasasa deleted 

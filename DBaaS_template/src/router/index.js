@@ -32,6 +32,12 @@ import Documentation from "../Documentation/Documentation.vue";
 import BackupSchedule from "../views/BackupSchedule.vue";
 // import BackupDetails from "../views/BackupDetails.vue";
 
+import ADauthoprovider from "../views/ADauthoprovider.vue";
+import ADuserForm from "../views/ADuserForm.vue";
+import ADuserlist from "../views/ADuserlist.vue";
+// import ADuserDisable from "../views/ADuserDisable.vue";
+import ADsave from "../views/ADsave.vue";
+
 
 const routes = [
   {
@@ -181,6 +187,31 @@ const routes = [
     name: "Documentation",
     component: Documentation,
   },
+  {
+    path: "/ADauthoprovider",
+    name: "ADauthoprovider",
+    component: ADauthoprovider,
+   },
+   {
+    path: "/ADuserForm",
+    name: "ADuserForm",
+    component: ADuserForm,
+   },
+   {
+    path: "/ADuserlist",
+    name: "ADuserlist",
+    component: ADuserlist,
+   },
+   // {
+   //   path: "/ADuserDisable",
+   //   name: "ADuserDisable",
+   //   component: ADuserDisable,
+   // },
+   {
+     path: "/ADsave",
+     name: "ADsave",
+     component: ADsave,
+   },
 ];
 
 const router = createRouter({

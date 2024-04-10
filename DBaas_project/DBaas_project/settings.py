@@ -15,6 +15,10 @@ from dotenv import load_dotenv
 import os
 from environs import Env
 
+#LDAP Configurations
+import ldap
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+
 # Set up environs
 env = Env()
 env.read_env()
@@ -52,6 +56,7 @@ INSTALLED_APPS = [
     'userAuth_app',
     'project_api',
     'provider1_api',
+    'ADSapp',
 ]
 
 MIDDLEWARE = [
@@ -166,8 +171,24 @@ DATABASES = {
 }
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    'django_auth_ldap.backend.LDAPBackend',
 ]
+ 
+AUTH_LDAP_SERVER_URI = "ldap://10.0.0.2:389"
+AUTH_LDAP_BIND_DN = "CN=Administrator,CN=Users,DC=os3,DC=com"
+AUTH_LDAP_BIND_PASSWORD = "P@33w0rd"
+AUTH_LDAP_USER_SEARCH = LDAPSearch("CN=Users,DC=os3,DC=com", ldap.SCOPE_SUBTREE, "(sAMAccountName=%(user)s)")
+ 
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch("CN=Users,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(objectClass=group)")
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
+ 
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "Administrator",
+    "last_name": "sn",
+    "email": "mail"
+}
+
+
 
 CORS_ALLOWED_ORIGINS = [  
     'http://localhost:8080',

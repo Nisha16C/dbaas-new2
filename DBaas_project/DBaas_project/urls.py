@@ -10,6 +10,8 @@ urlpatterns = [
     path("api/v2/", include('project_api.urls')),
     path("api/v3/", include('provider1_api.urls')),
     path("api/v4/", include('backup_app.urls')),
+    path("api/v5/", include('ADSapp.urls')),
+
     path("api/v2/project/user/<int:user_id>/", get_projects_by_user, name='get_projects_by_user'),
     path("api/v2/cluster/user/<int:user_id>/", get_clusters_by_user, name='get_clusters_by_user'),
     path("api/v2/cluster/project/<int:project_id>/", get_clusters_by_project, name='get_clusters_by_project'),

@@ -430,7 +430,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
  
         if provider_name == 'Kubernetes' and cluster_type == 'Standalone':
             print ("k8s pipeline")
-            response = trigger_single(base_url, project_id, headers, 'deploy-postgres-k8s')
+            response = trigger_single(base_url, project_id, headers, user_id, 'deploy-postgres-k8s')
             if response == 200:
                 print("Cluster save.....")
                 cluster = Cluster(
@@ -454,7 +454,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
 
         elif provider_name == 'Cloudstack' and cluster_type == 'Multiple':
-            response = trigger_single(base_url, project_id, headers, 'ha-postgres-cluster')
+            response = trigger_single(base_url, project_id, headers, user_id, 'ha-postgres-cluster')
             print("CloudStack ha branch trigger.....")
             if response == 200:
                 cluster = Cluster(
@@ -481,7 +481,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
  
  
         elif provider_name == 'Cloudstack' and cluster_type == 'Standalone':
-            response = trigger_single(base_url, project_id, headers, 'infra-and-db')
+            response = trigger_single(base_url, project_id, headers, user_id, 'infra-and-db')
             print("CloudStack branch trigger.....")
             if response == 200:
                 cluster = Cluster(
@@ -505,7 +505,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
       
 
         elif provider_name == 'Openstack' and cluster_type == 'Standalone':
-            response = trigger_single(base_url, project_id, headers, 'openstack-provider')
+            response = trigger_single(base_url, project_id, headers, user_id, 'openstack-provider')
             print("Openstack Standalone branch trigger.....")
             if response == 200:
                 cluster = Cluster(
@@ -574,6 +574,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
    
     
     def get_pipeline_status(self, request):
+        global pipeline_dict
         global clusterName
         global clusterType
         global databaseVersion
@@ -581,31 +582,49 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global providerName
         global userId
         global projectID
-        # global apiEndpoint
-        # global accessKey
-        # global secretKey
+       
+        # user_id = '30'
+        # pipeline_id = pipeline_dict.get(user_id)
+ 
+        user_id = request.query_params.get('user_id')
+        user_id = str(user_id)
+        print("fetching pipeline for User ID ---:",user_id)
+        
+        pipeline_id = pipeline_dict.get(user_id)[0]
+        
  
         # Replace these variables with your actual GitLab project ID and private token
-        project_id = "1"
-        private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
-        base_url = "http://gitlab-ce.os3.com/api/v4/"
+        project_id = os.getenv('PROJECT_ID')
+        private_token = os.getenv('PRIVATE_TOKEN')
+        base_url = os.getenv('BASE_URL')
  
  
         headers = {"PRIVATE-TOKEN": private_token}
         pipeline_count = 1
  
+        pipeline_status = get_latest_pipeline_statuses(base_url, project_id, headers, pipeline_id)
+        if(pipeline_status == 'success' or pipeline_status == 'failed'):
+            del pipeline_dict[user_id]
+        print(f'After success or faild pipeline_dict value is: {pipeline_dict}')
+        print(f'Pipeline status for id {pipeline_id} == {pipeline_status}')
+ 
+        # Get the artifacts for the latest pipeline
+        artifacts = get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName, clusterType, databaseVersion, providerName, userId, projectID)
+ 
+        return JsonResponse({"status": pipeline_status, "artifacts": artifacts})
         # Get the statuses of the latest pipelines
-        latest_pipeline_statuses = get_latest_pipeline_statuses(base_url, project_id, headers, pipeline_count)
+        # latest_pipeline_statuses = get_latest_pipeline_statuses(base_url, project_id, headers, pipeline_count)
  
-        # Get the artifacts for each of the latest pipelines
-        all_artifacts = []
-        for pipeline_status in latest_pipeline_statuses:
-            pipeline_id = pipeline_status["id"]
-            artifacts = get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName,clusterType,databaseVersion,providerName,userId,projectID)
-            all_artifacts.append({"status": pipeline_status["status"], "artifacts": artifacts})
+        # # Get the artifacts for each of the latest pipelines
+        # all_artifacts = []
+        # for pipeline_status in latest_pipeline_statuses:
+        #     pipeline_id = pipeline_status["id"]
+        #     artifacts = get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName,clusterType,databaseVersion,providerName,userId,projectID)
+        #     all_artifacts.append({"status": pipeline_status["status"], "artifacts": artifacts})
  
-        return JsonResponse({"pipelines": all_artifacts})
+        # return JsonResponse({"pipelines": all_artifacts})
   
+ 
 # Define a logger for cluster-related actions
 deletecluster_logger = logging.getLogger('deletecluster_logger')    
  
@@ -672,7 +691,7 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             else:
                 branch_name = 'destroy'  # Use a different branch name if provider is not 'Kubernetes'
  
-            response = trigger_single(base_url, project_id, headers, branch_name)
+            response = trigger_single(base_url, project_id, headers, user_id, branch_name)
  
             if response == 200:
                 cluster.delete()
@@ -687,20 +706,33 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
  
  
  
-def trigger_single(base_url, project_id, headers, branch_name):
+pipeline_dict = {}
+ 
+def trigger_single(base_url, project_id, headers, user_id, branch_name):
+    global pipeline_dict
+    print ("this is user id",user_id)
+    # print ("this is user id",pipeline_dict)
+ 
+ 
     formData = {
         "ref": branch_name,
     }
-    # print(formData)
  
     response = requests.post(base_url + f"projects/{project_id}/pipeline", headers=headers, json=formData,
                              verify=False)
- 
     if response.status_code != 201:
         return {"error": f"Failed to create cluster. Status code: {response.status_code}"}
  
     pipeline_id = response.json().get("id")
+   # Update pipeline_dict with user_id and pipeline_id
+    if user_id in pipeline_dict:
+        pipeline_dict[user_id].append(pipeline_id)
+    else:
+        pipeline_dict[user_id] = [pipeline_id]
+ 
+    print (pipeline_dict)
     pipeline_status = "pending"
+ 
  
     while pipeline_status in ["pending", "running"]:
         time.sleep(1)
@@ -717,27 +749,18 @@ def trigger_single(base_url, project_id, headers, branch_name):
    
  
  
-# Status fetch function
-# Status fetch function
-def get_latest_pipeline_statuses(base_url, project_id, headers, count=1):
-    response = requests.get(base_url + f"projects/{project_id}/pipelines", headers=headers, verify=False)
+ 
+def get_latest_pipeline_statuses(base_url, project_id, headers, pipeline_id):
+    response = requests.get(base_url + f"projects/{project_id}/pipelines/{pipeline_id}", headers=headers, verify=False)
  
     if response.status_code != 200:
-        raise ValueError(f"Error fetching pipelines: {response.status_code}, {response.json()}")
+        raise ValueError(f"Error fetching pipeline status: {response.status_code}, {response.json()}")
  
-    pipelines = response.json()
-    if not pipelines:
-        return []
+    pipeline_data = response.json()
+    status = pipeline_data.get('status')
  
-    latest_pipelines = pipelines[:count]
-    latest_statuses = []
- 
-    for pipeline in latest_pipelines:
-        latest_status = pipeline['status']
-        latest_statuses.append({"id": pipeline['id'], "status": latest_status})
- 
-    return latest_statuses
- 
+    return status
+
 def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName,clusterType,databaseVersion,providerName,userId,projectID):
     user = User.objects.get(pk=userId)
     project = Project.objects.get(pk=projectId)

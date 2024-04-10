@@ -80,3 +80,8 @@
 2024-03-30 09:12:03,246 level=INFO user=aastha clusterName=openg msg=openg deleted 
 2024-04-01 07:14:37,005 level=INFO user=aastha clusterName=o msg=o deleted 
 2024-04-02 06:00:38,263 level=INFO user=aastha clusterName=openstack-cluser msg=openstack-cluser deleted 
+2024-04-10 05:35:58,217 level=INFO user=aastha clusterName=aaaaa msg=aaaaa deleted 
+2024-04-10 05:54:19,299 level=INFO user=aastha clusterName=aaaaa msg=aaaaa deleted 
+2024-04-10 05:58:23,348 level=INFO user=aastha clusterName=aaaaa msg=aaaaa deleted 
+2024-04-10 06:01:25,569 level=INFO user=aastha clusterName=a msg=a deleted 
+2024-04-10 06:03:38,470 level=INFO user=aastha clusterName=h msg=h deleted 

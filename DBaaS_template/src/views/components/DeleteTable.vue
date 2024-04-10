@@ -1,4 +1,3 @@
-[6:22 AM] Nisha Chaurasiya
 <template>
     <div class="container mt-5">
       <div class="alert  text-center" v-show="!isCompleted && !isFailed">

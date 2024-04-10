@@ -16,9 +16,12 @@ from datetime import datetime
 import os
 from dotenv import load_dotenv
  
+# from rest_framework.decorators import action
 
+# Load environment variables from .env file
 load_dotenv() 
  
+# Define a logger for project-related actions
 project_logger = logging.getLogger('project_logger')
 rename_project_logger = logging.getLogger('rename_project_logger')
  
@@ -58,8 +61,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return Response({"error": "User with the provided ID does not exist."},
                             status=status.HTTP_404_NOT_FOUND)
  
+        # project= Project(user= user, project_name = project_name)
         project.save()
  
+          # Log project creation information with username, project_name, date, and time
         log_entry = f"user={user.username} projectName={project.project_name} msg={project.project_name} created "
         project_logger.info(log_entry)
  
@@ -95,17 +100,21 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return Response({
                 "error": "Project with the new name already exists"
             }, status=status.HTTP_400_BAD_REQUEST)
-      
+        # Log information before the project is renamed
+        # log_entry_before_rename = f"BeforeProjectRename - User={project.user.username}, ProjectId={project.id}, ProjectName={project.project_name}, msg={ project.project_name } is a old name"
+        # rename_project_logger.info(log_entry_before_rename)
  
         project.project_name = new_project_name
         project.save()
  
+        # Log information after the project is renamed
         log_entry_after_rename = f"user={project.user.username} projectname={project.project_name} msg={ project.project_name } renamed"
         rename_project_logger.info(log_entry_after_rename)
  
         serializer = projectSerializers(project)
         return Response(serializer.data, status=status.HTTP_200_OK)         
  
+# Compute offering
 from rest_framework.views import APIView
 import urllib
 import base64
@@ -119,9 +128,18 @@ import yaml
     
 class ComputeOfferingsAPIView(APIView):
     def get(self, request):
-        
+        # Define the endpoint of the Cloud, the command that you want to execute, and the keys of the user
+        # baseurl = 'http://10.0.0.102:8080/client/api?'
+        # request_data = {
+        #     'command': 'listServiceOfferings',
+        #     'response': 'json',
+        #     'apikey': 'i6g5Skzgme-1TdBCWE-ViOiQYSSsZfMahUkJXc-nhJZDHWFE_xQz98-jOqD7elGo7_TGOPvLx0MpalfSuZpidA'
+        # }
+        # secret_key = 'POJLZ1-QnNVmnkxSwTUHmOqlXTnQY7PXWDYnXEXfEsxXUMzyDGFBaKcV8Bshe9Vg-SMIY0ELE84wU7plndf4fQ'.encode('utf-8')
         baseurl = os.getenv('BASEURL')
+        # api_key = os.getenv('API_KEY')
 
+        # Define the request data
         request_data = {
                 'command': 'listServiceOfferings',
                 'response': 'json',
@@ -132,8 +150,10 @@ class ComputeOfferingsAPIView(APIView):
             
             
  
+        # Build the request string
         request_str = '&'.join(['='.join([k, urllib.parse.quote_plus(request_data[k])]) for k in request_data.keys()])
  
+        # Compute the signature with hmac, do a 64-bit encoding, and URL encoding
         sig_str = '&'.join(['='.join([k.lower(), urllib.parse.quote_plus(request_data[k]).lower().replace('+', '%20')])
                             for k in sorted(request_data.keys())])
  
@@ -143,10 +163,12 @@ class ComputeOfferingsAPIView(APIView):
  
         req = baseurl + request_str + '&signature=' + sig
  
+        # Make the API request
         try:
             res = urllib.request.urlopen(req)
             response_data = json.loads(res.read().decode('utf-8'))
  
+            # Extract and return relevant information in JSON format
             if 'listserviceofferingsresponse' in response_data:
                 service_offerings = response_data['listserviceofferingsresponse'].get('serviceoffering', [])
  
@@ -196,7 +218,8 @@ class FlavorList(APIView):
             
             {
                 'flavors': {'flavor_id': flavor.id, 'name': flavor.name},
-              
+                # 'flavor_id': flavor.id,
+                # 'name': flavor.name,
                 'ram': flavor.ram,
                 'vcpus': flavor.vcpus,
                 'disk': flavor.disk,
@@ -215,14 +238,19 @@ def get_projects_by_user(request, user_id):
     return Response(serializer.data)
  
 
-
 from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
 load_dotenv()
 
+# project_id = os.getenv('PROJECT_ID')
+# private_token = os.getenv('PRIVATE_TOKEN')
+# base_url = os.getenv('BASE_URL')
 
+# print (project_id)
+# print(f"{private_token}, token")
+# print(f"{base_url}, url") 
    
 # CLUSTER CREATE API GET CLUSTER BY USER ID AND & PROJECT I
 k8s_variables = {}
@@ -269,8 +297,11 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global computeOffering
 
         global openstackusername
+        # global tenant_name 
         global openstackpassword
-     
+        # global auth_url
+        # global region 
+        # global appUser
         
         username = request.data.get('db_user')
         password = request.data.get('db_password')
@@ -287,12 +318,15 @@ class ClusterViewSet(viewsets.ModelViewSet):
         provider_secret_key = request.data.get('provider_secret_key')
         kubeconfig_data = request.data.get('kubeconfig_data')
 
+        #openstackusernamename = request.data.get ('openStackuser')   
         openstackusername = request.data.get ('openstackusername')
      
+        print(f"{openstackusername}, openaaaaaaaaaaaaaaaaa")
 
         tenant_name = request.data.get ('tenant_name')
         openstackpassword= request.data.get ('openstackPassword')
 
+        print(f"{openstackpassword}, openaaaaaaaaaaaaaaaaa")
         auth_url = request.data.get ('auth_url')
         region = request.data.get ('region')
  
@@ -324,7 +358,8 @@ class ClusterViewSet(viewsets.ModelViewSet):
  
         # Assuming kubeconfig_data is a YAML string, you can load it to ensure proper formatting
         kubeconfig_dict = yaml.safe_load(kubeconfig_data)
-      
+        print("Config data")
+        print(kubeconfig_data)
  
         user = User.objects.get(pk=user_id)
  
@@ -343,6 +378,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
 
             'openstackusername':openstackusername,
             'tenant_name': tenant_name,
+            # 'openstackpassword': openstackpassword,
             'auth_url': auth_url,
             'region': region,
  
@@ -357,26 +393,44 @@ class ClusterViewSet(viewsets.ModelViewSet):
         try:
             user = User.objects.get(pk=user_id)
             project = Project.objects.get(pk=project_id)
+            # provider = Provider.objects.get(provider_name=provider_name, user=user)
  
         except User.DoesNotExist:
             return Response({"error": "User with the provided ID does not exist."}, status=status.HTTP_404_NOT_FOUND)
         except Project.DoesNotExist:
             return Response({"error": "No Project! has been selected.."}, status=status.HTTP_404_NOT_FOUND)
-      
+        # except Provider.DoesNotExist:
+        #     return Response({"error": "Provider with the provided name does not exist for this user."},
+        #                     status=status.HTTP_404_NOT_FOUND)
    
-        
+        # project_id = "1"
+        # private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
+        # base_url = "http://gitlab-ce.os3.com/api/v4/"
 
         project_id = os.getenv('PROJECT_ID')
         private_token = os.getenv('PRIVATE_TOKEN')
         base_url = os.getenv('BASE_URL')
 
+        print (project_id)
+        print(f"{private_token}, token")
+        print(f"{base_url}, url")
+
+ 
+        
+ 
+        # project_id = "132"
+        # private_token = "GDNoxgBaU_vQ_Q6QzjyQ"
+        # base_url = "https://gitlab.os3.com/api/v4/"
+ 
+ 
         headers = {"PRIVATE-TOKEN": private_token}
         cluster_type1 = False
      
  
+ 
         if provider_name == 'Kubernetes' and cluster_type == 'Standalone':
             print ("k8s pipeline")
-            response = trigger_single(base_url, project_id, headers, user_id, 'deploy-postgres-k8s')
+            response = trigger_single(base_url, project_id, headers, 'deploy-postgres-k8s')
             if response == 200:
                 print("Cluster save.....")
                 cluster = Cluster(
@@ -385,6 +439,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     cluster_name=cluster_name,
                     cluster_type=cluster_type,
                     database_version=database_version,
+                    # backup_method=backup_method,
                     provider=provider_name,  
                 )
                 cluster.save()
@@ -399,7 +454,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
 
         elif provider_name == 'Cloudstack' and cluster_type == 'Multiple':
-            response = trigger_single(base_url, project_id, headers, user_id, 'ha-postgres-cluster')
+            response = trigger_single(base_url, project_id, headers, 'ha-postgres-cluster')
             print("CloudStack ha branch trigger.....")
             if response == 200:
                 cluster = Cluster(
@@ -421,40 +476,12 @@ class ClusterViewSet(viewsets.ModelViewSet):
                     
             else:            
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        
-        elif provider_name == 'Harvester' and cluster_type == 'Standalone':
-            print("harvesr ha branch trigger.....")
-
-
-            response = trigger_single(base_url, project_id, headers, user_id, 'dummay')
-            if response == 200:
-                cluster = Cluster(
-                    user=user,
-                    project=project,
-                    cluster_name=cluster_name,
-                    cluster_type=cluster_type,
-                    database_version=database_version,
-                    backup_method=backup_method,
-
-                    provider=provider_name
-                )
-                cluster.save()
-                serializer = ClusterSerializers(cluster)
-                # Log cluster creation information
-                log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
-                cluster_logger.info(log_entry)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-                    
-            else:            
-                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
          
  
-         
  
  
         elif provider_name == 'Cloudstack' and cluster_type == 'Standalone':
-            response = trigger_single(base_url, project_id, headers, user_id, 'infra-and-db')
+            response = trigger_single(base_url, project_id, headers, 'infra-and-db')
             print("CloudStack branch trigger.....")
             if response == 200:
                 cluster = Cluster(
@@ -478,7 +505,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
       
 
         elif provider_name == 'Openstack' and cluster_type == 'Standalone':
-            response = trigger_single(base_url, project_id, headers, user_id, 'openstack-provider')
+            response = trigger_single(base_url, project_id, headers, 'openstack-provider')
             print("Openstack Standalone branch trigger.....")
             if response == 200:
                 cluster = Cluster(
@@ -501,7 +528,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         elif provider_name == 'Openstack' and cluster_type == 'Multiple':
-            response = trigger_single(base_url, project_id, headers,  user_id, 'openstack-provider-ha')
+            response = trigger_single(base_url, project_id, headers, 'openstack-provider-ha')
             print("Openstack HA branch trigger.....")
             if response == 200:
                 cluster = Cluster(
@@ -547,7 +574,6 @@ class ClusterViewSet(viewsets.ModelViewSet):
    
     
     def get_pipeline_status(self, request):
-        global pipeline_dict
         global clusterName
         global clusterType
         global databaseVersion
@@ -555,48 +581,31 @@ class ClusterViewSet(viewsets.ModelViewSet):
         global providerName
         global userId
         global projectID
-       
-        # user_id = '30'
-        # pipeline_id = pipeline_dict.get(user_id)
- 
-        user_id = request.query_params.get('user_id')
-        user_id = str(user_id)
-        print("fetching pipeline for User ID ---:",user_id)
-        
-        pipeline_id = pipeline_dict.get(user_id)[0]
-        
+        # global apiEndpoint
+        # global accessKey
+        # global secretKey
  
         # Replace these variables with your actual GitLab project ID and private token
-        project_id = os.getenv('PROJECT_ID')
-        private_token = os.getenv('PRIVATE_TOKEN')
-        base_url = os.getenv('BASE_URL')
+        project_id = "1"
+        private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
+        base_url = "http://gitlab-ce.os3.com/api/v4/"
  
  
         headers = {"PRIVATE-TOKEN": private_token}
         pipeline_count = 1
  
-        pipeline_status = get_latest_pipeline_statuses(base_url, project_id, headers, pipeline_id)
- 
-        
-        print(f'Pipeline status for id {pipeline_id} == {pipeline_status}')
- 
-        # Get the artifacts for the latest pipeline
-        artifacts = get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName, clusterType, databaseVersion, providerName, userId, projectID)
- 
-        return JsonResponse({"status": pipeline_status, "artifacts": artifacts})
         # Get the statuses of the latest pipelines
-        # latest_pipeline_statuses = get_latest_pipeline_statuses(base_url, project_id, headers, pipeline_count)
+        latest_pipeline_statuses = get_latest_pipeline_statuses(base_url, project_id, headers, pipeline_count)
  
-        # # Get the artifacts for each of the latest pipelines
-        # all_artifacts = []
-        # for pipeline_status in latest_pipeline_statuses:
-        #     pipeline_id = pipeline_status["id"]
-        #     artifacts = get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName,clusterType,databaseVersion,providerName,userId,projectID)
-        #     all_artifacts.append({"status": pipeline_status["status"], "artifacts": artifacts})
+        # Get the artifacts for each of the latest pipelines
+        all_artifacts = []
+        for pipeline_status in latest_pipeline_statuses:
+            pipeline_id = pipeline_status["id"]
+            artifacts = get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName,clusterType,databaseVersion,providerName,userId,projectID)
+            all_artifacts.append({"status": pipeline_status["status"], "artifacts": artifacts})
  
-        # return JsonResponse({"pipelines": all_artifacts})
+        return JsonResponse({"pipelines": all_artifacts})
   
- 
 # Define a logger for cluster-related actions
 deletecluster_logger = logging.getLogger('deletecluster_logger')    
  
@@ -606,9 +615,13 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
         global k8s_variables
         global deleteCluster_name
  
-     
+        # global clusterName
+        # global providerName
+        # global apiEndpoint
         global accessKey
+        # global secretKey
         deleteCluster_name   = request.data.get('cluster_name')
+        # provider_name = request.data.get('provider_name')
         provider_name = request.data.get('provider_name')
         provider_endpoint = request.data.get('provider_endpoint')
         accessKey = request.data.get('provider_access_token')
@@ -617,6 +630,12 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
         print (f"{accessKey} and {deleteCluster_name}")
  
         print (kubeconfig_data)
+
+        # Remove newline characters from kubeconfig_data
+        kubeconfig_data = kubeconfig_data.replace('\n', ' ')
+ 
+        # Assuming kubeconfig_data is a YAML string, you can load it to ensure proper formatting
+        kubeconfig_dict = yaml.safe_load(kubeconfig_data)
  
  
         k8s_variables = {
@@ -625,6 +644,7 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             'provider_name' : provider_name,
             'kubeconfig_data': kubeconfig_data,
         }
+        print (k8s_variables)
  
         
  
@@ -639,9 +659,9 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
  
             # Delete the cluster from the databas
         
-            project_id = os.getenv('PROJECT_ID')
-            private_token = os.getenv('PRIVATE_TOKEN')
-            base_url = os.getenv('BASE_URL')
+            project_id = "1"
+            private_token = "glpat-QnYftX2oXsc9N5xSxG4n"
+            base_url = "http://gitlab-ce.os3.com/api/v4/"
  
             headers = {"PRIVATE-TOKEN" : private_token}
  
@@ -665,34 +685,22 @@ class ClusterDeleteViewSet(viewsets.ModelViewSet):
             return Response({"error": "Cluster not found."},
                             status=status.HTTP_404_NOT_FOUND)
  
-pipeline_dict = {}
  
  
-def trigger_single(base_url, project_id, headers, user_id, branch_name):
-    global pipeline_dict
-    print ("this is user id",user_id)
-    # print ("this is user id",pipeline_dict)
- 
- 
+def trigger_single(base_url, project_id, headers, branch_name):
     formData = {
         "ref": branch_name,
     }
+    # print(formData)
  
     response = requests.post(base_url + f"projects/{project_id}/pipeline", headers=headers, json=formData,
                              verify=False)
+ 
     if response.status_code != 201:
         return {"error": f"Failed to create cluster. Status code: {response.status_code}"}
  
     pipeline_id = response.json().get("id")
-   # Update pipeline_dict with user_id and pipeline_id
-    if user_id in pipeline_dict:
-        pipeline_dict[user_id].append(pipeline_id)
-    else:
-        pipeline_dict[user_id] = [pipeline_id]
- 
-    print (pipeline_dict)
     pipeline_status = "pending"
- 
  
     while pipeline_status in ["pending", "running"]:
         time.sleep(1)
@@ -706,17 +714,30 @@ def trigger_single(base_url, project_id, headers, user_id, branch_name):
         return 200
     else:
         return {"error": f"Pipeline failed with status: {pipeline_status}"}
+   
  
-def get_latest_pipeline_statuses(base_url, project_id, headers, pipeline_id):
-    response = requests.get(base_url + f"projects/{project_id}/pipelines/{pipeline_id}", headers=headers, verify=False)
+ 
+# Status fetch function
+# Status fetch function
+def get_latest_pipeline_statuses(base_url, project_id, headers, count=1):
+    response = requests.get(base_url + f"projects/{project_id}/pipelines", headers=headers, verify=False)
  
     if response.status_code != 200:
-        raise ValueError(f"Error fetching pipeline status: {response.status_code}, {response.json()}")
+        raise ValueError(f"Error fetching pipelines: {response.status_code}, {response.json()}")
  
-    pipeline_data = response.json()
-    status = pipeline_data.get('status')
+    pipelines = response.json()
+    if not pipelines:
+        return []
  
-    return status
+    latest_pipelines = pipelines[:count]
+    latest_statuses = []
+ 
+    for pipeline in latest_pipelines:
+        latest_status = pipeline['status']
+        latest_statuses.append({"id": pipeline['id'], "status": latest_status})
+ 
+    return latest_statuses
+ 
 def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, clusterName,clusterType,databaseVersion,providerName,userId,projectID):
     user = User.objects.get(pk=userId)
     project = Project.objects.get(pk=projectId)
@@ -727,6 +748,7 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
  
     jobs = response.json()
     artifacts = []
+    # customer_name = request.POST.get('customer_name', '')
     for job in jobs:
         response = requests.get(base_url + f"projects/{project_id}/jobs/{job['id']}/artifacts", headers=headers, verify=False)
         if response.status_code == 200:
@@ -737,7 +759,9 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
                     if artifact_name in zip_file.namelist():
                         content = zip_file.read(artifact_name).decode('utf-8')
                         artifacts.append({"filename": artifact_name, "content": content})
-                     
+                        
+                        # Create a new PipelineArtifact instance and save it to the database
+                        # Check if an artifact with the same filename and pipeline ID already exists
                         existing_artifact = Db_credentials.objects.filter(
                             pipeline_id=pipeline_id,
                             filename=artifact_name
@@ -748,6 +772,7 @@ def get_latest_pipeline_artifacts(base_url, project_id, headers, pipeline_id, cl
                             existing_artifact.content = content
                             existing_artifact.save()
                         else:
+                            print('artifacts save')
                             # Create a new Db_credentials instance and save it to the database
                             artifact = Db_credentials(
                                 user = user,
@@ -791,6 +816,7 @@ def get_variables(request):
     global accessKey
     global computeOffering
     global openstackpassword
+    # global appUser
     
  
     # Your code here, using the retrieved values
@@ -844,7 +870,9 @@ def get_dlt_k8s_variables(request):
     global deleteCluster_name
     global accessKey
  
+    # global provider_endpoint
  
+    # Your code here, using the retrieved values
  
     provider_name = k8s_variables.get('provider_name')
  
@@ -904,6 +932,7 @@ def display_clusters(request):
  
     result_data = clusters_data
  
+    # Return the combined data as JSON response
     return JsonResponse(result_data,safe=False)
  
  

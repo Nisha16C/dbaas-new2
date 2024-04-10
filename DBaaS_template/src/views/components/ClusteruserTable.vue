@@ -188,6 +188,7 @@ methods: {
         .get(`${this.apiUrl}/api/v3/providers/by-username-and-name/${this.Username}/${this.selectedProvider}/`)
         .then((response)=>{
           this.provider_info = response.data;
+          this.provider_info.kubeconfig_data =   JSON.stringify(this.provider_info.kubeconfig_data)
           
           const formData = {
             cluster_name: this.deleteClusterName,

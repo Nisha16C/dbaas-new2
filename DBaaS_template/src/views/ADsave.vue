@@ -84,7 +84,7 @@
 
                             <div>
 
-                                <p>Server: https://rancher.os3.com</p>
+                                <p>Server: http://172.16.1.190:8080/</p>
 
                                 <p> Client ID: Administrator </p>
 
@@ -166,9 +166,11 @@
  
                     <p>Be aware that cluster role template bindings,
 
-                        project role template bindings, global role bindings, users,
+                        project role template bindings, global role bindings , users,
 
-                        tokens will be all deleted.</p>
+                        tokens
+
+                        will be all deleted.</p>
  
                     <p> Are you sure you want to proceed?</p>
  

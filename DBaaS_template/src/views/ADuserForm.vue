@@ -146,10 +146,12 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="phone" class="form-control-label">Group Search Base *</label>
+                                        <label for="group_search_base" class="form-control-label">Group Search Base
+
+                                            *</label>
 
                                         <argon-input v-model="ldapGroupSearch" type="text"
-                                            placeholder="e.g.ou=groups,dc=mycompany,dc=com" />
+                                            placeholder="e.g. ou=groups,dc=mycompany,dc=com" />
 
                                     </div>
 
@@ -494,6 +496,8 @@ export default {
 
             agreeTerms: false,
 
+            ldapGroupSearch: '', // Initialize ldapGroupSearch data property
+
         };
 
     },
@@ -543,6 +547,8 @@ export default {
                 ldapGroupSearch: this.ldapGroupSearch,
 
             }
+
+            console.log(formdata);
 
             axios.post(`${this.apiUrl}/api/v5/update_ldap_settings/`, formdata)
 
@@ -665,6 +671,7 @@ export default {
 };
 
 </script>
+
 
 <style>
 .yellow-background {

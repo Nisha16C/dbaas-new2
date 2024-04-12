@@ -30,7 +30,8 @@ export default createStore({
     project_id: '',
     computeOfferings: null,
     selectedStorageOffering: null,
-    selectedComputeOffering: null
+    selectedComputeOffering: null,
+    activeDirectoryStatus: 'Inactive' // Initial status
   },
   mutations: {
       setGlobalProjectName(state, project_name) {
@@ -58,6 +59,7 @@ export default createStore({
     setSelectedStorage(state, selectedStorageOffering) {
       state.selectedStorageOffering = selectedStorageOffering;
     },
+    
     
     navbarMinimize(state) {
       const sidenav_show = document.querySelector(".g-sidenav-show");
@@ -88,6 +90,15 @@ export default createStore({
     updateFlavors(state, newFlavors) {
       state.flavors = newFlavors;
     },
+
+    // Mutation to update the status to Active
+    enableActiveDirectory(state) {
+      state.activeDirectoryStatus = 'Active';
+    },
+    // Mutation to update the status to Inactive
+    disableActiveDirectory(state) {
+      state.activeDirectoryStatus = 'Inactive';
+    }
   },
   actions: {
     setFlavors({ commit }, newFlavors) {

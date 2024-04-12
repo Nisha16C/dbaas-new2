@@ -216,7 +216,7 @@ methods: {
     },
   viewCluster(clusterName) {
     this.clusterName=clusterName;
-    axios.get(`${this.apiUrl}/api/v2/result/content/${clusterName}/`)
+    axios.get(`${this.apiUrl}/api/v2/result/content/${this.username}/${clusterName}/`)
       .then(response => {
         this.contentList = response.data;
         console.log(this.contentList);

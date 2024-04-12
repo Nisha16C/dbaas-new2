@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from django.urls import path,include
 
-from userAuth_app.views import ADUserListView, UserAuthViewSet, LoginViewSet,AddRoleViewset,LDAPLoginView
+from userAuth_app.views import  UserAuthViewSet, LoginViewSet,AddRoleViewset,LDAPLoginView
 
 from .views import get_user_role
 
@@ -28,6 +28,5 @@ urlpatterns = [
 
     path('ldap-login/', LDAPLoginView.as_view(), name='ldap-login'),  # Add this line for LDAP login
 
-    path('ad-users/', ADUserListView.as_view(), name='ad-users'),
 
 ]

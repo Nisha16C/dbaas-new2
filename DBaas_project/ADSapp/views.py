@@ -12,11 +12,17 @@ from django.conf import settings
 
 from rest_framework import status
 
-from django.contrib.auth.models import User
-
 from .serializers import UserSerializer
 
 from rest_framework.response import Response
+
+from django.contrib.auth.models import User
+
+from django_auth_ldap.backend import LDAPBackend
+
+from rest_framework.decorators import api_view
+
+from django_auth_ldap.backend import LDAPBackend
  
 class FormViewSet(viewsets.ViewSet):
 
@@ -62,9 +68,9 @@ class FormViewSet(viewsets.ViewSet):
 
                         settings_file.write(f"AUTH_LDAP_BIND_PASSWORD = '{ldap_server_bind_password}'\n")
 
-                    # elif line.startswith('AUTH_LDAP_GROUP_SEARCH'):
+                    elif line.startswith('ldapGroupSearch'):
 
-                    #     settings_file.write(f"AUTH_LDAP_GROUP_SEARCH = ' LDAPSearch("{ldap_group_search}"),ldap.SCOPE_SUBTREE(sAMAccountName=%(user)s) '\n")
+                        settings_file.write(f"ldapGroupSearch = '{ldap_group_search}  '\n")
  
                     else:
 
@@ -101,19 +107,52 @@ class FormViewSet(viewsets.ViewSet):
             return JsonResponse({'error': str(e)}, status=500)
  
  
-class LDAPAuthenticatedUserListView(APIView):
+from django.http import JsonResponse
 
-    def get(self, request):
+from django_auth_ldap.backend import LDAPBackend
 
-        # Query users who have logged in using LDAP authentication
-
-        ldap_authenticated_users = User.objects.filter(last_login__isnull=False)
-
-        # Serialize user data
-
-        serializer = UserSerializer(ldap_authenticated_users, many=True)
-
-        # Return serialized data as response
-
-        return Response(serializer.data)
+import ldap
  
+def get_ad_users(request):
+
+    try:
+
+        # Establish LDAP connection
+
+        ldap_server_uri = 'ldap://10.0.0.2:389'
+
+        bind_dn = 'CN=Administrator,CN=Users,DC=os3,DC=com'
+
+        bind_password = 'P@33w0rd'
+
+        ldap_connection = ldap.initialize(ldap_server_uri)
+
+        ldap_connection.simple_bind_s(bind_dn, bind_password)
+ 
+        search_base = 'CN=Users,DC=os3,DC=com'
+
+        search_filter = "(sAMAccountName=*)"  # Filter to retrieve all users
+
+        ldap_users = ldap_connection.search_s(
+
+            search_base,
+
+            ldap.SCOPE_SUBTREE,
+
+            search_filter,
+
+            ['sAMAccountName']
+
+        )
+
+        print("ldap_users:" ,ldap_users)
+ 
+        # Extract usernames
+
+        user_names = [entry.get('sAMAccountName', [])[0].decode('utf-8') for dn, entry in ldap_users]
+ 
+        return JsonResponse({'user_names': user_names}, safe=False)
+
+    except Exception as e:
+
+        return JsonResponse({'error': str(e)}, status=500)

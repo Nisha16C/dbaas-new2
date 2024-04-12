@@ -14,7 +14,7 @@
 
                             <div class="h-100">
 
-                                <h5 class="mb-1 text-2xl">List Of Active Directory Users </h5>
+                                <h5 class="mb-1 text-2xl">List Of Active Directory Users</h5>
 
                             </div>
 
@@ -38,8 +38,7 @@
 
                         <div class="card-body">
 
-                            <h6> Active Directory Users info </h6>
- 
+                            <h6>Active Directory Users info</h6>
  
                             <div class="table-responsive p-0 mt-3">
 
@@ -49,37 +48,25 @@
 
                                         <tr>
 
-                                            <th
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
 
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                User Name
 
-                                                User
-
-                                                Name & ID </th>
- 
-                                            <th
-
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-
-                                                Status </th>
-
-                                            <th
-
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-
-                                                Created On</th>
-
-                                            <th
-
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-
-                                                Last Login</th>
- 
-                                            <th class="text-secondary opacity-7"></th>
+                                            </th>
 
                                         </tr>
 
                                     </thead>
+
+                                    <tbody>
+
+                                        <tr v-for="user in adUsers" :key="user.username">
+
+                                            <td>{{ user }}</td>
+
+                                        </tr>
+
+                                    </tbody>
 
                                 </table>
 
@@ -94,13 +81,66 @@
             </div>
 
         </div>
- 
- 
+
     </main>
 
 </template>
  
- 
+<script>
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
+
+export default {
+
+    data() {
+
+        return {
+            apiUrl: API_ENDPOINT,
+
+
+            adUsers: []
+
+        };
+
+    },
+
+    created() {
+
+        this.fetchADUsers();
+
+    },
+
+    methods: {
+
+        fetchADUsers() {
+
+            // Fetch data from your API endpoint
+
+            fetch(`${this.apiUrl}/api/v5/ad-users/`)
+
+                .then(response => response.json())
+
+                .then(data => {
+
+                    // Update adUsers array with fetched data
+
+                    this.adUsers = data.user_names;
+
+                })
+
+                .catch(error => {
+
+                    console.error('Error fetching AD users:', error);
+
+                });
+
+        }
+
+    }
+
+};
+
+</script>
  
 <style scoped>
 

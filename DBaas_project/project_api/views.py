@@ -985,13 +985,21 @@ from rest_framework import generics
 from rest_framework.response import Response
 from .models import Db_credentials
 from .serializers import DbcredentialsSerializer
+from django.shortcuts import get_object_or_404
+
  
 class ContentByClusterNameView(generics.ListAPIView):
     serializer_class = DbcredentialsSerializer
  
     def get_queryset(self):
         cluster_name = self.kwargs['cluster_name']
-        return Db_credentials.objects.filter(cluster_name=cluster_name)
+        username = self.kwargs['username']
+
+        user = get_object_or_404(User, username=username)
+
+        # Get the provider based on the user and provider name
+        # provider = get_object_or_404(Provider, user_id=user.id, cluster_name=cluster_name)
+        return Db_credentials.objects.filter(cluster_name=cluster_name, user_id = user.id )
         
  
 @api_view(['GET'])

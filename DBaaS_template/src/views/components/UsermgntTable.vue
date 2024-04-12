@@ -58,7 +58,7 @@
               <td class="align-middle text-center">
                 <span class="text-secondary text-xs font-weight-bold">{{user.email}}</span>
               </td>
-              <!-- <td class="align-middle">
+              <td class="align-middle">
                 <argon-button color="success" size="md" variant="gradient" @click="prepareUserRole(user)" type="button"
                   class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
                   View Role
@@ -67,7 +67,7 @@
                   class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                   Assign Roles
                 </argon-button>
-              </td> -->
+              </td>
             </tr>
           </tbody>
         </table>
@@ -139,7 +139,7 @@
 import axios from "axios";
 import ArgonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
-import logo from "@/assets/img/db-png.png";
+import logo from "@/assets/img/userTable.png";
 import logoWhite from "@/assets/img/user.png";
 
  

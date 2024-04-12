@@ -21,7 +21,7 @@ urlpatterns = [
     path('get_dlt_k8s_variables/', get_dlt_k8s_variables, name='get_dlt_k8s_variables'),
  
     path('get_backup_method/<str:cluster_name>/', get_backup_method_by_cluster_name, name='get_backup_method_by_cluster_name'),
-    path('result/content/<str:cluster_name>/', ContentByClusterNameView.as_view(), name='content-by-cluster-name'),
+    path('result/content/<str:username>/<str:cluster_name>/', ContentByClusterNameView.as_view(), name='content-by-cluster-name'),
  
     path('api/v2/cluster/check_cluster_exists/', ClusterViewSet.as_view({'get': 'check_cluster_exists'}), name='check-cluster-exists'),
     path("api/v2/project/<int:pk>/rename/", ProjectViewSet.as_view({'put': 'rename_project'}), name='rename-project'),

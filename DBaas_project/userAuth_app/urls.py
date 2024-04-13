@@ -7,6 +7,7 @@ from userAuth_app.views import  UserAuthViewSet, LoginViewSet,AddRoleViewset,LDA
 from .views import get_user_role
 
 from rest_framework import routers
+from .views import user_roles_api
 
 # from . import views
  
@@ -27,6 +28,7 @@ urlpatterns = [
     path('get_user_role/<int:user_id>/', get_user_role, name='get_user_role'),
 
     path('ldap-login/', LDAPLoginView.as_view(), name='ldap-login'),  # Add this line for LDAP login
+    path('user-roles/', user_roles_api, name='user_roles_api'),
 
 
 ]

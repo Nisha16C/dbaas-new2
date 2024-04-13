@@ -9,3 +9,29 @@
 2024-02-16 06:25:03,266 level=INFO user=default-ashish msg=Roles assigned: Editor 
 2024-02-16 06:25:58,005 level=INFO user=default-ashish msg=Roles assigned: Viewer 
 2024-02-16 06:33:40,059 level=INFO user=default-ashish msg=Roles assigned: Owner 
+2024-04-12 08:28:57,980 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-12 08:30:14,019 level=INFO user=keycloak msg=Roles assigned: Admin 
+2024-04-12 09:52:02,516 level=INFO user=administrator msg=Roles assigned: Admin 
+2024-04-12 09:52:22,158 level=INFO user=administrator msg=Roles assigned: Standard 
+2024-04-12 09:52:41,717 level=INFO user=administrator msg=Roles assigned: Admin 
+2024-04-12 10:12:05,912 level=INFO user=ankit msg=Roles assigned: Standard 
+2024-04-12 10:24:18,150 level=INFO user=nisha msg=Roles assigned: Admin 
+2024-04-12 11:48:17,352 level=INFO user=keycloak msg=Roles assigned: Admin 
+2024-04-12 12:05:20,120 level=INFO user=keycloak msg=Roles assigned: Admin, Standard 
+2024-04-12 12:05:37,404 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-12 12:10:19,547 level=INFO user=keycloak msg=Roles assigned: Admin, Standard 
+2024-04-12 12:15:29,856 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-13 04:56:10,727 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-13 05:15:28,054 level=INFO user=keycloak msg=Roles assigned: Admin 
+2024-04-13 05:15:39,334 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-13 05:16:08,412 level=INFO user=keycloak msg=Roles assigned: Admin, Standard 
+2024-04-13 05:23:08,216 level=INFO user=keycloak msg=Roles assigned: Admin 
+2024-04-13 05:23:33,343 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-13 05:23:47,981 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-13 06:09:40,947 level=INFO user=keycloak msg=Roles assigned: Admin 
+2024-04-13 06:13:23,827 level=INFO user=administrator msg=Roles assigned: Standard 
+2024-04-13 06:17:09,389 level=INFO user=admin msg=Roles assigned: Admin 
+2024-04-13 06:21:56,169 level=INFO user=administrator msg=Roles assigned: Admin 
+2024-04-13 06:25:35,772 level=INFO user=keycloak msg=Roles assigned: A, d, m, i, n 
+2024-04-13 06:26:11,502 level=INFO user=other-users msg=Roles assigned: S, t, a, n, d, a, r, d 
+2024-04-13 10:21:27,555 level=INFO user=nisha msg=Roles assigned: S, t, a, n, d, a, r, d 

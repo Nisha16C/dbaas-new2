@@ -39,7 +39,7 @@
 
                         <div class="card-body">
 
-                            <p class="text-sm yellow-background ">The ActiveDirectory authentication provider is
+                            <p :class="`${this.$store.state.darkMode ? 'w-background' : 'y-background'}`" class="text-sm">The ActiveDirectory authentication provider is
 
                                 currently Enable.</p>
 
@@ -97,7 +97,7 @@
 
                                     </div>
 
-                                    <p class="text-sm red-background"> BitBlast needs a service account that has
+                                    <p :class="`${this.$store.state.darkMode ? 'w-background' : 'r-background'}`" class="text-sm"> BitBlast needs a service account that has
 
                                         read-only access to all of the domains that will be able to login,so that we can
 
@@ -440,7 +440,7 @@ import BB_Button from "@/components/BB_Button.vue";
 
 import { API_ENDPOINT } from '@/../apiconfig.js';
 
-import { mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex'; // Import mapState and mapMutations from vuex
 
 import axios from 'axios';
 
@@ -505,6 +505,7 @@ export default {
     components: { ArgonInput, BB_Button },
 
     computed: {
+        ...mapState(['activeDirectoryStatus']), // Map activeDirectoryStatus from store to a computed property
 
         status() {
 
@@ -673,8 +674,8 @@ export default {
 </script>
 
 
-<style>
-.yellow-background {
+<style scoped>
+.y-background {
 
     background-color: rgb(252, 252, 128);
 
@@ -682,11 +683,15 @@ export default {
 
 }
 
-.red-background {
+.r-background {
 
     background-color: rgb(255, 183, 116);
 
     color: black;
 
+}
+.w-background {
+  background-color: rgb(29, 31, 129);
+  color: rgb(255, 255, 255);
 }
 </style>

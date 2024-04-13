@@ -8,7 +8,7 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
- 
+
     <div v-else class="card-body px-0 pt-0 pb-2">
       <div v-if="users.length === 0" class="text-center">No Users are Available</div>
       <div v-else class="table-responsive p-0">
@@ -16,12 +16,15 @@
           <thead>
             <tr>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> User Name & ID </th>
- 
+
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status </th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created On</th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Last Login</th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Email Address</th>
- 
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created On
+              </th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Last Login
+              </th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Email Address
+              </th>
+
               <th class="text-secondary opacity-7"></th>
             </tr>
           </thead>
@@ -31,12 +34,10 @@
               <td>
                 <div class="d-flex px-2 py-1">
                   <div>
-                    <img :src="
-            this.$store.state.darkMode ||
-            this.$store.state.sidebarType === 'bg-default'
-              ? logoWhite
-              : logo"
-               class="avatar avatar-sm me-3" :alt="`user-avatar-${user.id}`" />
+                    <img :src="this.$store.state.darkMode ||
+        this.$store.state.sidebarType === 'bg-default'
+        ? logoWhite
+        : logo" class="avatar avatar-sm me-3" :alt="`user-avatar-${user.id}`" />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
                     <h6 class="mb-0 text-sm">{{ user.id }}</h6>
@@ -44,7 +45,7 @@
                   </div>
                 </div>
               </td>
- 
+
               <td class="align-middle text-center text-sm">
                 <span v-if="!user.isActive" class="badge badge-sm bg-gradient-success">Active</span>
                 <span v-else class="badge badge-sm bg-gradient-danger">Inactive</span>
@@ -56,15 +57,15 @@
                 <span class="text-secondary text-xs font-weight-bold">{{ formatDate(user.last_login) }}</span>
               </td>
               <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{user.email}}</span>
+                <span class="text-secondary text-xs font-weight-bold">{{ user.email }}</span>
               </td>
               <td class="align-middle">
                 <argon-button color="success" size="md" variant="gradient" @click="prepareUserRole(user)" type="button"
                   class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
                   View Role
                 </argon-button>
-                <argon-button color="success" size="md" variant="gradient" @click="prepareAssignRoles(user)" type="button"
-                  class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                <argon-button color="success" size="md" variant="gradient" @click="prepareAssignRoles(user)"
+                  type="button" class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                   Assign Roles
                 </argon-button>
               </td>
@@ -74,24 +75,24 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" ref="myModal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+  <div class="modal fade" ref="myModal" id="exampleModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content"  :class="{ 'dark-mode': isDarkMode }">
         <div class="modal-header">
           <h2 class="modal-title" id="exampleModalLabel">Select Roles</h2>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
- 
+
         <!-- Inside your modal body -->
         <div class="form-check" v-for="role in roles" :key="role.name">
-          <input v-model="selectedRoles" class="form-check-input" type="checkbox" :value="role.name"
+          <input v-model="selectedRoles" class="form-check-input" type="radio" :value="role.name"
             :id="'roleCheckbox_' + role.name">
           <label class="form-check-label" :for="'roleCheckbox_' + role.name">{{ role.name }}</label>
         </div>
- 
+
         <div class="modal-footer">
           <argon-button color="secondary" size="md" variant="gradient" @click="isModalVisible = false" type="button"
             class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
@@ -105,25 +106,25 @@
       </div>
     </div>
   </div>
- 
- 
-  <div class="modal fade" ref="myModal" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+
+
+  <div class="modal fade" ref="myModal" id="exampleModal2" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content"  :class="{ 'dark-mode': isDarkMode }">
         <div class="modal-header">
           <h3 class="modal-title" id="exampleModalLabel">User Role</h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
- 
+
         <!-- Inside your modal body -->
         <div class="form-check" v-if="selectedUser">
           <label class="form-check-label">Username: {{ selectedUser.username }}</label><br>
           <label class="form-check-label">Assigned Role: {{ formattedRoles || 'No Role Assign' }}</label>
         </div>
- 
+
         <div class="modal-footer">
           <argon-button color="secondary" size="md" variant="gradient" @click="isModalVisible = false" type="button"
             class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
@@ -134,7 +135,7 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 import axios from "axios";
 import ArgonButton from "@/components/BB_Button.vue";
@@ -142,7 +143,7 @@ import { API_ENDPOINT } from '@/../apiconfig.js';
 import logo from "@/assets/img/userTable.png";
 import logoWhite from "@/assets/img/user.png";
 
- 
+
 export default {
   name: "users-table",
   components: {
@@ -157,9 +158,8 @@ export default {
       users: [], // Initialize clusters as an empty array
       isModalVisible: false,
       roles: [
-        { id: 1, name: 'Owner' },
-        { id: 2, name: 'Viewer' },
-        { id: 3, name: 'Editor' },
+        { id: 1, name: 'Admin' },
+        { id: 2, name: 'Standard' },
         // Add more roles as needed
       ],
       selectedRoles: [],
@@ -176,6 +176,12 @@ export default {
     this.fetchRoles();
   },
   computed: {
+    isRoleSelected() {
+        return this.selectedRoles.length > 0;
+      },
+    isDarkMode() {
+      return this.$store.state.darkMode;
+    },
     formattedRoles() {
       if (Array.isArray(this.selectedRoles)) {
         return this.selectedRoles.join(', ');
@@ -183,7 +189,7 @@ export default {
       return ''; // or some default value if selectedRoles is not an array
     },
   },
- 
+
   methods: {
     async prepareUserRole(user) {
       try {
@@ -192,7 +198,7 @@ export default {
         // Fetch user roles dynamically using the user's ID
         const response = await axios.get(`${this.apiUrl}/api/v1/get_user_role/${this.selectedUser.id}/`);
         console.log('API Response:', response);
- 
+
         if (response.data && Array.isArray(response.data.user_roles)) {
           // Extract roles from the array of strings
           this.selectedRoles = response.data.user_roles.map(roleString => {
@@ -200,7 +206,7 @@ export default {
             const parts = roleString.split(' - ');
             return parts[1];  // Extract the role part
           });
- 
+
           console.log('User roles fetched successfully:', this.selectedRoles);
           this.isModalVisible = true;
         } else {
@@ -225,7 +231,7 @@ export default {
             user_id: this.selectedUser.id,
           });
         console.log('API Response:', response)
- 
+
         if (response && response.data && response.data.success) {
           // Update the roles for the selected user
           this.selectedRoles = response.data.roles.map(role => role.name);
@@ -250,12 +256,12 @@ export default {
             roles: this.selectedRoles,
           }
         );
- 
+
         if (response.data.success) {
           console.log('Roles assigned successfully:', response.data.message);
           // Assuming the API response structure includes an updatedRoles field
           const updatedRoles = response.data.updatedRoles.map(role => role.name);
- 
+
           // Update the roles array with the updated roles at the 0 index
           this.selectedRoles.splice(0, this.selectedRoles.length, ...updatedRoles);
         }
@@ -265,16 +271,16 @@ export default {
         console.error('Error assigning roles:', error);
       }
     },
- 
- 
+
+
     async fetchusers() {
       try {
         // Make a GET request to the endpoint
         const response = await axios.get(`${this.apiUrl}/api/v1/users/`);
- 
+
         // Update the clusters data with the fetched data
         this.users = response.data.reverse();
-        this.loading = false ;
+        this.loading = false;
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -285,7 +291,14 @@ export default {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
     },
- 
+    
+
   },
 };
 </script>
+<style scoped>
+.dark-mode {
+    background-color: #1d1e52;
+    color: #ffffff;
+}
+</style>

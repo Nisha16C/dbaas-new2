@@ -33,37 +33,36 @@
                     <div class="mb-3">
 
                       <argon-input type="text" v-model="username" placeholder="Username" name="Username" size="lg"
-
                         isRequired="true" />
 
                       <span class="text-danger" v-if="!username && showErrorMessages">Username is required</span>
 
                     </div>
 
-                    <div class="mb-3">
-
-                      <argon-input v-model="password" type="password" placeholder="Password" name="password" size="lg"
-
-                        @keyup.enter="login" />
-
+                    <div class="mb-3 password-input">
+                      <argon-input v-model="password" :type="showPassword ? 'text' : 'password'" placeholder="Password"
+                        name="password" size="lg" @keyup.enter="login" />
+                      <span class="toggle-password" @click="togglePasswordVisibility">
+                        <i class="fas fa-eye" v-if="!showPassword"></i>
+                        <i class="fas fa-eye-slash" v-else></i>
+                      </span>
                       <span class="text-danger" v-if="!password && showErrorMessages">Password is required</span>
- 
- 
                     </div>
- 
+
+
+
                     <div class="text-center">
+                      <div v-if="error" class="text-danger">{{ error }}</div>
+                      <argon-button v-if="showSignInButton" @click.prevent="login" class="mt-4" variant="gradient"
+                        color="success" fullWidth size="lg">Sign in</argon-button>
 
-                      <div v-if="error" class="text-danger  ">{{ error }}</div>
- 
- 
-                      <argon-button @click.prevent="login" class="mt-4" variant="gradient" color="success" fullWidth
+                      <argon-button v-else @click.prevent="loginWithLDAP" class="mt-4" variant="gradient"
+                        color="success" fullWidth size="lg">Login with Active Directory</argon-button>
+                      <br><br>
 
-                        size="lg">sign in</argon-button>
- 
-                      <argon-button @click.prevent="loginWithLDAP" class="mt-4" variant="gradient" color="success"
-
-                        fullWidth size="lg">Login with Active Directory</argon-button>
-
+                      <a v-if="showSignInButton" @click.prevent="showLDAPLogin" class="mt-2 text-success">Login with
+                        Active Directory</a>
+                      <a v-else @click.prevent="showSignIn" class="mt-2 text-success">Sign in</a>
                     </div>
 
                   </form>
@@ -75,13 +74,10 @@
             </div>
 
             <div
-
               class="top-0 my-auto text-center col-6 d-lg-flex d-none h-100 pe-0 position-absolute end-0 justify-content-center flex-column">
 
               <div
-
                 class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
-
                 style="
 
                   background-image: url('@/assets/img/login.svg');
@@ -119,7 +115,7 @@
   </main>
 
 </template>
- 
+
 <script>
 
 import axios from 'axios';
@@ -129,22 +125,22 @@ import ArgonInput from "@/components/BB_Input.vue";
 import argonButton from "@/components/BB_Button.vue";
 
 import { API_ENDPOINT } from '@/../apiconfig.js';
- 
+
 const body = document.getElementsByTagName("body")[0];
- 
- 
+
+
 export default {
 
   name: "signin",
 
   components: {
- 
+
     ArgonInput,
- 
+
     argonButton,
 
   },
- 
+
   data() {
 
     return {
@@ -158,11 +154,13 @@ export default {
       showErrorMessages: false,
 
       apiUrl: API_ENDPOINT,
- 
+      showSignInButton: true, // Initially show the Sign in button
+      showPassword: false, // Add this property
+
     };
 
   },
- 
+
   created() {
 
     this.$store.state.hideConfigButton = true;
@@ -190,7 +188,7 @@ export default {
     body.classList.add("bg-gray-100");
 
   },
- 
+
   methods: {
 
     loginWithLDAP() {
@@ -212,11 +210,11 @@ export default {
           const user_id = this.userdata.id;
 
           const username = this.userdata.username;
- 
+
           sessionStorage.setItem('user_id', user_id);
 
           sessionStorage.setItem('username', username);
- 
+
           if (username === 'admin' || username === 'Administrator') {
 
             this.$router.push('/admin-dashboard');
@@ -272,7 +270,7 @@ export default {
         password: this.password
 
       };
- 
+
       axios
 
         .post(`${this.apiUrl}/api/v1/login/`, formData)
@@ -286,11 +284,11 @@ export default {
           const user_id = this.userdata.id;
 
           const username = this.userdata.username;
- 
+
           sessionStorage.setItem('user_id', user_id);
 
           sessionStorage.setItem('username', username);
- 
+
           if (username === 'admin') {
 
             this.$router.push('/admin-dashboard');
@@ -322,10 +320,31 @@ export default {
         });
 
     },
+    showSignIn() {
+      this.showSignInButton = true; // Show the Sign in button
+    },
+    showLDAPLogin() {
+      this.showSignInButton = false; // Hide the Sign in button
+    },
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
 
   },
 
 };
 
 </script>
- 
+<style scoped>
+.password-input {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+</style>

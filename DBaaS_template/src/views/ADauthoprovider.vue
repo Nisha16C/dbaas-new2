@@ -1,4 +1,3 @@
-[7:11 AM] Nisha Chaurasiya
 <template>
 
     <main>
@@ -15,9 +14,9 @@
 
                             <div class="avatar avatar-xl position-relative">
 
-                                <img src="../assets/img/cloudProvider.png" alt="profile_image"
-
-                                    class="shadow-sm w-100 border-radius-lg" />
+                                <img :src="this.$store.state.darkMode ||
+                                    this.$store.state.sidebarType === 'bg-default' ? logo1
+                                    : logo2" class="shadow-sm w-100 border-radius-lg" />
 
                             </div>
 
@@ -27,9 +26,10 @@
 
                             <div class="h-100">
 
-                                <h5 class="mb-1 text-2xl" style="display: inline; margin-right: 15px;">Auth Providers</h5>
+                                <h5 class="mb-1 text-2xl" style="display: inline; margin-right: 15px;">Auth Providers
+                                </h5>
 
-                                <router-link to="/ADuserlist" >
+                                <router-link to="/ADuserlist">
 
                                     <argon-button color="info" size="sm" variant="gradient" style="font-size: 15px;">
 
@@ -40,7 +40,7 @@
                                     </argon-button>
 
                                 </router-link>
- 
+
                             </div>
 
                         </div>
@@ -65,53 +65,41 @@
 
                             <p class="text-uppercase text-sm">Authentication Providers </p>
 
-                            <p class="text-sm blue-background ">Local Authentication is always enabled, but you may select another additional authentication provider from those shown below.</p>
+                            <p :class="`${this.$store.state.darkMode ? 'white-background' : 'blue-background'}`"
+                                class="text-sm">
+                                Local Authentication is always enabled, but you may select another additional
+                                authentication provider from those shown below.
+                            </p>
 
                             <br><br>
 
                             <div class="col-auto">
- 
-                                <!-- <router-link to="/ADuserForm">
-
-                                    <img src="../assets/img/AD.webp" alt="profile_image"
-
-                                    class="shadow-sm border-radius-lg auto custom-image" />
-
-                                </router-link> -->
 
                                 <router-link to="/ADuserForm" style="margin-right: 15px;">
 
-                                    <img src="../assets/img/server.png" alt="profile_image"
-
-                                        class="shadow-sm border-radius-lg auto custom-age image-hover" />
-
+                                    <img :src="this.$store.state.darkMode ||
+                                    this.$store.state.sidebarType === 'bg-default'
+                                    ? logoWhite
+                                    : logo" class="shadow-sm border-radius-lg auto custom-age image-hover" />
                                 </router-link>
-
-                                <!-- <router-link to="/ADuserForm">
-
-                                    <img src="../assets/img/keycloak.png" alt="profile_image"
-
-                                        class="shadow-sm border-radius-lg auto custom-age" />
-
-                                </router-link> -->
 
                             </div>
 
                         </div>
 
                     </div>
- 
+
                 </div>
 
             </div>
 
         </div>
- 
- 
+
+
     </main>
 
 </template>
- 
+
 <script>
 
 // import ProfileCard from "./components/ProfileCard.vue";
@@ -119,25 +107,29 @@
 // import ArgonInput from "@/components/BB_Input.vue";
 
 import argonButton from "@/components/BB_Button.vue";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+import logo from "@/assets/img/ADPic.png";
+import logoWhite from "@/assets/img/server.png";
+import logo2 from "@/assets/img/cloudProvider.png";
+import logo1 from "@/assets/img/cloudProviderD.png";
 
-// import { API_ENDPOINT } from '@/../apiconfig.js';
- 
-// import axios from 'axios';
- 
 export default {
 
-    // name: "Auth",
+    data() {
 
-    // data() {
+        return {
+            apiUrl: API_ENDPOINT,
 
-    //     return {
 
-    //         },
+            adUsers: [],
+            logo,
+            logoWhite,
+            logo1,
+            logo2,
 
-    //     };
+        };
 
-    // },
-
+    },
     components: {
 
         argonButton,
@@ -155,7 +147,6 @@ export default {
 </script>
 
 <style scoped>
-
 /* .custom-image {
 
         width: 200px;
@@ -185,7 +176,11 @@ export default {
     background-color: rgb(128, 215, 252);
 
     color: black;
- 
+
+}
+.white-background {
+  background-color: rgb(29, 31, 129);
+  color: rgb(255, 255, 255);
 }
 
 </style>

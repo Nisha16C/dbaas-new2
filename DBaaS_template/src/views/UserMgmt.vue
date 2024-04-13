@@ -12,11 +12,21 @@
           <div class="col-lg-3 col-md-12 col-12">
             <div class="mb-4 card">
               <div class="p-3 card-body">
-                <div class="px-4">
-                  <div class="mb-3 mt-4">
-                    <router-link to="/USER" style="margin-right: 10px;">
+                <div class="px-7">
+                  <div class="mb-2 mt-3">
+                    <router-link to="/USER">
                       <argon-button color="success" size="md" variant="gradient">Create New User</argon-button>
                     </router-link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-12 col-12">
+            <div class="mb-4 card">
+              <div class="p-3 card-body">
+                <div class="px-7">
+                  <div class="mb-2 mt-3">
                     <router-link to="/ADauthoprovider">
                       <argon-button color="success" size="md" variant="gradient">Auth Provider</argon-button>
                     </router-link>
@@ -25,8 +35,6 @@
               </div>
             </div>
           </div>
-
-
           <div class="py-4 container-fluid">
             <div class="row">
               <div class="col-12">

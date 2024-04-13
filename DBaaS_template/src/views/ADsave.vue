@@ -40,7 +40,7 @@
 
                         <div class="card-body">
 
-                            <p class="text-sm green-background"
+                            <p :class="`${this.$store.state.darkMode ? 'w-background' : ' green-background'}`" class="text-sm"
 
                                 style="display: flex; justify-content: space-between; align-items: center;">
 
@@ -146,8 +146,7 @@
 
         <div class="modal-dialog" role="document">
 
-            <div class="modal-content" :class="{ 'dark-mode': isDarkMode }">
-
+            <div class="modal-content" :class="{ 'd-mode': isDarkMode }">
                 <div class="modal-header">
 
                     <h5 class="modal-title" id="exampleModalLabel">Are you sure? </h5>
@@ -291,6 +290,9 @@ export default {
     components: { BB_Button },
 
     computed: {
+        isDarkMode() {
+            return this.$store.state.darkMode;
+        },
 
         status() {
 
@@ -409,7 +411,7 @@ export default {
 
 </script>
  
-<style>
+<style scoped>
 
 .green-background {
 
@@ -421,10 +423,17 @@ export default {
  
 .red-background {
 
-    background-color: rgb(255, 183, 116);
+    background-color: rgb(255, 17, 0);
 
-    color: black;
 
+}
+.w-background {
+  background-color: rgb(29, 31, 129);
+  color: rgb(255, 255, 255);
+}
+.d-mode {
+    background-color: #1d1e52;
+    color: #ffffff;
 }
 
 </style>

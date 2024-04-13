@@ -1,4 +1,3 @@
-[7:49 AM] Nisha Chaurasiya
 <template>
   <div class="collapse navbar-collapse w-auto h-auto h-100 mt-3 " id="sidenav-collapse-main">
     <hr style="margin: 0; padding: 0; border: none;">
@@ -30,33 +29,6 @@
           </template>
         </sidenav-item>
       </li>
- 
-      <!-- <li class="nav-item">
-        <sidenav-item
-          url="/tables"
-          :class="getRoute() === 'tables' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'Tables'"
-        >
-          <template v-slot:icon>
-            <i
-              class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"
-            ></i>
-          </template>
-        </sidenav-item>
-      </li> -->
- 
-      <!-- <li class="nav-item">
-        <sidenav-item
-          url="/billing"
-          :class="getRoute() === 'billing' ? 'active' : ''"
-          :navText=" 'Billing'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li> -->
- 
       <li class="nav-item" v-if="checkuser(username) ">
         <sidenav-item url="/Clusters-Management" :class="getRoute() === 'Clusters' ? 'active' : ''"
           :navText="'Clusters Management'">
@@ -157,33 +129,33 @@
 </template>
 <script>
 import { mapState } from 'vuex';
- 
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCard from "./SidenavCard.vue";
-// import axios  from "axios";
+import axios from "axios";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 export default {
   name: "SidenavList",
   props: {
     cardBg: String,
   },
-computed: {
-        ...mapState(['project_name', 'project_id']),
-    },
+  computed: {
+    ...mapState(['project_name', 'project_id']),
+  },
   data() {
     return {
+      apiUrl: API_ENDPOINT,
       title: "BitBlast",
       controls: "dashboardsExamples",
       isActive: "active",
- 
-      projects_list:[],
       username: "",
       user_id: '',
+      userRoles: {}, // Initialize userRoles as an empty object
     };
   },
   created() {
     this.username = sessionStorage.getItem('username');
     this.user_id = sessionStorage.getItem('user_id');
-    // this.project_name = sessionStorage.getItem('project_name')
   },
   components: {
     SidenavItem,
@@ -191,24 +163,29 @@ computed: {
   },
   mounted() {
     this.fetchProject();
+    this.fetchUserRoles(); // Fetch user roles when the component is mounted
   },
   methods: {
-    
-  getRoute() {
+    getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
     },
- 
-  fetchProject() {
+    fetchProject() {
       this.$store.dispatch('fetchFirstProject', this.user_id);
     },
-  checkuser(user) {
-    if (user == 'admin' || user == 'administrator') {
-      return true
-    }
-    return false
-  },
- 
+    fetchUserRoles() {
+      axios.get(`${this.apiUrl}/api/v1/user-roles/`)
+        .then(response => {
+          this.userRoles = response.data.user_roles;
+          console.log('User Roles:', this.userRoles);
+        })
+        .catch(error => {
+          console.error('Error fetching user roles:', error);
+        });
+    },
+    checkuser(user) {
+      return this.userRoles[user] && this.userRoles[user].includes('Admin');
+    },
   },
 };
 </script>

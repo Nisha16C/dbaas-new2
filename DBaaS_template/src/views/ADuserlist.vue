@@ -39,7 +39,7 @@
                         <div class="card-body">
 
                             <h6>Active Directory Users info</h6>
- 
+
                             <div class="table-responsive p-0 mt-3">
 
                                 <table class="table align-items-center mb-0">
@@ -48,7 +48,8 @@
 
                                         <tr>
 
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
 
                                                 User Name
 
@@ -61,10 +62,16 @@
                                     <tbody>
 
                                         <tr v-for="user in adUsers" :key="user.username">
-
-                                            <td>{{ user }}</td>
-
+                                            <td>
+                                                <div>
+                                                    <img :src="this.$store.state.darkMode || this.$store.state.sidebarType === 'bg-default' ? logoWhite : logo"
+                                                        class="avatar avatar-sm me-3"/>
+                                                        {{ user }}
+                                                </div>
+                                                
+                                            </td>
                                         </tr>
+
 
                                     </tbody>
 
@@ -85,9 +92,12 @@
     </main>
 
 </template>
- 
+
 <script>
 import { API_ENDPOINT } from '@/../apiconfig.js';
+import logo from "@/assets/img/userTable.png";
+import logoWhite from "@/assets/img/user.png";
+
 
 
 export default {
@@ -98,7 +108,9 @@ export default {
             apiUrl: API_ENDPOINT,
 
 
-            adUsers: []
+            adUsers: [],
+            logo,
+            logoWhite,
 
         };
 
@@ -141,9 +153,8 @@ export default {
 };
 
 </script>
- 
-<style scoped>
 
+<style scoped>
 .custom-age {
 
     width: 300px;
@@ -151,5 +162,4 @@ export default {
     height: 150px;
 
 }
-
 </style>

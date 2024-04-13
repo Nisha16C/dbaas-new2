@@ -43,6 +43,7 @@ from django.conf import settings
 from django_auth_ldap.backend import LDAPBackend
 
 from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
+from django.db import transaction
  
  
 # Create a logger instance
@@ -149,57 +150,41 @@ class AddRoleViewset(viewsets.ModelViewSet):
         # Get user_id and role_names from the request POST data
 
         user_id = request.data.get('user_id')
-
-        print(user_id)
-
         role_names = request.data.get('roles')
-
-        print(role_names)
  
         try:
-
             # Retrieve the user
-
             user = User.objects.get(pk=user_id)
  
-            # Retrieve or create roles
+            # Start a transaction to ensure atomicity
+            with transaction.atomic():
+                # Delete existing roles for the user
+                UserRole.objects.filter(user=user).delete()
 
-            roles = []
-
-            for role_name in role_names:
-
-                role, created = Role.objects.get_or_create(name=role_name, defaults={'description': f'Default description for {role_name}'})
-
-                roles.append(role)
+                # Retrieve or create roles
+                for role_name in role_names:
+                    role, created = Role.objects.get_or_create(name=role_name, defaults={'description': f'Default description for {role_name}'})
+                    # Associate roles with user
+                    UserRole.objects.create(user=user, role=role)
  
-            # Associate roles with user
-
-            for role in roles:
-
-                UserRole.objects.get_or_create(user=user, role=role)
- 
-            # Log the role assignment event
-
-            log_entry = f"user={user.username} msg=Roles assigned: {', '.join(role_names)}"
-
-            role_assignment_logger.info(log_entry)
- 
+                # Log the role assignment event
+                log_entry = f"user={user.username} msg=Roles assigned: {', '.join(role_names)}"
+                role_assignment_logger.info(log_entry)
  
             return JsonResponse({'success': True, 'message': 'Roles added successfully'})
 
         except User.DoesNotExist:
-
             return JsonResponse({'success': False, 'message': 'User does not exist'}, status=404)
 
         except Exception as e:
-
             return JsonResponse({'success': False, 'message': str(e)}, status=500)
+    
+
+
 
 @api_view(['GET'])
 
 def get_user_role(request, user_id):
-
-    print('nishahellonononono')
 
     try:
 
@@ -306,3 +291,35 @@ class LDAPLoginView(APIView):
 
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
+
+
+def user_roles_api(request):
+    """
+    API endpoint to fetch a list of usernames along with their assigned roles.
+    """
+    try:
+        # Query all UserRole objects
+        user_roles = UserRole.objects.all()
+
+        # Create a dictionary to store usernames and their assigned roles
+        user_role_data = {}
+
+        # Iterate over UserRole objects to populate the dictionary
+        for user_role in user_roles:
+            # Get the username
+            username = user_role.user.username
+            print("username", username)
+            # Check if the username is already in the dictionary
+            if username in user_role_data:
+                # If yes, append the role to the existing list of roles
+                user_role_data[username].append(user_role.role)
+            else:
+                # If no, create a new list with the role
+                user_role_data[username] = [user_role.role]
+
+        # Return the data as JSON response
+        return JsonResponse({'user_roles': user_role_data})
+
+    except Exception as e:
+        # If an error occurs, return an error response
+        return JsonResponse({'error': str(e)}, status=500)

@@ -1,13 +1,6 @@
 <template>
     <main>
-        <div class="container-fluid">
-            <!-- <div class="page-header min-height-300" style="
-            background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
-            margin-right: -24px;
-            margin-left: -34%;
-          ">
-                <span class="mask bg-gradient-success opacity-6"></span>
-            </div> -->
+        <div class="container-fluid mt-7">
             <div class="card shadow-lg mt-n6">
                 <div class="card-body p-3">
                     <div class="row gx-4">
@@ -48,24 +41,24 @@
                                     <argon-input v-model="userData.username" type="text" placeholder="Username" />
                                     <div class="text-danger">{{ errors.username }}</div>
                                 </div>
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <label for="phone" class="form-control-label">Phone Number</label>
                                     <argon-input v-model="userData.phone" type="text" placeholder="1923456789" />
                                     <div class="text-danger">{{ errors.phone }}</div>
-                                </div>
-                                <div class="col-md-12">
+                                </div> -->
+                                <div class="col-md-6">
                                     <label for="email" class="form-control-label">Email Address</label>
                                     <argon-input v-model="userData.email" type="email" placeholder="user@example.com" />
                                     <div class="text-danger">{{ errors.email }}</div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <label for="password" class="form-control-label">Password</label>
                                     <argon-input v-model="userData.password" type="password"
                                         placeholder=". . . . . . . ." />
                                     <div class="text-danger">{{ errors.password }}</div>
 
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <label for="cpassword" class="form-control-label">Confirm Password</label>
                                     <argon-input v-model="userData.cpassword" type="password"
                                         placeholder=". . . . . . . ." />

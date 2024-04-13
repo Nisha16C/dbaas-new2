@@ -38,7 +38,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # DEBUG = True
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ['172.16.1.56','127.0.0.1']
+ALLOWED_HOSTS = ['172.16.1.190','127.0.0.1']
 
 
 # Application definition
@@ -176,12 +176,12 @@ AUTHENTICATION_BACKENDS = [
 ]
  
  
-ldapGroupSearch = 'ddd  '
+ldapGroupSearch = 'None  '
  
  
-AUTH_LDAP_SERVER_URI = 'ldap://1.2.1.2:233'
-AUTH_LDAP_BIND_DN = 'asd'
-AUTH_LDAP_BIND_PASSWORD = 's'
+AUTH_LDAP_SERVER_URI = 'None'
+AUTH_LDAP_BIND_DN = 'None'
+AUTH_LDAP_BIND_PASSWORD = 'None'
 AUTH_LDAP_USER_SEARCH = LDAPSearch(
     ldapGroupSearch,  # Use ldapGroupSearchBase here
     ldap.SCOPE_SUBTREE,
@@ -200,7 +200,7 @@ AUTH_LDAP_USER_ATTR_MAP = {
 
 CORS_ALLOWED_ORIGINS = [  
     'http://localhost:8080',
-    'http://172.16.1.56:8080',
+    'http://172.16.1.190:8080',
 ]
 REST_FRAMEWORK = {
 

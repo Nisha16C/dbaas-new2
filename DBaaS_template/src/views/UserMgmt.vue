@@ -22,7 +22,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-12 col-12">
+          <!-- <div class="col-lg-3 col-md-12 col-12">
             <div class="mb-4 card">
               <div class="p-3 card-body">
                 <div class="px-7">
@@ -34,7 +34,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="py-4 container-fluid">
             <div class="row">
               <div class="col-12">

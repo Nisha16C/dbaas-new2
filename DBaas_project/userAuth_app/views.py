@@ -138,24 +138,21 @@ class UserAuthViewSet(viewsets.ModelViewSet):
  
  
 # Create a logger instance
-
 role_assignment_logger = logging.getLogger('role_assignment_logger')
 
 class AddRoleViewset(viewsets.ModelViewSet):
-
-    queryset = UserRole.objects.all()
- 
+    
     def create(self, request, *args, **kwargs):
-
         # Get user_id and role_names from the request POST data
-
         user_id = request.data.get('user_id')
         role_names = request.data.get('roles')
- 
+        print("role_names: ", role_names)
+
         try:
             # Retrieve the user
-            user = User.objects.get(pk=user_id)
- 
+            user = get_object_or_404(User, pk=user_id)
+            print("user : ", user)
+
             # Start a transaction to ensure atomicity
             with transaction.atomic():
                 # Delete existing roles for the user
@@ -163,22 +160,22 @@ class AddRoleViewset(viewsets.ModelViewSet):
 
                 # Retrieve or create roles
                 for role_name in role_names:
-                    role, created = Role.objects.get_or_create(name=role_name, defaults={'description': f'Default description for {role_name}'})
+                    # Assuming roles are stored in a Role model
+                    role, created = Role.objects.get_or_create(name=role_name)
                     # Associate roles with user
                     UserRole.objects.create(user=user, role=role)
- 
+
                 # Log the role assignment event
                 log_entry = f"user={user.username} msg=Roles assigned: {', '.join(role_names)}"
                 role_assignment_logger.info(log_entry)
- 
+
             return JsonResponse({'success': True, 'message': 'Roles added successfully'})
 
         except User.DoesNotExist:
             return JsonResponse({'success': False, 'message': 'User does not exist'}, status=404)
 
         except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)}, status=500)
-    
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)  
 
 
 
@@ -191,14 +188,16 @@ def get_user_role(request, user_id):
             # Retrieve the user
 
         user = get_object_or_404(User, pk=user_id)
- 
+        print("user:", user)
             # Retrieve user roles
 
         user_roles = UserRole.objects.filter(user=user)
+        print("user_roles:", user_roles)
  
             # Create a list of user role strings
 
         user_role_strings = [f"{user.username} - {user_role.role}" for user_role in user_roles]
+        print("user_role_strings:",user_role_strings)
  
         return Response({'user_roles': user_role_strings})
 

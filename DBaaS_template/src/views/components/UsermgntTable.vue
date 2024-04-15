@@ -35,9 +35,9 @@
                 <div class="d-flex px-2 py-1">
                   <div>
                     <img :src="this.$store.state.darkMode ||
-        this.$store.state.sidebarType === 'bg-default'
-        ? logoWhite
-        : logo" class="avatar avatar-sm me-3" :alt="`user-avatar-${user.id}`" />
+      this.$store.state.sidebarType === 'bg-default'
+      ? logoWhite
+      : logo" class="avatar avatar-sm me-3" :alt="`user-avatar-${user.id}`" />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
                     <h6 class="mb-0 text-sm">{{ user.id }}</h6>
@@ -78,7 +78,7 @@
   <div class="modal fade" ref="myModal" id="exampleModal" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content"  :class="{ 'dark-mode': isDarkMode }">
+      <div class="modal-content" :class="{ 'dark-mode': isDarkMode }">
         <div class="modal-header">
           <h2 class="modal-title" id="exampleModalLabel">Select Roles</h2>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -111,7 +111,7 @@
   <div class="modal fade" ref="myModal" id="exampleModal2" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content"  :class="{ 'dark-mode': isDarkMode }">
+      <div class="modal-content" :class="{ 'dark-mode': isDarkMode }">
         <div class="modal-header">
           <h3 class="modal-title" id="exampleModalLabel">User Role</h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -136,6 +136,7 @@
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
 import ArgonButton from "@/components/BB_Button.vue";
@@ -143,58 +144,96 @@ import { API_ENDPOINT } from '@/../apiconfig.js';
 import logo from "@/assets/img/userTable.png";
 import logoWhite from "@/assets/img/user.png";
 
-
 export default {
   name: "users-table",
   components: {
-    // Card,
-    // projectsTable,
     ArgonButton,
-    // ArgonInput
   },
   data() {
     return {
       apiUrl: API_ENDPOINT,
-      users: [], // Initialize clusters as an empty array
+      users: [],
       isModalVisible: false,
       roles: [
         { id: 1, name: 'Admin' },
         { id: 2, name: 'Standard' },
         // Add more roles as needed
       ],
-      selectedRoles: [],
+      selectedRoles: '', // Changed to a string
       selectedUser: null,
-      successMessage: null,
       loading: true,
       logo,
       logoWhite
     };
   },
   mounted() {
-    // Fetch data when the component is mounted
-    this.fetchusers();
-    this.fetchRoles();
+    this.fetchUsers();
   },
   computed: {
     isRoleSelected() {
-        return this.selectedRoles.length > 0;
-      },
+      return this.selectedRoles !== '';
+    },
     isDarkMode() {
       return this.$store.state.darkMode;
     },
     formattedRoles() {
+
       if (Array.isArray(this.selectedRoles)) {
+
         return this.selectedRoles.join(', ');
+
       }
+
       return ''; // or some default value if selectedRoles is not an array
+
     },
   },
-
   methods: {
+    // async prepareUserRole(user) {
+    //   try {
+    //     this.selectedUser = user;
+    //     const response = await axios.get(`${this.apiUrl}/api/v1/get_user_role/${this.selectedUser.id}/`);
+    //     if (response.data && Array.isArray(response.data.user_roles)) {
+    //       // Combine roles into a single string
+    //       this.selectedRoles = response.data.user_roles.join(', ');
+    //       this.isModalVisible = true;
+    //     } else {
+    //       console.error('Failed to fetch user roles:', response.data.message);
+    //     }
+    //   } catch (error) {
+    //     console.error('Error fetching user roles:', error);
+    //   }
+    // },
+    // async prepareUserRole(user) {
+    //   try {
+    //     // Assign the user before fetching user roles
+    //     this.selectedUser = user;
+    //     // Fetch user roles dynamically using the user's ID
+    //     const response = await axios.get(`${this.apiUrl}/api/v1/get_user_role/${this.selectedUser.id}/`);
+    //     console.log('API Response:', response);
+
+    //     if (response.data && Array.isArray(response.data.user_roles)) {
+    //       // Extract roles from the array of strings
+    //       this.selectedRoles = response.data.user_roles.map(roleString => {
+    //         // Assuming roleString is in the format 'username - role'
+    //         const parts = roleString.split(' - ');
+    //         return parts[1];  // Extract the role part
+    //       });
+
+    //       console.log('User roles fetched successfully:', this.selectedRoles);
+    //       this.isModalVisible = true;
+    //     } else {
+    //       console.error('Failed to fetch user roles:', response.data.message);
+    //     }
+    //   } catch (error) {
+    //     console.error('Error fetching user roles:', error);
+    //   }
+    // },
     async prepareUserRole(user) {
       try {
         // Assign the user before fetching user roles
         this.selectedUser = user;
+        console.log("selectuser:", this.selectedUser)
         // Fetch user roles dynamically using the user's ID
         const response = await axios.get(`${this.apiUrl}/api/v1/get_user_role/${this.selectedUser.id}/`);
         console.log('API Response:', response);
@@ -206,7 +245,6 @@ export default {
             const parts = roleString.split(' - ');
             return parts[1];  // Extract the role part
           });
-
           console.log('User roles fetched successfully:', this.selectedRoles);
           this.isModalVisible = true;
         } else {
@@ -216,26 +254,20 @@ export default {
         console.error('Error fetching user roles:', error);
       }
     },
+
+
     prepareAssignRoles(user) {
-      // Set the selected user and reset selected roles
       this.selectedUser = user;
-      this.selectedRoles = [];
-      // Show the modal
+      this.selectedRoles = '';
       this.isModalVisible = true;
       this.fetchRoles(user.id);
     },
     async fetchRoles() {
       try {
-        const response = await axios.get(`${this.apiUrl}/api/v1/users/`,
-          {
-            user_id: this.selectedUser.id,
-          });
-        console.log('API Response:', response)
-
+        const response = await axios.get(`${this.apiUrl}/api/v1/users/`, { user_id: this.selectedUser.id });
         if (response && response.data && response.data.success) {
-          // Update the roles for the selected user
-          this.selectedRoles = response.data.roles.map(role => role.name);
-          console.log('Roles fetched successfully:', this.selectedRoles);
+          // Combine roles into a single string
+          this.selectedRoles = response.data.roles.map(role => role.name).join(', ');
         } else {
           console.error('Failed to fetch roles:', response.data.message);
         }
@@ -245,40 +277,27 @@ export default {
     },
     async assignRoles() {
       try {
-        // Check if selectedUser is defined
         if (!this.selectedUser) {
           console.error('No user selected.');
           return;
         }
-        const response = await axios.post(`${this.apiUrl}/api/v1/add_roles_to_user/`,
-          {
-            user_id: this.selectedUser.id,
-            roles: this.selectedRoles,
-          }
-        );
-
+        const response = await axios.post(`${this.apiUrl}/api/v1/add_roles_to_user/`, {
+          user_id: this.selectedUser.id,
+          roles: this.selectedRoles.split(', '), // Split the string into an array before sending
+        });
         if (response.data.success) {
           console.log('Roles assigned successfully:', response.data.message);
-          // Assuming the API response structure includes an updatedRoles field
-          const updatedRoles = response.data.updatedRoles.map(role => role.name);
-
-          // Update the roles array with the updated roles at the 0 index
-          this.selectedRoles.splice(0, this.selectedRoles.length, ...updatedRoles);
+          // Update the selectedRoles string with the updated roles
+          this.selectedRoles = response.data.updatedRoles.map(role => role.name).join(', ');
         }
-        // Close the modal
         this.isModalVisible = false;
       } catch (error) {
         console.error('Error assigning roles:', error);
       }
     },
-
-
-    async fetchusers() {
+    async fetchUsers() {
       try {
-        // Make a GET request to the endpoint
         const response = await axios.get(`${this.apiUrl}/api/v1/users/`);
-
-        // Update the clusters data with the fetched data
         this.users = response.data.reverse();
         this.loading = false;
       } catch (error) {
@@ -286,19 +305,16 @@ export default {
       }
     },
     formatDate(dateString) {
-      // Format the date as per your requirement using a library like moment.js
-      // Example using JavaScript built-in methods (customize as needed):
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
     },
-    
-
   },
 };
 </script>
+
 <style scoped>
 .dark-mode {
-    background-color: #1d1e52;
-    color: #ffffff;
+  background-color: #1d1e52;
+  color: #ffffff;
 }
 </style>

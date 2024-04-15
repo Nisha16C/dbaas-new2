@@ -35,3 +35,29 @@
 2024-04-13 06:25:35,772 level=INFO user=keycloak msg=Roles assigned: A, d, m, i, n 
 2024-04-13 06:26:11,502 level=INFO user=other-users msg=Roles assigned: S, t, a, n, d, a, r, d 
 2024-04-13 10:21:27,555 level=INFO user=nisha msg=Roles assigned: S, t, a, n, d, a, r, d 
+2024-04-15 06:18:43,481 level=INFO user=nike msg=Roles assigned: S, t, a, n, d, a, r, d 
+2024-04-15 06:23:34,999 level=INFO user=nisha msg=Roles assigned: A, d, m, i, n 
+2024-04-15 06:54:24,004 level=INFO user=nike msg=Roles assigned: A, d, m, i, n 
+2024-04-15 07:01:11,608 level=INFO user=nike msg=Roles assigned: S, t, a, n, d, a, r, d 
+2024-04-15 07:13:26,821 level=INFO user=nike msg=Roles assigned: A, d, m, i, n 
+2024-04-15 07:31:23,683 level=INFO user=nike msg=Roles assigned: S, t, a, n, d, a, r, d 
+2024-04-15 07:32:05,096 level=INFO user=admin msg=Roles assigned: S, t, a, n, d, a, r, d 
+2024-04-15 07:34:47,573 level=INFO user=admin msg=Roles assigned: A, d, m, i, n 
+2024-04-15 07:54:48,572 level=INFO user=nisha msg=Roles assigned: S, t, a, n, d, a, r, d 
+2024-04-15 08:06:56,276 level=INFO user=mv msg=Roles assigned: Standard 
+2024-04-15 08:07:16,913 level=INFO user=mv msg=Roles assigned: Standard 
+2024-04-15 08:14:52,633 level=INFO user=nisha msg=Roles assigned: Admin 
+2024-04-15 08:16:55,167 level=INFO user=nisha msg=Roles assigned: Standard 
+2024-04-15 08:23:58,559 level=INFO user=nike msg=Roles assigned: Admin 
+2024-04-15 08:24:54,810 level=INFO user=nike msg=Roles assigned: Standard 
+2024-04-15 08:31:10,685 level=INFO user=nike msg=Roles assigned: Admin 
+2024-04-15 08:32:50,618 level=INFO user=nike msg=Roles assigned: Admin 
+2024-04-15 09:56:31,554 level=INFO user=nike msg=Roles assigned: Admin 
+2024-04-15 10:08:16,382 level=INFO user=nike msg=Roles assigned: Standard 
+2024-04-15 10:09:58,812 level=INFO user=nike msg=Roles assigned: Standard 
+2024-04-15 10:10:22,278 level=INFO user=nike msg=Roles assigned: Admin 
+2024-04-15 10:11:12,401 level=INFO user=nisha msg=Roles assigned: Admin 
+2024-04-15 10:16:45,823 level=INFO user=nike msg=Roles assigned: Standard 
+2024-04-15 10:17:49,644 level=INFO user=nike msg=Roles assigned: Admin 
+2024-04-15 10:20:27,244 level=INFO user=mihir.patil msg=Roles assigned: Admin 
+2024-04-15 10:44:30,264 level=INFO user=mihir.patil msg=Roles assigned: Standard 

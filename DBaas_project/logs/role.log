@@ -61,3 +61,10 @@
 2024-04-15 10:17:49,644 level=INFO user=nike msg=Roles assigned: Admin 
 2024-04-15 10:20:27,244 level=INFO user=mihir.patil msg=Roles assigned: Admin 
 2024-04-15 10:44:30,264 level=INFO user=mihir.patil msg=Roles assigned: Standard 
+2024-04-16 09:31:57,322 level=INFO user=administrator msg=Roles assigned: Admin 
+2024-04-16 09:32:08,573 level=INFO user=mihir.patil msg=Roles assigned: Admin 
+2024-04-16 09:43:03,187 level=INFO user=mihir.patil msg=Roles assigned: Standard 
+2024-04-16 09:48:33,910 level=INFO user=administrator msg=Roles assigned: Standard 
+2024-04-16 10:48:33,188 level=INFO user=administrator msg=Roles assigned: Admin 
+2024-04-16 11:20:04,782 level=INFO user=mihir.patil msg=Roles assigned: Standard 
+2024-04-16 11:24:49,386 level=INFO user=administrator msg=Roles assigned: Admin 

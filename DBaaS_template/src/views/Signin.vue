@@ -205,17 +205,21 @@ export default {
 
         .then(response => {
 
-          this.userdata = response.data.user_data;
+          // this.userdata = response.data.user_data;
+          /// Extract user data from the response
+          const userData = response.data.user_data;
+          const userId = userData.id;
+          const username = userData.username;
 
-          const user_id = this.userdata.id;
+          console.log("userData :", userData);
+          console.log("userId :", userId);
+          console.log("username :", username);
 
-          const username = this.userdata.username;
-
-          sessionStorage.setItem('user_id', user_id);
-
+          // Store user_id and username in sessionStorage
+          sessionStorage.setItem('user_id', userId);
           sessionStorage.setItem('username', username);
 
-          if (username === 'admin' || username === 'Administrator') {
+          if (username === 'admin' && username === 'Administrator') {
 
             this.$router.push('/admin-dashboard');
 

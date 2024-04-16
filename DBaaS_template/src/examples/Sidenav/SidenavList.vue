@@ -218,3 +218,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+  .sub-nav {
+    list-style: none; /* Hide default bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+  }
+</style>

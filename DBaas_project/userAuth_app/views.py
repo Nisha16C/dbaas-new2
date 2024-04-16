@@ -114,9 +114,11 @@ class UserAuthViewSet(viewsets.ModelViewSet):
 
             user = User.objects.create_user(username=username, email=email, first_name=first_name, password=password)
  
-            project_name = self.generate_random_project_name()          
+            project_name = self.generate_random_project_name() 
+            print("new project_name : ", project)         
 
             project= Project(user= user, project_name = project_name) 
+            print("new project assign name : ", project)
 
             project.save()
  
@@ -266,28 +268,51 @@ class LoginViewSet(viewsets.ViewSet):
 
 class LDAPLoginView(APIView):
 
+    def generate_random_project_name(self):
+        static_prefix = "default-"
+        adjectives = ['happy', 'colorful', 'creative', 'vibrant', 'sparkling']
+        nouns = ['unicorn', 'rainbow', 'garden', 'ocean', 'harmony']
+        random_adjective = random.choice(adjectives)
+        random_noun = random.choice(nouns)
+        generated_name = f"{static_prefix}{random_adjective}-{random_noun}"
+        while Project.objects.filter(project_name=generated_name).exists():
+            random_adjective = random.choice(adjectives)
+            random_noun = random.choice(nouns)
+            generated_name = f"{static_prefix}{random_adjective}-{random_noun}"
+        return generated_name
+
     def post(self, request):
-
         username = request.data.get('username')
-
-        print(username)
-
         password = request.data.get('password')
-
-        print(password)
- 
         user = authenticate(request, username=username, password=password)
- 
-        if user is not None:
 
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')  # Specify the authentication backend
+        if user is not None:
+            # Log the user in
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+
+            # Generate a random project name
+            project_name = self.generate_random_project_name()
+            print("project_name:", project_name)
+
+            # Create a default role or retrieve an existing one
+            default_role, _ = Role.objects.get_or_create(name='default_role')
+
+            # Assign the default role to the user
+            # UserRole.objects.get_or_create(user=user, role=default_role)
+
+            # Create a project with the generated project name and associate it with the user
+            # project = Project.objects.create(user=user, project_name=project_name)
+            # print("New Project:", project)
+
+            # Log the login event
+            log_entry = f"user={user.username} msg=logged in"
+            login_logger.info(log_entry)
 
             serializer = userAuthSerializers(user)
 
-            return Response({'user_data': serializer.data,})
+            return Response({'user_data': serializer.data})
 
         else:
-
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 

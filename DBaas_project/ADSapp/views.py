@@ -156,3 +156,51 @@ def get_ad_users(request):
     except Exception as e:
 
         return JsonResponse({'error': str(e)}, status=500)
+
+
+
+# def get_ad_users(request):
+#     try:
+#         # Establish LDAP connection
+#         ldap_server_uri = 'ldap://10.0.0.2:389'
+#         bind_dn = 'CN=Administrator,CN=Users,DC=os3,DC=com'
+#         bind_password = 'P@33w0rd'
+#         ldap_connection = ldap.initialize(ldap_server_uri)
+#         ldap_connection.simple_bind_s(bind_dn, bind_password)
+
+#         # Search base and filter
+#         search_base = 'CN=Users,DC=os3,DC=com'
+#         search_filter = "(objectClass=user)"  # Filter to retrieve all users
+
+#         # Specify attributes to retrieve
+#         attributes = ['sAMAccountName', 'cn']  # You can add more attributes as needed
+
+#         # Search for users
+#         ldap_users = ldap_connection.search_s(
+#             search_base,
+#             ldap.SCOPE_SUBTREE,
+#             search_filter,
+#             attributes
+#         )
+
+#         # Extract user names and DNs
+#         user_data = []
+#         for dn, entry in ldap_users:
+#             user_data.append({
+#                 'sAMAccountName': entry.get('sAMAccountName', [])[0].decode('utf-8'),
+#                 'cn': entry.get('cn', [])[0].decode('utf-8')
+#             })
+
+#         return JsonResponse({'users': user_data}, safe=False)
+
+#     except ldap.LDAPError as e:
+#         return JsonResponse({'error': str(e)}, status=500)
+#     except Exception as e:
+#         return JsonResponse({'error': str(e)}, status=500)
+
+   
+
+
+
+
+    

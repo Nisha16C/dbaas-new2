@@ -78,7 +78,8 @@
                                 <div class="">
                                     <argon-button color="success" size="md" variant="gradient" @click="CreateUser()"
                                         type="button" class="ml-4 btn btn-danger" data-toggle="modal"
-                                        data-target="#exampleModal" :disabled="!agreeTerms">Create New User</argon-button>
+                                        data-target="#exampleModal" :disabled="!agreeTerms">Create New
+                                        User</argon-button>
                                     <div class="text-success">{{ successMessage }}</div>
                                 </div>
                             </div>
@@ -90,7 +91,7 @@
 
     </main>
 </template>
-  
+
 <script>
 import setNavPills from "@/assets/js/nav-pills.js";
 import setTooltip from "@/assets/js/tooltip.js";
@@ -134,7 +135,7 @@ export default {
         CreateUser() {
             this.clearErrors();
             // Validate required fields
-            const requiredFields = ['first_name', 'last_name', 'username', 'phone', 'email', 'password', 'cpassword'];
+            const requiredFields = ['first_name', 'username', 'email', 'password', 'cpassword'];
             let hasErrors = false;
 
             requiredFields.forEach(field => {
@@ -153,12 +154,11 @@ export default {
             if (hasErrors) {
                 return; // Stop execution if there are errors
             }
-           
 
             // Make a POST request to create a new user
             axios.post(`${this.apiUrl}/api/v1/users/`, this.userData)
                 .then(() => {
-                    this.successMessage = `well done! ${this.userData.username} user is Successfully Created ..`;
+                    this.successMessage = `Well done! ${this.userData.username} user is successfully created.`;
                     this.clearForm();
                     this.agreeTerms = false;
                     // Delayed removal of success message after 5 seconds
@@ -167,10 +167,22 @@ export default {
                     }, 5000);
                 })
                 .catch(error => {
-                    // Handle errors, for example, show an error message
-                    console.error(error);
+                    // Handle errors
+                    console.error('Error creating user:', error);
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        console.error('Response data:', error.response.data);
+                        console.error('Response status:', error.response.status);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        console.error('No response received:', error.request);
+                    } else {
+                        // Something else happened while setting up the request
+                        console.error('Error setting up request:', error.message);
+                    }
                 });
         },
+
         clearErrors() {
             // Clear all error messages
             for (const field in this.errors) {

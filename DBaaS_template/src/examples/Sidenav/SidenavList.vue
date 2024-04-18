@@ -69,13 +69,28 @@
         <ul v-show="isOpen('user-management')" class="sub-nav">
           <li>
             <router-link to="/User-Management" class="nav-link">
-              <i class="fa fa-user-plus"></i> <!-- SVG icon for User Creation -->
+              <i class="fa fa-user-plus" style="color: black;"></i>
+              <!-- SVG icon for User Creation -->
               <span class="nav-link-text text-center">User Creation</span>
             </router-link>
           </li>
           <li>
             <router-link to="/ADauthoprovider" class="nav-link">
-              <i class="fa fa-lock"></i> <!-- SVG icon for Auth Providers -->
+              <!-- <i class="fa fa-lock"></i>  -->
+              <i> <!-- Start of SVG icon -->
+                <svg height="19px" width="19px" viewBox="0 0 502.664 502.664" fill="#000000">
+                  <path style="fill:#010002;"
+                    d="M132.099,230.872c55.394,0,100.088-44.759,100.088-99.937c0-55.243-44.673-99.981-100.088-99.981c-55.135,0-99.808,44.738-99.808,99.981C32.291,186.091,76.965,230.872,132.099,230.872z">
+                  </path>
+                  <path style="fill:#010002;"
+                    d="M212.3,247.136H52.072C23.469,247.136,0,273.431,0,305.636v160.896c0,1.769,0.841,3.387,1.014,5.177h262.387c0.108-1.79,0.949-3.408,0.949-5.177V305.636C264.35,273.431,240.967,247.136,212.3,247.136z">
+                  </path>
+                  <path style="fill:#010002;"
+                    d="M502.664,137.751c-0.108-58.673-53.711-105.934-119.33-105.783c-65.92,0.108-119.092,47.758-119.006,106.279c0.108,46.226,33.478,85.334,79.812,99.722l0.626,202.55l38.676,27.826l40.208-28.064l-0.065-26.877h-18.572l-0.086-26.338h18.616l-0.173-29.121h-18.486l-0.086-26.295h18.572l-0.086-26.316h-18.551l-0.065-26.316l18.637-0.022l-0.302-41.157C469.402,223.279,502.664,184.02,502.664,137.751z M383.399,77.612c14.776,0,26.899,12.101,26.899,26.856c0.108,14.949-12.015,27.007-26.834,27.007c-14.905,0-26.942-11.886-26.942-26.877C356.436,89.778,368.494,77.655,383.399,77.612z">
+                  </path>
+                </svg> <!-- End of SVG icon -->
+              </i>
+
               <span class="nav-link-text text-center">Auth Providers</span>
             </router-link>
           </li>
@@ -219,9 +234,12 @@ export default {
 };
 </script>
 <style scoped>
-  .sub-nav {
-    list-style: none; /* Hide default bullet points */
-    padding: 0; /* Remove default padding */
-    margin: 0; /* Remove default margin */
-  }
+.sub-nav {
+  list-style: none;
+  /* Hide default bullet points */
+  padding: 0;
+  /* Remove default padding */
+  margin: 0;
+  /* Remove default margin */
+}
 </style>

@@ -68,3 +68,8 @@
 2024-04-16 10:48:33,188 level=INFO user=administrator msg=Roles assigned: Admin 
 2024-04-16 11:20:04,782 level=INFO user=mihir.patil msg=Roles assigned: Standard 
 2024-04-16 11:24:49,386 level=INFO user=administrator msg=Roles assigned: Admin 
+2024-04-18 04:44:16,504 level=INFO user=keycloak msg=Roles assigned: Admin 
+2024-04-18 04:44:30,862 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-18 04:48:27,093 level=INFO user=keycloak msg=Roles assigned: Admin 
+2024-04-18 05:33:37,226 level=INFO user=nisha msg=Roles assigned: Standard 
+2024-04-18 05:35:13,281 level=INFO user=keycloak msg=Roles assigned: Standard 

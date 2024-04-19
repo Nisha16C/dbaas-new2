@@ -44,6 +44,7 @@ from django_auth_ldap.backend import LDAPBackend
 
 from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
 from django.db import transaction
+from django.contrib.auth.models import Group
  
  
 # Create a logger instance
@@ -113,14 +114,19 @@ class UserAuthViewSet(viewsets.ModelViewSet):
             # Create the user
 
             user = User.objects.create_user(username=username, email=email, first_name=first_name, password=password)
+            
+            my_group = Group.objects.get(name='Local-users')
+            my_group.user_set.add(user)
  
             project_name = self.generate_random_project_name() 
-            print("new project_name : ", project)         
+            print("new project_name : ", project_name)         
 
             project= Project(user= user, project_name = project_name) 
             print("new project assign name : ", project)
 
+            user.save()
             project.save()
+            
  
             # Log the user creation event
 
@@ -298,11 +304,11 @@ class LDAPLoginView(APIView):
             default_role, _ = Role.objects.get_or_create(name='default_role')
 
             # Assign the default role to the user
-            # UserRole.objects.get_or_create(user=user, role=default_role)
+            UserRole.objects.get_or_create(user=user, role=default_role)
 
             # Create a project with the generated project name and associate it with the user
-            # project = Project.objects.create(user=user, project_name=project_name)
-            # print("New Project:", project)
+            project = Project.objects.create(user=user, project_name=project_name)
+            print("New Project:", project)
 
             # Log the login event
             log_entry = f"user={user.username} msg=logged in"

@@ -73,3 +73,10 @@
 2024-04-18 04:48:27,093 level=INFO user=keycloak msg=Roles assigned: Admin 
 2024-04-18 05:33:37,226 level=INFO user=nisha msg=Roles assigned: Standard 
 2024-04-18 05:35:13,281 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-18 07:33:07,871 level=INFO user=john msg=Roles assigned: Standard 
+2024-04-18 09:23:47,074 level=INFO user=mike msg=Roles assigned: Standard 
+2024-04-18 12:01:09,716 level=INFO user=nisha msg=Roles assigned: Admin 
+2024-04-18 12:01:54,153 level=INFO user=admin msg=Roles assigned: Admin 
+2024-04-18 12:02:15,026 level=INFO user=nisha msg=Roles assigned: Standard 
+2024-04-18 12:04:01,095 level=INFO user=administrator msg=Roles assigned: Standard 
+2024-04-18 13:02:58,357 level=INFO user=keycloak msg=Roles assigned: Standard 

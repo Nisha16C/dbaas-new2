@@ -80,3 +80,13 @@
 2024-04-18 12:02:15,026 level=INFO user=nisha msg=Roles assigned: Standard 
 2024-04-18 12:04:01,095 level=INFO user=administrator msg=Roles assigned: Standard 
 2024-04-18 13:02:58,357 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-19 04:53:36,018 level=INFO user=administrator msg=Roles assigned: Admin 
+2024-04-19 07:02:50,678 level=INFO user=aastha msg=Roles assigned: Admin 
+2024-04-19 09:15:16,021 level=INFO user=admin msg=Roles assigned: Admin 
+2024-04-19 10:32:53,130 level=INFO user=nisha msg=Roles assigned: Standard 
+2024-04-19 10:53:26,816 level=INFO user=nisha msg=Roles assigned: Admin 
+2024-04-19 12:07:50,616 level=INFO user=admin msg=Roles assigned: Standard 
+2024-04-20 05:41:20,959 level=INFO user=keycloak msg=Roles assigned: Admin 
+2024-04-20 05:41:56,991 level=INFO user=keycloak msg=Roles assigned: Standard 
+2024-04-20 05:42:08,090 level=INFO user=mihir.patil msg=Roles assigned: Admin 
+2024-04-20 05:48:41,891 level=INFO user=admin msg=Roles assigned: Admin 

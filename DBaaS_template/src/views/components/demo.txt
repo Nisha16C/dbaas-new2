@@ -24,15 +24,16 @@
         <table class="table align-items-center mb-0">
           <thead>
             <tr>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> User Name </th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> User Name  </th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Email Address
               </th>
 
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status </th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created On
               </th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Last Login
               </th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status </th>
+
               
 
               <th class="text-secondary opacity-7"></th>
@@ -52,7 +53,7 @@
                   </div>
                   <div class="d-flex flex-column justify-content-center">
                     <!-- <h6 class="mb-0 text-sm">{{ user.id }}</h6> -->
-                    <p class="text-xs text-secondary mb-0">{{ user.username }}</p>
+                    <p class="text-secondary text-xs font-weight-bold">{{ user.username }}</p>
                   </div>
                 </div>
               </td>
@@ -60,22 +61,33 @@
                 <span class="text-secondary text-xs font-weight-bold">{{ user.email }}</span>
               </td>
 
-              <td class="align-middle text-center text-sm">
-                <span v-if="!user.isActive" class="badge badge-sm bg-gradient-success">Active</span>
-                <span v-else class="badge badge-sm bg-gradient-danger">Inactive</span>
-              </td>
+              
               <td class="align-middle text-center">
                 <span class="text-secondary text-xs font-weight-bold">{{ formatDate(user.date_joined) }}</span>
               </td>
               <td class="align-middle text-center">
                 <span class="text-secondary text-xs font-weight-bold">{{ formatDate(user.last_login) }}</span>
               </td>
+
+              <td class="align-middle text-center text-sm">
+                <span v-if="!user.isActive" class="badge badge-sm bg-gradient-success">Active</span>
+                <span v-else class="badge badge-sm bg-gradient-danger">Inactive</span>
+              </td>
+              <td class="align-middle">
+                <button @click="toggleRoleVisibility(user)" type="button" class="ml-4 btn btn-link">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <div v-if="showUserRole && selectedUser === user" class="mt-2">
+                  <!-- <label>Assigned Role:</label> -->
+                  <p>{{ formattedRoles || 'No Role Assign' }}</p>
+                </div>
+              </td>
               
               <td class="align-middle">
-                <argon-button color="success" size="md" variant="gradient" @click="prepareUserRole(user)" type="button"
+                <!-- <argon-button color="success" size="md" variant="gradient" @click="prepareUserRole(user)" type="button"
                   class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
                   View Role
-                </argon-button>
+                </argon-button> -->
                 <argon-button color="success" size="md" variant="gradient" @click="prepareAssignRoles(user)"
                   type="button" class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                   Assign Roles
@@ -99,9 +111,6 @@
         </div>
 
         <!-- Inside your modal body -->
-
-
-        
         <div class="form-check" v-for="role in roles" :key="role.name">
           <input v-model="selectedRoles" class="form-check-input" type="radio" :value="role.name"
             :id="'roleCheckbox_' + role.name">
@@ -135,7 +144,7 @@
         </div>
 
         <!-- Inside your modal body -->
-        <div class="form-check" v-if="selectedUser">
+        <!-- <div class="form-check" v-if="selectedUser">
           <label class="form-check-label">Username: {{ selectedUser.username }}</label><br>
           <label class="form-check-label">Assigned Role: {{ formattedRoles || 'No Role Assign' }}</label>
         </div>
@@ -145,12 +154,11 @@
             class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
             Close
           </argon-button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
-
 
 <script>
 import axios from "axios";
@@ -178,6 +186,7 @@ export default {
       selectedRoles: '', // Changed to a string
       selectedUser: null,
       loading: true,
+      showUserRole: false,
       logo,
       logoWhite
     };
@@ -193,15 +202,10 @@ export default {
       return this.$store.state.darkMode;
     },
     formattedRoles() {
-
       if (Array.isArray(this.selectedRoles)) {
-
         return this.selectedRoles.join(', ');
-
       }
-
       return ''; // or some default value if selectedRoles is not an array
-
     },
     filteredUsers() {
       if (this.selectedFilter === "local") {
@@ -214,73 +218,6 @@ export default {
     }
   },
   methods: {
-    
-    async prepareUserRole(user) {
-      try {
-        // Assign the user before fetching user roles
-        this.selectedUser = user;
-        console.log("selectuser:", this.selectedUser)
-        // Fetch user roles dynamically using the user's ID
-        const response = await axios.get(`${this.apiUrl}/api/v1/get_user_role/${this.selectedUser.id}/`);
-        console.log('API Response:', response);
-
-        if (response.data && Array.isArray(response.data.user_roles)) {
-          // Extract roles from the array of strings
-          this.selectedRoles = response.data.user_roles.map(roleString => {
-            // Assuming roleString is in the format 'username - role'
-            const parts = roleString.split(' - ');
-            return parts[1];  // Extract the role part
-          });
-          console.log('User roles fetched successfully:', this.selectedRoles);
-          this.isModalVisible = true;
-        } else {
-          console.error('Failed to fetch user roles:', response.data.message);
-        }
-      } catch (error) {
-        console.error('Error fetching user roles:', error);
-      }
-    },
-
-
-    prepareAssignRoles(user) {
-      this.selectedUser = user;
-      this.selectedRoles = '';
-      this.isModalVisible = true;
-      this.fetchRoles(user.id);
-    },
-    async fetchRoles() {
-      try {
-        const response = await axios.get(`${this.apiUrl}/api/v1/users/`, { user_id: this.selectedUser.id });
-        if (response && response.data && response.data.success) {
-          // Combine roles into a single string
-          this.selectedRoles = response.data.roles.map(role => role.name).join(', ');
-        } else {
-          console.error('Failed to fetch roles:', response.data.message);
-        }
-      } catch (error) {
-        console.error('Error fetching roles:', error);
-      }
-    },
-    async assignRoles() {
-      try {
-        if (!this.selectedUser) {
-          console.error('No user selected.');
-          return;
-        }
-        const response = await axios.post(`${this.apiUrl}/api/v1/add_roles_to_user/`, {
-          user_id: this.selectedUser.id,
-          roles: this.selectedRoles.split(', '), // Split the string into an array before sending
-        });
-        if (response.data.success) {
-          console.log('Roles assigned successfully:', response.data.message);
-          // Update the selectedRoles string with the updated roles
-          this.selectedRoles = response.data.updatedRoles.map(role => role.name).join(', ');
-        }
-        this.isModalVisible = false;
-      } catch (error) {
-        console.error('Error assigning roles:', error);
-      }
-    },
     async fetchUsers() {
       try {
         const response = await axios.get(`${this.apiUrl}/api/v1/users/`);
@@ -295,20 +232,46 @@ export default {
       this.loading = true;
       this.fetchUsers();
     },
-    // getFilteredUsers() {
-    //   if (this.selectedFilter === "all") {
-    //     return this.users;
-    //   } else if (this.selectedFilter === "local") {
-    //     return this.users.filter(user => user.groups.includes(1));
-    //   } else if (this.selectedFilter === "ad") {
-    //     return this.users.filter(user => user.groups.length === 0);
-    //   }
-    // },
     formatDate(dateString) {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
     },
-  },
+    toggleRoleVisibility(user) {
+      if (this.selectedUser === user) {
+        this.showUserRole = !this.showUserRole; // Toggle visibility
+        setTimeout(() => {
+          this.showUserRole = false; // Hide role details after 5 seconds
+        }, 5000);
+      } else {
+        this.selectedUser = user;
+        this.showUserRole = true; // Show role details
+        setTimeout(() => {
+          this.showUserRole = false; // Hide role details after 5 seconds
+        }, 5000);
+      }
+    },
+    prepareAssignRoles(user) {
+      this.selectedUser = user;
+      this.selectedRoles = '';
+      this.isModalVisible = true;
+      // Call any additional logic needed to prepare roles
+    },
+    async assignRoles() {
+      try {
+        // Implement logic to assign roles to the selected user
+        // Use this.selectedUser.id and this.selectedRoles
+        // Example:
+        // const response = await axios.post(`${this.apiUrl}/api/v1/assign_roles`, {
+        //   userId: this.selectedUser.id,
+        //   roles: this.selectedRoles.split(','),
+        // });
+        // Handle response as needed
+        this.isModalVisible = false; // Close modal after assignment
+      } catch (error) {
+        console.error('Error assigning roles:', error);
+      }
+    },
+  }
 };
 </script>
 

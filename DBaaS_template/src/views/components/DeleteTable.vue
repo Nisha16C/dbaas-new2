@@ -18,10 +18,10 @@
           <div class="progress">
             <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{ width: progress }" role="progressbar" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}</div>
           </div>
-  
-          <ul class="list-group list-group-flush mt-3" v-for="(status, index) in latestPipelineStatus" :key="index">
+          <div class="mt-3"> Database Deletion Status: {{ latestPipelineStatus }} </div> 
+          <!-- <ul class="list-group list-group-flush mt-3" v-for="(status, index) in latestPipelineStatus" :key="index">
             <li class="list-group-item">{{ status }}</li>
-          </ul>
+          </ul> -->
   
         </div>
       </div>
@@ -81,15 +81,9 @@ export default {
  
     methods: {
         RedirectclusterPage(){
-            this.$router.push("/overview");
+            this.$router.push("/Clusters");
         },
-        logout() {
-            sessionStorage.removeItem('user_id');
-            sessionStorage.removeItem('username');
-            sessionStorage.removeItem('project_id');
-            sessionStorage.removeItem('project_name');
-            window.location.reload()
-        },
+       
         getFirstLetter(username) {
             return username.charAt(0, 1).toUpperCase();
         },
@@ -110,21 +104,27 @@ export default {
             if (this.stopFetching) {
                 return;
             }
-            const url = `${this.apiUrl}/api/v2/get_pipeline_status/`;
+            const formdata = {
+                    "user_id" : this.user_id,
+                }
+            const url = `${this.apiUrl}/api/v2/get_dele_pipeline_status/`;
  
             try {
-                const response = await axios.get(url);
-                const data = response.data;
- 
+                const response = await axios.post(url,formdata);
+                const data = response.data                    
+                console.log(data);
+                this.latestPipelineStatus = data.status;
+               
                 // Update the component's data properties based on the received data
-                this.averageProgress = this.calculateAverageProgress(data.pipelines);
+                this.averageProgress = this.calculateAverageProgress(this.latestPipelineStatus);
+
  
                 this.isCompleted = this.averageProgress === 100;
                 this.isFailed = this.averageProgress === 99;
                 this.completionText = this.isCompleted ? 'Completed' : (this.isFailed ? 'Failed' : 'Loading...');
                 this.completionColor = this.isCompleted ? 'green' : (this.isFailed ? 'red' : '');
  
-                this.latestPipelineStatus = data.pipelines.map(pipeline => `Database Deletion Status : ${pipeline.status}`);
+                // this.latestPipelineStatus = data.pipelines.map(pipeline => `Database Deletion Status : ${pipeline.status}`);
                 this.artifacts = this.extractArtifacts(data.pipelines);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -138,20 +138,20 @@ export default {
  
             setTimeout(this.updateLatestPipelineStatusAndArtifacts, 5000);
         },
-        calculateAverageProgress(pipelines) {
+        calculateAverageProgress(pipeline) {
+            console.log("Calculate pipeline ",pipeline); // Calculate pipeline running
             let totalProgress = 0;
-            let numPipelines = pipelines.length;
- 
-            pipelines.forEach(pipeline => {
-                switch (pipeline.status) {
+            // let numPipelines = pipelines.length;
+            
+                switch (pipeline) {
                     case 'created':
-                        totalProgress += 10;
+                        totalProgress += 20;
                         break;
                     case 'pending':
-                        totalProgress += 25;
+                        totalProgress += 40;
                         break;
                     case 'running':
-                        totalProgress += 50;
+                        totalProgress += 70;
                         break;
                     case 'success':
                         totalProgress += 100;
@@ -164,11 +164,10 @@ export default {
                         // Handle other statuses if needed
                         break;
                 }
-            });
- 
-            // Calculate the average progress
-            let averageProgress =  Math.floor(totalProgress / numPipelines);
- 
+        
+
+            let averageProgress = Math.floor(totalProgress);
+
             return averageProgress;
         },
  
@@ -220,6 +219,7 @@ export default {
  
     created(){
         this.Username = sessionStorage.getItem('username');
+        this.user_id = sessionStorage.getItem('user_id');
     },
  
     computed: {
@@ -233,9 +233,9 @@ export default {
     mounted() {
         setTimeout(() => {
             this.updateLatestPipelineStatusAndArtifacts();
-        }, 10000);
+        }, 1000);
         
-        // setInterval(this.updateLatestPipelineStatusAndArtifacts, 5000);
+       
     },
     unmounted(){
         this.popupMessage = '',

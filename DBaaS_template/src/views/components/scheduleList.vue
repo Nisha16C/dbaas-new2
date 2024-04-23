@@ -4,8 +4,8 @@
       <div class="col-lg-5">
         <div class="d-flex">
           <label class="text-sm  col-sm-3">Backup Method :</label>
-          <select :class="{ 'BGdark': isDarkMode }" @click="fetchServers()" class="form-select col-sm-5 mb-2" aria-label="Default select example"
-            v-model="storage_method">
+          <select :class="{ 'BGdark': isDarkMode }" @click="fetchBackups()" class="form-select col-sm-5 mb-2"
+            aria-label="Default select example" v-model="storage_method">
             <option value="nfs">NFS</option>
             <option value="s3">S3</option>
           </select>
@@ -100,15 +100,25 @@
           <h3 class="ml-4">{{ server_name }}</h3>
 
           <div class="form-group ml-3 mt-2 row">
+
             <label class="text-sm col-lg-5" for="retentionPeriod">Retention Period :</label>
+
             <div class="input-group d-flex">
-              <bb-input type="email" class=" col-5" id="retentionPeriod" v-model="newRetentionPeriod"/>
-              <select :class="{ 'BGdark': isDarkMode }" class="form-select bg-light col-3" aria-label="Default select example" v-model="selected_value">
+
+              <input type="email" class="form-control col-5" id="retentionPeriod" v-model="newRetentionPeriod">
+
+              <select class="form-select bg-light col-3" aria-label="Default select example" v-model="selected_value">
+
                 <option value="d" selected>days</option>
+
                 <option value="m">months</option>
+
                 <option value="y">years</option>
+
               </select>
+
             </div>
+
           </div>
           <div v-if="loading" class="text-center my-3 d-flex">
             <!-- Show loader while loading -->
@@ -133,13 +143,13 @@
 <script>
 import axios from "axios";
 import { API_ENDPOINT } from '@/../apiconfig.js';
-import bbInput from "@/components/BB_Input.vue";
+// import bbInput from "@/components/BB_Input.vue";
 
 
 export default {
   name: "server-table",
   components: {
-    bbInput
+    // bbInput
   },
   data() {
     return {
@@ -154,8 +164,8 @@ export default {
       successMessage: '',
       isOpen: false,
       clusters: '',
-      
-      storage_method: '',
+
+      storage_method: 'nfs',
     };
   },
   mounted() {
@@ -205,7 +215,7 @@ export default {
     },
 
     changeRetention() {
-      this.loading = true; 
+      this.loading = true;
       axios
         .post(
           `http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?server_name=${this.server_name}&retention=${this.newRetentionPeriod}${this.selected_value}&storage_method=${this.storage_method}&username=${this.username}`
@@ -213,7 +223,7 @@ export default {
         .then(() => {
           this.successMessage = "Retention Period changed successfully";
           setTimeout(() => {
-            this.$router.push("/scheduled-backups"); 
+            this.$router.push("/scheduled-backups");
           }, 5000);
         })
         .catch(() => {
@@ -241,6 +251,6 @@ export default {
 .BGdark {
   background-color: #1d1e52;
   color: #fff;
- 
+
 }
 </style>

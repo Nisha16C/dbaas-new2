@@ -127,6 +127,13 @@
           </template>
         </sidenav-item>
       </li>
+      <li class="nav-item" v-else>
+        <sidenav-item url="/profile" :class="getRoute() === 'profile' ? 'active' : ''" :navText="'Monitoring'">
+          <template v-slot:icon>
+            <i class="ni ni-single-02 text-info text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
       <li class="nav-item" v-if="checkuser(username)">
         <sidenav-item url="/mount-backup-method" :class="getRoute() === 'mount-backup-method' ? 'active' : ''"
           :navText="'Backup & Restore'">

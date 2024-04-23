@@ -26,24 +26,24 @@
               <form>
 
                 <label class="mt-1 text-sm">Backup Method</label>
-                <select :class="{ 'BGdark': isDarkMode }" class="form-select" aria-label="Default select example" v-model="backup_method"
-                  @click="fetchServers()">
+                <select :class="{ 'BGdark': isDarkMode }" class="form-select" aria-label="Default select example"
+                  v-model="backup_method" @click="fetchServers()">
                   <option value="nfs">NFS</option>
                   <option value="s3">S3</option>
                 </select>
 
                 <label class="mt-3 text-sm">Select Database</label>
-                <select :class="{ 'BGdark': isDarkMode }" v-model="serverName" class="form-select" aria-label="Default select example">
+                <select :class="{ 'BGdark': isDarkMode }" v-model="serverName" class="form-select"
+                  aria-label="Default select example">
                   <option v-for="(description, serverName) in servers" :key="serverName" :value=serverName selected>{{
-                    serverName }}
+      serverName }}
                   </option>
 
                 </select>
 
                 <div v-show="!isBackupScheduled" class="form-group mt-3">
                   <label class="text-sm" for="">Backup Name</label>
-                  <bb-input v-model="backup_name" type="email" class="" id="backup_name"
-                    placeholder="Backup Name" />
+                  <bb-input v-model="backup_name" type="email" class="" id="backup_name" placeholder="Backup Name" />
                 </div>
 
 
@@ -56,8 +56,8 @@
                   <div v-if="isBackupScheduled" class="form-group mt-3">
                     <label class="text-sm" for="retentionPeriod">Retention Period:</label>
                     <div class="input-group">
-                      <bb-input type="email" class="" id="retentionPeriod" v-model="retentionPeriod"/>
-                      <select :class="{ 'BGdark': isDarkMode }"  class="form-select bg-light" aria-label="Default select example" v-model="selected_value">
+                      <input type="email" class="form-control" id="retentionPeriod" v-model="retentionPeriod">
+                      <select class="form-select bg-light" aria-label="Default select example" v-model="selected_value">
                         <option value="d" selected>days</option>
                         <option value="m">months</option>
                         <option value="y">years</option>
@@ -84,8 +84,8 @@
     </div>
   </div>
 </template>
- 
- 
+
+
 <script>
 import argonButton from "@/components/BB_Button.vue";
 import bbInput from "@/components/BB_Input.vue";
@@ -133,7 +133,7 @@ export default {
 
         // Update the clusters data with the fetched data
         this.servers = response.data.message;
-  
+
       } catch (error) {
         console.error('Error fetching servers:', error);
       }
@@ -145,14 +145,14 @@ export default {
           `http://172.16.1.131:8000/api/v4/barman/backup?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}&username=${this.username}`
         )
         .then(() => {
-         
+
           this.successMessage = "Backup done successfully"; // Set success message
           setTimeout(() => {
             this.$router.push("/admin-backup"); // Redirect after 5 seconds
           }, 5000);
         })
         .catch(() => {
-        
+
         })
         .finally(() => {
           this.loading = false; // Set loading to false regardless of success or failure
@@ -169,7 +169,7 @@ export default {
         .then(() => {
           this.successMessage = "Backup scheduled successfully";
           setTimeout(() => {
-            this.$router.push("/scheduled-backups"); 
+            this.$router.push("/scheduled-backups");
           }, 5000);
         })
         .catch(() => {
@@ -188,6 +188,6 @@ export default {
 .BGdark {
   background-color: #1d1e52;
   color: #fff;
- 
+
 }
 </style>

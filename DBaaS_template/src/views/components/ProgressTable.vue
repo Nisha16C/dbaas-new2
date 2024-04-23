@@ -266,13 +266,13 @@ export default {
     },
     unmounted(){
         this.popupMessage = '',
-        window.location.reload()
+       // window.location.reload()
         this.stopFetching = true;
     },
     beforeUnmount(){
         this.stopFetching = true
-        this.popupMessage = '',
-        window.location.reload(); 
+        this.popupMessage = ''
+        //window.location.reload(); 
     }
 
 

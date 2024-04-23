@@ -830,43 +830,52 @@ def display_artifacts(request):
     return JsonResponse({'artifacts': artifacts_data})
  
 
-
 def extract_host(content):
+
     import re
-    match = re.search(r'HOST:\s*([\d\.]+)', content)
+
+    match = re.search(r'Host:\s*([\d\.]+)', content)
+
     if match:
+
         return match.group(1)
+
     return None
- 
+
 def display_clusters(request):
-    artifacts = Db_credentials.objects.all()
- 
-    # Prepare a list to hold artifact data
-    artifacts_data = []
- 
-    for artifact in artifacts:
-        host_ip = extract_host(artifact.content)
- 
-    clusters = Cluster.objects.all()
- 
+
+    clusters = Db_credentials.objects.all()
+
     # Prepare a list to hold cluster data
+
     clusters_data = []
- 
+
     for cluster in clusters:
+
         cluster_data = {
-            'targets': [f"{host_ip}:9187"],
+
+            'targets': [f"{extract_host(cluster.content)}:9187"],
+
             'labels':{
+
             'instance': cluster.cluster_name,
+
             'cluster_type': cluster.cluster_type,
+
             'database_version': cluster.database_version,
-            'provider': cluster.provider,
+            'user': cluster.user.username,
+            'project': cluster.project.project_name,
+
+            # 'provider': cluster.provider,
+
             }}
+
         clusters_data.append(cluster_data)
- 
+
     result_data = clusters_data
- 
+
     return JsonResponse(result_data,safe=False)
- 
+
  
 from .serializers import ClusterSerializers
 @api_view(['GET'])

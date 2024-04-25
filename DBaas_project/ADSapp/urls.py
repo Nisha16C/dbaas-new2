@@ -9,12 +9,14 @@ from ADSapp.views import FormViewSet
 from rest_framework import routers
 
 from .views import get_ad_users
+# from .views import LDAPSettingsViewSet
  
 router = routers.DefaultRouter()
  
 router.register(r'update_ldap_settings', FormViewSet, basename='update_ldap_settings')
 
 router.register(r'reset_ldap_settings', FormViewSet, basename='reset_ldap_settings')
+# router.register(r'ldap-settings', LDAPSettingsViewSet, basename='ldap-settings')
  
 urlpatterns = [
 

@@ -274,18 +274,18 @@ class LoginViewSet(viewsets.ViewSet):
 
 class LDAPLoginView(APIView):
 
-    # def generate_random_project_name(self):
-    #     static_prefix = "default-"
-    #     adjectives = ['happy', 'colorful', 'creative', 'vibrant', 'sparkling']
-    #     nouns = ['unicorn', 'rainbow', 'garden', 'ocean', 'harmony']
-    #     random_adjective = random.choice(adjectives)
-    #     random_noun = random.choice(nouns)
-    #     generated_name = f"{static_prefix}{random_adjective}-{random_noun}"
-    #     while Project.objects.filter(project_name=generated_name).exists():
-    #         random_adjective = random.choice(adjectives)
-    #         random_noun = random.choice(nouns)
-    #         generated_name = f"{static_prefix}{random_adjective}-{random_noun}"
-    #     return generated_name
+    def generate_random_project_name(self):
+        static_prefix = "default-"
+        adjectives = ['happy', 'colorful', 'creative', 'vibrant', 'sparkling']
+        nouns = ['unicorn', 'rainbow', 'garden', 'ocean', 'harmony']
+        random_adjective = random.choice(adjectives)
+        random_noun = random.choice(nouns)
+        generated_name = f"{static_prefix}{random_adjective}-{random_noun}"
+        while Project.objects.filter(project_name=generated_name).exists():
+            random_adjective = random.choice(adjectives)
+            random_noun = random.choice(nouns)
+            generated_name = f"{static_prefix}{random_adjective}-{random_noun}"
+        return generated_name
 
     def post(self, request):
         username = request.data.get('username')

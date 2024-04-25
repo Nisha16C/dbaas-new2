@@ -20,7 +20,6 @@
                             </div>
 
                         </div>
-
                     </div>
 
                 </div>
@@ -68,32 +67,13 @@
 
                                     </div>
 
-                                    <!-- <div class="col-md-6">
-
-                                        <label for="first_name" class="form-control-label">Hostname/IP *</label>
-
-                                        <argon-input v-model="ldapServerURI" type="text"
-
-                                            placeholder="eg:server1,server2" />
-
-                                    </div>
-
-                                    <div class="col-md-6">
-
-                                        <label for="last_name" class="form-control-label">Port *</label>
-
-                                        <argon-input v-model="userData.last_name" type="text" placeholder="" />
-
-                                    </div> -->
-
                                     <div class="col-md-6">
 
                                         <label for="username" class="form-control-label">Server Connection Timeout
 
                                             (milliseconds) *</label>
 
-                                        <argon-input v-model="userData.username" type="text" placeholder=" "
-                                            value="5000" />
+                                        <argon-input v-model="serverConnectionTimeout" type="text"  value="10000"/>
 
                                     </div>
 
@@ -111,8 +91,8 @@
 
                                             Name *</label>
 
-                                        <argon-input v-model="userData.first_name" type="text" placeholder=""
-                                            value="" />
+                                        <argon-input v-model="ServiceAccountDistinguishedName" type="text" placeholder="Service Account Name "
+                                             />
 
                                     </div>
 
@@ -122,7 +102,7 @@
 
                                             *</label>
 
-                                        <argon-input v-model="userData.last_name" type="text" placeholder="" />
+                                        <argon-input v-model="ldapServerBIND_PASSWORD" type="text" placeholder="" />
 
                                     </div>
 
@@ -130,7 +110,7 @@
 
                                         <label for="username" class="form-control-label">Default Login Domain *</label>
 
-                                        <argon-input v-model="userData.username" type="text"
+                                        <argon-input v-model="DefaultLoginDomain" type="text"
                                             placeholder="eg:mycompany " />
 
                                     </div>
@@ -171,7 +151,7 @@
 
                                             </label>
 
-                                            <argon-input v-model="userData.m15" type="text" value="person" />
+                                            <argon-input v-model="userObjectClass" type="text" value="person" />
 
                                         </div>
 
@@ -181,7 +161,7 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userData.m14" type="text" value="name" />
+                                            <argon-input v-model="usernameAttribute" type="text" value="name" />
 
                                         </div>
 
@@ -191,7 +171,7 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userData.m13" type="text" value="sAMAccountName" />
+                                            <argon-input v-model="userLoginAttribute" type="text" value="sAMAccountName" />
 
                                         </div>
 
@@ -201,7 +181,7 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userData.m12" type="text"
+                                            <argon-input v-model="userMemberAttribute" type="text"
                                                 placeholder="e.g.ou=users,dc=mycompany,dc=com" />
 
                                         </div>
@@ -223,7 +203,7 @@
 
                                             </label>
 
-                                            <argon-input v-model="userData.m10" type="text" placeholder="" />
+                                            <argon-input v-model="userSearchFilter" type="text" placeholder="" />
 
                                         </div>
 
@@ -233,7 +213,7 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userData.m9" type="text" value="userAccountControl" />
+                                            <argon-input v-model="userEnableAttribute" type="text" value="userAccountControl" />
 
                                         </div>
 
@@ -243,7 +223,7 @@
 
                                                 Bitmask</label>
 
-                                            <argon-input v-model="userData.m8" type="text" value="2" />
+                                            <argon-input v-model="disabledStatusBitmask" type="text" value="2" />
 
                                         </div>
 
@@ -256,21 +236,21 @@
 
                                         <div class="col-md-12">
 
-                                            <label for="user_search_base" class="form-control-label">Object Class
+                                            <label class="form-control-label">Object Class
 
                                             </label>
 
-                                            <argon-input v-model="userData.m7" type="text" value="group" />
+                                            <argon-input v-model="groupObjectClass" type="text" value="group" />
 
                                         </div>
 
                                         <div class="col-md-12">
 
-                                            <label for="group_search_base" class="form-control-label">Name
+                                            <label class="form-control-label">Name
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userData.m6" type="text" value="name" />
+                                            <argon-input v-model="groupNameAttribute" type="text" value="name" />
 
                                         </div>
 
@@ -280,7 +260,7 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userData.m5" type="text" value="distinguishedName" />
+                                            <argon-input v-model="groupMemberUserAttribute" type="text"  value="distinguishedName" />
 
                                         </div>
 
@@ -290,7 +270,7 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userData.m4" type="text" value="sAMAccountName" />
+                                            <argon-input v-model="groupSearchAttribute" type="text" value="sAMAccountName" />
 
                                         </div>
 
@@ -300,7 +280,7 @@
 
                                                 Filter</label>
 
-                                            <argon-input v-model="userData.m3" type="text" placeholder="" />
+                                            <argon-input v-model="groupSearchFilter" type="text" placeholder="" />
 
                                         </div>
 
@@ -312,7 +292,7 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userData.m2" type="text" value="member" />
+                                            <argon-input v-model="groupMamberMappingAttribute" type="text" value="member" />
 
                                         </div>
 
@@ -322,7 +302,7 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userData.m1" type="text" value="distinguishedName" />
+                                            <argon-input v-model="groupDNattribute" type="text" value="distinguishedName" />
 
                                         </div><br>
 
@@ -344,7 +324,7 @@
 
                                         <label for="first_name" class="form-control-label">Username *</label>
 
-                                        <argon-input v-model="userData.first_name" type="text" placeholder="username" />
+                                        <argon-input v-model="testUsername" type="text" placeholder="username" />
 
                                     </div>
 
@@ -352,7 +332,7 @@
 
                                         <label for="last_name" class="form-control-label">Password *</label>
 
-                                        <argon-input v-model="ldapServerBIND_PASSWORD" type="password"
+                                        <argon-input v-model="testPassword" type="password"
                                             placeholder="password" />
 
                                     </div>
@@ -383,30 +363,7 @@
 
                                         </BB_Button>
 
-                                        <!-- <BB_Button color="success" size="md" variant="gradient"
-
-                                            @click.prevent="disableLDAP" type="submit">
-
-                                            Disable
-
-                                        </BB_Button> -->
-
-
                                     </div>
-
-                                    <!-- <div class="">
-
-                                    <argon-button color="success" size="md" variant="gradient" @click="CreateUser()"
-
-                                        type="button" class="ml-4 btn btn-danger" data-toggle="modal"
-
-                                        data-target="#exampleModal" :disabled="!agreeTerms">Create New
-
-                                        User</argon-button>
-
-                                    <div class="text-success">{{ successMessage }}</div>
-
-                                </div> -->
 
                                 </div>
 
@@ -497,6 +454,21 @@ export default {
             agreeTerms: false,
 
             ldapGroupSearch: '', // Initialize ldapGroupSearch data property
+            serverConnectionTimeout: 10000,
+            userObjectClass: 'person',
+            usernameAttribute: 'name',
+            userLoginAttribute: 'sAMAccountName',
+            userSearchAttribute : 'sAMAccountName|sn|givenName',
+            userEnableAttribute : 'userAccountControl',
+            disabledStatusBitmask: 2, // Default value for Disabled Status Bitmask
+
+            groupObjectClass: 'group',
+            groupNameAttribute:'name',
+            groupMemberUserAttribute: 'distinguishedName',
+            groupSearchAttribute: 'sAMAccountName',
+            groupMamberMappingAttribute: 'member',
+            groupDNattribute: 'distinguishedName',
+
 
         };
 
@@ -546,6 +518,29 @@ export default {
                 ldapServerBIND_PASSWORD: this.ldapServerBIND_PASSWORD,
 
                 ldapGroupSearch: this.ldapGroupSearch,
+                serverConnectionTimeout: this.serverConnectionTimeout,
+                ServiceAccountDistinguishedName: this. tuy,
+                DefaultLoginDomain: this.DefaultLoginDomain,
+                userObjectClass: this.userObjectClass,
+                usernameAttribute: this.usernameAttribute,
+                userLoginAttribute:this.userLoginAttribute,
+                userMemberAttribute: this.userMemberAttribute,
+                userSearchAttribute: this.userSearchAttribute,
+                userSearchFilter: this.userSearchFilter,
+                userEnableAttribute: this.userEnableAttribute,
+                disabledStatusBitmask: this.disabledStatusBitmask,
+
+                // ------------ group ------------------------
+
+                groupObjectClass: this.groupObjectClass,
+                groupNameAttribute: this.groupNameAttribute,
+                groupMemberUserAttribute: this.groupMemberUserAttribute,
+                groupSearchAttribute: this.groupSearchAttribute,
+                groupSearchFilter:this.groupSearchFilter,
+                groupMamberMappingAttribute:this.groupMamberMappingAttribute,
+                groupDNattribute:this.groupDNattribute,
+                testUsername:this.testUsername,
+                testPassword:this.testPassword,
 
             }
 

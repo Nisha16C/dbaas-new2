@@ -60,6 +60,9 @@ export default createStore({
     selectedStorageOffering: null,
 
     selectedComputeOffering: null,
+    // Other state properties
+    activeDirectoryStatus: localStorage.getItem('activeDirectoryStatus') || 'Inactive' // Initialize status from local storage
+
   },
 
   mutations: {
@@ -148,6 +151,19 @@ export default createStore({
     updateFlavors(state, newFlavors) {
       state.flavors = newFlavors;
     },
+    // Mutation to update the status to Active
+    enableActiveDirectory(state) {
+      state.activeDirectoryStatus = 'Active';
+      localStorage.setItem('activeDirectoryStatus', 'Active'); // Store status in local storage
+
+    },
+    // Mutation to update the status to Inactive
+    disableActiveDirectory(state) {
+      state.activeDirectoryStatus = 'Inactive';
+      localStorage.setItem('activeDirectoryStatus', 'Inactive'); // Store status in local storage
+
+    }
+
   },
 
   actions: {
@@ -216,7 +232,7 @@ export default createStore({
     fetchFirstProject({ commit }, userId) {
       axios
 
-        .get(`http://172.16.1.190:8002/api/v2/project/user/${userId}/`)
+        .get(`http://172.16.1.190:8003/api/v2/project/user/${userId}/`)
 
         .then((response) => {
           const firstProject = response.data[0];

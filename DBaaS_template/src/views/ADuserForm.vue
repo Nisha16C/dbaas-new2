@@ -69,7 +69,7 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="username" class="form-control-label">Server Connection Timeout
+                                        <label class="form-control-label">Server Connection Timeout
 
                                             (milliseconds) *</label>
 
@@ -561,7 +561,6 @@ export default {
                 })
 
         },
-
         enableActiveDirectoryAndSubmit() {
 
             // Call the Vuex mutation to update the status

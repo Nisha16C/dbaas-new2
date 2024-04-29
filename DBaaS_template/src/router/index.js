@@ -37,6 +37,8 @@ import ADuserForm from "../views/ADuserForm.vue";
 import ADuserlist from "../views/ADuserlist.vue";
 // import ADuserDisable from "../views/ADuserDisable.vue";
 import ADsave from "../views/ADsave.vue";
+import ADgrouplist from "../views/ADgrouplist.vue";
+
 
 
 const routes = [
@@ -202,11 +204,11 @@ const routes = [
     name: "ADuserlist",
     component: ADuserlist,
    },
-   // {
-   //   path: "/ADuserDisable",
-   //   name: "ADuserDisable",
-   //   component: ADuserDisable,
-   // },
+   {
+    path: "/ADgrouplist",
+    name: "ADgrouplist",
+    component: ADgrouplist,
+   },
    {
      path: "/ADsave",
      name: "ADsave",

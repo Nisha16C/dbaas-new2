@@ -207,10 +207,11 @@ export default {
 
           // this.userdata = response.data.user_data;
           /// Extract user data from the response
+          console.log("response : ", response)
           const userData = response.data.user_data;
           const userId = userData.id;
           const username = userData.username;
-
+          console.log(" ldap user ");
           console.log("userData :", userData);
           console.log("userId :", userId);
           console.log("username :", username);

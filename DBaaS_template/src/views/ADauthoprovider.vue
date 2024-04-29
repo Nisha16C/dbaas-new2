@@ -31,11 +31,20 @@
 
                                 <router-link to="/ADuserlist">
 
-                                    <argon-button color="info" size="sm" variant="gradient" style="font-size: 15px;">
+                                    <argon-button color="info" size="sm" variant="gradient" style="font-size: 15px;  margin: 7px">
 
                                         List Of Acitve Directory
 
                                         Users
+
+                                    </argon-button>
+
+                                </router-link>
+                                <router-link to="/ADgrouplist">
+
+                                    <argon-button color="info" size="sm" variant="gradient" style="font-size: 15px;">
+
+                                        Members of AD groups
 
                                     </argon-button>
 
@@ -178,9 +187,9 @@ export default {
     color: black;
 
 }
-.white-background {
-  background-color: rgb(29, 31, 129);
-  color: rgb(255, 255, 255);
-}
 
+.white-background {
+    background-color: rgb(29, 31, 129);
+    color: rgb(255, 255, 255);
+}
 </style>

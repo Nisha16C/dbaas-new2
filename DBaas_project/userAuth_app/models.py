@@ -18,3 +18,21 @@ class UserRole(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.role}"
+    
+class LDAPGroup(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+class LDAPGroupMember(models.Model):
+    group = models.ForeignKey(LDAPGroup, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = ('group', 'username')
+
+    def __str__(self):
+        return f"{self.group} - {self.username}"
+
+      

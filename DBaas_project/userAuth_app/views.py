@@ -185,6 +185,40 @@ class AddRoleViewset(viewsets.ModelViewSet):
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=500)  
 
+    def post(self, request, *args, **kwargs):
+        # Get user_id and role_names from the request POST data
+        user_id = request.data.get('user_id')
+        role_names = request.data.get('roles')
+        print("role_names: ", role_names)
+
+        try:
+            # Retrieve the user
+            user = get_object_or_404(User, pk=user_id)
+            print("user : ", user)
+
+            # Start a transaction to ensure atomicity
+            with transaction.atomic():
+                # Delete existing roles for the user
+                UserRole.objects.filter(user=user).delete()
+
+                # Retrieve or create roles
+                for role_name in role_names:
+                    # Assuming roles are stored in a Role model
+                    role, created = Role.objects.get_or_create(name=role_name)
+                    # Associate roles with user
+                    UserRole.objects.create(user=user, role=role)
+
+                # Log the role assignment event
+                log_entry = f"user={user.username} msg=Roles assigned: {', '.join(role_names)}"
+                role_assignment_logger.info(log_entry)
+
+            return JsonResponse({'success': True, 'message': 'Roles added successfully'})
+
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'User does not exist'}, status=404)
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)
 
 
 @api_view(['GET'])
@@ -296,27 +330,32 @@ class LDAPLoginView(APIView):
             # Log the user in
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
-            # Generate a random project name
-            project_name = self.generate_random_project_name()
-            print("project_name:", project_name)
+            # Check if the user already has a project assigned
+            existing_project = Project.objects.filter(user=user).first()
 
-            # Create a default role or retrieve an existing one
-            default_role, _ = Role.objects.get_or_create(name='default_role')
+            if existing_project:
+                # User already has a project assigned
+                project_name = existing_project.project_name
+            else:
+                # Generate a random project name and assign it to the user
+                project_name = self.generate_random_project_name()
 
-            # Assign the default role to the user
-            UserRole.objects.get_or_create(user=user, role=default_role)
+                # Create a default role or retrieve an existing one
+                default_role, _ = Role.objects.get_or_create(name='default_role')
 
-            # Create a project with the generated project name and associate it with the user
-            project = Project.objects.create(user=user, project_name=project_name)
-            print("New Project:", project)
+                # Assign the default role to the user
+                UserRole.objects.get_or_create(user=user, role=default_role)
+
+                # Create a new project and associate it with the user
+                Project.objects.create(user=user, project_name=project_name)
 
             # Log the login event
             log_entry = f"user={user.username} msg=logged in"
             login_logger.info(log_entry)
 
+            # Serialize user data and return response
             serializer = userAuthSerializers(user)
-
-            return Response({'user_data': serializer.data})
+            return Response({'user_data': serializer.data, 'project_name': project_name})
 
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -352,4 +391,60 @@ def user_roles_api(request):
 
     except Exception as e:
         # If an error occurs, return an error response
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+
+
+
+from .models import LDAPGroup, LDAPGroupMember
+
+def get_ADgroup_users(request):
+    try:
+        # Your existing LDAP connection code here...
+        # Establish LDAP connection
+        ldap_server_uri = 'ldap://10.0.0.2:389'
+        bind_dn = 'CN=Administrator,CN=Users,DC=os3,DC=com'
+        bind_password = 'P@33w0rd'
+        
+        ldap_connection = ldap.initialize(ldap_server_uri)
+        ldap_connection.simple_bind_s(bind_dn, bind_password)
+
+        # Define LDAP search base for groups
+        search_base = 'CN=Users,DC=os3,DC=com'
+        search_filter = "(objectClass=group)"  # Filter to retrieve all groups
+
+        # Search for groups
+        ldap_groups = ldap_connection.search_s(
+            search_base,
+            ldap.SCOPE_SUBTREE,
+            search_filter
+        )
+
+        # Iterate over LDAP groups
+        for dn, entry in ldap_groups:
+            group_name = entry.get('cn', [])[0].decode('utf-8')
+            print("group_name", group_name )
+
+            # Check if the group already exists in the database
+            ldap_group, created = LDAPGroup.objects.get_or_create(name=group_name)
+
+            # Retrieve member usernames from DNs and save them
+            group_members = entry.get('member', [])
+            print("group_members", group_members)
+            for member in group_members:
+                member_dn = member.decode('utf-8')
+                print("member_dn",member_dn )
+                username = member_dn.split(',')[0].split('=')[1]
+                print("usernamre", username)
+
+                # Save group member if not already exists
+                LDAPGroupMember.objects.get_or_create(group=ldap_group, username=username)
+
+        return JsonResponse({'message': 'LDAP groups and members saved successfully'})
+
+    except ldap.LDAPError as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+    except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)

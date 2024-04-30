@@ -185,40 +185,40 @@ class AddRoleViewset(viewsets.ModelViewSet):
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=500)  
 
-    def post(self, request, *args, **kwargs):
-        # Get user_id and role_names from the request POST data
-        user_id = request.data.get('user_id')
-        role_names = request.data.get('roles')
-        print("role_names: ", role_names)
+    # def post(self, request, *args, **kwargs):
+    #     # Get user_id and role_names from the request POST data
+    #     user_id = request.data.get('user_id')
+    #     role_names = request.data.get('roles')
+    #     print("role_names: ", role_names)
 
-        try:
-            # Retrieve the user
-            user = get_object_or_404(User, pk=user_id)
-            print("user : ", user)
+    #     try:
+    #         # Retrieve the user
+    #         user = get_object_or_404(User, pk=user_id)
+    #         print("user : ", user)
 
-            # Start a transaction to ensure atomicity
-            with transaction.atomic():
-                # Delete existing roles for the user
-                UserRole.objects.filter(user=user).delete()
+    #         # Start a transaction to ensure atomicity
+    #         with transaction.atomic():
+    #             # Delete existing roles for the user
+    #             UserRole.objects.filter(user=user).delete()
 
-                # Retrieve or create roles
-                for role_name in role_names:
-                    # Assuming roles are stored in a Role model
-                    role, created = Role.objects.get_or_create(name=role_name)
-                    # Associate roles with user
-                    UserRole.objects.create(user=user, role=role)
+    #             # Retrieve or create roles
+    #             for role_name in role_names:
+    #                 # Assuming roles are stored in a Role model
+    #                 role, created = Role.objects.get_or_create(name=role_name)
+    #                 # Associate roles with user
+    #                 UserRole.objects.create(user=user, role=role)
 
-                # Log the role assignment event
-                log_entry = f"user={user.username} msg=Roles assigned: {', '.join(role_names)}"
-                role_assignment_logger.info(log_entry)
+    #             # Log the role assignment event
+    #             log_entry = f"user={user.username} msg=Roles assigned: {', '.join(role_names)}"
+    #             role_assignment_logger.info(log_entry)
 
-            return JsonResponse({'success': True, 'message': 'Roles added successfully'})
+    #         return JsonResponse({'success': True, 'message': 'Roles added successfully'})
 
-        except User.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'User does not exist'}, status=404)
+    #     except User.DoesNotExist:
+    #         return JsonResponse({'success': False, 'message': 'User does not exist'}, status=404)
 
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)}, status=500)
+    #     except Exception as e:
+    #         return JsonResponse({'success': False, 'message': str(e)}, status=500)
 
 
 @api_view(['GET'])
@@ -399,6 +399,8 @@ def user_roles_api(request):
 
 from .models import LDAPGroup, LDAPGroupMember
 
+#  LDAP retrive the Group data and save in Database
+
 def get_ADgroup_users(request):
     try:
         # Your existing LDAP connection code here...
@@ -446,5 +448,80 @@ def get_ADgroup_users(request):
     except ldap.LDAPError as e:
         return JsonResponse({'error': str(e)}, status=500)
 
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+from django.http import JsonResponse
+from .models import LDAPGroup, LDAPGroupMember
+
+# Fetch the Group name and members from django Database  and display in UI
+
+def list_ad_groups_with_members(request):
+    ad_groups = LDAPGroup.objects.all()
+    groups_data = []
+
+    for group in ad_groups:
+        members = LDAPGroupMember.objects.filter(group=group).values_list('username', flat=True)
+        groups_data.append({
+            'name': group.name,
+            'members': list(members)
+        })
+
+    return JsonResponse({'ad_groups': groups_data})
+
+
+
+
+@api_view(['POST'])
+def assign_roles_to_group_members(request):
+    """
+    Assign roles to all members associated with a specific group.
+    """
+    if request.method == 'POST':
+        # Extract group name and role name from the request data
+        group_name = request.data.get('group_name')
+        role_name = request.data.get('role_name')
+
+        # Get the LDAP group object
+        ldap_group = get_object_or_404(LDAPGroup, name=group_name)
+
+        try:
+            # Retrieve all members associated with the LDAP group
+            group_members = LDAPGroupMember.objects.filter(group=ldap_group)
+
+            # Start a transaction to ensure atomicity
+            with transaction.atomic():
+                for member in group_members:
+                    # Get or create the user object based on the username
+                    user, created = User.objects.get_or_create(username=member.username)
+
+                    # Assign the role to the user
+                    UserRole.objects.create(user=user, role=role_name)
+
+            return JsonResponse({'success': True, 'message': f'Roles assigned to all members of {group_name}'})
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    else:
+        return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+@api_view(['GET'])
+def get_group_roles(request, group_name):
+    """
+    Fetch the roles assigned to a specific group.
+    """
+    try:
+        # Retrieve the group object by name
+        group = Group.objects.get(name=group_name)
+
+        # Retrieve roles assigned to the group
+        group_roles = UserRole.objects.filter(user__groups=group).values_list('role__name', flat=True).distinct()
+        
+        return JsonResponse({'group_roles': list(group_roles)})
+
+    except Group.DoesNotExist:
+        return JsonResponse({'error': 'Group does not exist'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)

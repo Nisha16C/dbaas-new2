@@ -130,7 +130,7 @@ export default {
                 // Add more roles as needed
             ],
             selectedGroup: null, // Track selected group for role assignment
-            selectedGroupRoles: [], // Track selected roles for group assignment
+            selectedGroupRoles: '', // Track selected roles for group assignment
 
         };
     },
@@ -158,7 +158,7 @@ export default {
             // Set the selected group for role assignment
             this.selectedGroup = group;
             // Reset selected roles for the group
-            this.selectedGroupRoles = [];
+            this.selectedGroupRoles =   this.selectedRoles;
         },
         async assignGroupRoles() {
     try {

@@ -45,7 +45,6 @@ urlpatterns = [
     path('group-roles/<str:group_name>/', get_group_roles, name='get_group_roles'),
 
 ]
-    
 
 
     

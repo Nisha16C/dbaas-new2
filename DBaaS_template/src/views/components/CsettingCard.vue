@@ -175,7 +175,6 @@ export default {
   created() {
     this.Username = sessionStorage.getItem("username");
     this.user_id = sessionStorage.getItem("user_id");
-    this.listMountpoints();
     // this.fetchComputeOfferings();
   },
 
@@ -189,6 +188,7 @@ export default {
     },
     updateMethod() {
       this.updateBackupMethod(this.backup_method);
+      this.listMountpoints();
     },
     
 

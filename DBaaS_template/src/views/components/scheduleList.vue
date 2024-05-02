@@ -24,7 +24,7 @@
             </tr>
           </thead>
           <tbody>
-
+ 
             <tr v-for="backup in backups" :key="backup.id">
               <td>
                 <div class="d-flex px-2 py-1">
@@ -53,12 +53,12 @@
                 </argon-button>
               </td>
             </tr>
-
+ 
           </tbody>
         </table>
       </div>
     </div>
-
+ 
     <div class="modal fade" id="unschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -80,7 +80,13 @@
         </div>
       </div>
     </div>
-
+    <div v-if="successMessage" class="alert alert-success mb-3">
+            <!-- Show success message when backup is completed -->
+            <div class="text-center">
+              {{ successMessage }}
+            </div>
+          </div>
+ 
     <div class="modal fade" :class="{ 'show': isOpen }" id="exampleModal" tabindex="-1" role="dialog"
       aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -91,35 +97,30 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div v-if="successMessage" class="alert alert-success mb-3">
-            <!-- Show success message when backup is completed -->
-            <div class="text-center">
-              {{ successMessage }}
-            </div>
-          </div>
+          
           <h3 class="ml-4">{{ server_name }}</h3>
-
-          <div class="form-group ml-3 mt-2 row">
-
-            <label class="text-sm col-lg-5" for="retentionPeriod">Retention Period :</label>
-
-            <div class="input-group d-flex">
-
-              <input type="email" class="form-control col-5" id="retentionPeriod" v-model="newRetentionPeriod">
-
-              <select class="form-select bg-light col-3" aria-label="Default select example" v-model="selected_value">
-
-                <option value="d" selected>days</option>
-
-                <option value="m">months</option>
-
-                <option value="y">years</option>
-
-              </select>
-
+ 
+            <div class="form-group ml-3 mt-2 row">
+ 
+              <label class="text-sm col-lg-5" for="retentionPeriod">Retention Period :</label>
+ 
+              <div class="input-group d-flex">
+ 
+                <input type="email" class="form-control col-5" id="retentionPeriod" v-model="newRetentionPeriod">
+ 
+                <select class="form-select bg-light col-3" aria-label="Default select example" v-model="selected_value">
+ 
+                  <option value="d" selected>days</option>
+ 
+                  <option value="m">months</option>
+ 
+                  <option value="y">years</option>
+ 
+                </select>
+ 
+              </div>
+ 
             </div>
-
-          </div>
           <div v-if="loading" class="text-center my-3 d-flex">
             <!-- Show loader while loading -->
             <h6 class="mb-2">
@@ -139,13 +140,13 @@
     </div>
   </div>
 </template>
-
+ 
 <script>
 import axios from "axios";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 // import bbInput from "@/components/BB_Input.vue";
-
-
+ 
+ 
 export default {
   name: "server-table",
   components: {
@@ -164,7 +165,7 @@ export default {
       successMessage: '',
       isOpen: false,
       clusters: '',
-
+ 
       storage_method: 'nfs',
     };
   },
@@ -186,10 +187,10 @@ export default {
       try {
         // Make a GET request to the endpoint
         const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/get-scheduled-servers?username=${this.username}&storage_method=${this.storage_method}`);
-
+ 
         // Update the clusters data with the fetched data
         this.backups = response.data.message.filter(backup => backup.retention_period !== null);
-
+ 
       } catch (error) {
         console.error('Error fetching servers:', error);
       }
@@ -198,22 +199,22 @@ export default {
       axios
         .post(`http://172.16.1.131:8000/api/v4/barman/update-scheduled-backups?storage_method=${this.storage_method}&server_name=${serverName}&remove_job=true&username=${this.username}`,)
         .then(() => {
-
+ 
           this.$router.push('/scheduled-backups');
           this.fetchBackups();
         })
         .catch(() => {
-
-
+ 
+ 
         });
-
+ 
     },
-
+ 
     getValue(serverName) {
       this.server_name = serverName;
       this.isOpen = true;
     },
-
+ 
     changeRetention() {
       this.loading = true;
       axios
@@ -234,11 +235,11 @@ export default {
           this.fetchBackups();
         });
     },
-
+ 
     closeModal() {
       this.isOpen = false; // Close modal using jQuery
     },
-
+ 
     async fetchBackupMethod(serverName) {
       this.server_name = serverName;
       this.isOpen = true;
@@ -246,11 +247,12 @@ export default {
   },
 };
 </script>
-
+ 
 <style scoped>
 .BGdark {
   background-color: #1d1e52;
   color: #fff;
-
+ 
 }
 </style>
+ 

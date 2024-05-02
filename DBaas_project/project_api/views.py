@@ -297,6 +297,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
   
         computeOffering  = request.data.get('computeOffering')
         storageOffering = request.data.get('storageOffering')
+        mount_point = request.data.get('mount_point')
        
  
         # Adding global variable
@@ -450,18 +451,24 @@ class ClusterViewSet(viewsets.ModelViewSet):
  
  
         elif provider_name == 'Cloudstack' and cluster_type == 'Standalone':
+            barman_ip = "172.16.1.131"
+            bitblast_ip = "172.16.1.131"
             formData = {
                 "ref": 'infra-and-db',
                 "variables": [
+                {"key": "BITBLAST_USERNAME", "value": user.username},
                 {"key": "DATABASE_NAME", "value": cluster_name},
                 {"key": "PROVIDER_ENDPOINT", "value": provider_endpoint},
                 {"key": "PROVIDER_SECRET_KEY", "value": provider_secret_key},
                 {"key": "PROVIDER_ACCESS_KEY", "value": provider_access_token},
                 {"key": "BACKUP_METHOD", "value": backup_method},
+                {"key": "MOUNT_POINT", "value": mount_point},
+                {"key": "BARMAN_SERVER", "value":barman_ip},
+                {"key": "BITBLAST_IP", "value": bitblast_ip},
                 {"key": "COMPUTE_OFFERING", "value": computeOffering},
                 {"key": "STORAGE_OFFERING", "value": storageOffering},
                 {"key": "DATABASE_VERSION", "value": database_version},
-                {"key": "USERNAME", "value": username}, 
+                {"key": "USERNAME", "value": username},
                 {"key": "PASSWORD", "value": password},           
              ]
             }

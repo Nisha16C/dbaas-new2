@@ -78,7 +78,7 @@ export default {
       apiUrl: API_ENDPOINT, 
       stats: {
         money: {
-          title: "All Projects",
+          title: "Total Projects",
           value: "",
           percentage: "",
           iconClass: "ni ni-money-coins",

@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header pb-0 px-3">
-      <h6 class="mb-0">Enter the Cluster Name and it's Password.</h6>
+      <h6 class="mb-0">Enter the Cluster Name and its Password</h6>
     </div>
 
     <div class="card-body pt-4 p-3">
@@ -45,7 +45,7 @@
               </div>
 
               <div class="form-group">
-                <label for="Cluster_Name"> Your Password</label>
+                <label for="Cluster_Name"> Postgres Password</label>
                 <bb-input
                   type="password"
                   class=""
@@ -60,7 +60,7 @@
               </div>
             </form>
 
-            <h6 class="mb-3 text-sm">Database Type and Versions</h6>
+            <h6 class="mb-3 text-sm">Database Version</h6>
             <select
               :class="{ BGdark: isDarkMode }"
               class="form-select"
@@ -79,7 +79,7 @@
               {{ errorDatabaseVersion }}
             </div>
 
-            <h6 class="mb-3 mt-3 text-sm">Backup Method</h6>
+            <h6 class="mb-3 mt-3 text-sm">Storage Provider</h6>
             <select
               :class="{ BGdark: isDarkMode }"
               class="form-select"

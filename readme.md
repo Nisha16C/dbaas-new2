@@ -45,7 +45,7 @@ Navigate to the **'settings.py'** file within your Django project directory and 
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.16.1.190','127.0.0.1']
+ALLOWED_HOSTS = ['172.16.1.69','127.0.0.1']
 ```
 ![alt text](DBaaS_template/src/assets/img/ip_change1.png)
 
@@ -58,7 +58,7 @@ You're using CORS (Cross-Origin Resource Sharing) in your Django application, yo
 ```
 CORS_ALLOWED_ORIGINS = [  
     'http://localhost:8080',
-    'http://172.16.1.190:8080',
+    'http://172.16.1.69:8080',
 ]
 ```
 Ensure that the origins listed here match the actual frontend URLs from which your Vue.js application will be making requests.

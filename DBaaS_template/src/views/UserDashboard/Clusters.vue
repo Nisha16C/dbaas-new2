@@ -97,7 +97,7 @@ export default {
       apiUrl: API_ENDPOINT, 
       stats: {
         money: {
-          title: "All Clusters",
+          title: "Total Clusters",
           value: '',
           percentage: "",
           iconClass: "ni ni-money-coins",

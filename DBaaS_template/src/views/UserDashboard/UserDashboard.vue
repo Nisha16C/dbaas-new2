@@ -33,10 +33,10 @@
         <div class="row mt-4">
           <div class="col-lg-14 mb-lg-0 mb-4">
             <div class="card">
-              <div class="card-header">Welcome {{ getUsername() }}!!</div>
+              <div class="card-header">Welcome {{ getUsername() }} !</div>
               <div class="card-body">
                 <h5 class="card-title">
-                  Empower Your Data Journey with BitBlast!!
+                  Empower Your Data Journey with BitBlast !
                 </h5>
                 <p class="card-text">
                   Experience the transformational power of BitBlast as it
@@ -76,7 +76,7 @@ export default {
       
       stats: {
         project: {
-          title: "All Project",
+          title: "Total Projects",
           value: "",
           percentage: "",
           iconClass: "ni ni-project-coins",
@@ -84,7 +84,7 @@ export default {
           iconBackground: "bg-gradient-primary",
         },
         cluster: {
-          title: "All Clusters",
+          title: "Total Clusters",
           value: "",
           percentage: "",
           iconClass: "ni ni-world",
@@ -109,9 +109,10 @@ export default {
   },
 
   methods:{
-    getUsername(){
-      return this.username || "User";
-    },
+    getUsername() {
+    const username = this.username || "User";
+    return username.charAt(0).toUpperCase() + username.slice(1);
+},
     getCluster(){
  
       axios.get(`${this.apiUrl}/api/v2/cluster/user/${this.user_id}/`)

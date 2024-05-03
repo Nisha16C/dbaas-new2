@@ -24,6 +24,7 @@ import BackupDetails from "../views/BackupDetails.vue";
 import StorageMethod from "../views/StorageMethod.vue";
 
 import Profile from "../views/Profile.vue";
+import AdminMonitoring from "../views/adminMonitoring.vue";
 import ProjectSelect from "../views/UserDashboard/ProjectSelect.vue";
 import ActivityLog from "../views/ActivityLog.vue";
 import USER from "../views/USER.vue"; 
@@ -162,6 +163,11 @@ const routes = [
     path: "/profile",
     name: "Profile",
     component: Profile,
+  },
+  {
+    path: "/admin-monitoring",
+    name: "Admin Monitoring",
+    component: AdminMonitoring,
   },
   {
     path: "/signin",

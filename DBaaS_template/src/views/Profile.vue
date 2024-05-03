@@ -53,8 +53,8 @@ export default {
       } else {
         // If the user is not an admin, use the URL for other users
         // http://172.16.1.54:3000/d/08/postgresql-for-other-users?orgId=1&refresh=10s&editIndex=2&var-DS_PROMETHEUS=bc775041-25c7-4cee-9226-c4278a324020&var-interval=%24__auto_interval_interval&var-user=${this.username}&var-datname=All&var-mode=All&from=1713794948248&to=1713795248249&theme=light
-        this.embedUrl = `http://172.16.1.54:3000/d/08/postgresql-for-other-users?orgId=1&refresh=10s&editIndex=2&var-DS_PROMETHEUS=bc775041-25c7-4cee-9226-c4278a324020&var-interval=%24__auto_interval_interval&var-user=${this.username}&var-datname=All&var-mode=All&from=1713794948248&to=1713795248249&theme=light
-` ;
+        this.embedUrl = `http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&from=1714650489872&to=1714650789873&theme=light
+  ` ;
       }
     }
   },
@@ -92,7 +92,7 @@ export default {
   top: 0%;
   left: 0%;
   width: 100%;
-  height: 8%;
+  height: 7%;
   text-align: center;
   color: black;
   background-color: white;

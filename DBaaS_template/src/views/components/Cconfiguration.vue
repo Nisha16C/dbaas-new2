@@ -16,8 +16,8 @@
                   Compute Offering </th>
                 <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
                   CPU Cores</th>
-                <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
-                  CPU Speed (MHz)</th>
+                <th class="text-center  text-secondary  font-weight-bolder opacity-7">
+                  CPU SPEED (MHz)</th>
                 <th class="text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
                   Memory (MB) </th>
                 <th class="text-secondary opacity-7"> </th>
@@ -59,7 +59,7 @@
           </table>
           <hr>
           <div class="form-group ml-3 mt-2 row">
-            <label class="text-sm col-lg-5" for="retentionPeriod">Custom Storage(Gi):</label>
+            <label class="text-sm col-lg-5" for="retentionPeriod">Custom Storage(GB):</label>
             <div class="input-group d-flex">
               <bbinput type="text" class="col-5" id="retentionPeriod" v-model="selectedStorageOffering" @change="updateStorage" />
              <!-- <span class="text-md mt-1 ml-2"> </span> -->

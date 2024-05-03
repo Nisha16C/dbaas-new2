@@ -38,7 +38,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # DEBUG = True
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ['172.16.1.190','127.0.0.1']
+ALLOWED_HOSTS = ['172.16.1.69','127.0.0.1']
 
 
 # Application definition
@@ -154,7 +154,7 @@ AUTH_TOKEN_MODEL = 'rest_framework.authtoken.models.Token'
 
 CORS_ALLOWED_ORIGINS = [  
     'http://localhost:8080',
-    'http://172.16.1.190:8080',
+    'http://172.16.1.69:8080',
 ]
 REST_FRAMEWORK = {
 
@@ -285,7 +285,7 @@ DATABASES = {
 }
 
 
-ldapGroupSearch = '  '
+ldapGroupSearch = 'CN=Users,DC=os3,DC=com  '
 serverConnectionTimeout = 10000  
 ServiceAccountDistinguishedName = 'None  '
  
@@ -374,10 +374,10 @@ AUTH_LDAP_DEFAULT_DOMAIN = 'os3  '
 
 # Define variables for AD authentication test
 # Username for authentication
-AD_TEST_USERNAME = 'hjf  '
+AD_TEST_USERNAME = 'Administrator  '
 
 # Password for authentication
-AD_TEST_PASSWORD = 'dff  '
+AD_TEST_PASSWORD = 'P@33w0rd  '
 
 AUTHENTICATION_BACKENDS = [
     # 'django_auth_ldap.backend.LDAPBackend',

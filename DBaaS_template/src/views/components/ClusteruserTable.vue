@@ -1,8 +1,8 @@
-[11:55 AM] Nisha Chaurasiya
+
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6> Database info </h6>
+      <h6> Database Info </h6>
     </div>
     <div v-if="loading" class="text-center mt-3">
       <div class="spinner-border text-primary" role="status">

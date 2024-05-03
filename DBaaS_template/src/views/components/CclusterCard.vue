@@ -19,12 +19,12 @@
                     <input type="radio" id="Standalone" class="visually-hidden" value="Standalone"
                       v-model="selectedType" @change="updateType" />
                     <p class="pt-2 text-info font-size-18 text-wrap">
-                      Standalone cluster
+                      Standalone Node
                     </p>
                     <p class="pt-4 text-gray-500 text-sm text-wrap ">
-                      A Standalone Node Cluster refers to a cluster configuration in a distributed computing environment
+                      A Standalone Node refers to a cluster configuration in a distributed computing environment
                       where
-                      all cluster components, such as databases, services, or applications, run on a Standalone node or
+                      all cluster components, such as databases, services, or applications, run on a standalone node or
                       machine.
                     </p>
                   </label>
@@ -37,8 +37,9 @@
                     <input type="radio" class="visually-hidden" id="Multiple" value="Multiple" v-model="selectedType"
                       @change="updateType" />
                     <p class="pt-2 text-info font-size-18 text-wrap">
-                      Primary/Standby High Availability
+                      Primary/Standby <br> High Availability
                     </p>
+                    
                     <p class="text-gray-500 text-sm text-wrap">
                       A Primary/Standby High Availability (HA) Cluster refers to a configuration in a distributed
                       computing environment
@@ -59,12 +60,12 @@
             <h6 class="mb-3  text-sm">Providers</h6>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" style="width: 200.6667%">
  
-              <div class="col mx-auto" :class="{ 'bg-light': selectedProvider === 'Cloudstack' , 'bg-dark': selectedProvider === 'Cloudstack' && isDarkMode}">
-                <div class="bg-transparent border-4 rounded-md text-center p-3 d-flex align-items-center">
+              <div class="col mx-auto pointer-hover" :class="{ 'bg-light': selectedProvider === 'Cloudstack' , 'bg-dark': selectedProvider === 'Cloudstack' && isDarkMode}">
+                <div class="bg-transparent border-4 rounded-md text-center p-3 d-flex align-items-center pointer-hover">
                   <label>
-                    <input class="visually-hidden" type="radio" id="Cloudstack" value="Cloudstack"
+                    <input class="visually-hidden pointer-hover" type="radio" id="Cloudstack" value="Cloudstack"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img style="width: 150px;;height: 120px;" class="object-contain max-w-full rounded-lg"
+                    <img style="width: 150px;;height: 120px;" class="object-contain max-w-full rounded-lg pointer-hover"
                       src="@/assets/img/withoutcloud-removebg-preview.png" alt="Cloudstack" />
                   </label>
                 </div>
@@ -75,7 +76,7 @@
                     <input class="visually-hidden" type="radio" id="Harvester" value="Harvester"
                       v-model="selectedProvider" @change="updateProvider" />
                     <div class="avatar avatar-xl position-relative">
-                      <img style="width: 150px;;height: 100px;  " class="object-contain max-w-full rounded-lg"
+                      <img style="width: 150px;;height: 100px;  " class="object-contain max-w-full rounded-lg pointer-hover"
                         src="@/assets/img/wh1.webp" alt="harvester" />
                     </div>
                   </label>
@@ -95,7 +96,7 @@
                   <label>
                     <input type="radio" class="visually-hidden" id="Vmware" value="Vmware" v-model="selectedProvider"
                       @change="updateProvider" />
-                    <img style="width: 150px;;height: 100px;" class="object-contain max-w-full rounded-lg"
+                    <img style="width: 150px;;height: 100px;" class="object-contain max-w-full rounded-lg pointer-hover"
                       src="@/assets/img/wv1-removebg-preview.png" alt="Vmware" />
                   </label>
                 </div>
@@ -108,7 +109,7 @@
                   <label>
                     <input type="radio" class="visually-hidden" id="Kubernetes" value="Kubernetes"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img style="width: 150px;;height: 100px;" class="object-contain max-w-full rounded-lg"
+                    <img style="width: 150px;;height: 100px;" class="object-contain max-w-full rounded-lg pointer-hover"
                       src="@/assets/img/wk1.png" alt="Kubernetes" />
                   </label>
                 </div>
@@ -129,7 +130,7 @@
  
                     <input type="radio" class="visually-hidden" id="Nutanix" value="Nutanix" v-model="selectedProvider"
                       @change="updateProvider" />
-                    <img style="width: 150px;;height: 120px;" class="object-contain max-w-full rounded-lg"
+                    <img style="width: 150px;;height: 120px;" class="object-contain max-w-full rounded-lg pointer-hover"
                       src="@/assets/img/wn1-removebg-preview.png" alt="Nutanix" />
  
                   </div>
@@ -143,7 +144,7 @@
                   <label>
                     <input type="radio" class="visually-hidden" id="Openstack" value="Openstack"
                       v-model="selectedProvider" @change="updateProvider" />
-                    <img style="width: 150px;;height: 100px;" class="object-contain max-w-full rounded-lg"
+                    <img style="width: 150px;;height: 100px;" class="object-contain max-w-full rounded-lg pointer-hover"
                       src="@/assets/img/Openstack.png " alt="Openstack" />
                   </label>
                 </div>
@@ -296,5 +297,9 @@ export default {
 .bg-dark {
   background-color: #343a40; /* Choose your dark mode background color */
   color: #fff; /* Choose your dark mode text color */
+}
+
+.pointer-hover:hover {
+    cursor: pointer;
 }
 </style>

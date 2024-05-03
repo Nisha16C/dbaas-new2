@@ -1,5 +1,4 @@
-[9:08 AM] Ashish Sahu
- 
+
 <template>
   <div class="card h-100 mb-4">
     <div class="card-header pb-0 px-3">
@@ -41,8 +40,8 @@
             </tr>
  
             <tr>
-              <th>Postgress Type</th>
-              <td>PostreSQL</td>
+              <th>Postgres Type</th>
+              <td>PostgreSQL</td>
             </tr>
  
             <tr>

@@ -81,7 +81,7 @@
 
                             <div>
 
-                                <p>Server: http://172.16.1.190:8080/</p>
+                                <p>Server: http://172.16.1.69:8080/</p>
 
                                 <p> Client ID: Administrator </p>
 

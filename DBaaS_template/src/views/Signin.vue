@@ -18,11 +18,11 @@
 
                   <h4 class="font-weight-bolder">
 
-                    Sign In As {{ username }}
+                    Sign In as {{ username }}
 
                   </h4>
 
-                  <p class="mb-0">Enter your Username and password to sign in</p>
+                  <p class="mb-0">Enter your Username and Password to sign in</p>
 
                 </div>
 
@@ -54,7 +54,7 @@
                     <div class="text-center">
                       <div v-if="error" class="text-danger">{{ error }}</div>
                       <argon-button v-if="showSignInButton" @click.prevent="login" class="mt-4" variant="gradient"
-                        color="success" fullWidth size="lg">Sign in</argon-button>
+                        color="success" fullWidth size="lg">Sign In</argon-button>
 
                       <argon-button v-else @click.prevent="loginWithLDAP" class="mt-4" variant="gradient"
                         color="success" fullWidth size="lg">Login with Active Directory</argon-button>

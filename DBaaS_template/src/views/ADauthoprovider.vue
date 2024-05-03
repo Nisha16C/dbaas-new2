@@ -44,7 +44,7 @@
 
                                     <argon-button color="info" size="sm" variant="gradient" style="font-size: 15px;">
 
-                                        Members of AD groups
+                                        Members of Active Directory Groups
 
                                     </argon-button>
 

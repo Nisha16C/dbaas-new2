@@ -45,7 +45,7 @@ export default {
 
       stats: {
         money: {
-          title: "All Projects",
+          title: "Total Projects",
           value: "",
           percentage: "",
           iconClass: "ni ni-money-coins",

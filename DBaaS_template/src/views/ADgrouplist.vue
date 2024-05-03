@@ -16,39 +16,47 @@
         </div>
 
         <!-- Display groups and their members -->
-        <div class="py-4 container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h6>Active Directory Groups info</h6>
-                            <hr>
-                            <div v-for="group in adGroups" :key="group.name">
-                                <!-- <h6 @click="toggleMembers(group)" class="group-name">{{ group.name }}</h6> -->
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6 @click="toggleMembers(group)" class="group-name">{{ group.name }}</h6>
-                                    <div>
-                                        <argon-button color="success" size="md" variant="gradient"
-                                            @click="prepareUserRole(group)" type="button" class="ml-4 btn btn-danger"
-                                            data-toggle="modal" data-target="#exampleModal2">
-                                            View Role
-                                        </argon-button>
-                                        <argon-button color="success" size="md" variant="gradient"
-                                            @click="prepareAssignRoles(group)" type="button" class="ml-4 btn btn-danger"
-                                            data-toggle="modal" data-target="#exampleModal">
-                                            Assign Roles
-                                        </argon-button>
-                                    </div>
-                                </div>
-                                <ul v-if="group.showMembers">
-                                    <li v-for="member in group.members" :key="member">{{ member }}</li>
-                                </ul>
+<!-- Display groups and their members -->
+<div class="py-4 container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Iterate over each AD group -->
+                    <div v-for="group in adGroups" :key="group.name">
+                        <!-- Group name with buttons on the same line -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 @click="toggleMembers(group)" class="group-name">{{ group.name }}</h6>
+                            <div>
+                                <!-- View Role button -->
+                                <argon-button color="success" size="md" variant="gradient"
+                                    @click="prepareUserRole(group)" type="button" class="ml-4 btn btn-danger"
+                                    data-toggle="modal" data-target="#exampleModal2">
+                                    View Role
+                                </argon-button>
+                                <!-- Assign Roles button -->
+                                <argon-button color="success" size="md" variant="gradient"
+                                    @click="prepareAssignRoles(group)" type="button" class="ml-4 btn btn-danger"
+                                    data-toggle="modal" data-target="#exampleModal">
+                                    Assign Roles
+                                </argon-button>
                             </div>
                         </div>
+                        <!-- Horizontal line below group name -->
+                        <hr>
+                        <!-- Member list -->
+                        <ul v-if="group.showMembers">
+                            <li v-for="member in group.members" :key="member">{{ member }}</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+
+
     </main>
     <div class="modal fade" ref="myModal" id="exampleModal" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">

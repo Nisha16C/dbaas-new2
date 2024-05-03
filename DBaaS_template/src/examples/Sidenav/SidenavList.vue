@@ -30,7 +30,7 @@
       </li>
       <li class="nav-item" v-if="checkuser(username)">
         <sidenav-item url="/Clusters-Management" :class="getRoute() === 'Clusters' ? 'active' : ''"
-          :navText="'Clusters Management'">
+          :navText="'Cluster Management'">
           <template v-slot:icon>
             <!-- <i class="ni ni-umbrella-13 text-info text-sm opacity-10"></i> -->
             <i class="fa fa-database text-info text-sm opacity-10"></i>
@@ -48,7 +48,7 @@
 
       <li class="nav-item" v-if="checkuser(username)">
         <sidenav-item url="/Project-Management" :class="getRoute() === 'Projects' ? 'active' : ''"
-          :navText="'Projects Management'">
+          :navText="'Project Management'">
           <template v-slot:icon>
             <i class="far fa-folder text-info text-sm opacity-10"></i> </template>
         </sidenav-item>

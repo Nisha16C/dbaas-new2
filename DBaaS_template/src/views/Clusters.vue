@@ -50,7 +50,7 @@ export default {
 
       stats: {
         money: {
-          title: "All Clusters ",
+          title: "Total Clusters ",
           value: " ",
           percentage: "",
           iconClass: "ni ni-money-coins",

@@ -11,9 +11,9 @@
         </div>
         <div class="card shadow-lg mt-n6  w-full" >
           <div class="card-body p-0">
-            <!-- <div class="overlay-text" :class="{ 'dark-overlay': isDarkMode }">
+            <div class="overlay-text" :class="{ 'dark-overlay': isDarkMode }">
               <h2 class="mb-0">Monitoring</h2>
-            </div> -->
+            </div>
             <div class="row gx-4">
               <iframe class="min-vh-100" width="100%" height="100%" :src="embedUrl" frameborder="0" allowfullscreen></iframe>
             </div>
@@ -92,7 +92,7 @@
     top: 0%;
     left: 0%;
     width: 100%;
-    height: 6.5%;
+    height: 7.2%;
     text-align: center;
     color: black;
     background-color: white;

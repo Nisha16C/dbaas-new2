@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6> Users info </h6>
+      <h6 class="text-2xl"> Users Info </h6>
       <div class="mb-3">
         <!-- <label for="userFilter" class="form-label">Filter Users:</label> -->
         <select v-model="selectedFilter" class="form-select" @change="filterUsers">
@@ -24,14 +24,14 @@
         <table class="table align-items-center mb-0">
           <thead>
             <tr>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> User Name </th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Email Address
+              <th class="text-uppercase text-secondary text-md font-weight-bolder opacity-7"> User Name </th>
+              <th class="text-center text-uppercase text-secondary text-md font-weight-bolder opacity-7"> Email Address
               </th>
 
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Status </th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created On
+              <!-- <th class="text-center text-uppercase text-secondary text-md font-weight-bolder opacity-7"> Status </th> -->
+              <th class="text-center text-uppercase text-secondary text-md font-weight-bolder opacity-7"> Created On
               </th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Last Login
+              <th class="text-center text-uppercase text-secondary text-md font-weight-bolder opacity-7"> Last Login
               </th>
               
 
@@ -51,24 +51,24 @@
       : logo" class="avatar avatar-sm me-3" :alt="`user-avatar-${user.id}`" />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
-                    <!-- <h6 class="mb-0 text-sm">{{ user.id }}</h6> -->
-                    <p class="text-xs text-secondary mb-0">{{ user.username }}</p>
+                    <!-- <h6 class="mb-0 text-md">{{ user.id }}</h6> -->
+                    <p class="text-md text-secondary mb-0">{{ user.username }}</p>
                   </div>
                 </div>
               </td>
               <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{ user.email }}</span>
+                <span class="text-secondary text-md font-weight-bold">{{ user.email }}</span>
               </td>
 
-              <td class="align-middle text-center text-sm">
+              <!-- <td class="align-middle text-center text-md">
                 <span v-if="!user.isActive" class="badge badge-sm bg-gradient-success">Active</span>
                 <span v-else class="badge badge-sm bg-gradient-danger">Inactive</span>
+              </td> -->
+              <td class="align-middle text-center">
+                <span class="text-secondary text-md font-weight-bold">{{ formatDate(user.date_joined) }}</span>
               </td>
               <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{ formatDate(user.date_joined) }}</span>
-              </td>
-              <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{ formatDate(user.last_login) }}</span>
+                <span class="text-secondary text-md font-weight-bold">{{ formatDate(user.last_login) }}</span>
               </td>
               
               <td class="align-middle">

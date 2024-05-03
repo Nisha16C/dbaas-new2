@@ -1,8 +1,7 @@
-
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6> Database Info </h6>
+      <h6 class="text-2xl"> Database Info </h6>
     </div>
     <div v-if="loading" class="text-center mt-3">
       <div class="spinner-border text-primary" role="status">
@@ -16,15 +15,16 @@
         <table class="table align-items-center mb-0">
           <thead>
             <tr>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Database Name & ID </th>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Database Type &
-                Versions</th>
+              <th class="text-uppercase text-secondary text-md font-weight-bolder opacity-7"> Database ID & Name </th>
+              <th class="text-uppercase text-secondary text-md font-weight-bolder opacity-7 ps-2">Database Type &
+                Version</th>
+              <th class="text-uppercase text-secondary text-md font-weight-bolder opacity-7 ps-2">Storage Provider</th>
 
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Provider Name
+              <th class="text-center text-uppercase text-secondary text-md font-weight-bolder opacity-7"> Provider Name
               </th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created On
+              <th class="text-center text-uppercase text-secondary text-md font-weight-bolder opacity-7"> Created On
               </th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Updated On
+              <th class="text-center text-uppercase text-secondary text-md font-weight-bolder opacity-7"> Updated On
               </th>
 
               <th class="text-secondary opacity-7"></th>
@@ -38,30 +38,33 @@
                   <div>
                     <!-- You can customize the image source or remove it based on your needs -->
                     <img :src="this.$store.state.darkMode ||
-        this.$store.state.sidebarType === 'bg-default'
-        ? logoWhite
-        : logo" class="avatar avatar-sm me-3" alt="clusterImage" />
+      this.$store.state.sidebarType === 'bg-default'
+      ? logoWhite
+      : logo" class="avatar avatar-sm me-3" alt="clusterImage" />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
-                    <h6 class="mb-0 text-sm">{{ cluster.id }}</h6>
-                    <p class="text-xs text-secondary mb-0">{{ cluster.cluster_name }}</p>
+                    <h6 class="mb-0 text-md">{{ cluster.id }}</h6>
+                    <p class="text-md text-secondary mb-0">{{ cluster.cluster_name }}</p>
                   </div>
                 </div>
               </td>
               <td>
-                <p class="text-xs font-weight-bold mb-0">{{ cluster.cluster_type }}</p>
-                <p class="text-xs text-secondary mb-0">{{ cluster.database_version }}</p>
-                <p class="text-xs text-secondary mb-0">{{ cluster.backup_method }}</p>
+                <p class="text-md font-weight-bold mb-0">{{ cluster.cluster_type }}</p>
+                <p class="text-md text-secondary mb-0">{{ cluster.database_version }}</p>
+                <!-- <p class="text-md text-secondary mb-0">{{ cluster.backup_method }}</p> -->
               </td>
-              <td class="align-middle text-center text-sm">
+              <td class="align-middle text-center text-md">
+                <span class="text-secondary text-md font-weight-bold">{{ cluster.backup_method }}</span>
+              </td>
+              <td class="align-middle text-center text-md">
                 <!-- Assuming 'provider' is a property in your cluster data -->
-                <span class="badge badge-sm bg-gradient-success">{{ cluster.provider }}</span>
+                <span class="text-secondary text-md font-weight-bold">{{ cluster.provider }}</span>
               </td>
               <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{ formatDate(cluster.created_date) }}</span>
+                <span class="text-secondary text-md font-weight-bold">{{ formatDate(cluster.created_date) }}</span>
               </td>
               <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{ formatDate(cluster.updated_date) }}</span>
+                <span class="text-secondary text-md font-weight-bold">{{ formatDate(cluster.updated_date) }}</span>
               </td>
               <td class="align-middle">
 
@@ -117,11 +120,15 @@
           </button>
         </div>
         <div class="modal-body">
-          Are You Sure Want to delete cluster "{{ deleteClusterName }}" !!
+          Are You Sure Want to delete cluster "{{ deleteClusterName }}" ?
+          <argon-input type="text" placeholder="Enter Cluster Name" v-model="confirmDlt" />
         </div>
+
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button @click="deleteCluster()" type="button" data-dismiss="modal" class="btn btn-danger"> Delete</button>
+          <button @click="deleteCluster()" :disabled="!confirm" type="button" data-dismiss="modal"
+            class="btn btn-danger"> Delete</button>
         </div>
       </div>
     </div>
@@ -131,6 +138,8 @@
 <script>
 import axios from "axios";
 import ArgonButton from "@/components/BB_Button.vue";
+import ArgonInput from "@/components/BB_Input.vue";
+
 import { API_ENDPOINT } from '@/../apiconfig.js';
 import logo from "@/assets/img/db-png.png";
 import logoWhite from "@/assets/img/logo3.png";
@@ -138,6 +147,8 @@ import logoWhite from "@/assets/img/logo3.png";
 export default {
   name: "UserCluster-table",
   components: {
+    ArgonInput,
+
 
     ArgonButton,
   },
@@ -150,7 +161,8 @@ export default {
       provider_info: '',
       loading: true,
       logo,
-      logoWhite
+      logoWhite,
+      confirmDlt: ''
     }
   },
   props: {
@@ -163,6 +175,15 @@ export default {
   computed: {
     isDarkMode() {
       return this.$store.state.darkMode;
+    },
+    confirm() {
+      if (this.deleteClusterName === this.confirmDlt) {
+        return true
+
+      }
+      else {
+        return false
+      }
     }
   },
 
@@ -229,7 +250,7 @@ export default {
         });
     },
     addLineBreaks(text) {
-      const formattedContent = text.replace(/([^:\n]+):/g, '<h class="text-sm text-purple-600">$1</h>:');
+      const formattedContent = text.replace(/([^:\n]+):/g, '<h class="text-md text-purple-600">$1</h>:');
       return formattedContent.replace(/\n/g, '<br>');
       // Replace '\n' with '<br>' for rendering line breaks in HTML
       // return text.replace(/\n/g, '<br>');

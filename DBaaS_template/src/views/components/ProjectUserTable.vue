@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6> Projects Info </h6>
+      <h6 class="text-2xl"> Projects Info </h6>
     </div>
     <div v-if="loading" class="text-center mt-3">
         <div class="spinner-border text-primary" role="status">
@@ -16,9 +16,9 @@
         <table class="table align-items-center mb-0">
           <thead>
             <tr>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> PROJECT ID & NAME </th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> CREATED ON </th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> UPDATED ON </th>
+              <th class="text-uppercase text-secondary text-md font-weight-bolder opacity-7"> PROJECT ID & NAME </th>
+              <th class="text-center text-uppercase text-secondary text-md font-weight-bolder opacity-7"> CREATED ON </th>
+              <th class="text-center text-uppercase text-secondary text-md font-weight-bolder opacity-7"> UPDATED ON </th>
               <th class="text-secondary opacity-7"></th>
             </tr>
           </thead>
@@ -36,20 +36,20 @@
               class="avatar avatar-sm me-3 w-3 h-3" alt="clusterImage" />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
-                    <h6 class="mb-0 text-sm">{{ project.id }}</h6>
-                    <p class="text-xs text-secondary mb-0">{{ project.project_name }}</p>
+                    <h6 class="mb-0 text-md">{{ project.id }}</h6>
+                    <p class="text-md text-secondary mb-0">{{ project.project_name }}</p>
                   </div>
                 </div>
               </td>
               <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{ formatDate(project.created_date) }}</span>
+                <span class="text-secondary text-md font-weight-bold">{{ formatDate(project.created_date) }}</span>
               </td>
               <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{ formatDate(project.updated_date) }}</span>
+                <span class="text-secondary text-md font-weight-bold">{{ formatDate(project.updated_date) }}</span>
               </td>
               <!-- <td class="align-middle">
                 
-                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                <a href="javascript:;" class="text-secondary font-weight-bold text-md" data-toggle="tooltip"
                   data-original-title="Edit cluster">Edit</a>
               </td> -->
             </tr>

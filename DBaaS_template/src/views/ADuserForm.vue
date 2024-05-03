@@ -79,7 +79,7 @@
 
                                     <p :class="`${this.$store.state.darkMode ? 'w-background' : 'r-background'}`" class="text-sm"> BitBlast needs a service account that has
 
-                                        read-only access to all of the domains that will be able to login,so that we can
+                                        read-only access to login to all domains so that we can
 
                                         determine what groups a user is a member of when they make a request with an API
 
@@ -102,7 +102,7 @@
 
                                             *</label>
 
-                                        <argon-input v-model="ldapServerBIND_PASSWORD" type="text" placeholder="" />
+                                        <argon-input v-model="ldapServerBIND_PASSWORD" type="password" placeholder="" />
 
                                     </div>
 

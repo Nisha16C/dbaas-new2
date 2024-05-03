@@ -23,7 +23,7 @@
                   <div class="">
                     <label
                       for="projectname"
-                      class="block  text-sm font-medium text-gray-900 dark:text-black"
+                      class="block  text-md text-gray-900 dark:text-black"
                       >Project Name</label
                     >
                     <argon-input type="text" placeholder="Project Name" v-model="project.project_name" @input="validateProjectName"
@@ -31,7 +31,7 @@
               error: input1Error,
               shake: shakingInput === 'project.project_name',
             }" />
-             <div  v-if="onTheFlyValidation && project.project_name.trim() !== ''" class="text-danger">Project name should be between 10 and 20 characters.</div>
+             <div  v-if="onTheFlyValidation && project.project_name.trim() !== ''" class="text-danger">Project name should be between 5 and 10 characters.</div>
   
                     <argon-button color="success" size="md" variant="gradient"
                      @click="saveProject" >Create Project</argon-button

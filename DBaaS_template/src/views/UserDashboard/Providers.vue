@@ -25,7 +25,7 @@
               <div class="col-auto my-auto">
                 <div class="h-100">
                   <h5 class="mb-1">Cloudstack</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  <p class="mb-0 font-weight-bold text-sm"></p>
                 </div>
               </div>
               <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
@@ -76,7 +76,7 @@
               <div class="col-auto my-auto">
                 <div class="h-100">
                   <h5 class="mb-1">Vmware</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  <p class="mb-0 font-weight-bold text-sm"></p>
                 </div>
               </div>
               <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
@@ -124,7 +124,7 @@
               <div class="col-auto my-auto">
                 <div class="h-100">
                   <h5 class="mb-1">Kubernetes</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  <p class="mb-0 font-weight-bold text-sm"></p>
                 </div>
               </div>
               <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
@@ -179,7 +179,7 @@
               <div class="col-auto my-auto">
                 <div class="h-100">
                   <h5 class="mb-1">Openstack</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  <p class="mb-0 font-weight-bold text-sm"></p>
                 </div>
               </div>
               <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
@@ -231,7 +231,7 @@
               <div class="col-auto my-auto">
                 <div class="h-100">
                   <h5 class="mb-1">Harvester</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  <p class="mb-0 font-weight-bold text-sm"></p>
                 </div>
               </div>
               <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
@@ -279,7 +279,7 @@
               <div class="col-auto my-auto">
                 <div class="h-100">
                   <h5 class="mb-1">Nutanix</h5>
-                  <p class="mb-0 font-weight-bold text-sm">Private Cloud</p>
+                  <p class="mb-0 font-weight-bold text-sm"></p>
                 </div>
               </div>
               <div class="mx-auto mt-3 col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0">
@@ -341,7 +341,7 @@
                   </h3>
                   <div class="mb-3">
                     <label for="api_name" class="form-label">API Name</label>
-                    <bb-input type="text" class="" id="api_name" v-model="api_name" placeholder="api name " required />
+                    <bb-input type="text" class="" id="api_name" v-model="api_name" placeholder="Api Name " required />
                     <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                       API Name is required
                     </argon-alert>
@@ -349,7 +349,7 @@
 
                   <div class="mb-3">
                     <label for="api_endpoint" class="form-label">API Endpoint</label>
-                    <bb-input type="text" class="" id="api_endpoint" v-model="api_endpoint" placeholder="api endpoint "
+                    <bb-input type="text" class="" id="api_endpoint" v-model="api_endpoint" placeholder="Api Endpoint "
                       required />
                     <argon-alert v-if="!api_endpoint && showErrorMessages" color="danger" icon="icon-danger"
                       dismissible>
@@ -359,7 +359,7 @@
 
                   <div class="mb-3">
                     <label for="access_key" class="form-label">Access key</label>
-                    <bb-input type="text" class="" id="access_key" v-model="access_key" placeholder="access key "
+                    <bb-input type="text" class="" id="access_key" v-model="access_key" placeholder="Access Key "
                       required />
                     <argon-alert v-if="!access_key && showErrorMessages" color="danger" icon="icon-danger" dismissible>
                       Access Key is required
@@ -368,7 +368,7 @@
 
                   <div class="mb-3">
                     <label for="secret_key" class="form-label">Secret Key</label>
-                    <bb-input type="text" class="" id="secret_key" v-model="secret_key" placeholder="secret key "
+                    <bb-input type="text" class="" id="secret_key" v-model="secret_key" placeholder="Secret Key "
                       required />
                     <!-- <span class="text-danger" v-if="!secret_key && showErrorMessages">Secret Key is required</span> -->
                     <argon-alert v-if="!secret_key && showErrorMessages" color="danger" icon="icon-danger" dismissible>
@@ -489,9 +489,9 @@
 
                   <div class="mb-3">
                     <label for="Api_name" class="form-label">API Name</label>
-                    <bb-input type="text" class="" v-model="api_name" placeholder="api_name" />
+                    <bb-input type="text" class="" v-model="api_name" placeholder="Api Name" />
                     <argon-alert v-if="!api_name && showErrorMessages" color="danger" icon="icon-danger" dismissible>
-                      apiname is required
+                      Api Name is required
                     </argon-alert>
 
                   </div>

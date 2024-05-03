@@ -36,9 +36,9 @@
 
                     <div class="card">
 
-                        <div class="card-body">
+                        <div class="card-body ">
 
-                            <h6>Active Directory Users info</h6>
+                            <h6 class="text-2xl">Active Directory Users Info</h6>
 
                             <div class="table-responsive p-0 mt-3">
 
@@ -49,7 +49,7 @@
                                         <tr>
 
                                             <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                class="text-uppercase text-secondary text-md font-weight-bolder opacity-7">
 
                                                 User Name
 

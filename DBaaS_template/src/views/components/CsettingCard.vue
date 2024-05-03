@@ -14,18 +14,25 @@
 
               <div v-if="errorClusterName" class="text-danger mt-2">
                   {{ errorClusterName }}
-                </div>
+              </div>
 
               <label for="projectname" class="block  text-sm font-medium text-gray-900 dark:text-black">Postgres Username
                 </label>
               <argon-input type="text" placeholder="Enter your Postgres Username" v-model="db_user" />
-              
+              <div v-if="errorPostgresusername" class="text-danger mt-2">
+                  {{ errorPostgresusername }}
+                </div>
+
+
 
               <label for="projectname" class="block  text-sm font-medium text-gray-900 dark:text-black">Postgres Password
-                Name</label>
-              <argon-input type="text" placeholder="Enter your Postgres Username" v-model="db_password" @change="updatePassword"/>
-              <div v-if="passwordLengthError" class="text-danger mt-2">
+                </label>
+              <argon-input type="password" placeholder="Enter your Postgres Password" v-model="db_password" @change="updatePassword"/>
+              <!-- <div v-if="passwordLengthError" class="text-danger mt-2">
                   {{ passwordLengthError }}
+                </div> -->
+                <div v-if="errorPostgresPassword" class="text-danger mt-2">
+                  {{ errorPostgresPassword }}
                 </div>
 
              
@@ -54,86 +61,7 @@
               {{ backupError }}
             </div>
 
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card-body pt-4 p-3">
-      <ul class="list-group">
-        <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-          <div class="d-flex flex-column">
-            <h6 class="mb-3 text-sm">Cluster Name and Password</h6>
-            <form>
-              <div class="form-group">
-                <label for="Cluster_Name"> Cluster Name</label>
-                <bb-input class="" type="email" id="example-text-input" placeholder="Enter Your Cluster Name"
-                  v-model="cluster_name" @blur="checkClusterNameExists" @change="updateName" />
-                <!-- Error message for cluster name -->
-                <div v-if="errorClusterName" class="text-danger mt-2">
-                  {{ errorClusterName }}
-                </div>
-                <!-- Error message for cluster name already exists -->
-                <div v-if="errorClusterNameExists" class="text-danger mt-2">
-                  {{ errorClusterNameExists }}
-                </div>
-              </div>
-
-              <div class="form-group">
-                <!-- <label for="Postgres_Username"> Postgres Username</label>
-
-                <bb-input
-                  type="email"
-                  class=""
-                  id="Postgres_Username"
-                  placeholder="Enter Your Postgres Username"
-                  v-model="db_user"
-                /> -->
-
-                <label for="Postgres_Username" class="block  text-sm font-medium text-gray-900 dark:text-black">Postgres
-                  Username</label>
-                <argon-input type="email" placeholder="Project Name" v-model="db_user" />
-              </div>
-
-              <div class="form-group">
-                <label for="Cluster_Name"> Postgres Password</label>
-                <bb-input type="password" class="" id="Password" placeholder="Enter Your Postgres User Password "
-                  v-model="db_password" @change="updatePassword" />
-                <div v-if="passwordLengthError" class="text-danger mt-2">
-                  {{ passwordLengthError }}
-                </div>
-              </div>
-            </form>
-
-            <h6 class="mb-3 text-sm">Database Version</h6>
-            <select :class="{ BGdark: isDarkMode }" class="form-select" aria-label="Default select example"
-              @change="updateVersion" v-model="postgres_version">
-              <option value="16" selected>16</option>
-              <option value="15">15</option>
-              <option value="14">14</option>
-              <option value="13">13</option>
-              <option value="12">12</option>
-            </select>
-            <!-- Error message for database version -->
-            <div v-if="errorDatabaseVersion" class="text-danger mt-2">
-              {{ errorDatabaseVersion }}
-            </div>
-
-            <h6 class="mb-3 mt-3 text-sm">Storage Provider</h6>
-            <select :class="{ BGdark: isDarkMode }" class="form-select" aria-label="Default select example"
-              @click="updateMethod" v-model="backup_method">
-              <option value="nfs" selected>NFS</option>
-              <option value="s3">S3</option>
-            </select>
-            <div class="text-danger">
-              {{ backupError }}
-            </div>
-          </div>
-        </li>
-      </ul>
-      <div class="text-danger mb-3">
+            <div class="text-danger mb-3">
         {{ typeError }}
       </div>
       <div class="text-danger mb-3">
@@ -149,7 +77,15 @@
       <argon-button @click="createCluster" color="success" size="md" variant="gradient">
         Create Cluster
       </argon-button>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+  
   </div>
 </template>
 
@@ -202,6 +138,8 @@ export default {
       storageOfferingError: "",
       passwordLengthError: "",
       passwordLengthTimeout: null,
+      errorPostgresusername: "",
+      errorPostgresPassword: ""
     };
   },
 
@@ -219,10 +157,10 @@ export default {
       this.updateUsername(this.db_user);
       this.updatePassword(this.db_password);
     },
-    updateMethod() {
-      this.updateBackupMethod(this.backup_method);
-      this.listMountpoints();
-    },
+    // updateMethod() {
+    //   this.updateBackupMethod(this.backup_method);
+    //   this.listMountpoints();
+    // },
 
 
     validatePassword() {
@@ -265,18 +203,18 @@ export default {
           // Handle errors from the cluster check API if needed
         });
     },
-    listMountpoints() {
-      axios.get(
-        `http://172.16.1.131:8001/api/v4/barman/list-mount-points?username=${this.Username}`
-      )
-        .then((response) => {
-          this.nfsMountpoints = response.data.nfs_mount_points;
-          this.s3Mountpoints = response.data.s3_mount_points;
-        })
-        .catch((error) => {
-          console.error('Error mounting s3:', error);
-        })
-    },
+    // listMountpoints() {
+    //   axios.get(
+    //     `http://172.16.1.131:8001/api/v4/barman/list-mount-points?username=${this.Username}`
+    //   )
+    //     .then((response) => {
+    //       this.nfsMountpoints = response.data.nfs_mount_points;
+    //       this.s3Mountpoints = response.data.s3_mount_points;
+    //     })
+    //     .catch((error) => {
+    //       console.error('Error mounting s3:', error);
+    //     })
+    // },
     createCluster() {
       // Reset error messages
       this.errorClusterName = "";
@@ -289,6 +227,22 @@ export default {
         this.errorClusterName = "Cluster name is required";
         setTimeout(() => {
           this.errorClusterName = "";
+        }, 5000);
+        return;
+      }
+
+      if (!this.db_user) {
+        this.errorPostgresusername = "Postgres Username name is required";
+        setTimeout(() => {
+          this.errorPostgresusername = "";
+        }, 5000);
+        return;
+      }
+
+      if (!this.db_password) {
+        this.errorPostgresPassword = "Password is required";
+        setTimeout(() => {
+          this.errorPostgresPassword = "";
         }, 5000);
         return;
       }
@@ -310,32 +264,35 @@ export default {
         return;
       }
 
-      if (!this.backup_method) {
-        this.backupError = 'This field is required';
-        return;
-      } else {
-        if (this.backup_method === 'nfs') {
-          console.log("backup_method == nfs");
-          this.mount_point = this.nfsMountpoints[0].mount_point;
-          console.log(this.mount_point);
-          if (this.nfsMountpoints.length <= 0) {
-            this.backupError = "NFS is not connected";
-            return;
-          } else {
-            this.backupError = '';
-          }
-        } else {
-          console.log("backup_method == nfs");
-          this.mount_point = this.s3Mountpoints[0].mount_point;
-          console.log(this.mount_point);
-          if (this.s3Mountpoints.length <= 0) {
-            this.backupError = "S3 is not connected";
-            return;
-          } else {
-            this.backupError = '';
-          }
-        }
-      }
+      // if (!this.backup_method) {
+      //   this.backupError = 'This field is required';
+      //   setTimeout(() => {
+      //     this.backupError = "";
+      //   }, 5000);
+      //   return;
+      // } else {
+      //   if (this.backup_method === 'nfs') {
+      //     console.log("backup_method == nfs");
+      //     this.mount_point = this.nfsMountpoints[0].mount_point;
+      //     console.log(this.mount_point);
+      //     if (this.nfsMountpoints.length <= 0) {
+      //       this.backupError = "NFS is not connected";
+      //       return;
+      //     } else {
+      //       this.backupError = '';
+      //     }
+      //   } else {
+      //     console.log("backup_method == nfs");
+      //     this.mount_point = this.s3Mountpoints[0].mount_point;
+      //     console.log(this.mount_point);
+      //     if (this.s3Mountpoints.length <= 0) {
+      //       this.backupError = "S3 is not connected";
+      //       return;
+      //     } else {
+      //       this.backupError = '';
+      //     }
+      //   }
+      // }
 
       if (!this.clusterType) {
         this.typeError = "Cluster type is required";
@@ -412,8 +369,8 @@ export default {
             auth_url: this.provider_info.auth_url,
             region: this.provider_info.region,
 
-            backup_method: this.backup_method,
-            mount_point: this.mount_point,
+            // backup_method: this.backup_method,
+            // mount_point: this.mount_point,
           };
 
           this.$router.push("/result");

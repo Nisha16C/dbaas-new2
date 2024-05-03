@@ -28,7 +28,7 @@
  
             <!-- Overlay Text "Activity Logs" -->
  
-          <div class="" :class="{ 'dark-overlay': isDarkMode }">
+          <div class="overlay-text" :class="{ 'dark-overlay': isDarkMode }">
  
             <h2 class="mb-0">Activity Logs</h2>
  

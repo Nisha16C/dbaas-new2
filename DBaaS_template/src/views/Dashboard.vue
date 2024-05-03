@@ -79,10 +79,10 @@
         <div class="row mt-4">
           <div class="col-lg-14 mb-lg-0 mb-4">
             <div class="card">
-              <div class="card-header">Welcome Admin!!</div>
+              <div class="card-header">Welcome Admin!</div>
               <div class="card-body">
                 <h5 class="card-title">
-                  Empower Your Data Journey with BitBlast!!
+                  Empower Your Data Journey with BitBlast!
                 </h5>
                 <p class="card-text">
                   Experience the transformational power of BitBlast as it
@@ -114,7 +114,7 @@ export default {
 
       stats: {
         cluster: {
-          title: "All Clusters",
+          title: "Total Clusters",
           value: " ",
           percentage: "",
           iconClass: "ni ni-world",
@@ -122,7 +122,7 @@ export default {
           detail: "",
         },
         user: {
-          title: "All Users",
+          title: "Total Users",
           value: " ",
           percentage: "",
           iconClass: "ni ni-world",
@@ -130,7 +130,7 @@ export default {
           detail: "",
         },
         project: {
-        title: "All Projects",
+        title: "Total Projects",
         value: " ",
         percentage: " ",
         iconClass: "ni ni-money-coins",

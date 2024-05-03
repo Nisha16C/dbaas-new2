@@ -32,7 +32,7 @@
               ? logoWhite
               : logo
           "
-          class="navbar-brand-img h-100 mr-4"
+          class="navbar-brand-img mr-4 h-100"
           alt="main_logo"
         />
         <!-- <span class="ms-2 text-2xl font-weight-bold me-2">BitBlast </span> -->
@@ -62,4 +62,10 @@ export default {
   props: ["custom_class", "layout"]
 };
 </script>
+<style scoped>
+/* .logo_change {
+  width:200px;
+  height: 150px;
+} */
+</style>
  

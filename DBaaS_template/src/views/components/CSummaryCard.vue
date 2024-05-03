@@ -1,4 +1,3 @@
-
 <template>
   <div class="card h-100 mb-4">
     <div class="card-header pb-0 px-3">
@@ -20,44 +19,44 @@
               <th>Cluster Type</th>
               <td>{{ clusterType }}</td>
             </tr>
- 
+
             <tr>
               <th>Cluster Nodes</th>
               <td v-if="clusterType == 'Standalone'"> 1 Node</td>
- 
+
               <td v-if="clusterType == 'Multiple'"> 3 Node</td>
- 
+
             </tr>
- 
+
             <tr>
               <th>Provider</th>
               <td>{{ providerName }}</td>
             </tr>
- 
+
             <tr>
               <th>Cluster Name</th>
               <td>Default</td>
             </tr>
- 
+
             <tr>
               <th>Postgres Type</th>
               <td>PostgreSQL</td>
             </tr>
- 
+
             <tr>
               <th>Postgres Versions</th>
               <td>{{ postgres_version }}</td>
             </tr>
- 
+
             <!-- Inside the Cluster Summary Template -->
             <tr v-if="providerName !== 'Kubernetes'">
               <th>Instance Type</th>
               <td v-if="providerName === 'Cloudstack'">{{ computeOfferings }} </td>
-              <td v-if="providerName === 'Openstack'">  {{ flavors.name }} </td>  
-              
- 
+              <td v-if="providerName === 'Openstack'"> {{ flavors.name }} </td>
+
+
             </tr>
- 
+
             <!-- <tr v-if="providerName !== 'Kubernetes'" >
               <th>Volume Type</th>
               <td>General Purpose HDD(gp3)</td>
@@ -74,16 +73,16 @@
           </tbody>
         </table>
         <ul>
-    </ul>
+        </ul>
       </div>
     </div>
   </div>
 </template>
- 
+
 <script>
 // import argonButton from "@/components/BB_Button.vue";
 import { mapState } from 'vuex';
- 
+
 export default {
   name: "transaction-card",
   components: {
@@ -100,14 +99,14 @@ export default {
   },
   methods: {
     updateDateTime() {
-      this.currentDateTime = new Date().toLocaleString();
-    },
+      const options = { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      this.currentDateTime = new Date().toLocaleString('en-GB', options);
+    }
+
   },
   computed: {
     ...mapState(['clusterType', 'providerName', 'postgres_version', 'computeOfferings', 'selectedStorageOffering', 'flavors']),
- 
+
   },
 };
 </script>
- 
- 

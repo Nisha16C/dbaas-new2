@@ -1,5 +1,5 @@
 <template>
-  <div class="collapse navbar-collapse w-auto h-auto h-100 mt-3 " id="sidenav-collapse-main">
+  <div class="collapse navbar-collapse w-auto h-auto h-100" id="sidenav-collapse-main " style="margin-top:49px;">
     <hr style="margin: 0; padding: 0; border: none;">
     <ul class="navbar-nav">
       <li class="nav-item" v-if="!checkuser(username)">

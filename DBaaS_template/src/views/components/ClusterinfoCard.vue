@@ -72,7 +72,7 @@
                         : 'text-muted'
                     "
                     to="/Cluster-Setting"
-                    >Cluster Setting</router-link
+                    >Cluster Settings</router-link
                   >
                   <hr
                     :class="

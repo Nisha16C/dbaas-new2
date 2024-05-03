@@ -4,25 +4,73 @@
       <h6 class="mb-0">Enter the Cluster Name and its Password</h6>
     </div>
 
+    <div class="col-lg-8 col-md-12 col-12 w-50">
+      <div class="">
+        <div class="p-3 card-body">
+          <div class="">
+            <div class="">
+              <label for="projectname" class="block  text-sm font-medium text-gray-900 dark:text-black">Cluster Name</label>
+              <argon-input type="text" placeholder="Enter your Cluster Name"  v-model="cluster_name" @blur="checkClusterNameExists" @change="updateName"  />
+
+              <div v-if="errorClusterName" class="text-danger mt-2">
+                  {{ errorClusterName }}
+                </div>
+
+              <label for="projectname" class="block  text-sm font-medium text-gray-900 dark:text-black">Postgres Username
+                </label>
+              <argon-input type="text" placeholder="Enter your Postgres Username" v-model="db_user" />
+              
+
+              <label for="projectname" class="block  text-sm font-medium text-gray-900 dark:text-black">Postgres Password
+                Name</label>
+              <argon-input type="text" placeholder="Enter your Postgres Username" v-model="db_password" @change="updatePassword"/>
+              <div v-if="passwordLengthError" class="text-danger mt-2">
+                  {{ passwordLengthError }}
+                </div>
+
+             
+
+              <h6 class="mb-3 text-sm">Database Version</h6>
+            <select :class="{ BGdark: isDarkMode }" class="form-select" aria-label="Default select example"
+              @change="updateVersion" v-model="postgres_version">
+              <option value="16" selected>16</option>
+              <option value="15">15</option>
+              <option value="14">14</option>
+              <option value="13">13</option>
+              <option value="12">12</option>
+            </select>
+
+            <div v-if="errorDatabaseVersion" class="text-danger mt-2">
+              {{ errorDatabaseVersion }}
+            </div>
+
+            <h6 class="mb-3 mt-3 text-sm">Storage Provider</h6>
+            <select :class="{ BGdark: isDarkMode }" class="form-select" aria-label="Default select example"
+              @click="updateMethod" v-model="backup_method">
+              <option value="nfs" selected>NFS</option>
+              <option value="s3">S3</option>
+            </select>
+            <div class="text-danger">
+              {{ backupError }}
+            </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="card-body pt-4 p-3">
       <ul class="list-group">
-        <li
-          class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg"
-        >
+        <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
           <div class="d-flex flex-column">
             <h6 class="mb-3 text-sm">Cluster Name and Password</h6>
             <form>
               <div class="form-group">
                 <label for="Cluster_Name"> Cluster Name</label>
-                <bb-input
-                  class=""
-                  type="email"
-                  id="example-text-input"
-                  placeholder="Enter Your Cluster Name"
-                  v-model="cluster_name"
-                  @blur="checkClusterNameExists"
-                  @change="updateName"
-                />
+                <bb-input class="" type="email" id="example-text-input" placeholder="Enter Your Cluster Name"
+                  v-model="cluster_name" @blur="checkClusterNameExists" @change="updateName" />
                 <!-- Error message for cluster name -->
                 <div v-if="errorClusterName" class="text-danger mt-2">
                   {{ errorClusterName }}
@@ -34,26 +82,25 @@
               </div>
 
               <div class="form-group">
-                <label for="Postgres_Username"> Postgres Username</label>
+                <!-- <label for="Postgres_Username"> Postgres Username</label>
+
                 <bb-input
                   type="email"
                   class=""
                   id="Postgres_Username"
                   placeholder="Enter Your Postgres Username"
                   v-model="db_user"
-                />
+                /> -->
+
+                <label for="Postgres_Username" class="block  text-sm font-medium text-gray-900 dark:text-black">Postgres
+                  Username</label>
+                <argon-input type="email" placeholder="Project Name" v-model="db_user" />
               </div>
 
               <div class="form-group">
                 <label for="Cluster_Name"> Postgres Password</label>
-                <bb-input
-                  type="password"
-                  class=""
-                  id="Password"
-                  placeholder="Enter Your Password "
-                  v-model="db_password"
-                  @change="updatePassword"
-                />
+                <bb-input type="password" class="" id="Password" placeholder="Enter Your Postgres User Password "
+                  v-model="db_password" @change="updatePassword" />
                 <div v-if="passwordLengthError" class="text-danger mt-2">
                   {{ passwordLengthError }}
                 </div>
@@ -61,13 +108,8 @@
             </form>
 
             <h6 class="mb-3 text-sm">Database Version</h6>
-            <select
-              :class="{ BGdark: isDarkMode }"
-              class="form-select"
-              aria-label="Default select example"
-              @change="updateVersion"
-              v-model="postgres_version"
-            >
+            <select :class="{ BGdark: isDarkMode }" class="form-select" aria-label="Default select example"
+              @change="updateVersion" v-model="postgres_version">
               <option value="16" selected>16</option>
               <option value="15">15</option>
               <option value="14">14</option>
@@ -80,13 +122,8 @@
             </div>
 
             <h6 class="mb-3 mt-3 text-sm">Storage Provider</h6>
-            <select
-              :class="{ BGdark: isDarkMode }"
-              class="form-select"
-              aria-label="Default select example"
-              @click="updateMethod"
-              v-model="backup_method"
-            >
+            <select :class="{ BGdark: isDarkMode }" class="form-select" aria-label="Default select example"
+              @click="updateMethod" v-model="backup_method">
               <option value="nfs" selected>NFS</option>
               <option value="s3">S3</option>
             </select>
@@ -109,12 +146,7 @@
         {{ storageOfferingError }}
       </div>
 
-      <argon-button
-        @click="createCluster"
-        color="success"
-        size="md"
-        variant="gradient"
-      >
+      <argon-button @click="createCluster" color="success" size="md" variant="gradient">
         Create Cluster
       </argon-button>
     </div>
@@ -126,13 +158,14 @@ import axios from "axios";
 import { mapState, mapActions } from "vuex";
 import ArgonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from "@/../apiconfig.js";
-import BbInput from "@/components/BB_Input.vue";
+import ArgonInput from "@/components/BB_Input.vue";
 
 export default {
   name: "billing-card",
   components: {
     ArgonButton,
-    BbInput,
+    ArgonInput,
+
   },
   data() {
     return {
@@ -179,7 +212,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['updateSelectedVersion','updateClusterName','updateUsername','updatePassword','updateBackupMethod']),
+    ...mapActions(['updateSelectedVersion', 'updateClusterName', 'updateUsername', 'updatePassword', 'updateBackupMethod']),
     updateVersion() {
       this.updateSelectedVersion(this.postgres_version);
       this.updateClusterName(this.cluster_name);
@@ -190,7 +223,7 @@ export default {
       this.updateBackupMethod(this.backup_method);
       this.listMountpoints();
     },
-    
+
 
     validatePassword() {
       this.passwordLengthError = "";
@@ -386,7 +419,7 @@ export default {
           this.$router.push("/result");
           axios
             .post(`${this.apiUrl}/api/v2/cluster/`, fromData)
-            .then(() => {})
+            .then(() => { })
             .catch((error) => {
               console.log(error);
             });

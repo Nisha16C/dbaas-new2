@@ -24,7 +24,7 @@
 
               <div class="col-auto my-auto">
                 <div class="h-100">
-                  <h5 class="mb-1">Cloudstack</h5>
+                  <h5 class="mb-1">CloudStack</h5>
                   <p class="mb-0 font-weight-bold text-sm"></p>
                 </div>
               </div>
@@ -75,7 +75,7 @@
 
               <div class="col-auto my-auto">
                 <div class="h-100">
-                  <h5 class="mb-1">Vmware</h5>
+                  <h5 class="mb-1">VMware</h5>
                   <p class="mb-0 font-weight-bold text-sm"></p>
                 </div>
               </div>
@@ -178,7 +178,7 @@
 
               <div class="col-auto my-auto">
                 <div class="h-100">
-                  <h5 class="mb-1">Openstack</h5>
+                  <h5 class="mb-1">OpenStack</h5>
                   <p class="mb-0 font-weight-bold text-sm"></p>
                 </div>
               </div>

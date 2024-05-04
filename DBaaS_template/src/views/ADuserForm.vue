@@ -14,7 +14,7 @@
 
                             <div class="h-100">
 
-                                <h3 class="mb-1">Authentication Provider: ActiveDirectory <span class="badge badge-sm"
+                                <h3 class="mb-1">Authentication Provider: Active Directory <span class="badge badge-sm"
                                         :class="statusClass">{{ status }}</span></h3>
 
                             </div>
@@ -54,7 +54,7 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="last_name" class="form-control-label">Server URI *</label>
+                                        <label for="last_name" class="form-control-label">Server URI <span class="warning">*</span></label>
 
                                         <argon-input v-model="ldapServerURI" type="text"
                                             placeholder="ldap://0.0.0.0:Port" @input="validateServerURI" />
@@ -71,7 +71,7 @@
 
                                         <label class="form-control-label">Server Connection Timeout
 
-                                            (milliseconds) *</label>
+                                            (milliseconds) <span class="warning">*</span></label>
 
                                         <argon-input v-model="serverConnectionTimeout" type="text"  value="10000"/>
 
@@ -89,7 +89,7 @@
 
                                         <label for="first_name" class="form-control-label">Service Account Distinguished
 
-                                            Name *</label>
+                                            Name <span class="warning">*</span></label>
 
                                         <argon-input v-model="ServiceAccountDistinguishedName" type="text" placeholder="Service Account Name "
                                              />
@@ -100,15 +100,15 @@
 
                                         <label for="last_name" class="form-control-label">Service Account Password
 
-                                            *</label>
+                                            <span class="warning">*</span></label>
 
-                                        <argon-input v-model="ldapServerBIND_PASSWORD" type="password" placeholder="" />
+                                        <argon-input v-model="ruiuiui" type="password" placeholder="" />
 
                                     </div>
 
                                     <div class="col-md-12">
 
-                                        <label for="username" class="form-control-label">Default Login Domain *</label>
+                                        <label for="username" class="form-control-label">Default Login Domain <span class="warning">*</span></label>
 
                                         <argon-input v-model="DefaultLoginDomain" type="text"
                                             placeholder="eg:mycompany " />
@@ -117,7 +117,7 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="phone" class="form-control-label">User Search Base *</label>
+                                        <label for="phone" class="form-control-label">User Search Base <span class="warning">*</span></label>
 
                                         <argon-input v-model="ldapServerBIND_DN" type="text"
                                             placeholder="e.g.ou=users,dc=mycompany,dc=com" />
@@ -128,7 +128,7 @@
 
                                         <label for="group_search_base" class="form-control-label">Group Search Base
 
-                                            *</label>
+                                            <span class="warning">*</span></label>
 
                                         <argon-input v-model="ldapGroupSearch" type="text"
                                             placeholder="e.g. ou=groups,dc=mycompany,dc=com" />
@@ -322,7 +322,7 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="first_name" class="form-control-label">Username *</label>
+                                        <label for="first_name" class="form-control-label">Username <span class="warning">*</span></label>
 
                                         <argon-input v-model="testUsername" type="text" placeholder="username" />
 
@@ -330,9 +330,9 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="last_name" class="form-control-label">Password *</label>
+                                        <label for="last_name" class="form-control-label">Password <span class="warning">*</span></label>
 
-                                        <argon-input v-model="testPassword" type="password"
+                                        <argon-input v-model="ldapServerBIND_PASSWORD" type="password"
                                             placeholder="password" />
 
                                     </div>
@@ -669,6 +669,11 @@ export default {
 
 
 <style scoped>
+.warning {
+    color: red;
+    font-weight: bold;
+}
+
 .y-background {
 
     background-color: rgb(252, 252, 128);

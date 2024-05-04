@@ -38,7 +38,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # DEBUG = True
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ['172.16.1.69','127.0.0.1']
+ALLOWED_HOSTS = ['172.16.1.190','127.0.0.1']
 
 
 # Application definition
@@ -152,9 +152,57 @@ REST_FRAMEWORK = {
 
 AUTH_TOKEN_MODEL = 'rest_framework.authtoken.models.Token'
 
+
+
+# Old db  setting
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django_prometheus.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+}
+
+AUTHENTICATION_BACKENDS = [
+    # 'django_auth_ldap.backend.LDAPBackend',
+    # 'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
+
+ldapGroupSearch = 'CN=Users,DC=os3,DC=com  '
+ 
+ 
+AUTH_LDAP_SERVER_URI = 'ldap://10.0.0.2:389'
+AUTH_LDAP_BIND_DN = 'CN=Administrator,CN=Users,DC=os3,DC=com'
+AUTH_LDAP_BIND_PASSWORD = 'P@33w0rd'
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    ldapGroupSearch,  # Use ldapGroupSearchBase here
+    ldap.SCOPE_SUBTREE,
+    "(sAMAccountName=%(user)s)"
+)
+ 
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch("CN=Users,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(objectClass=group)")
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
+ 
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "giveName",
+    "last_name": "sn",
+    "email": "mail"
+}
+
+
 CORS_ALLOWED_ORIGINS = [  
     'http://localhost:8080',
-    'http://172.16.1.69:8080',
+    'http://172.16.1.190:8080',
 ]
 REST_FRAMEWORK = {
 
@@ -266,125 +314,3 @@ LOGGING = {
         # Add more loggers if needed
     },
 }
-
-
-# Old db  setting
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django_prometheus.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-}
-
-
-ldapGroupSearch = 'CN=Users,DC=os3,DC=com  '
-serverConnectionTimeout = 10000  
-ServiceAccountDistinguishedName = 'None  '
- 
-AUTH_LDAP_SERVER_URI = 'ldap://10.0.0.2:389'
-
-# service_account_distigushied_name = Administrator
-
-AUTH_LDAP_BIND_DN = 'CN=Administrator,CN=Users,DC=os3,DC=com'
-AUTH_LDAP_BIND_PASSWORD = 'P@33w0rd'
-
-# Connection options
-AUTH_LDAP_CONNECTION_OPTIONS = {
-    ldap.OPT_TIMEOUT: serverConnectionTimeout  # Server Connection Timeout in seconds
-}
-
-
-AUTH_LDAP_USER_SEARCH = LDAPSearch(
-      # Use ldapGroupSearchBase here
-    'CN=Users,DC=os3,DC=com',
-    ldap.SCOPE_SUBTREE,
-    "(sAMAccountName=%(user)s)"
-)
-
-# Group search settings
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
-    # 'OU=Groups,DC=example,DC=com',
-    ldapGroupSearch,
-    ldap.SCOPE_SUBTREE,
-    '(objectClass=group)'
-)
-
-# AUTH_LDAP_GROUP_SEARCH = LDAPSearch("CN=Users,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(objectClass=group)")
-AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
-
-# Simple group restrictions
-# AUTH_LDAP_REQUIRE_GROUP = "cn=enabled,ou=django,ou=groups,dc=example,dc=com"
-# AUTH_LDAP_DENY_GROUP = "cn=disabled,ou=django,ou=groups,dc=example,dc=com"
-
-# Customize schema
-AUTH_LDAP_USER_ATTR_MAP = {
-    'first_name': 'givenName',
-    'last_name': 'sn',
-    'email': 'mail',
-}
-
-AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    "is_active": "cn=active,ou=django,ou=groups,dc=example,dc=com",
-    "is_staff": "cn=staff,ou=django,ou=groups,dc=example,dc=com",
-    "is_superuser": "cn=superuser,ou=django,ou=groups,dc=example,dc=com",
-}
-
-# Users
-AUTH_LDAP_USER_OBJECT_CLASS = 'person  '
-AUTH_LDAP_USER_USERNAME_ATTR = 'name  '
-# AUTH_LDAP_USER_NAME_ATTR = 'displayName'  # Name attribute
-AUTH_LDAP_USER_LOGIN_ATTR = 'sAMAccountName  '
-AUTH_LDAP_USER_SEARCH_ATTR = 'sAMAccountName|sn|givenName  '
-AUTH_LDAP_USER_MEMBER_ATTR = 'None  '
-AUTH_LDAP_USER_SEARCH_FILTER = 'None  '
-AUTH_LDAP_USER_ENABLE_ATTR = 'userAccountControl  '
-
-# Groups
-AUTH_LDAP_GROUP_OBJECT_CLASS = 'group  '
-# Name Attribute for groups
-AUTH_LDAP_GROUP_NAME_ATTR = 'name  '
-# Search Attribute for groups
-AUTH_LDAP_GROUP_SEARCH_ATTR = 'sAMAccountName  '
-# Search Filter for groups
-AUTH_LDAP_GROUP_SEARCH_FILTER = 'None  '
-# Group Member Mapping Attribute
-AUTH_LDAP_GROUP_MEMBER_MAPPING_ATTR = 'member  '
-# Specify whether to search direct and nested group memberships or only direct group memberships
-# For searching direct and nested group memberships
-AUTH_LDAP_FIND_GROUP_PERMS = True
-
-# For searching only direct group memberships
-# AUTH_LDAP_FIND_GROUP_PERMS = False
-AUTH_LDAP_GROUP_MEMBER_ATTR = 'distinguishedName  '
-AUTH_LDAP_GROUP_DN_ATTR = 'distinguishedName  '
-
-# Disabled status bitmask
-AUTH_LDAP_USER_DISABLED_BITMASK = '2  '
-
-# Default Login Domain
-AUTH_LDAP_DEFAULT_DOMAIN = 'os3  '
-
-# Define variables for AD authentication test
-# Username for authentication
-AD_TEST_USERNAME = 'Administrator  '
-
-# Password for authentication
-AD_TEST_PASSWORD = 'P@33w0rd  '
-
-AUTHENTICATION_BACKENDS = [
-    # 'django_auth_ldap.backend.LDAPBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
-# 
-# 
-# 
-# 
-# 

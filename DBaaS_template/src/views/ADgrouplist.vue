@@ -7,7 +7,7 @@
                     <div class="row gx-4">
                         <div class="col-auto my-auto">
                             <div class="h-100">
-                                <h5 class="mb-1 text-2xl">List Of Active Directory Users</h5>
+                                <h5 class="mb-1 text-2xl">List Of Active Directory Groups</h5>
                             </div>
                         </div>
                     </div>
@@ -16,50 +16,44 @@
         </div>
 
         <!-- Display groups and their members -->
-<!-- Display groups and their members -->
-<div class="py-4 container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <!-- Iterate over each AD group -->
-                    <div v-for="group in adGroups" :key="group.name">
-                        <!-- Group name with buttons on the same line -->
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h6 @click="toggleMembers(group)" class="group-name">{{ group.name }}</h6>
-                            <div>
-                                <!-- View Role button -->
-                                <argon-button color="success" size="md" variant="gradient"
-                                    @click="prepareUserRole(group)" type="button" class="ml-4 btn btn-danger"
-                                    data-toggle="modal" data-target="#exampleModal2">
-                                    View Role
-                                </argon-button>
-                                <!-- Assign Roles button -->
-                                <argon-button color="success" size="md" variant="gradient"
-                                    @click="prepareAssignRoles(group)" type="button" class="ml-4 btn btn-danger"
-                                    data-toggle="modal" data-target="#exampleModal">
-                                    Assign Roles
-                                </argon-button>
+        <!-- Display groups and their members -->
+        <div class="py-4 container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Iterate over each AD group -->
+                            <div v-for="group in adGroups" :key="group.name">
+                                <!-- Group name with buttons on the same line -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 @click="toggleMembers(group)" class="group-name">{{ group.name }}</h6>
+                                    <div>
+                                        <!-- Assign Roles button -->
+                                        <argon-button color="success" size="md" variant="gradient"
+                                            @click="prepareAssignRoles(group)" type="button" class="ml-4 btn btn-danger"
+                                            data-toggle="modal" data-target="#exampleModal">
+                                            Assign Roles
+                                        </argon-button>
+                                    </div>
+                                </div>
+                                <!-- Horizontal line below group name -->
+                                <hr>
+                                <!-- Member list -->
+                                <ul v-if="group.showMembers">
+                                    <li v-for="member in group.members" :key="member">{{ member }}</li>
+                                </ul>
                             </div>
                         </div>
-                        <!-- Horizontal line below group name -->
-                        <hr>
-                        <!-- Member list -->
-                        <ul v-if="group.showMembers">
-                            <li v-for="member in group.members" :key="member">{{ member }}</li>
-                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
 
 
     </main>
     <div class="modal fade" ref="myModal" id="exampleModal" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        aria-labelledby="exampleModalLabel" aria-hidden="true" @show="setSelectedRole">
         <div class="modal-dialog" role="document">
             <div class="modal-content" :class="{ 'dark-mode': isDarkMode }">
                 <div class="modal-header">
@@ -71,13 +65,13 @@
 
                 <!-- Inside your modal body -->
 
-
-
                 <div class="form-check" v-for="role in roles" :key="role.name">
                     <input v-model="selectedRoles" class="form-check-input" type="radio" :value="role.name"
-                        :id="'roleCheckbox_' + role.name">
+                        :id="'roleCheckbox_' + role.name" :checked="role.name === selectedRole">
+                    <!-- Check if role matches the selected role -->
                     <label class="form-check-label" :for="'roleCheckbox_' + role.name">{{ role.name }}</label>
                 </div>
+
 
                 <div class="modal-footer">
                     <argon-button color="secondary" size="md" variant="gradient" @click="isModalVisible = false"
@@ -94,32 +88,6 @@
     </div>
 
 
-    <div class="modal fade" ref="myModal" id="exampleModal2" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content" :class="{ 'dark-mode': isDarkMode }">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="exampleModalLabel">User Role</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <!-- Inside your modal body -->
-                <div class="form-check" v-if="selectedUser">
-                    <label class="form-check-label">Username: {{ selectedUser.username }}</label><br>
-                    <label class="form-check-label">Assigned Role: {{ formattedRoles || 'No Role Assign' }}</label>
-                </div>
-
-                <div class="modal-footer">
-                    <argon-button color="secondary" size="md" variant="gradient" @click="isModalVisible = false"
-                        type="button" class="ml-4 btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
-                        Close
-                    </argon-button>
-                </div>
-            </div>
-        </div>
-    </div>
 </template>
 
 <script>
@@ -137,8 +105,8 @@ export default {
                 { id: 2, name: 'Standard' },
                 // Add more roles as needed
             ],
-            selectedGroup: null, // Track selected group for role assignment
-            selectedGroupRoles: '', // Track selected roles for group assignment
+            selectedGroup: null,
+            selectedGroupRoles: {}, // Track selected roles for each group
 
         };
     },
@@ -149,6 +117,10 @@ export default {
         this.fetchADGroups();
     },
     methods: {
+        setSelectedRole() {
+            // Set the selected role for the current group
+            this.selectedRole = this.selectedGroupRoles[this.selectedGroup.name];
+        },
         fetchADGroups() {
             fetch(`${this.apiUrl}/api/v1/list-gmember/`)
                 .then(response => response.json())
@@ -165,28 +137,39 @@ export default {
         prepareAssignRoles(group) {
             // Set the selected group for role assignment
             this.selectedGroup = group;
-            // Reset selected roles for the group
-            this.selectedGroupRoles =   this.selectedRoles;
+
+            // Retrieve previously assigned role for the current group from local storage
+            const savedRole = this.selectedGroupRoles[group.name];
+
+            // If a role was previously assigned to the current group, set it as the selected role
+            if (savedRole) {
+                this.selectedRole = savedRole;
+            } else {
+                // If no role was previously assigned, set an empty string
+                this.selectedRole = '';
+            }
         },
         async assignGroupRoles() {
-    try {
-        if (!this.selectedGroup) {
-            console.error('No group selected.');
-            return;
+            try {
+                if (!this.selectedGroup) {
+                    console.error('No group selected.');
+                    return;
+                }
+                const response = await axios.post(`${this.apiUrl}/api/v1/adgroup-role/`, {
+                    group_name: this.selectedGroup.name, // Send selected group name for role assignment
+                    role_name: this.selectedRoles, // Send selected roles for group assignment
+                });
+                if (response.data.success) {
+                    console.log('Roles assigned to group successfully:', response.data.message);
+                    // Update the UI or any other necessary actions after successful assignment
+                    this.selectedGroupRoles[this.selectedGroup.name] = this.selectedRoles;
+                    localStorage.setItem('selectedRoles', JSON.stringify(this.selectedGroupRoles));
+                }
+                this.isModalVisible = false;
+            } catch (error) {
+                console.error('Error assigning roles to group:', error);
+            }
         }
-        const response = await axios.post(`${this.apiUrl}/api/v1/adgroup-role/`, {
-            group_name: this.selectedGroup.name, // Send selected group name for role assignment
-            role_name: this.selectedGroupRoles, // Send selected roles for group assignment
-        });
-        if (response.data.success) {
-            console.log('Roles assigned to group successfully:', response.data.message);
-            // Update the UI or any other necessary actions after successful assignment
-        }
-        this.isModalVisible = false;
-    } catch (error) {
-        console.error('Error assigning roles to group:', error);
-    }
-}
 
     }
 };
@@ -207,4 +190,5 @@ export default {
     width: 300px;
     height: 150px;
 }
+
 </style>

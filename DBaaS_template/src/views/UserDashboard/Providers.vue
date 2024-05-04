@@ -358,7 +358,7 @@
                   </div>
 
                   <div class="mb-3">
-                    <label for="access_key" class="form-label">Access key</label>
+                    <label for="access_key" class="form-label">Access Key</label>
                     <bb-input type="text" class="" id="access_key" v-model="access_key" placeholder="Access Key "
                       required />
                     <argon-alert v-if="!access_key && showErrorMessages" color="danger" icon="icon-danger" dismissible>

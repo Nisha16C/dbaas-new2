@@ -2,9 +2,8 @@
     <div class="markdown-content">
         <div id="htmlContent">
 
-
-            <div class="color1"><img :src="require('@/Documentation/logo1.png')" class="custom-logo"> Documentation of
-                BitBlast </div><br>
+            <div class="color1"><img :src="require('@/Documentation/bitblastLogo.png')" class="custom-logo">
+                Documentation of BitBlast </div><br>
             <!-- <div style="font-size: 48px; font-weight: bold; color: #27297e;">Heading Text</div> -->
 
 
@@ -119,13 +118,13 @@
             <div class="color4">2. Select Project</div>
             <p>By default, a project is automatically assigned to you by admin, making it convenient
                 to start working right away. However, if you prefer to create your
-                own project or switch to another one, BitBlast offers flexibility.</p>
-            <p>As a new user, BitBlast automatically assigns a default project to streamline
+                own project or switch to another one, BitBlast offers flexibility. As a new user, BitBlast automatically
+                assigns a default project to streamline
                 your onboarding experience. This allows you to dive into your work immediately without the need for
                 manual project selection.</p>
-            <p>"Additionally, at any point, you can visit the 'Project-Select Page' to view to all available projects.
+            <p>Additionally, at any point, you can visit the 'Project-Select Page' to view to all available projects.
                 Here, you have the
-                freedom to select a different project based on your preferences or work requirements."</p>
+                freedom to select a different project based on your preferences or work requirements.</p>
             <img :src="require('@/Documentation/img2.png')" class="custom-image"><br><br>
             <hr>
 
@@ -143,17 +142,18 @@
             <div class="color4">4. Project </div>
             <p>The Project Page in BitBlast is your dedicated space for project management. Here, you have a
                 comprehensive overview of your projects, the ability to create new projects seamlessly,
-                and access to essential details about each project.</p>
-            <p>"At the top of the Project Page, you'll find a clear count of the total number of projects currently
+                and access to essential details about each project. At the top of the Project Page, you'll find a clear
+                count of the total number of projects currently
                 active in BitBlast. This gives
-                you an instant understanding of the scope and scale of your ongoing projects."</p>
-            <p>"Empowering you to initiate new projects is the 'Create Project' feature.
+                you an instant understanding of the scope and scale of your ongoing projects.</p>
+            <p>Empowering you to initiate new projects is the 'Create Project' feature.
                 Simply type the desired name into the input field and, with a click on the 'Create Project' button,
-                you can seamlessly add a new project to your BitBlast environment."</p>
-            <p>"As you scroll down, you'll encounter a comprehensive list of all projects within BitBlast. Each project
-                entry includes its unique ID, project name, created date, and last updated date,"</p>
-            <p>"The Project Page allowing you to monitor existing projects, create new ones effortlessly,
-                and access critical details about each project for efficient project management."</p>
+                you can seamlessly add a new project to your BitBlast environment.</p>
+            <p>As you scroll down, you'll encounter a comprehensive list of all projects within BitBlast. Each project
+                entry includes its unique id, project name, created date, and last updated date. The Project Page
+                allowing you to monitor existing projects, create new ones effortlessly,
+                and access critical details about each project for efficient project management.</p>
+
             <img :src="require('@/Documentation/img16.png')" class="custom-image"><br><br>
             <hr>
 
@@ -191,6 +191,8 @@
                 users can seamlessly add Kubernetes as a provider and proceed with creating customized and optimized
                 clusters within their projects.</p>
             <img :src="require('@/Documentation/k8s-provider2.png')" class="custom-image"><br><br>
+            <p style="background-color: aquamarine">To add other providers like CloudStack Provider and Kubernetes
+                Provider, the user will follow a similar process as they do for the rest.</p>
             <hr>
 
             <div class="color4">6. Cluster </div>
@@ -276,6 +278,7 @@
             <img :src="require('@/Documentation/MicrosoftTeams-image (9).png')" class="custom-image"><br><br>
             <img :src="require('@/Documentation/MicrosoftTeams-image (2).png')" class="custom-image"><br><br>
 
+
             <div class="color6">Create Kubernetes Clusters</div>
             <p><b>Create Database/Cluster : </b> BitBlast simplifies the process of creating kubernetes new database or
                 cluster with the convenience of the "Create Cluster" button. By clicking this button, users can initiate
@@ -337,9 +340,30 @@
 
             <img :src="require('@/Documentation/MicrosoftTeams-image (3).png')" class="custom-image"><br><br>
             <img :src="require('@/Documentation/MicrosoftTeams-image (2).png')" class="custom-image"><br><br>
+            <p style="background-color:aquamarine">Just like setting up a CloudStack Cluster and Kubernetes Cluster,
+                users can create other clusters such as VMware, OpenStack, Harvester,
+                and Nutanix using similar procedures.</p>
             <hr>
+            <div class="color4">7. Monitoring </div>
+            <p>
 
-            <div class="color4">7. Backup </div>
+                The Monitoring
+                functionality within the BitBlast dashboard provide features offers into your clusters or
+                databases, enabling efficient management and optimization.
+
+                You can access a wealth of information specific to your databases, including details such as database
+                version, cluster type, start time, and various performance metrics like average CPU and memory usage.
+            </p>
+
+            <p> Furthermore, you'll be able to monitor critical metrics such as open file descriptors, shared buffers,
+                and active sessions in real-time.
+
+                With comprehensive data on transactions, update data, fetch data, insert data, and table locks, the
+                monitoring dashboard empowers you to uphold optimal performance and reliability across your databases.
+            </p>
+
+            <hr>
+            <div class="color4">8. Backup </div>
             <p>In BitBlast, backups refer to the process of creating copies of your databases on the DBaaS platform for
                 safekeeping. These copies can be used to restore your database in case of data loss due to various
                 reasons like hardware malfunctions, software errors, or even accidental deletions.</p>
@@ -574,6 +598,28 @@
                 continuity and peace of mind.</p>
 
             <hr>
+            <div class="color8">Authentication Provider - Active Directory Server</div>
+            <p>The Active Directory server in BitBlast serves as an authentication provider, streamlining the login
+                process for users. Acting as a centralized identity management system, it allows users to access
+                BitBlast using their existing Active Directory credentials.
+                This integration simplifies user management by leveraging the authentication mechanisms already in place
+                within the organization.</p>
+            <p>By utilizing Active Directory as the authentication provider, BitBlast ensures secure access control and
+                authentication protocols. Users can log in seamlessly, without the need for separate credentials or
+                additional authentication steps. This integration enhances security measures by enforcing existing
+                Active Directory policies, such as password complexity requirements and account lockout policies, across
+                BitBlast access.</p>
+            <p>Overall, the Active Directory server integration in BitBlast enhances
+                security, simplifies user authentication, and improves administrative efficiency.</p>
+
+            <p>You can log in to BitBlast using your Active Directory credentials, such as the username and password
+                associated with your Active Directory server. This integration allows for seamless authentication,
+                enabling users to access BitBlast using the same login information they use for their Active Directory
+                accounts.</p>
+
+            <img>
+            <hr>
+
 
 
 
@@ -594,47 +640,47 @@
 
             <div class="color4">2. Admin Dashboard </div>
             <p>Welcome to the Admin Dashboard of BitBlast, your central command center for seamless project management.
-                Here, you have a comprehensive overview of essential elements -
+                Here, admin have a comprehensive overview of essential elements -
                 the total number of clusters, projects, and users, all in one place.</p>
             <img :src="require('@/Documentation/img18.png')" class="custom-image"><br><br>
             <hr>
 
             <div class="color4">3. Clusters Management </div>
-            <p>"Let's dive into Cluster Management, your control center for overseeing and organizing clusters in
+            <p>Let's dive into Cluster Management, your control center for overseeing and organizing clusters in
                 BitBlast.
-                Here, you get a quick overview of the total number of clusters available."</p>
-            <p>"In the Cluster Management page, you have access to detailed information about
+                Here, admin get a quick overview of the total number of clusters available.</p>
+            <p>In the Cluster Management page, admin have access to detailed information about
                 each database. This includes the Database Name and ID, Database Type and Version,
-                Provider Name, Created Date, and Updated Date."</p>
+                Provider Name, Created Date, and Updated Date.</p>
             <img :src="require('@/Documentation/img19.png')" class="custom-image"><br><br>
 
-            <p><b>View Database Information : </b>With the 'View' button, you can drill down
-                into specific database details. Clicking on 'View' allows you to access comprehensive information
+            <p><b>View Database Information : </b>With the 'View' button, admin can drill down
+                into specific database details. Clicking on 'View' allows admin to access comprehensive information
                 related to any particular
                 database, including its artifacts and dynamic data.</p>
             <img :src="require('@/Documentation/img25.png')" class="custom-image"><br><br>
 
-            <p><b>Delete Database : </b>"Need to tidy up your database landscape? The 'Delete' button empowers you to I
+            <p><b>Delete Database : </b>Need to tidy up your database landscape? The 'Delete' button empowers admin to I
                 remove any unwanted databases efficiently. A simple click on 'Delete,' and
-                you can seamlessly eliminate a database from the system."</p>
+                admin can seamlessly eliminate a database from the system.</p>
             <img :src="require('@/Documentation/img4.png')" class="custom-image"><br><br>
 
             <p> Cluster Management in BitBlast provides a centralized space for not only viewing the total number of
                 clusters but also detailed insights into each database. With the ability to view and delete databases,
-                you have the b control to streamline and manage your database environment effectively.</p><br><br>
+                admin have the control to streamline and manage your database environment effectively.</p><br><br>
             <hr>
 
             <div class="color4">4. Project Management </div>
-            <p>Project Management is the space where you have complete control over your projects in BitBlast.
+            <p>Project Management is the space where admin have complete control over your projects in BitBlast.
                 Let's start by getting an overview of the total number of projects available.</p>
 
-            <p>"In the Project Management page, you can access detailed information about each project, including the
-                Project Name and ID, Created Date, and Updated Date."</p>
+            <p>In the Project Management page, admin can access detailed information about each project, including the
+                Project Name and ID, Created Date, and Updated Date.</p>
             <img :src="require('@/Documentation/img5.png')" class="custom-image"><br><br>
 
-            <p><b>Rename Project : </b>Need to refine a project's identity? The 'Edit' button allows you to rename In
+            <p><b>Rename Project : </b>Need to refine a project's identity? The 'Edit' button allows admin to rename In
                 any project seamlessly. A quick click on 'Edit',
-                and you can update the name of your project for better clarity.</p>
+                and admin can update the name of your project for better clarity.</p>
             <img :src="require('@/Documentation/img6.png')" class="custom-image"><br><br>
 
             <p>Project Management in BitBlast provides not only a quick glance at the total number of projects but also
@@ -643,26 +689,82 @@
             <hr>
 
             <div class="color4">5. User Management </div>
-            <p>Let's explore User Management, the central hub for overseeing and organizing users in BitBlast.
-                Begin by getting an overview of the total number of users available.</p>
+            <p>On the user management page, administrators have the flexibility to manage their users according to their
+                preferences. In this, Admin have two options: 1) User Creation and 2) Auth Providers.
 
-            <p>"In the User Management page, detailed information about each user is at your fingertips. This includes
-                the User Name and ID,
-                Status (active or inactive), Created Date, Last Login, and Email Address."</p>
+            </p>
+            <div class="color6">User Creation</div>
+
+
+            <p>In the user creation page, administrators can filter users based on different criteria such as local
+                users, all users, and Active Directory (AD) users. They can view a comprehensive list of all users and
+                perform various actions.</p>
+
+            <p>Admins can assign roles to users, giving them specific permissions and access levels within the BitBlast
+                platform.The admin has two roles available: the <b>Admin Role</b> and the <b>Standard Role</b>. The Admin Role grants
+                authority to access the Admin Dashboard, while the Standard Role provides access to the User Dashboard.
+                Additionally, administrators can view the roles assigned to each user, allowing them to
+                understand the level of access granted to different individuals.</p>
+
+            <p> This user overview provides essential details such as the User Name and ID, indicating the unique
+                identifier for each user. It also displays the user's Status, indicating whether they are currently
+                active or inactive, along with the Created Date and Last Login timestamp, providing insights into their
+                account activity.</p>
+
+            <p> Moreover, administrators can view the Email Address associated with each user, facilitating
+                communication and correspondence within the platform. For efficient user management, administrators have
+                access to buttons like "View" and "Role Assign" for each user, enabling them to take immediate actions
+                as needed.
+
+                Overall, this comprehensive view empowers administrators to efficiently manage users within the BitBlast
+                platform, ensuring smooth operation and effective access control.</p>
             <img :src="require('@/Documentation/img7.png')" class="custom-image"><br><br>
 
-            <p><b>New User Creation : </b>"Want to add a new member to your team? The 'Create New User' button allows
-                you to seamlessly add a new user. Clicking on it opens a form where you can input information such as
+            <p><b>New User Creation : </b>Want to add a new member to your team? The 'Create New User' button allows
+                admin to seamlessly add a new user. Clicking on it opens a form where admin can input information such
+                as
                 First Name, Last Name, Username,
-                Phone Number, Emails Address, Password, and agree to the terms & conditions."</p>
+                Phone Number, Emails Address, Password, and agree to the terms & conditions.</p>
             <img :src="require('@/Documentation/img8.png')" class="custom-image"><br><br>
 
-            <p>"Ater successfully creating a new user, you'll receive a confirmation message. This message indicates
-                that the new user has been added successfully and is now visible in the user table."</p>
+            <p>After successfully creating a new user, you'll receive a confirmation message. This message indicates
+                that the new user has been added successfully and is now visible in the user table.</p>
+
+            <div class="color6">Auth Providers</div>
+            <p>When the admin clicks on "Auth Providers" , they'll be presented with a page listing the authentication
+                providers available. If the admin clicks on the Active Directory provider, a form specific to AD will
+                appear.</p>
+            <p>In this AD form, the admin needs to input the required information to enable integration with the Active
+                Directory server. This allows users from the Active Directory to access the BitBlast dashboard.</p>
+            <p>Once the admin fills out the form, they can click the "Enable" button to save the configuration. This
+                action activates the integration, allowing Active Directory users to access the BitBlast dashboard.
+                Additionally, if needed, the admin can later click on the "Disable" button to revoke access for Active
+                Directory users, thus preventing them from accessing the BitBlast dashboard.</p>
+            <p>If the admin wishes to make changes to the AD configuration, they can click on the "Edit Config" button
+                to modify the settings in the AD form. This flexibility enables admins to adjust the integration as
+                necessary to meet their organization's requirements.</p>
+
 
             <p>User Management in BitBlast not only provides an overview of the total number of users but also offers
                 detailed insights into each user. With the ability to create new users, you have
-                the flexibility to manage your team efficiently and keep user information up-to-date."</p>
+                the flexibility to manage your team efficiently and keep user information up-to-date.</p>
+            <p>When the admin navigates to the Auth Provider page, they'll find two buttons: "List of Active Users" and
+                "Members of AD groups."</p>
+            <p>Clicking on the "List of Active Users" button will display a comprehensive list of all users and groups
+                from the Active Directory. This list provides visibility into the Active Directory's user and group
+                structure.</P>
+            <p>Afterward, clicking on the "Members of AD groups" button will present the admin with a list of all groups
+                associated with the Active Directory. Upon selecting a specific group from the list, a dropdown will
+                appear showing all the members associated with that group.</P>
+            <p>Administrators can assign roles to these groups, which in turn assigns the same role to all members
+                within the group. Additionally, admins can view the roles assigned to specific groups, providing
+                insights into the access levels granted to members of each group.</P>
+            <p>This functionality streamlines user and group management within the BitBlast platform, allowing
+                administrators to efficiently assign roles and manage permissions based on Active Directory user and
+                group memberships.</P>
+
+
+
             <hr>
 
             <div class="color4">6. Monitoring </div>
@@ -828,6 +930,14 @@ export default {
     color: #27297e;
 }
 
+.color8 {
+    /* color:#376658 ; */
+
+    font-size: 35px;
+    font-weight: bold;
+    color: #166148;
+}
+
 .color4 {
     /* color:#376658 ; */
 
@@ -847,7 +957,7 @@ export default {
 .color6 {
     /* color:#376658 ; */
 
-    font-size: 12px;
+    font-size: 18px;
     font-weight: bold;
     color: black;
 }

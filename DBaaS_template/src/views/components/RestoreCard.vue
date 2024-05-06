@@ -57,7 +57,7 @@
 
                 <!-- <div class="form-group mt-3">
                   <label class="text-sm" for="">Destination Directory</label>
-                  <bb-input type="email" class="" id="Postgres_Username" placeholder="Destination directory"
+                  <bb-input type="email" class="" id="Postgres_Username" value="/var/lib/postgresql/test " readonly
                     v-model="destination_dir" />
                 </div> -->
                 <div class="form-group mt-3">
@@ -106,7 +106,7 @@ export default {
       serverNames: '',
       backup_id: '',
       username: '',
-      destination_dir: '',
+      // destination_dir: '/var/lib/postgresql/test',
       target_server: '',
       backupList: [],
       loading: false, // Track loading state

@@ -157,10 +157,10 @@ export default {
       this.updateUsername(this.db_user);
       this.updatePassword(this.db_password);
     },
-    // updateMethod() {
-    //   this.updateBackupMethod(this.backup_method);
-    //   this.listMountpoints();
-    // },
+    updateMethod() {
+      this.updateBackupMethod(this.backup_method);
+      this.listMountpoints();
+    },
 
 
     validatePassword() {
@@ -203,18 +203,18 @@ export default {
           // Handle errors from the cluster check API if needed
         });
     },
-    // listMountpoints() {
-    //   axios.get(
-    //     `http://172.16.1.131:8001/api/v4/barman/list-mount-points?username=${this.Username}`
-    //   )
-    //     .then((response) => {
-    //       this.nfsMountpoints = response.data.nfs_mount_points;
-    //       this.s3Mountpoints = response.data.s3_mount_points;
-    //     })
-    //     .catch((error) => {
-    //       console.error('Error mounting s3:', error);
-    //     })
-    // },
+    listMountpoints() {
+      axios.get(
+        `http://172.16.1.131:8001/api/v4/barman/list-mount-points?username=${this.Username}`
+      )
+        .then((response) => {
+          this.nfsMountpoints = response.data.nfs_mount_points;
+          this.s3Mountpoints = response.data.s3_mount_points;
+        })
+        .catch((error) => {
+          console.error('Error mounting s3:', error);
+        })
+    },
     createCluster() {
       // Reset error messages
       this.errorClusterName = "";
@@ -264,35 +264,35 @@ export default {
         return;
       }
 
-      // if (!this.backup_method) {
-      //   this.backupError = 'This field is required';
-      //   setTimeout(() => {
-      //     this.backupError = "";
-      //   }, 5000);
-      //   return;
-      // } else {
-      //   if (this.backup_method === 'nfs') {
-      //     console.log("backup_method == nfs");
-      //     this.mount_point = this.nfsMountpoints[0].mount_point;
-      //     console.log(this.mount_point);
-      //     if (this.nfsMountpoints.length <= 0) {
-      //       this.backupError = "NFS is not connected";
-      //       return;
-      //     } else {
-      //       this.backupError = '';
-      //     }
-      //   } else {
-      //     console.log("backup_method == nfs");
-      //     this.mount_point = this.s3Mountpoints[0].mount_point;
-      //     console.log(this.mount_point);
-      //     if (this.s3Mountpoints.length <= 0) {
-      //       this.backupError = "S3 is not connected";
-      //       return;
-      //     } else {
-      //       this.backupError = '';
-      //     }
-      //   }
-      // }
+      if (!this.backup_method) {
+        this.backupError = 'This field is required';
+        setTimeout(() => {
+          this.backupError = "";
+        }, 5000);
+        return;
+      } else {
+        if (this.backup_method === 'nfs') {
+          console.log("backup_method == nfs");
+          this.mount_point = this.nfsMountpoints[0].mount_point;
+          console.log(this.mount_point);
+          if (this.nfsMountpoints.length <= 0) {
+            this.backupError = "NFS is not connected";
+            return;
+          } else {
+            this.backupError = '';
+          }
+        } else {
+          console.log("backup_method == nfs");
+          this.mount_point = this.s3Mountpoints[0].mount_point;
+          console.log(this.mount_point);
+          if (this.s3Mountpoints.length <= 0) {
+            this.backupError = "S3 is not connected";
+            return;
+          } else {
+            this.backupError = '';
+          }
+        }
+      }
 
       if (!this.clusterType) {
         this.typeError = "Cluster type is required";
@@ -369,8 +369,8 @@ export default {
             auth_url: this.provider_info.auth_url,
             region: this.provider_info.region,
 
-            // backup_method: this.backup_method,
-            // mount_point: this.mount_point,
+            backup_method: this.backup_method,
+            mount_point: this.mount_point,
           };
 
           this.$router.push("/result");

@@ -44,6 +44,10 @@
                   </option>
 
                 </select>
+                <div class="form-check form-switch mt-3">
+                  <input class="form-check-input" @click="toggleBackupSchedule()" type="checkbox">
+                  <label class=" text-sm mt-2" for="backupSwitch">Schedule Backup (Optional)</label>
+                </div>
 
                 <div v-show="!isBackupScheduled" class="form-group mt-3">
                   <label class="text-sm" for="">Backup Name</label>
@@ -52,12 +56,9 @@
 
 
                 <div>
-                  <div class="form-check form-switch mt-3">
-                    <input class="form-check-input" @click="toggleBackupSchedule()" type="checkbox">
-                    <label class=" text-sm mt-2" for="backupSwitch">Schedule Backup (Optional)</label>
-                  </div>
 
-                  <div v-if="isBackupScheduled" class="form-group mt-3">
+
+                  <div class="form-group mt-3">
                     <label class="text-sm" for="retentionPeriod">Retention Period:</label>
                     <div class="input-group">
                       <input type="email" class="form-control" id="retentionPeriod" v-model="retentionPeriod">
@@ -69,17 +70,27 @@
                     </div>
                   </div>
                   <div v-if="isBackupScheduled" class="form-group mt-3">
-                    <label class="text-sm" for="retentionPeriod">time</label>
+                    <label class="text-sm" for="retentionPeriod">Minuts</label>
                     <div class="input-group">
                       <select :class="{ 'BGdark': isDarkMode }" class="form-select" aria-label="Default select example"
-                        v-model="selectedHour" @click="fetchServers()">
-                        <option v-for="hour in 24" :key="hour" :value="hour">{{ hour }} hours</option>
+                        v-model="selectedMinuts" @click="fetchServers()">
+                        <option v-for="minut in 60" :key="minut" :value="minut">{{ minut }} </option>
                       </select>
 
                     </div>
                   </div>
                   <div v-if="isBackupScheduled" class="form-group mt-3">
-                    <label class="text-sm" for="retentionPeriod">Day</label>
+                    <label class="text-sm" for="retentionPeriod">Hours</label>
+                    <div class="input-group">
+                      <select :class="{ 'BGdark': isDarkMode }" class="form-select" aria-label="Default select example"
+                        v-model="selectedHour" @click="fetchServers()">
+                        <option v-for="hour in 24" :key="hour" :value="hour">{{ hour }}</option>
+                      </select>
+
+                    </div>
+                  </div>
+                  <div v-if="isBackupScheduled" class="form-group mt-3">
+                    <label class="text-sm" for="retentionPeriod">Days</label>
                     <div class="input-group">
                       <select v-if="isBackupScheduled" class="form-select" aria-label="Default select example"
                         v-model="selectedSchedule">
@@ -94,6 +105,7 @@
 
 
                     </div>
+
                   </div>
                 </div>
 
@@ -125,7 +137,8 @@ export default {
   name: "backup-card",
   components: {
     argonButton,
-    bbInput
+    bbInput,
+
   },
   data() {
     return {
@@ -133,13 +146,23 @@ export default {
       serverName: '',
       backup_name: '',
       isBackupScheduled: false,
-      selectedHour: 1, // Newly added property to store the selected hour
-      selectedSchedule: 'Sunday', // Newly added property to store the selected schedule
+      selectedHour: 0, // Newly added property to store the selected hour
+      selectedMinuts: 0,
       backup_method: '',
       username: '',
       loading: false,
       successMessage: "",
       errorMessage: "",
+      selectedDate: new Date(), // Add this line to initialize selectedDate
+      // other data properties
+      config: {
+        enableTime: true, // Enable time selection
+        dateFormat: "Y-m-d H:i", // Format for displaying the date and time
+        altFormat: "F j, Y H:i", // Format for displaying the date in the input field
+        altInput: true, // Use an alternative input field that shows the formatted date
+        time_24hr: true // Use 24-hour format for time
+      }
+
     };
   },
 

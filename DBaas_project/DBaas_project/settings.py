@@ -178,12 +178,12 @@ AUTHENTICATION_BACKENDS = [
 
 
 
-ldapGroupSearch = 'CN=Users,DC=os3,DC=com  '
+ldapGroupSearch = 'None  '
  
  
-AUTH_LDAP_SERVER_URI = 'ldap://10.0.0.2:389'
-AUTH_LDAP_BIND_DN = 'CN=Administrator,CN=Users,DC=os3,DC=com'
-AUTH_LDAP_BIND_PASSWORD = 'P@33w0rd'
+AUTH_LDAP_SERVER_URI = 'None'
+AUTH_LDAP_BIND_DN = 'None'
+AUTH_LDAP_BIND_PASSWORD = 'None'
 AUTH_LDAP_USER_SEARCH = LDAPSearch(
     ldapGroupSearch,  # Use ldapGroupSearchBase here
     ldap.SCOPE_SUBTREE,

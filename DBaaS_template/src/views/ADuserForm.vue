@@ -38,7 +38,7 @@
 
                         <div class="card-body">
 
-                            <p :class="`${this.$store.state.darkMode ? 'w-background' : 'y-background'}`" class="text-sm">The ActiveDirectory authentication provider is
+                            <p :class="`${this.$store.state.darkMode ? 'w-background' : 'y-background'}`" class="text-sm">The Active Directory authentication provider is
 
                                 currently Enable.</p>
 
@@ -77,13 +77,13 @@
 
                                     </div>
 
-                                    <p :class="`${this.$store.state.darkMode ? 'w-background' : 'r-background'}`" class="text-sm"> BitBlast needs a service account that has
+                                    <!-- <p :class="`${this.$store.state.darkMode ? 'w-background' : 'r-background'}`" class="text-sm"> BitBlast needs a service account that has
 
                                         read-only access to login to all domains so that we can
 
                                         determine what groups a user is a member of when they make a request with an API
 
-                                        key. </p>
+                                        key. </p> -->
 
                                     <div class="col-md-6">
 
@@ -337,15 +337,15 @@
 
                                     </div>
 
-                                    <p class="text-sm">Note: The ActiveDirectory user you authenticate as will be
+                                    <!-- <p class="text-sm">Note: The Active Directory user you authenticate as will be
 
                                         associated
 
-                                        as an alternate way to login to the Rancher user you are currently logged in as
+                                        as an alternate way to login to the BitBlast user you are currently logged in as
 
                                         admin; all the global permissions, project, and cluster role bindings of this
 
-                                        Rancher user will also apply to the ActiveDirectory user.</p>
+                                        BitBlast user will also apply to the Active Directory user.</p> -->
 
                                     <div class="modal-footer">
 

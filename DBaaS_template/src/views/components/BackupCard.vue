@@ -94,13 +94,15 @@
                     <div class="input-group">
                       <select v-if="isBackupScheduled" class="form-select" aria-label="Default select example"
                         v-model="selectedSchedule">
-                        <option value="sunday">Sunday</option>
+                        <option v-for="day in 30" :key="day" :value="day">{{ day }}</option>
+
+                        <!-- <option value="sunday">Sunday</option>
                         <option value="monday">Monday</option>
                         <option value="tuesday">Tuesday</option>
                         <option value="wednesday">Wednesday</option>
                         <option value="thursday">Thursday</option>
                         <option value="friday">Friday</option>
-                        <option value="saturday">Saturday</option>
+                        <option value="saturday">Saturday</option> -->
                       </select>
 
 
@@ -211,7 +213,7 @@ export default {
       this.loading = true;
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/schedule-backup?server_name=${this.serverName}&retention=${this.selectedHour}&storage_method=${this.backup_method}&username=${this.username}`
+          `http://172.16.1.131:8000/api/v4/barman/schedule-backup?server_name=${this.serverName}&retention=${this.selectedHour}&storage_method=${this.backup_method}&username=${this.username}&schedule_minute=${this.selectedMinuts}&schedule_hours=${this.selectedHour}&schedule_day=${this.selectedSchedule}`
         )
         .then(() => {
           this.successMessage = "Backup scheduled successfully";

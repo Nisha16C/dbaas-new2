@@ -95,3 +95,11 @@
 2024-04-22 06:46:11,964 level=INFO user=keycloak msg=Roles assigned: Standard 
 2024-04-27 04:48:00,474 level=INFO user=rambabu msg=Roles assigned: Standard 
 2024-05-06 08:13:50,132 level=INFO user=administrator msg=Roles assigned: Admin 
+2024-05-06 12:38:47,700 level=INFO user=nisha msg=Roles assigned: Admin 
+2024-05-06 13:02:35,242 level=INFO user=nisha msg=Roles assigned: Standard 
+2024-05-06 14:45:47,192 level=INFO user=nisha msg=Roles assigned: Standard 
+2024-05-06 14:48:30,838 level=INFO user=administrator msg=Roles assigned: Standard 
+2024-05-06 14:50:02,102 level=INFO user=administrator msg=Roles assigned: Admin 
+2024-05-06 14:52:16,090 level=INFO user=mik msg=Roles assigned: Admin 
+2024-05-06 14:53:44,618 level=INFO user=administrator msg=Roles assigned: Standard 
+2024-05-07 06:41:53,948 level=INFO user=administrator msg=Roles assigned: Admin 

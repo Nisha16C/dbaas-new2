@@ -43,7 +43,7 @@
                                 class="text-sm"
                                 style="display: flex; justify-content: space-between; align-items: center;">
 
-                                <span>The ActiveDirectory authentication provider is currently Enable.</span>
+                                <span>The Active Directory authentication provider is currently Enable.</span>
 
                                 <span>
 
@@ -76,22 +76,23 @@
                                 </span>
 
                             </p>
+                            <br>
 
-                            <hr><br>
+                            <!-- <hr><br> -->
 
-                            <div>
+                            <!-- <div>
 
                                 <p>Server: http://172.16.1.69:8080/</p>
 
                                 <p> Client ID: Administrator </p>
 
-                            </div>
+                            </div> -->
 
                             <hr>
 
                             <div>
 
-                                <h4>Configure who should be able to login and use Rancher</h4><br>
+                                <h4>Configure who should be able to login and use BitBlast</h4><br>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="flexRadioDefault"
                                         id="flexRadioDefault1">

@@ -925,21 +925,19 @@ class ContentByClusterNameView(generics.ListAPIView):
         # provider = get_object_or_404(Provider, user_id=user.id, cluster_name=cluster_name)
         return Db_credentials.objects.filter(cluster_name=cluster_name, user_id = user.id )
     
-class example(generics.ListAPIView):
+class ContentByClusterName(generics.ListAPIView):
     serializer_class = DbcredentialsSerializer
  
-    def ex(self):
-        print("hekoNNN")
+    def get_queryset(self):
         cluster_name = self.kwargs['cluster_name']
-        username = self.kwargs['username']
- 
-        user = get_object_or_404(User, username=username)
- 
+        # username = self.kwargs['username']
+
+        # user = get_object_or_404(User, username=username)
+
         # Get the provider based on the user and provider name
         # provider = get_object_or_404(Provider, user_id=user.id, cluster_name=cluster_name)
-        return Db_credentials.objects.filter(cluster_name=cluster_name, user_id = user.id )
-            
-            
+        return Db_credentials.objects.filter(cluster_name=cluster_name )
+          
  
 @api_view(['GET'])
 def get_backup_method_by_cluster_name(request, cluster_name):

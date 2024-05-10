@@ -48,8 +48,11 @@
                                 </div> -->
                                 <div class="col-md-6">
                                     <label for="email" class="form-control-label">Email Address</label>
-                                    <argon-input v-model="userData.email" type="email" placeholder="user@example.com" />
+                                    <argon-input v-model="userData.email" type="email" placeholder="user@example.com"
+                                        @input="validateEmail" />
                                     <div class="text-danger">{{ errors.email }}</div>
+                                    <div v-if="emailValidationMessage" class="text-info">{{ emailValidationMessage }}
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="password" class="form-control-label">Password</label>
@@ -128,10 +131,34 @@ export default {
             },
             successMessage: '',
             agreeTerms: false,
+            emailValidationMessage: ''
+
         };
     },
     components: { ArgonInput, argonButton },
     methods: {
+        validatePassword() {
+      this.passwordLengthError = "";
+      clearTimeout(this.passwordLengthError);
+
+      if (this.db_password.length < 5 || this.db_password.length > 15) {
+        this.passwordLengthError =
+          "Password must be between 5 and 10 characters";
+        this.passwordLengthTimeout = setTimeout(() => {
+          this.passwordLengthError = "";
+        }, 5000);
+      }
+    },
+        validateEmail() {
+            const email = this.userData.email;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                this.errors.email = 'Invalid email format';
+            } else {
+                this.errors.email = ''; // Clear error message if email format is valid
+            }
+        },
         CreateUser() {
             this.clearErrors();
             // Validate required fields
@@ -147,7 +174,7 @@ export default {
 
             // Validate password and confirm password match
             if (this.userData.password !== this.userData.cpassword) {
-                this.errors.cpassword = 'Passwords do not match';
+                this.errors.cpassword = 'Password do not match';
                 hasErrors = true;
             }
 

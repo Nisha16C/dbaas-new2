@@ -222,8 +222,6 @@ def get_ad_users(request):
 
         return JsonResponse({'error': str(e)}, status=500)
  
-    
-
 # def get_ad_users(request):
 #     try:
 #         # Establish LDAP connection
@@ -262,6 +260,7 @@ def get_ad_users(request):
 #         return JsonResponse({'error': str(e)}, status=500)
 #     except Exception as e:
 #         return JsonResponse({'error': str(e)}, status=500)
+
 
 
 

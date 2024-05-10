@@ -399,49 +399,53 @@ def user_roles_api(request):
 
 from .models import LDAPGroup, LDAPGroupMember
 
-#  LDAP retrive the Group data and save in Database
+import ldap
+from django.http import JsonResponse
+from .models import LDAPGroup, LDAPGroupMember
 
 def get_ADgroup_users(request):
     try:
-        # Your existing LDAP connection code here...
         # Establish LDAP connection
         ldap_server_uri = 'ldap://10.0.0.2:389'
         bind_dn = 'CN=Administrator,CN=Users,DC=os3,DC=com'
         bind_password = 'P@33w0rd'
-        
         ldap_connection = ldap.initialize(ldap_server_uri)
         ldap_connection.simple_bind_s(bind_dn, bind_password)
 
-        # Define LDAP search base for groups
-        search_base = 'CN=Users,DC=os3,DC=com'
-        search_filter = "(objectClass=group)"  # Filter to retrieve all groups
-
-        # Search for groups
+        # Search for all groups
+        search_base_groups = 'CN=Users,DC=os3,DC=com'
+        search_filter_groups = "(objectClass=group)"
         ldap_groups = ldap_connection.search_s(
-            search_base,
+            search_base_groups,
             ldap.SCOPE_SUBTREE,
-            search_filter
+            search_filter_groups,
+            ['sAMAccountName', 'member']
         )
 
         # Iterate over LDAP groups
         for dn, entry in ldap_groups:
-            group_name = entry.get('cn', [])[0].decode('utf-8')
-            print("group_name", group_name )
+            group_name = entry.get('sAMAccountName', [])[0].decode('utf-8')
+            print("group_name", group_name)
 
             # Check if the group already exists in the database
             ldap_group, created = LDAPGroup.objects.get_or_create(name=group_name)
 
-            # Retrieve member usernames from DNs and save them
-            group_members = entry.get('member', [])
-            print("group_members", group_members)
-            for member in group_members:
+            # Retrieve and save member sAMAccountName
+            members = entry.get('member', [])
+            for member in members:
                 member_dn = member.decode('utf-8')
-                print("member_dn",member_dn )
-                username = member_dn.split(',')[0].split('=')[1]
-                print("usernamre", username)
-
-                # Save group member if not already exists
-                LDAPGroupMember.objects.get_or_create(group=ldap_group, username=username)
+                # Fetch the member's sAMAccountName
+                member_info = ldap_connection.search_s(
+                    member_dn,
+                    ldap.SCOPE_BASE,
+                    '(objectClass=*)',
+                    ['sAMAccountName']
+                )
+                if member_info:
+                    member_name = member_info[0][1].get('sAMAccountName', [])[0].decode('utf-8')
+                    print("member_name", member_name)
+                    # Save group member if not already exists
+                    LDAPGroupMember.objects.get_or_create(group=ldap_group, username=member_name)
 
         return JsonResponse({'message': 'LDAP groups and members saved successfully'})
 
@@ -456,53 +460,103 @@ from .models import LDAPGroup, LDAPGroupMember
 
 # Fetch the Group name and members from django Database  and display in UI
 
+# def list_ad_groups_with_members(request):
+#     ad_groups = LDAPGroup.objects.all()
+#     groups_data = []
+
+#     for group in ad_groups:
+#         members = LDAPGroupMember.objects.filter(group=group).values_list('username', flat=True)
+#         groups_data.append({
+#             'name': group.name,
+#             'members': list(members)
+#         })
+
+#     return JsonResponse({'ad_groups': groups_data})
+
 def list_ad_groups_with_members(request):
-    ad_groups = LDAPGroup.objects.all()
-    groups_data = []
 
-    for group in ad_groups:
-        members = LDAPGroupMember.objects.filter(group=group).values_list('username', flat=True)
-        groups_data.append({
-            'name': group.name,
-            'members': list(members)
-        })
+    try:
+        # Establish LDAP connection
+        ldap_server_uri = 'ldap://10.0.0.2:389'
+        bind_dn = 'CN=Administrator,CN=Users,DC=os3,DC=com'
+        bind_password = 'P@33w0rd'
+        ldap_connection = ldap.initialize(ldap_server_uri)
+        ldap_connection.simple_bind_s(bind_dn, bind_password)
 
-    return JsonResponse({'ad_groups': groups_data})
+        # Search for all groups
+        search_base_groups = 'CN=Users,DC=os3,DC=com'
+        search_filter_groups = "(objectClass=group)"
+        ldap_groups = ldap_connection.search_s(
+            search_base_groups,
+            ldap.SCOPE_SUBTREE,
+            search_filter_groups,
+            ['sAMAccountName', 'member']
+        )
+
+        group_info = []
+
+        for dn, entry in ldap_groups:
+            group_name = entry.get('sAMAccountName', [])[0].decode('utf-8')
+            members = entry.get('member', [])
+            member_names = []
+
+            for member in members:
+                member_dn = member.decode('utf-8')
+                # Fetch the member's sAMAccountName
+                member_info = ldap_connection.search_s(
+                    member_dn,
+                    ldap.SCOPE_BASE,
+                    '(objectClass=*)',
+                    ['sAMAccountName']
+                )
+                if member_info:
+                    member_name = member_info[0][1].get('sAMAccountName', [])[0].decode('utf-8')
+                    member_names.append(member_name)
+
+            group_info.append({
+                'group_name': group_name,
+                'members': member_names
+            })
+
+        return JsonResponse({'groups': group_info}, safe=False)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 
+from django.contrib.auth.models import User
+from .models import Role, UserRole
 
+from django.contrib.auth.models import User
+from .models import Role, UserRole
 
 @api_view(['POST'])
 def assign_roles_to_group_members(request):
-    """
-    Assign roles to all members associated with a specific group.
-    """
     if request.method == 'POST':
-        # Extract group name and role name from the request data
         group_name = request.data.get('group_name')
         role_name = request.data.get('role_name')
-
-        # Get the LDAP group object
-        ldap_group = get_object_or_404(LDAPGroup, name=group_name)
-
+        sAMAccountNames = request.data.get('sAMAccountNames')
+ 
         try:
-            # Retrieve all members associated with the LDAP group
-            group_members = LDAPGroupMember.objects.filter(group=ldap_group)
-
-            # Start a transaction to ensure atomicity
-            with transaction.atomic():
-                for member in group_members:
-                    # Get or create the user object based on the username
-                    user, created = User.objects.get_or_create(username=member.username)
-
-                    # Assign the role to the user
-                    UserRole.objects.create(user=user, role=role_name)
-
-            return JsonResponse({'success': True, 'message': f'Roles assigned to all members of {group_name}'})
-
+            # Get or create the role object
+            role, _ = Role.objects.get_or_create(name=role_name)
+ 
+            # Iterate over each sAMAccountName
+            for sAMAccountName in sAMAccountNames:
+                # Find or create the user by sAMAccountName
+                user, created = User.objects.get_or_create(username=sAMAccountName)
+ 
+                # Remove any existing roles associated with the user
+                UserRole.objects.filter(user=user).delete()
+ 
+                # Associate the new role with the user
+                UserRole.objects.create(user=user, role=role)
+ 
+            return JsonResponse({'success': True, 'message': f'Roles assigned to members of {group_name}'})
+        
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+    
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 

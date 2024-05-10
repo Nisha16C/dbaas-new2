@@ -1,8 +1,12 @@
 import { createStore } from "vuex";
 import axios from "axios";
+import { API_ENDPOINT } from '@/../apiconfig.js';
+
 
 export default createStore({
   state: {
+    apiUrl: API_ENDPOINT,
+
     hideConfigButton: false,
 
     isPinned: true,
@@ -232,7 +236,7 @@ export default createStore({
     fetchFirstProject({ commit }, userId) {
       axios
 
-        .get(`http://172.16.1.190:8000/api/v2/project/user/${userId}/`)
+        .get(`${this.apiUrl}/api/v2/project/user/${userId}/`)
 
         .then((response) => {
           const firstProject = response.data[0];

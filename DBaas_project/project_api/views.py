@@ -575,20 +575,18 @@ class ClusterViewSet(viewsets.ModelViewSet):
         
     @action(detail=False, methods=['get'])
     def check_cluster_exists(self, request, *args, **kwargs):
- 
         cluster_name = request.query_params.get('cluster_name', None)
         project_id = request.query_params.get('project_id', None)
- 
-        if not cluster_name or not project_id:
-            return Response({"error": "Cluster name and project ID are required parameters."}, status=status.HTTP_400_BAD_REQUEST)
- 
-        existing_cluster = Cluster.objects.filter( cluster_name=cluster_name).exists()
- 
+        if not project_id:
+            return Response({"error": "Project ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        existing_cluster = Cluster.objects.filter(cluster_name=cluster_name, project_id=project_id).exists()
+
         if existing_cluster:
             return Response({"exists": True}, status=status.HTTP_200_OK)
         else:
             return Response({"exists": False}, status=status.HTTP_200_OK)
-   
     
     def get_pipeline_status(self, request):
         global pipeline_dict

@@ -29,7 +29,7 @@
             <div class="d-flex flex-column">
               <form>
 
-                <label class="mt-1 text-sm">Backup Method</label>
+                <label class="mt-1 text-sm">Storage Provider</label>
                 <select :class="{ 'BGdark': isDarkMode }" class="form-select" aria-label="Default select example"
                   v-model="backup_method" @click="fetchServers()">
                   <option value="nfs">NFS</option>

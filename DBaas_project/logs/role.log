@@ -103,3 +103,6 @@
 2024-05-06 14:52:16,090 level=INFO user=mik msg=Roles assigned: Admin 
 2024-05-06 14:53:44,618 level=INFO user=administrator msg=Roles assigned: Standard 
 2024-05-07 06:41:53,948 level=INFO user=administrator msg=Roles assigned: Admin 
+2024-05-10 05:54:20,977 level=INFO user=nisha msg=Roles assigned: Standard 
+2024-05-10 05:54:33,910 level=INFO user=nisha msg=Roles assigned: Admin 
+2024-05-10 05:54:46,208 level=INFO user=nisha msg=Roles assigned: Standard 

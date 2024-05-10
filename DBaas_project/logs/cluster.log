@@ -105,3 +105,4 @@
 2024-05-04 10:14:44,570 level=INFO user=nisha clustername=k8s-db-1 provider=Kubernetes project=hlw-pro msg=k8s-db-1 created 
 2024-05-07 05:52:20,889 level=INFO user=nisha clustername=k8s-db-2 provider=Kubernetes project=hlw-pro msg=k8s-db-2 created 
 2024-05-07 05:59:50,249 level=INFO user=nisha clustername=db-2 provider=Cloudstack project=hlw-pro msg=db-2 created 
+2024-05-08 11:31:11,919 level=INFO user=preeti clustername=k8s-cluster provider=Kubernetes project=first-project msg=k8s-cluster created 

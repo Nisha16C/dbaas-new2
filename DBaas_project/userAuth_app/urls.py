@@ -43,6 +43,8 @@ urlpatterns = [
 
     path('adgroup-role/', views.assign_roles_to_group_members, name='assign_roles_to_group_members'),
     path('group-roles/<str:group_name>/', get_group_roles, name='get_group_roles'),
+    # path('get_samaccountname/', get_samaccountname, name='get_samaccountname'),
+
 
 ]
 

@@ -25,7 +25,7 @@ urlpatterns = [
 
 
  
-    path('api/v2/cluster/check_cluster_exists/', ClusterViewSet.as_view({'get': 'check_cluster_exists'}), name='check-cluster-exists'),
+    path('api/v2/cluster/check_cluster_exists/<str:cluster_name>/<int:project_id>/', ClusterViewSet.as_view({'get': 'check_cluster_exists'}), name='check-cluster-exists'),
     path("api/v2/project/<int:pk>/rename/", ProjectViewSet.as_view({'put': 'rename_project'}), name='rename-project'),
     path('compute_offerings/', ComputeOfferingsAPIView.as_view(), name='compute-offerings'),
  

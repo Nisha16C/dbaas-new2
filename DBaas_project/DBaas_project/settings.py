@@ -176,7 +176,7 @@ AUTHENTICATION_BACKENDS = [
     # 'django.contrib.auth.backends.ModelBackend',
 ]
 
-
+# IS_CONNNECTED = ""
 
 ldapGroupSearch = 'CN=Users,DC=os3,DC=com  '
  

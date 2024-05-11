@@ -60,7 +60,7 @@
         </sidenav-item>
       </li>
 
-      <li class="nav-item" v-if="checkuser(username)" style="margin-right: 10px;">
+      <li class="nav-item" v-if="checkuser(username)">
         <a href="#" @click="toggleDropdown('user-management')" class="nav-link">
           <i class="fa fa-users text-info text-sm opacity-10"></i>
           <span class="nav-link-text text-center" style="margin-right: 7px;">User Management</span>
@@ -75,7 +75,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/ADauthoprovider" class="nav-link">
+            <router-link to="/ADauthprovider" @click="redirectToADSave" class="nav-link">
               <!-- <i class="fa fa-lock"></i>  -->
               <i> <!-- Start of SVG icon -->
                 <svg height="15px" width="15px" viewBox="0 0 502.664 502.664" fill="#3f775e">
@@ -121,14 +121,16 @@
         </h6>
       </li>
       <li class="nav-item" v-if="checkuser(username)">
-        <sidenav-item url="/admin-monitoring" :class="getRoute() === 'admin-monitoring' ? 'active' : ''" :navText="'Monitoring'">
+        <sidenav-item url="/admin-monitoring" :class="getRoute() === 'admin-monitoring' ? 'active' : ''"
+          :navText="'Monitoring'">
           <template v-slot:icon>
             <i class="ni ni-single-02 text-info text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item" v-else>
-        <sidenav-item url="/admin-monitoring" :class="getRoute() === 'admin-monitoring' ? 'active' : ''" :navText="'Monitoring'">
+        <sidenav-item url="/admin-monitoring" :class="getRoute() === 'admin-monitoring' ? 'active' : ''"
+          :navText="'Monitoring'">
           <template v-slot:icon>
             <i class="ni ni-single-02 text-info text-sm opacity-10"></i>
           </template>
@@ -142,7 +144,7 @@
           </template>
         </sidenav-item> -->
       </li>
-      <li class="nav-item" v-else >
+      <li class="nav-item" v-else>
         <sidenav-item url="/mount-backup-method" :class="getRoute() === 'mount-backup-method' ? 'active' : ''"
           :navText="'Backup & Restore'">
           <template v-slot:icon>
@@ -237,6 +239,20 @@ export default {
     isOpen(section) {
       return this.openDropdown === section;
     },
+    // Inside the methods section:
+
+    redirectToADSave() {
+      // Check if the Active Directory status is "Active"
+      const activeDirectoryStatus = localStorage.getItem('activeDirectoryStatus');
+      if (activeDirectoryStatus === 'Active') {
+        // Redirect to /ADsave if Active Directory status is "Active"
+        this.$router.push('/ADsave');
+      } else {
+        // Redirect to /ADauthprovider if Active Directory status is not "Active"
+        this.$router.push('/ADauthprovider');
+      }
+    }
+
   },
 };
 </script>

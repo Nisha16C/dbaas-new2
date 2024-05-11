@@ -4,6 +4,9 @@
             <div class="card shadow-lg mt-n6">
                 <div class="card-body p-3">
                     <div class="row gx-4">
+                        <router-link to="/User-Management">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                        </router-link><br>
                         <div class="col-auto">
                             <div class="avatar avatar-xl position-relative">
                                 <img src="../assets/img/team-6.jpg" alt="profile_image"
@@ -138,17 +141,17 @@ export default {
     components: { ArgonInput, argonButton },
     methods: {
         validatePassword() {
-      this.passwordLengthError = "";
-      clearTimeout(this.passwordLengthError);
+            this.passwordLengthError = "";
+            clearTimeout(this.passwordLengthError);
 
-      if (this.db_password.length < 5 || this.db_password.length > 15) {
-        this.passwordLengthError =
-          "Password must be between 5 and 10 characters";
-        this.passwordLengthTimeout = setTimeout(() => {
-          this.passwordLengthError = "";
-        }, 5000);
-      }
-    },
+            if (this.db_password.length < 5 || this.db_password.length > 15) {
+                this.passwordLengthError =
+                    "Password must be between 5 and 10 characters";
+                this.passwordLengthTimeout = setTimeout(() => {
+                    this.passwordLengthError = "";
+                }, 5000);
+            }
+        },
         validateEmail() {
             const email = this.userData.email;
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

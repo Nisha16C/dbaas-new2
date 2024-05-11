@@ -33,7 +33,7 @@ import Documentation from "../Documentation/Documentation.vue";
 import BackupSchedule from "../views/BackupSchedule.vue";
 // import BackupDetails from "../views/BackupDetails.vue";
 
-import ADauthoprovider from "../views/ADauthoprovider.vue";
+import ADauthprovider from "../views/ADauthprovider.vue";
 import ADuserForm from "../views/ADuserForm.vue";
 import ADuserlist from "../views/ADuserlist.vue";
 // import ADuserDisable from "../views/ADuserDisable.vue";
@@ -196,9 +196,9 @@ const routes = [
     component: Documentation,
   },
   {
-    path: "/ADauthoprovider",
-    name: "ADauthoprovider",
-    component: ADauthoprovider,
+    path: "/ADauthprovider",
+    name: "ADauthprovider",
+    component: ADauthprovider,
    },
    {
     path: "/ADuserForm",

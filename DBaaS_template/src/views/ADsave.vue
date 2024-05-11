@@ -43,7 +43,7 @@
                                 class="text-sm"
                                 style="display: flex; justify-content: space-between; align-items: center;">
 
-                                <span>The Active Directory authentication provider is currently Enable.</span>
+                                <span>The Active Directory authentication provider is currently enabled. </span>
 
                                 <span>
 

@@ -13,6 +13,9 @@
                         <div class="col-auto my-auto">
 
                             <div class="h-100">
+                                <router-link to="/ADauthprovider">
+                                    <i class="fas fa-arrow-left mr-2"></i>
+                                </router-link>
 
                                 <h5 class="mb-1 text-2xl">List Of Active Directory Users</h5>
 
@@ -34,7 +37,7 @@
 
                 <div class="col-md-12">
 
-                    <div class="card">
+                    <div class="card" style="height: 650px; overflow-y: auto;">
 
                         <div class="card-body ">
 
@@ -65,10 +68,10 @@
                                             <td>
                                                 <div>
                                                     <img :src="this.$store.state.darkMode || this.$store.state.sidebarType === 'bg-default' ? logoWhite : logo"
-                                                        class="avatar avatar-sm me-3"/>
-                                                        {{ user }}
+                                                        class="avatar avatar-sm me-3" />
+                                                    {{ user }}
                                                 </div>
-                                                
+
                                             </td>
                                         </tr>
 

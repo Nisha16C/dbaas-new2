@@ -341,10 +341,10 @@ class LDAPLoginView(APIView):
                 project_name = self.generate_random_project_name()
 
                 # Create a default role or retrieve an existing one
-                default_role, _ = Role.objects.get_or_create(name='default_role')
+                # default_role, _ = Role.objects.get_or_create(name='default_role')
 
                 # Assign the default role to the user
-                UserRole.objects.get_or_create(user=user, role=default_role)
+                UserRole.objects.get_or_create(user=user)
 
                 # Create a new project and associate it with the user
                 Project.objects.create(user=user, project_name=project_name)

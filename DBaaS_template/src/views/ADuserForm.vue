@@ -13,6 +13,9 @@
                         <div class="col-auto my-auto">
 
                             <div class="h-100">
+                                <router-link to="/ADauthprovider">
+                                    <i class="fas fa-arrow-left mr-2"></i>
+                                </router-link>
 
                                 <h3 class="mb-1">Authentication Provider: Active Directory <span class="badge badge-sm"
                                         :class="statusClass">{{ status }}</span></h3>
@@ -34,13 +37,14 @@
 
                 <div class="col-md-12">
 
-                    <div class="card">
+                    <div class="card" style="height: 650px; overflow-y: auto;">
 
                         <div class="card-body">
 
-                            <p :class="`${this.$store.state.darkMode ? 'w-background' : 'y-background'}`" class="text-sm">The Active Directory authentication provider is
+                            <p :class="`${this.$store.state.darkMode ? 'w-background' : 'y-background'}`"
+                                class="text-sm">The Active Directory authentication provider is
 
-                                currently Enable.</p>
+                                currently Disabled.</p>
 
                             <hr>
 
@@ -54,7 +58,8 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="last_name" class="form-control-label">Server URI <span class="warning">*</span></label>
+                                        <label for="last_name" class="form-control-label">Server URI <span
+                                                class="warning">*</span></label>
 
                                         <argon-input v-model="ldapServerURI" type="text"
                                             placeholder="ldap://0.0.0.0:Port" @input="validateServerURI" />
@@ -73,7 +78,7 @@
 
                                             (milliseconds) <span class="warning">*</span></label>
 
-                                        <argon-input v-model="serverConnectionTimeout" type="text"  value="10000"/>
+                                        <argon-input v-model="serverConnectionTimeout" type="text" value="10000" />
 
                                     </div>
 
@@ -91,8 +96,8 @@
 
                                             Name <span class="warning">*</span></label>
 
-                                        <argon-input v-model="ServiceAccountDistinguishedName" type="text" placeholder="Service Account Name "
-                                             />
+                                        <argon-input v-model="ServiceAccountDistinguishedName" type="text"
+                                            placeholder="Service Account Name " />
 
                                     </div>
 
@@ -108,7 +113,8 @@
 
                                     <div class="col-md-12">
 
-                                        <label for="username" class="form-control-label">Default Login Domain <span class="warning">*</span></label>
+                                        <label for="username" class="form-control-label">Default Login Domain <span
+                                                class="warning">*</span></label>
 
                                         <argon-input v-model="DefaultLoginDomain" type="text"
                                             placeholder="eg:mycompany " />
@@ -117,7 +123,8 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="phone" class="form-control-label">User Search Base <span class="warning">*</span></label>
+                                        <label for="phone" class="form-control-label">User Search Base <span
+                                                class="warning">*</span></label>
 
                                         <argon-input v-model="ldapServerBIND_DN" type="text"
                                             placeholder="e.g.ou=users,dc=mycompany,dc=com" />
@@ -171,7 +178,8 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userLoginAttribute" type="text" value="sAMAccountName" />
+                                            <argon-input v-model="userLoginAttribute" type="text"
+                                                value="sAMAccountName" />
 
                                         </div>
 
@@ -213,7 +221,8 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="userEnableAttribute" type="text" value="userAccountControl" />
+                                            <argon-input v-model="userEnableAttribute" type="text"
+                                                value="userAccountControl" />
 
                                         </div>
 
@@ -260,7 +269,8 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="groupMemberUserAttribute" type="text"  value="distinguishedName" />
+                                            <argon-input v-model="groupMemberUserAttribute" type="text"
+                                                value="distinguishedName" />
 
                                         </div>
 
@@ -270,7 +280,8 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="groupSearchAttribute" type="text" value="sAMAccountName" />
+                                            <argon-input v-model="groupSearchAttribute" type="text"
+                                                value="sAMAccountName" />
 
                                         </div>
 
@@ -292,7 +303,8 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="groupMamberMappingAttribute" type="text" value="member" />
+                                            <argon-input v-model="groupMamberMappingAttribute" type="text"
+                                                value="member" />
 
                                         </div>
 
@@ -302,7 +314,8 @@
 
                                                 Attribute</label>
 
-                                            <argon-input v-model="groupDNattribute" type="text" value="distinguishedName" />
+                                            <argon-input v-model="groupDNattribute" type="text"
+                                                value="distinguishedName" />
 
                                         </div><br>
 
@@ -322,7 +335,8 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="first_name" class="form-control-label">Username <span class="warning">*</span></label>
+                                        <label for="first_name" class="form-control-label">Username <span
+                                                class="warning">*</span></label>
 
                                         <argon-input v-model="testUsername" type="text" placeholder="username" />
 
@@ -330,7 +344,8 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="last_name" class="form-control-label">Password <span class="warning">*</span></label>
+                                        <label for="last_name" class="form-control-label">Password <span
+                                                class="warning">*</span></label>
 
                                         <argon-input v-model="ldapServerBIND_PASSWORD" type="password"
                                             placeholder="password" />
@@ -458,12 +473,12 @@ export default {
             userObjectClass: 'person',
             usernameAttribute: 'name',
             userLoginAttribute: 'sAMAccountName',
-            userSearchAttribute : 'sAMAccountName|sn|givenName',
-            userEnableAttribute : 'userAccountControl',
+            userSearchAttribute: 'sAMAccountName|sn|givenName',
+            userEnableAttribute: 'userAccountControl',
             disabledStatusBitmask: 2, // Default value for Disabled Status Bitmask
 
             groupObjectClass: 'group',
-            groupNameAttribute:'name',
+            groupNameAttribute: 'name',
             groupMemberUserAttribute: 'distinguishedName',
             groupSearchAttribute: 'sAMAccountName',
             groupMamberMappingAttribute: 'member',
@@ -519,11 +534,11 @@ export default {
 
                 ldapGroupSearch: this.ldapGroupSearch,
                 serverConnectionTimeout: this.serverConnectionTimeout,
-                ServiceAccountDistinguishedName: this. tuy,
+                ServiceAccountDistinguishedName: this.tuy,
                 DefaultLoginDomain: this.DefaultLoginDomain,
                 userObjectClass: this.userObjectClass,
                 usernameAttribute: this.usernameAttribute,
-                userLoginAttribute:this.userLoginAttribute,
+                userLoginAttribute: this.userLoginAttribute,
                 userMemberAttribute: this.userMemberAttribute,
                 userSearchAttribute: this.userSearchAttribute,
                 userSearchFilter: this.userSearchFilter,
@@ -536,11 +551,11 @@ export default {
                 groupNameAttribute: this.groupNameAttribute,
                 groupMemberUserAttribute: this.groupMemberUserAttribute,
                 groupSearchAttribute: this.groupSearchAttribute,
-                groupSearchFilter:this.groupSearchFilter,
-                groupMamberMappingAttribute:this.groupMamberMappingAttribute,
-                groupDNattribute:this.groupDNattribute,
-                testUsername:this.testUsername,
-                testPassword:this.testPassword,
+                groupSearchFilter: this.groupSearchFilter,
+                groupMamberMappingAttribute: this.groupMamberMappingAttribute,
+                groupDNattribute: this.groupDNattribute,
+                testUsername: this.testUsername,
+                testPassword: this.testPassword,
 
             }
 
@@ -566,6 +581,8 @@ export default {
             // Call the Vuex mutation to update the status
 
             this.enableActiveDirectory();
+            // Save status in localStorage
+            localStorage.setItem('activeDirectoryStatus', 'Active');
 
             // Call the submitForm() method to submit the form data
 
@@ -689,8 +706,9 @@ export default {
     color: black;
 
 }
+
 .w-background {
-  background-color: rgb(29, 31, 129);
-  color: rgb(255, 255, 255);
+    background-color: rgb(29, 31, 129);
+    color: rgb(255, 255, 255);
 }
 </style>

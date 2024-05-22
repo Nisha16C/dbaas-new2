@@ -1,50 +1,9 @@
+[12:44 PM] Preeti Nathani
 <template>
     <div class="py-4 container-fluid">
       <div class="row">
         <div class="col-lg-12">
-          <div class="row">
-            
-            
-            <div class="col-lg-3 col-md-12 col-12 d-flex">
-            <div class="mb-4 card">
-              <div class="p-3 card-body">
-                <div class=" px-4 d-flex">
-                  <div class="mb-3 mt-4 mx-2">
-                    <router-link to="/admin-backup/form">
-                      <argon-button color="success" size="md" variant="gradient">Backup/Schedule</argon-button>
-                    </router-link>
-                  </div>
-                  <div class="mb-3 mt-4 mx-2">
-                    <router-link to="/admin-backup/restore-backup">
-                      <argon-button color="success" size="md" variant="gradient">Restore</argon-button>
-                    </router-link>
-                  </div>
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 d-flex">
-                        <div class="mb-4 card">
-                            <div class="p-3 card-body">
-                                <div class=" px-3 d-flex">
-                                    <div class="mb-3 mt-4 mx-1">
-                                        <router-link to="/admin-backup">
-                                            <argon-button color="success" size="md" variant="gradient">Backups
-                                                List</argon-button>
-                                        </router-link>
-                                    </div>
-                                    <div class="mb-3 mt-4 mx-1">
-                                        <router-link to="/scheduled-backups">
-                                            <argon-button color="success" size="md" variant="gradient">Schedule Backups
-                                                List</argon-button>
-                                        </router-link>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+          <ButtonCard />
   
             <div class="py-4 container-fluid">
               <div class="row">
@@ -56,18 +15,19 @@
           </div>
         </div>
       </div>
-    </div>
+    
   </template>
   
   <script>
   import scheduleList from "./components/scheduleList.vue";
-  import argonButton from "@/components/BB_Button.vue";
+  import ButtonCard from "./components/ButtonCard.vue";
+ 
   
   export default {
     name: "Cluster",
     components: {
       scheduleList,
-      argonButton
+      ButtonCard
     },
     data() {
       return {
@@ -86,3 +46,4 @@
   };
   </script>
   
+ 

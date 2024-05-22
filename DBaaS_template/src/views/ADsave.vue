@@ -14,8 +14,9 @@
 
                             <div class="h-100">
 
-                                <h3 class="mb-1">Authentication Provider: ActiveDirectory <span class="badge badge-sm"
-                                        :class="statusClass">{{ status }}</span></h3>
+                                <h3 class="mb-1">Authentication Provider: Active Directory <span class="badge badge-sm"
+                                        :class="{ 'bg-green': status === 'Active', 'bg-red': status === 'Inactive' }">{{
+                                            status }}</span></h3>
 
                             </div>
 
@@ -28,8 +29,13 @@
             </div>
 
         </div>
+        <div v-if="loading" class="text-center mt-3">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
 
-        <div class="py-4 container-fluid">
+        <div v-else class="py-4 container-fluid">
 
             <div class="row">
 
@@ -43,7 +49,7 @@
                                 class="text-sm"
                                 style="display: flex; justify-content: space-between; align-items: center;">
 
-                                <span>The Active Directory authentication provider is currently enabled. </span>
+                                <span>The ActiveDirectory authentication provider is currently Enable.</span>
 
                                 <span>
 
@@ -52,7 +58,7 @@
                                         <BB_Button color="info" size="md" variant="gradient"
                                             style="font-size: 13px; margin-right: 10px; " type="submit">
 
-                                            Edit Config
+                                            Add New Config
 
                                         </BB_Button>
 
@@ -65,30 +71,11 @@
 
                                     </BB_Button>
 
-                                    <!-- <BB_Button color="success" size="md" variant="gradient" 
-
-                                        class="ml-4 btn btn-danger">
-
-                                        Disable
-
-                                    </BB_Button> -->
-
                                 </span>
 
                             </p>
-                            <br>
 
-                            <!-- <hr><br> -->
-
-                            <!-- <div>
-
-                                <p>Server: http://172.16.1.69:8080/</p>
-
-                                <p> Client ID: Administrator </p>
-
-                            </div> -->
-
-                            <hr>
+                            <hr><br>
 
                             <div>
 
@@ -190,18 +177,9 @@
 
                     <!-- <router-link to="/signin"> -->
 
-                    <button type="button" @click.prevent="disableActiveDirectoryAndSubmit" data-dismiss="modal"
-                        class="btn btn-danger">
+                    <button type="button" @click.prevent="disableLDAP" data-dismiss="modal" class="btn btn-danger">
 
                         Disable</button>
-
-                    <!-- </router-link> -->
-
-                    <!-- <BB_Button color="success" size="md" variant="gradient" @click.prevent="disableLDAP" type="submit">
-
-                        Disable
-
-                    </BB_Button> -->
 
                 </div>
 
@@ -219,15 +197,9 @@ import setNavPills from "@/assets/js/nav-pills.js";
 
 import setTooltip from "@/assets/js/tooltip.js";
 
-// import ProfileCard from "./components/ProfileCard.vue";
-
-// import ArgonInput from "@/components/BB_Input.vue";
-
 import BB_Button from "@/components/BB_Button.vue";
 
 import { API_ENDPOINT } from '@/../apiconfig.js';
-
-import { mapMutations } from 'vuex';
 
 import axios from 'axios';
 
@@ -291,7 +263,9 @@ export default {
 
             buttonText: 'Save',
 
-            isButtonDisabled: false
+            isButtonDisabled: false,
+            status: '',
+            loading: true,
 
         };
 
@@ -304,23 +278,36 @@ export default {
             return this.$store.state.darkMode;
         },
 
-        status() {
-
-            return this.$store.state.activeDirectoryStatus;
-
-        },
-
-        statusClass() {
-
-            return this.status === 'Active' ? 'bg-gradient-success rounded-pill' : 'bg-gradient-danger rounded-pill';
-
-        }
-
     },
+    mounted() {
+        this.fetchConnectedStatus();
+        // Other mounted lifecycle actions
+    },
+    created() {
+    // Simulate loading delay with setTimeout
+    setTimeout(() => {
+      this.loading = false; // Set loading to false after delay
+    }, 1000); // Adjust delay time as needed
+  },
 
     methods: {
+        fetchConnectedStatus() {
+            axios.get(`${this.apiUrl}/api/v1/is-connected/`)
+                .then(response => {
+                    if (response.status === 200 && response.data && response.data.is_connected) {
+                        this.status = response.data.is_connected === 'True' ? 'Active' : 'Inactive';
+                        console.log("asthis", this.status)
+                    } else {
+                        console.error('Unexpected response format:', response);
+                        this.status = 'Error';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching status:', error);
+                    this.status = 'Error';
+                });
+        },
 
-        ...mapMutations(['disableActiveDirectory']),
 
         disableLDAP() {
 
@@ -344,18 +331,6 @@ export default {
                     // handle error
 
                 });
-
-        },
-
-        disableActiveDirectoryAndSubmit() {
-
-            // Call the Vuex mutation to update the status
-
-            this.disableActiveDirectory();
-
-            // Call the submitForm() method to submit the form data
-
-            this.disableLDAP();
 
         },
 
@@ -417,6 +392,7 @@ export default {
 
     },
 
+
 };
 
 </script>
@@ -445,5 +421,15 @@ export default {
 .d-mode {
     background-color: #1d1e52;
     color: #ffffff;
+}
+
+.bg-green {
+    background-color: green;
+    border-radius: 20px;
+}
+
+.bg-red {
+    background-color: red;
+    border-radius: 20px;
 }
 </style>

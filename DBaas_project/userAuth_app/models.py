@@ -35,4 +35,13 @@ class LDAPGroupMember(models.Model):
     def __str__(self):
         return f"{self.group} - {self.username}"
 
+
+ 
+class GroupRoleAssignment(models.Model):
+    group = models.CharField(max_length=100, null=True)  # Storing group name (LDAP group name)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)  # Role assigned to the group
+ 
+    def __str__(self):
+        return f"{self.group} - {self.role.name}"        
+     
       

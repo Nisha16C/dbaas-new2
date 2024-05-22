@@ -1,3 +1,4 @@
+[6:09 AM] Ashish Sahu
 <template>
   <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" :class="this.$store.state.isRTL ? 'top-0 position-sticky z-index-sticky' : ''
     " v-bind="$attrs" id="navbarBlur" data-scroll="true">
@@ -6,12 +7,6 @@
       <div class="mt-2 collapse navbar-collapse mt-sm-0 me-md-0 me-sm-4"
         :class="this.$store.state.isRTL ? 'px-0' : 'me-sm-4'" id="navbar">
         <div class="pe-md-3 d-flex align-items-center" :class="'ms-md-auto'">
-          <!-- <div class="input-group">
-            <span class="input-group-text text-body">
-              <i class="fas fa-search" aria-hidden="true"></i>
-            </span>
-            <input type="text" class="form-control" :placeholder="'Type here...'" />
-          </div> -->
         </div>
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item d-flex align-items-center">
@@ -20,7 +15,7 @@
               <span class="d-sm-inline d-none">Logout</span>
             </a>
           </li>
-          <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+          <li class="nav-item  ps-3 d-flex align-items-center">
             <a href="#" @click="toggleSidebar" class="p-0 nav-link text-white" id="iconNavbarSidenav">
               <div class="sidenav-toggler-inner">
                 <i class="sidenav-toggler-line bg-white"></i>
@@ -34,7 +29,7 @@
               <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
             </a>
           </li>
-
+ 
         </ul>
       </div>
     </div>
@@ -44,7 +39,7 @@
 import Breadcrumbs from "../Breadcrumbs.vue";
 import { mapMutations, mapActions } from "vuex";
 import router from "@/router";
-
+ 
 export default {
   name: "navbar",
   data() {
@@ -57,12 +52,17 @@ export default {
     this.minNav;
   },
   methods: {
-    ...mapMutations(["navbarMinimize", "toggleConfigurator"]),
+    ...mapMutations(["navbarMinimize", "toggleConfigurator","toggleObservabilityBackupVisibility", "toggleDatabaseBackupVisibility"]),
     ...mapActions(["toggleSidebarColor"]),
-
+ 
     toggleSidebar() {
       this.toggleSidebarColor("bg-white");
       this.navbarMinimize();
+      this.$store.dispatch('toggleLogo');
+      this.toggleObservabilityBackupVisibility(); // Dispatch the mutation
+      this.toggleDatabaseBackupVisibility(); // Dispatch the mutation
+
+
     },
     logout() {
       sessionStorage.removeItem('user_id');
@@ -82,3 +82,4 @@ export default {
   }
 };
 </script>
+ 

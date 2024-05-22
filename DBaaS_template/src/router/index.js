@@ -187,7 +187,7 @@ const routes = [
   },
   {
     path: "/USER",
-    name: "USER",
+    name: "user",
     component: USER,
   },
   {
@@ -197,27 +197,27 @@ const routes = [
   },
   {
     path: "/ADauthprovider",
-    name: "ADauthprovider",
+    name: "ad-auth-provider",
     component: ADauthprovider,
    },
    {
     path: "/ADuserForm",
-    name: "ADuserForm",
+    name: "ad-user-form",
     component: ADuserForm,
    },
    {
     path: "/ADuserlist",
-    name: "ADuserlist",
+    name: "ad-user-list",
     component: ADuserlist,
    },
    {
     path: "/ADgrouplist",
-    name: "ADgrouplist",
+    name: "ad-group-list",
     component: ADgrouplist,
    },
    {
      path: "/ADsave",
-     name: "ADsave",
+     name: "ad-configuration-save",
      component: ADsave,
    },
 ];
@@ -226,6 +226,22 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   linkActiveClass: "active",
+});
+
+// Function to check if the user is authenticated
+function isAuthenticated() {
+  return sessionStorage.getItem('user_id') !== null;
+}
+
+// Global navigation guard to check authentication status
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'Signin' && !isAuthenticated()) {
+    // Redirect the user to the signin page if not authenticated
+    next({ name: 'Signin' });
+  } else {
+    // Proceed to the requested route
+    next();
+  }
 });
 
 export default router;

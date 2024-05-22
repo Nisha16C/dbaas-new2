@@ -49,9 +49,10 @@
                       <span class="text-danger" v-if="!password && showErrorMessages">Password is required</span>
                     </div>
 
+                    
 
 
-                    <div class="text-center">
+                    <div class="text-center" v-if="showLoginWithLDAPButton">
                       <div v-if="error" class="text-danger">{{ error }}</div>
                       <argon-button v-if="showSignInButton" @click.prevent="login" class="mt-4" variant="gradient"
                         color="success" fullWidth size="lg">Sign In</argon-button>
@@ -64,40 +65,27 @@
                         Active Directory</a>
                       <a v-else @click.prevent="showSignIn" class="mt-2 text-success">Sign in</a>
                     </div>
+                    <div class="text-center" v-else>
+                      <div v-if="error" class="text-danger">{{ error }}</div>
+                      <argon-button v-if="showSignInButton" @click.prevent="login" class="mt-4" variant="gradient"
+                        color="success" fullWidth size="lg">Sign In</argon-button>
+                    </div>
 
                   </form>
-
                 </div>
-
               </div>
-
             </div>
-
             <div
               class="top-0 my-auto text-center col-6 d-lg-flex d-none h-100 pe-0 position-absolute end-0 justify-content-center flex-column">
-
               <div
                 class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
-                style="
-
-                  background-image: url('@/assets/img/login.svg');
-
-                  background-size: cover;
-
-                ">
-
+                style="background-image: url('@/assets/img/login.svg'); background-size: cover;">
                 <span class="mask bg-gradient-success opacity-6"></span>
-
                 <h4 class="mt-5 text-white font-weight-bolder position-relative">
-
                   "Empower Your Data Journey with BitBlast!!"
-
                 </h4>
-
                 <p class="text-white position-relative">
-
                   The most effortless way to manage your database.
-
                 </p>
 
               </div>
@@ -155,7 +143,9 @@ export default {
 
       apiUrl: API_ENDPOINT,
       showSignInButton: true, // Initially show the Sign in button
+      showLoginWithLDAPButton: false,
       showPassword: false, // Add this property
+
 
     };
 
@@ -172,6 +162,8 @@ export default {
     this.$store.state.showFooter = false;
 
     body.classList.remove("bg-gray-100");
+    this.fetchIsConnected();
+
 
   },
 
@@ -190,6 +182,25 @@ export default {
   },
 
   methods: {
+    fetchIsConnected() {
+      axios.get(`${this.apiUrl}/api/v1/is-connected/`)
+        .then(response => {
+          const isConnectedValue = response.data.is_connected;
+          console.log("jhingur", isConnectedValue)
+          if (isConnectedValue === "True") {
+            this.showLoginWithLDAPButton = true;
+          } else if (isConnectedValue === "None") {
+            this.showLoginWithLDAPButton = false;
+          } else {
+            console.error('Unexpected value for is_connected:', isConnectedValue);
+            console.log("response do ", response)
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching is_connected:', error);
+          this.showLoginWithLDAPButton = false;
+        });
+    },
 
     loginWithLDAP() {
 

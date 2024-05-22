@@ -9,20 +9,27 @@
               :detail="stats.money.detail" directionReverse>
             </card>
           </div>
-          <div class="col-lg-3 col-md-12 col-12">
+          <div class="col-lg-5 col-md-12 col-12">
             <div class="mb-4 card">
               <div class="p-3 card-body">
-                <div class="px-6">
+                <div class="px-6 d-flex justify-content-between align-items-center">
                   <div class="mb-2 mt-3">
                     <router-link to="/USER">
                       <argon-button color="success" size="md" variant="gradient">Create New User</argon-button>
+                    </router-link>
+                  </div>
+                  <div class="mb-2 mt-3">
+                    <router-link to="/ADgrouplist">
+                      <argon-button color="success" size="sm" variant="gradient" style="font-size: 15px;">Active
+                        Directory Groups</argon-button>
                     </router-link>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-<!-- 
+
+          <!-- 
           <div class="col-lg-3 col-md-12 col-12">
     <div class="mb-4 card">
         <div class="p-3 card-body">
@@ -113,3 +120,6 @@ export default {
   },
 };
 </script>
+<style scoped>
+
+</style>

@@ -1,50 +1,10 @@
+[12:37 PM] Preeti Nathani
 <template>
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12">
-        <div class="row">
-         
-          <div class="col-lg-3 col-md-12 col-12 d-flex">
-            <div class="mb-4 card">
-              <div class="p-3 card-body">
-                <div class=" px-4 d-flex">
-                  <div class="mb-3 mt-4 mx-2">
-                    <router-link to="/admin-backup/form">
-                      <argon-button color="success" size="md" variant="gradient">Backup/Schedule</argon-button>
-                    </router-link>
-                  </div>
-                  <div class="mb-3 mt-4 mx-2">
-                    <router-link to="/admin-backup/restore-backup">
-                      <argon-button color="success" size="md" variant="gradient">Restore</argon-button>
-                    </router-link>
-                  </div>
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 d-flex">
-                        <div class="mb-4 card">
-                            <div class="p-3 card-body">
-                                <div class=" px-3 d-flex">
-                                    <div class="mb-3 mt-4 mx-1">
-                                        <router-link to="/admin-backup">
-                                            <argon-button color="success" size="md" variant="gradient">Backups
-                                                List</argon-button>
-                                        </router-link>
-                                    </div>
-                                    <div class="mb-3 mt-4 mx-1">
-                                        <router-link to="/scheduled-backups">
-                                            <argon-button color="success" size="md" variant="gradient">Schedule Backups
-                                                List</argon-button>
-                                        </router-link>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+        <ButtonCard />
+ 
           <div class="py-4 container-fluid">
             <div class="row">
               <div class="col-12">
@@ -52,8 +12,8 @@
                   <div class="card-header pb-0">
                     <h6> Backup List</h6>
                   </div>
-
-
+ 
+ 
                   <div class="card-body px-0 pt-0 pb-2">
                     <div class="pl-4">
                       <h6>{{ server_name }}</h6>
@@ -97,7 +57,7 @@
                               {{backup.size}}
                             </td>
                           </tr>
-
+ 
                         </tbody>
                       </table>
                     </div>
@@ -106,22 +66,23 @@
               </div>
             </div>
           </div>
-        </div>
+        
       </div>
     </div>
   </div>
 </template>
   
 <script>
-
+ 
 import axios from "axios";
-import argonButton from "@/components/BB_Button.vue";
-
+import ButtonCard from "./components/ButtonCard.vue";
+ 
+ 
 export default {
   name: "BackupDetails",
   
   components: {
-    argonButton
+    ButtonCard
   },
   
   data() {
@@ -154,12 +115,12 @@ export default {
     this.username = sessionStorage.getItem('username');
   },
   methods: {
-
-    async fetchBackups() { 
+ 
+    async fetchBackups() {
       try {
         
         const response = await axios.get(`http://172.16.1.131:8000/api/v4/barman/list-backups?server_name=${this.server_name}&storage_method=${this.backup_method}&username=${this.username}`);
-
+ 
         // Update the clusters data with the fetched data
         this.backupList = response.data.message;
         
@@ -167,8 +128,9 @@ export default {
         console.error('Error fetching servers:', error);
       }
     },
-
+ 
   },
 };
 </script>
   
+ 

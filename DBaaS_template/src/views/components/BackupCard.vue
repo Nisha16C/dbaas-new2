@@ -1,4 +1,4 @@
-[6:47 AM] Preeti Nathani
+[12:42 PM] Preeti Nathani
 <template>
   <div class="card">
     <div v-if="successMessage" class="alert alert-success mb-3">
@@ -9,13 +9,11 @@
       <div class="text-center">{{ errorMessage }}</div>
     </div>
     <div class="card-header pb-0 px-3">
-      <h6 class="mb-0">Enter the Database Name and Backup Name.</h6>
+      <h6 class="mb-0">Enter the Database Name and Backup Name</h6>
     </div>
     <div class="card-body pt-4 p-3">
-
       <ul class="list-group">
         <li class="list-group-item border-0  p-4 mb-2 bg-gray-100 border-radius-lg">
-
           <div v-if="loading" class="text-center">
             <!-- Show loader while loading -->
             <h6 class="mb-2">
@@ -26,41 +24,39 @@
             </div>
           </div>
           <div class="d-flex">
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column col-md-6">
               <form>
-
-                <label class="mt-1 text-sm">Storage Provider</label>
-                <select :class="{ 'BGdark': isDarkMode }" class="form-select" aria-label="Default select example"
-                  v-model="backup_method" @click="fetchServers()">
-                  <option value="nfs">NFS</option>
-                  <option value="s3">S3</option>
-                </select>
-
-                <label class="mt-3 text-sm">Select Database</label>
-                <select :class="{ 'BGdark': isDarkMode }" v-model="serverName" class="form-select"
-                  aria-label="Default select example">
-                  <option v-for="(description, serverName) in servers" :key="serverName" :value=serverName selected>{{
+                <div class="form-group mt-3 d-flex align-items-center">
+                  <label class="mt-1 text-sm col-md-3">Storage Provider:</label>
+                  <select :class="{ 'BGdark': isDarkMode }" class="form-select col-md-9"
+                    aria-label="Default select example" v-model="backup_method" @click="fetchServers()">
+                    <option value="nfs">NFS</option>
+                    <option value="s3">S3</option>
+                  </select>
+                </div>
+                <div class="form-group mt-3 d-flex align-items-center">
+                  <label class="mt-3 text-sm col-md-3">Select Database:</label>
+                  <select :class="{ 'BGdark': isDarkMode }" v-model="serverName" class="form-select col-md-9"
+                    aria-label="Default select example">
+                    <option v-for="(description, serverName) in servers" :key="serverName" :value=serverName selected>{{
       serverName }}
-                  </option>
-
-                </select>
-                <div class="form-check form-switch mt-3">
+                    </option>
+                  </select>
+                </div>
+                <div class="form-check form-switch mt-3 mx-3">
                   <input class="form-check-input" @click="toggleBackupSchedule()" type="checkbox">
                   <label class=" text-sm mt-2" for="backupSwitch">Schedule Backup (Optional)</label>
                 </div>
-
-                <div v-show="!isBackupScheduled" class="form-group mt-3">
-                  <label class="text-sm" for="">Backup Name</label>
-                  <bb-input v-model="backup_name" type="email" class="" id="backup_name" placeholder="Backup Name" />
+                <div v-if="!isBackupScheduled" class="form-group mt-3 d-flex align-items-center ">
+                  <label class="text-sm col-md-3" for="">Backup Name:</label>
+                  <input v-model="backup_name" type="email" class="form-control col-md-9" id="backup_name"
+                    placeholder="Backup Name" />
                 </div>
-
-
+ 
                 <div>
-
-
-                  <div class="form-group mt-3">
-                    <label class="text-sm" for="retentionPeriod">Retention Period:</label>
-                    <div class="input-group">
+                  <div class="form-group mt-3 d-flex align-items-center">
+                    <label class="text-sm col-md-3" for="retentionPeriod">Retention Period:</label>
+                    <div class="input-group col-md-9">
                       <input type="email" class="form-control" id="retentionPeriod" v-model="retentionPeriod">
                       <select class="form-select bg-light" aria-label="Default select example" v-model="selected_value">
                         <option value="d" selected>days</option>
@@ -69,54 +65,65 @@
                       </select>
                     </div>
                   </div>
-                  <div v-if="isBackupScheduled" class="form-group mt-3">
-                    <label class="text-sm" for="retentionPeriod">Minuts</label>
-                    <div class="input-group">
-                      <select :class="{ 'BGdark': isDarkMode }" class="form-select" aria-label="Default select example"
-                        v-model="selectedMinuts" @click="fetchServers()">
-                        <option v-for="minut in 60" :key="minut" :value="minut">{{ minut }} </option>
-                      </select>
-
+ 
+                  <div v-if="isBackupScheduled" class="mx-3">
+                    <h6>Scheduled Backup Settings</h6>
+ 
+                    <div>
+                      <label>
+                        <input type="radio" v-model="backupType" value="daily" />
+                        Daily Backups
+                      </label>
+                      <div v-if="backupType === 'daily'" class="form-group mt-3 d-flex align-items-center ">
+                        <label class="text-sm col-md-3" for="">Backup Schedule:</label>
+                        <div class="justify-content-end d-flex col-md-9">
+                          <input type="email" class="form-control mx-2 col-md-3" value="Daily" readonly>
+                          At<input type="number" class="form-control col-md-3 mx-2" v-model="selectedHour"> :
+                          <input type="number" class="form-control col-md-3 ml-2" v-model="selectedMin">
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div v-if="isBackupScheduled" class="form-group mt-3">
-                    <label class="text-sm" for="retentionPeriod">Hours</label>
-                    <div class="input-group">
-                      <select :class="{ 'BGdark': isDarkMode }" class="form-select" aria-label="Default select example"
-                        v-model="selectedHour" @click="fetchServers()">
-                        <option v-for="hour in 24" :key="hour" :value="hour">{{ hour }}</option>
-                      </select>
-
+                    <div>
+                      <label>
+                        <input type="radio" v-model="backupType" value="weekly" />
+                        Weekly Backups
+                      </label>
+                      <div v-if="backupType === 'weekly'" class="form-group mt-3 d-flex align-items-center ">
+                        <label class="text-sm col-md-3" for="">Backup Schedule:</label>
+                        <div class="justify-content-end d-flex col-md-9">On
+                          <select class="form-select col-md-3 mx-2" v-model="selectedDay">
+                          <option v-for="day in days" :key="day" :value="day">
+                            {{ day }}
+                          </option>
+                        </select>
+                          At<input type="number" class="form-control col-md-3 mx-2" v-model="selectedHour"> :
+                          <input type="number" class="form-control col-md-3 ml-2" v-model="selectedMin">
+                        </div>
+                      </div>
+                     
                     </div>
-                  </div>
-                  <div v-if="isBackupScheduled" class="form-group mt-3">
-                    <label class="text-sm" for="retentionPeriod">Days</label>
-                    <div class="input-group">
-                      <select v-if="isBackupScheduled" class="form-select" aria-label="Default select example"
-                        v-model="selectedSchedule">
-                        <option v-for="day in 30" :key="day" :value="day">{{ day }}</option>
-
-                        <!-- <option value="sunday">Sunday</option>
-                        <option value="monday">Monday</option>
-                        <option value="tuesday">Tuesday</option>
-                        <option value="wednesday">Wednesday</option>
-                        <option value="thursday">Thursday</option>
-                        <option value="friday">Friday</option>
-                        <option value="saturday">Saturday</option> -->
-                      </select>
-
-
+                    <div>
+                      <label>
+                        <input type="radio" v-model="backupType" value="monthly" />
+                        Monthly Backups
+                      </label>
+                      <div v-if="backupType === 'monthly'" class="form-group mt-3 d-flex align-items-center ">
+                        <label class="text-sm col-md-3" for="">Backup Schedule:</label>
+                        <div class="justify-content-end d-flex col-md-9">On
+                          <input type="number" class="form-control mx-2 col-md-3" v-model="selectedDate">
+                          At<input type="number" class="form-control col-md-3 mx-2" v-model="selectedHour"> :
+                          <input type="number" class="form-control col-md-3 ml-2" v-model="selectedMin">
+                        </div>
+                      </div>
+                      
                     </div>
-
                   </div>
                 </div>
-
               </form>
             </div>
           </div>
         </li>
       </ul>
-
       <div class="px-2">
         <argon-button v-show="!isBackupScheduled" @click="Backup()" color="success" size="md" variant="gradient">
           Create Backup
@@ -128,19 +135,13 @@
     </div>
   </div>
 </template>
-
-
 <script>
 import argonButton from "@/components/BB_Button.vue";
-import bbInput from "@/components/BB_Input.vue";
-
 import axios from "axios";
 export default {
   name: "backup-card",
   components: {
     argonButton,
-    bbInput,
-
   },
   data() {
     return {
@@ -148,36 +149,34 @@ export default {
       serverName: '',
       backup_name: '',
       isBackupScheduled: false,
-      selectedHour: 0, // Newly added property to store the selected hour
-      selectedMinuts: 0,
+      selectedHour: '12',
+      selectedMin: "00",
+      selectedDate: '10',
+      selectedDay: 'Sunday',
       backup_method: '',
       username: '',
       loading: false,
       successMessage: "",
       errorMessage: "",
-      selectedDate: new Date(), // Add this line to initialize selectedDate
-      // other data properties
-      config: {
-        enableTime: true, // Enable time selection
-        dateFormat: "Y-m-d H:i", // Format for displaying the date and time
-        altFormat: "F j, Y H:i", // Format for displaying the date in the input field
-        altInput: true, // Use an alternative input field that shows the formatted date
-        time_24hr: true // Use 24-hour format for time
-      }
-
+      retentionPeriod: '',
+      selected_value: '',
+      date_time: '',
+      backupType: '',
+      dailyTime: 14,
+      weeklyDay: 'Friday',
+     
+      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      daysOfMonth: Array.from({ length: 31 }, (_, i) => i + 1),
     };
   },
-
   computed: {
     isDarkMode() {
       return this.$store.state.darkMode;
     }
   },
-
   created() {
     this.username = sessionStorage.getItem('username');
   },
-
   methods: {
     toggleBackupSchedule() {
       this.isBackupScheduled = !this.isBackupScheduled;
@@ -194,7 +193,7 @@ export default {
       this.loading = true;
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/backup?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}&username=${this.username}`
+          `http://172.16.1.131:8000/api/v4/barman/backup?server_name=${this.serverName}&backup_name=${this.backup_name}&storage_method=${this.backup_method}&username=${this.username}&retention=${this.retentionPeriod}${this.selected_value}`
         )
         .then(() => {
           this.successMessage = "Backup done successfully";
@@ -211,18 +210,26 @@ export default {
     },
     scheduleBackup() {
       this.loading = true;
+      if (this.backupType == 'weekly') {
+        this.date_time = this.selectedDay
+      } else if (this.backupType == 'monthly') {
+        this.date_time = this.selectedDate
+      } else {
+        this.date_time = ''
+      }
+ 
       axios
         .post(
-          `http://172.16.1.131:8000/api/v4/barman/schedule-backup?server_name=${this.serverName}&retention=${this.selectedHour}&storage_method=${this.backup_method}&username=${this.username}&schedule_minute=${this.selectedMinuts}&schedule_hours=${this.selectedHour}&schedule_day=${this.selectedSchedule}`
-        )
+          `http://172.16.1.131:8000/api/v4/barman/schedule-backup?server_name=${this.serverName}&retention=${this.retentionPeriod}${this.selected_value}&storage_method=${this.backup_method}&username=${this.username}&schedule_hour=${this.selectedHour}&schedule_minute=${this.selectedMin}${this.date_time !== '' ? '&schedule_day=' + this.date_time : ''}`
+       )
         .then(() => {
           this.successMessage = "Backup scheduled successfully";
           setTimeout(() => {
             this.$router.push("/scheduled-backups");
           }, 5000);
         })
-        .catch(() => {
-          this.errorMessage = `Backup already scheduled for ${this.serverName}`
+        .catch((error) => {
+          this.errorMessage = error
           setTimeout(() => {
             this.$router.push("/scheduled-backups");
           }, 5000);
@@ -234,12 +241,27 @@ export default {
   },
 };
 </script>
-
-
 <style scoped>
 .BGdark {
   background-color: #1d1e52;
   color: #fff;
-
+}
+ 
+.dropdown-wrapper {
+  position: relative;
+  max-height: 50px;
+}
+ 
+.dropdown-wrapper select {
+  position: absolute;
+  bottom: 0;
+  max-height: calc(100vh - 50vh);
+  /* Adjust 120px according to your label height and other spacing */
+  overflow-y: auto;
+}
+ 
+.time-field,
+.day-and-time-field {
+  margin-left: 20px;
 }
 </style>

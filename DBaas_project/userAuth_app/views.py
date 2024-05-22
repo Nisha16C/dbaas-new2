@@ -20,7 +20,7 @@ from project_api.serializers import projectSerializers
 
 from rest_framework.views import APIView
 
-from .models import Role, UserRole
+from .models import Role, UserRole, GroupRoleAssignment
 
 from .serializers import userAuthSerializers
 
@@ -528,54 +528,115 @@ from django.contrib.auth.models import User
 from .models import Role, UserRole
 
 from django.contrib.auth.models import User
-from .models import Role, UserRole
 
-@api_view(['POST'])
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Role, UserRole, GroupRoleAssignment, LDAPGroup, LDAPGroupMember
+from django.contrib.auth.models import User
+
+@api_view(['GET', 'POST'])
 def assign_roles_to_group_members(request):
     if request.method == 'POST':
         group_name = request.data.get('group_name')
         role_name = request.data.get('role_name')
         sAMAccountNames = request.data.get('sAMAccountNames')
- 
+
+        if not group_name or not role_name or not sAMAccountNames:
+            return Response({'success': False, 'message': 'group_name, role_name, and sAMAccountNames are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
             # Get or create the role object
             role, _ = Role.objects.get_or_create(name=role_name)
- 
-            # Iterate over each sAMAccountName
+
+            # Find the group object
+            group = LDAPGroup.objects.get(name=group_name)
+
+            # Find the group members
+            group_members = LDAPGroupMember.objects.filter(group=group)
+
+            # Remove any existing roles associated with the members of the specified group
+            for member in group_members:
+                user = User.objects.filter(username=member.username).first()
+                if user:
+                    UserRole.objects.filter(user=user).delete()
+
+            # Assign the new role to each user
             for sAMAccountName in sAMAccountNames:
-                # Find or create the user by sAMAccountName
-                user, created = User.objects.get_or_create(username=sAMAccountName)
- 
-                # Remove any existing roles associated with the user
-                UserRole.objects.filter(user=user).delete()
- 
-                # Associate the new role with the user
+                user, _ = User.objects.get_or_create(username=sAMAccountName)
                 UserRole.objects.create(user=user, role=role)
- 
-            return JsonResponse({'success': True, 'message': f'Roles assigned to members of {group_name}'})
-        
+
+            # Remove existing GroupRoleAssignment records for the group
+            GroupRoleAssignment.objects.filter(group=group.name).delete()
+
+            # Create new GroupRoleAssignment for the group and role
+            GroupRoleAssignment.objects.create(group=group.name, role=role)
+
+            return Response({'success': True, 'message': f'Roles assigned to members of {group_name}'})
+        except LDAPGroup.DoesNotExist:
+            return Response({'success': False, 'message': f'Group {group_name} does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'success': False, 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    elif request.method == 'GET':
+        try:
+            # Fetch all GroupRoleAssignment objects
+            group_assignments = GroupRoleAssignment.objects.all()
+
+            # Prepare the response data
+            group_roles_data = {}
+            for assignment in group_assignments:
+                group_name = assignment.group  # Access group name directly
+                role_name = assignment.role.name
+                if group_name in group_roles_data:
+                    group_roles_data[group_name].append(role_name)
+                else:
+                    group_roles_data[group_name] = [role_name]
+
+            return JsonResponse({'group_roles': group_roles_data})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
+
+
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+import urllib.parse
+
 @api_view(['GET'])
-def get_group_roles(request, group_name):
-    """
-    Fetch the roles assigned to a specific group.
-    """
+def get_group_role(request, group_name):
     try:
-        # Retrieve the group object by name
-        group = Group.objects.get(name=group_name)
-
-        # Retrieve roles assigned to the group
-        group_roles = UserRole.objects.filter(user__groups=group).values_list('role__name', flat=True).distinct()
+        # Decode the group name
+        decoded_group_name = urllib.parse.unquote(group_name)
         
-        return JsonResponse({'group_roles': list(group_roles)})
-
-    except Group.DoesNotExist:
-        return JsonResponse({'error': 'Group does not exist'}, status=404)
+        # Fetch the GroupRoleAssignment objects for the specified group
+        group_assignments = GroupRoleAssignment.objects.filter(group=decoded_group_name)
+        
+        # If no assignments found, return an appropriate response
+        if not group_assignments.exists():
+            return JsonResponse({'success': False, 'message': f'No roles found for group {decoded_group_name}'}, status=404)
+        
+        # Prepare the response data
+        role_names = [assignment.role.name for assignment in group_assignments]
+        
+        return JsonResponse({'success': True, 'group': decoded_group_name, 'roles': role_names})
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'success': False, 'message': str(e)}, status=500)
+
+
+
+
+from django.conf import settings
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class IsConnectedAPIView(APIView):
+    def get(self, request):
+
+        is_connected = settings.IS_CONNNECTED.strip()  # Corrected attribute name and stripping whitespace
+        print("is_connected", is_connected)
+        return Response({'is_connected': is_connected})

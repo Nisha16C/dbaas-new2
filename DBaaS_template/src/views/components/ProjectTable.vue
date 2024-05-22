@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" style="height: 650px; overflow-y: auto;">
     <div class="card-header pb-0">
       <h6 class="text-2xl"> Projects Info  </h6>
     </div>
@@ -95,7 +95,7 @@ import ArgonButton from "@/components/BB_Button.vue";
 import ArgonInput from "@/components/BB_Input.vue";
 import axios from "axios";
 import { API_ENDPOINT } from '@/../apiconfig.js';
-import logo from "@/assets/img/db-png.png";
+import logo from "@/assets/img/projectTable.png";
 import logoWhite from "@/assets/img/project.png";
  
  

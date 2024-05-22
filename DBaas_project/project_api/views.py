@@ -348,9 +348,9 @@ class ClusterViewSet(viewsets.ModelViewSet):
 
         headers = {"PRIVATE-TOKEN": private_token}
         
-        if provider_name == 'Kubernetes' and cluster_type == 'Standalone':
+        if provider_name == 'Kubernetes' and cluster_type == 'Multiple':
             formData = {
-                "ref": 'deploy-postgres-k8s',
+                "ref": 'ha-postgres-cluster-k8s',
                 "variables": [
                 {"key": "DATABASE_NAME", "value": cluster_name},
                 {"key": "KUBE_CONFIG", "value": kubeconfig_data},

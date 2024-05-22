@@ -1,12 +1,8 @@
 import { createStore } from "vuex";
 import axios from "axios";
-import { API_ENDPOINT } from '@/../apiconfig.js';
-
 
 export default createStore({
   state: {
-    apiUrl: API_ENDPOINT,
-
     hideConfigButton: false,
 
     isPinned: true,
@@ -64,12 +60,25 @@ export default createStore({
     selectedStorageOffering: null,
 
     selectedComputeOffering: null,
-    // Other state properties
-    activeDirectoryStatus: localStorage.getItem('activeDirectoryStatus') || 'Inactive' // Initialize status from local storage
+    isLogoToggled: false,
+    observabilityBackupVisible: true,
+    databaseBackupVisible: true,
+
+
+
 
   },
 
   mutations: {
+    TOGGLE_LOGO(state) {
+      state.isLogoToggled = !state.isLogoToggled;
+    },
+    toggleObservabilityBackupVisibility(state) {
+      state.observabilityBackupVisible = !state.observabilityBackupVisible;
+    },
+    toggleDatabaseBackupVisibility(state) {
+      state.databaseBackupVisible = !state.databaseBackupVisible;
+    },
     setGlobalProjectName(state, project_name) {
       state.project_name = project_name;
     },
@@ -155,22 +164,13 @@ export default createStore({
     updateFlavors(state, newFlavors) {
       state.flavors = newFlavors;
     },
-    // Mutation to update the status to Active
-    enableActiveDirectory(state) {
-      state.activeDirectoryStatus = 'Active';
-      localStorage.setItem('activeDirectoryStatus', 'Active'); // Store status in local storage
-
-    },
-    // Mutation to update the status to Inactive
-    disableActiveDirectory(state) {
-      state.activeDirectoryStatus = 'Inactive';
-      localStorage.setItem('activeDirectoryStatus', 'Inactive'); // Store status in local storage
-
-    }
 
   },
 
   actions: {
+    toggleLogo({ commit }) {
+      commit('TOGGLE_LOGO');
+    },
     setFlavors({ commit }, newFlavors) {
       commit("updateFlavors", newFlavors);
     },
@@ -222,16 +222,6 @@ export default createStore({
     toggleSidebarColor({ commit }, payload) {
       commit("sidebarType", payload);
     },
-
-    // selectedOffering(project) {
-
-    //   this.$store.commit('setSelectedCPUNumber', project.cpunumber);
-
-    //   this.$store.commit('setSelectedMemory', project.memory);
-
-    //   this.computeOfferings = project.name;
-
-    // },
 
     fetchFirstProject({ commit }, userId) {
       axios

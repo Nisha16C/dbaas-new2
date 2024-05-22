@@ -18,7 +18,8 @@
                                 </router-link>
 
                                 <h3 class="mb-1">Authentication Provider: Active Directory <span class="badge badge-sm"
-                                        :class="statusClass">{{ status }}</span></h3>
+                                        :class="{ 'bg-green': status === 'Active', 'bg-red': status === 'Inactive' }">{{
+                                            status }}</span></h3>
 
                             </div>
 
@@ -37,14 +38,14 @@
 
                 <div class="col-md-12">
 
-                    <div class="card" style="height: 650px; overflow-y: auto;">
+                    <div class="card">
 
                         <div class="card-body">
 
                             <p :class="`${this.$store.state.darkMode ? 'w-background' : 'y-background'}`"
                                 class="text-sm">The Active Directory authentication provider is
 
-                                currently Disabled.</p>
+                                currently Disable.</p>
 
                             <hr>
 
@@ -58,7 +59,7 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="last_name" class="form-control-label">Server URI <span
+                                        <label class="form-control-label">Server URI <span
                                                 class="warning">*</span></label>
 
                                         <argon-input v-model="ldapServerURI" type="text"
@@ -73,73 +74,55 @@
                                     </div>
 
                                     <div class="col-md-6">
-
-                                        <label class="form-control-label">Server Connection Timeout
-
-                                            (milliseconds) <span class="warning">*</span></label>
-
+                                        <label class="form-control-label">Server Connection Timeout (milliseconds)
+                                            <span class="warning">*</span></label>
                                         <argon-input v-model="serverConnectionTimeout" type="text" value="10000" />
-
+                                        <p v-if="errors.serverConnectionTimeout" class="text-danger">{{
+                                            errors.serverConnectionTimeout }}</p>
                                     </div>
 
-                                    <!-- <p :class="`${this.$store.state.darkMode ? 'w-background' : 'r-background'}`" class="text-sm"> BitBlast needs a service account that has
-
-                                        read-only access to login to all domains so that we can
-
-                                        determine what groups a user is a member of when they make a request with an API
-
-                                        key. </p> -->
-
                                     <div class="col-md-6">
-
-                                        <label for="first_name" class="form-control-label">Service Account Distinguished
-
-                                            Name <span class="warning">*</span></label>
-
+                                        <label class="form-control-label">Service Account Distinguished Name <span
+                                                class="warning">*</span></label>
                                         <argon-input v-model="ServiceAccountDistinguishedName" type="text"
                                             placeholder="Service Account Name " />
-
+                                        <p v-if="errors.ServiceAccountDistinguishedName" class="text-danger">{{
+                                            errors.ServiceAccountDistinguishedName }}</p>
                                     </div>
 
                                     <div class="col-md-6">
-
                                         <label for="last_name" class="form-control-label">Service Account Password
-
                                             <span class="warning">*</span></label>
-
-                                        <argon-input v-model="ruiuiui" type="password" placeholder="" />
-
+                                        <argon-input v-model="ServiceAccountPassword" type="password" placeholder="" />
+                                        <p v-if="errors.ServiceAccountPassword" class="text-danger">{{
+                                            errors.ServiceAccountPassword }}</p>
                                     </div>
 
                                     <div class="col-md-12">
-
                                         <label for="username" class="form-control-label">Default Login Domain <span
                                                 class="warning">*</span></label>
-
                                         <argon-input v-model="DefaultLoginDomain" type="text"
-                                            placeholder="eg:mycompany " />
-
+                                            placeholder="eg:mycompany" />
+                                        <p v-if="errors.DefaultLoginDomain" class="text-danger">{{
+                                            errors.DefaultLoginDomain }}</p>
                                     </div>
 
                                     <div class="col-md-6">
-
                                         <label for="phone" class="form-control-label">User Search Base <span
                                                 class="warning">*</span></label>
-
                                         <argon-input v-model="ldapServerBIND_DN" type="text"
                                             placeholder="e.g.ou=users,dc=mycompany,dc=com" />
-
+                                        <p v-if="errors.ldapServerBIND_DN" class="text-danger">{{
+                                            errors.ldapServerBIND_DN }}</p>
                                     </div>
 
                                     <div class="col-md-6">
-
                                         <label for="group_search_base" class="form-control-label">Group Search Base
-
                                             <span class="warning">*</span></label>
-
                                         <argon-input v-model="ldapGroupSearch" type="text"
                                             placeholder="e.g. ou=groups,dc=mycompany,dc=com" />
-
+                                        <p v-if="errors.ldapGroupSearch" class="text-danger">{{ errors.ldapGroupSearch
+                                            }}</p>
                                     </div>
 
                                     <h4>Customize Schema</h4> <br>
@@ -335,32 +318,26 @@
 
                                     <div class="col-md-6">
 
-                                        <label for="first_name" class="form-control-label">Username <span
+                                        <label class="form-control-label">Username <span
                                                 class="warning">*</span></label>
 
                                         <argon-input v-model="testUsername" type="text" placeholder="username" />
+                                        <p v-if="errors.testUsername" class="text-danger">{{
+                                            errors.testUsername }}</p>
 
                                     </div>
 
                                     <div class="col-md-6">
 
-                                        <label for="last_name" class="form-control-label">Password <span
+                                        <label class="form-control-label">Password <span
                                                 class="warning">*</span></label>
 
                                         <argon-input v-model="ldapServerBIND_PASSWORD" type="password"
                                             placeholder="password" />
+                                        <p v-if="errors.ldapServerBIND_PASSWORD" class="text-danger">{{
+                                            errors.ldapServerBIND_PASSWORD }}</p>
 
                                     </div>
-
-                                    <!-- <p class="text-sm">Note: The Active Directory user you authenticate as will be
-
-                                        associated
-
-                                        as an alternate way to login to the BitBlast user you are currently logged in as
-
-                                        admin; all the global permissions, project, and cluster role bindings of this
-
-                                        BitBlast user will also apply to the Active Directory user.</p> -->
 
                                     <div class="modal-footer">
 
@@ -371,13 +348,30 @@
 
                                         </BB_Button>
 
-                                        <BB_Button color="success" size="md" variant="gradient"
-                                            @click.prevent="enableActiveDirectoryAndSubmit">
+                                        <BB_Button color="success" size="md" variant="gradient" v-model="True"
+                                            @click.prevent="submitForm">
 
                                             Enable
 
                                         </BB_Button>
 
+                                    </div>
+                                    <div v-if="successMessage" class="alert alert-text-success mb-3">
+                                        <!-- Show success message when backup is completed -->
+                                        <div class="text-center text-success">{{ successMessage }}</div>
+                                    </div>
+                                    <div v-if="errorMessage" class="alert alert-text-danger mb-3">
+                                        <div class="text-center text-danger">{{ errorMessage }}</div>
+                                    </div>
+
+                                    <div v-if="loading" class="text-center">
+                                        <!-- Show loader while loading -->
+                                        <h6 class="mb-2">
+                                            Loading...
+                                        </h6>
+                                        <div class="spinner-border spinner-border-lg p-3 text-secondary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -404,15 +398,11 @@ import setNavPills from "@/assets/js/nav-pills.js";
 
 import setTooltip from "@/assets/js/tooltip.js";
 
-// import ProfileCard from "./components/ProfileCard.vue";
-
 import ArgonInput from "@/components/BB_Input.vue";
 
 import BB_Button from "@/components/BB_Button.vue";
 
 import { API_ENDPOINT } from '@/../apiconfig.js';
-
-import { mapState, mapMutations } from 'vuex'; // Import mapState and mapMutations from vuex
 
 import axios from 'axios';
 
@@ -448,23 +438,10 @@ export default {
 
             },
 
-            errors: {
-
-                first_name: '',
-
-                username: '',
-
-                email: '',
-
-                phone: '',
-
-                password: '',
-
-                cpassword: '',
-
-            },
+            errors: {},
 
             successMessage: '',
+            errorMessage: '',
 
             agreeTerms: false,
 
@@ -483,6 +460,11 @@ export default {
             groupSearchAttribute: 'sAMAccountName',
             groupMamberMappingAttribute: 'member',
             groupDNattribute: 'distinguishedName',
+            True: 'True',
+            status: '',
+            loading: false,
+            // errors: {} // Object to track errors
+
 
 
         };
@@ -491,26 +473,61 @@ export default {
 
     components: { ArgonInput, BB_Button },
 
-    computed: {
-        ...mapState(['activeDirectoryStatus']), // Map activeDirectoryStatus from store to a computed property
-
-        status() {
-
-            return this.$store.state.activeDirectoryStatus;
-
-        },
-
-        statusClass() {
-
-            return this.status === 'Active' ? 'bg-gradient-success rounded-pill' : 'bg-gradient-danger rounded-pill';
-
-        }
-
+    mounted() {
+        this.fetchIsConnectedStatus();
+        // Other mounted lifecycle actions
     },
 
     methods: {
+        fetchIsConnectedStatus() {
+            axios.get(`${this.apiUrl}/api/v1/is-connected/`)
+                .then(response => {
+                    if (response.status === 200 && response.data && response.data.is_connected) {
+                        this.status = response.data.is_connected === 'True' ? 'Active' : 'Inactive';
+                    } else {
+                        console.error('Unexpected response format:', response);
+                        this.status = 'Error';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching status:', error);
+                    this.status = 'Error';
+                });
+        },
+        // Method to handle form validation
+        validateForm() {
+            this.errors = {}; // Reset errors
+            let isValid = true;
 
-        ...mapMutations(['enableActiveDirectory']),
+            const fieldsToValidate = [
+                // { field: 'ldapServerURI', message: 'This field is required' },
+                { field: 'serverConnectionTimeout', message: 'This field is required' },
+                { field: 'ServiceAccountDistinguishedName', message: 'This field is required' },
+                { field: 'ServiceAccountPassword', message: 'This field is required' },
+                { field: 'DefaultLoginDomain', message: 'This field is required' },
+                { field: 'ldapServerBIND_DN', message: 'This field is required' },
+                { field: 'ldapGroupSearch', message: 'This field is required' },
+                { field: 'testUsername', message: 'This field is required' },
+                { field: 'ldapServerBIND_PASSWORD', message: 'This field is required' },
+
+            ];
+
+            fieldsToValidate.forEach(({ field, message }) => {
+                if (!this[field]) {
+                    this.errors[field] = message;
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                setTimeout(() => {
+                    this.errors = {};
+                }, 5000);
+            }
+
+            return isValid;
+        },
+
 
         submitForm() {
 
@@ -523,6 +540,11 @@ export default {
                 return; // Prevent form submission if input is invalid
 
             }
+            if (!this.validateForm()) {
+                return; // Prevent form submission if validation fails
+            }
+            this.loading = true;
+
 
             const formdata = {
 
@@ -556,6 +578,7 @@ export default {
                 groupDNattribute: this.groupDNattribute,
                 testUsername: this.testUsername,
                 testPassword: this.testPassword,
+                True: this.True,
 
             }
 
@@ -563,30 +586,21 @@ export default {
 
             axios.post(`${this.apiUrl}/api/v5/update_ldap_settings/`, formdata)
 
-                .then(response => {
-
-                    console.log(response.data);
-
-                    this.$router.push('/ADsave');
-
-                }).catch(error => {
-
-                    console.error(error);
-
+                .then(() => {
+                    this.successMessage = "ADuser Enabled successfully, Please wait few seconds.";
+                    setTimeout(() => {
+                        this.$router.push("/ADsave");
+                    }, 5000);
                 })
-
-        },
-        enableActiveDirectoryAndSubmit() {
-
-            // Call the Vuex mutation to update the status
-
-            this.enableActiveDirectory();
-            // Save status in localStorage
-            localStorage.setItem('activeDirectoryStatus', 'Active');
-
-            // Call the submitForm() method to submit the form data
-
-            this.submitForm();
+                .catch(() => {
+                    this.errorMessage = `error`
+                    setTimeout(() => {
+                        this.$router.push("/ADsave");
+                    }, 1000);
+                })
+                .finally(() => {
+                    this.loading = false; // Set loading to false regardless of success or failure
+                });
 
         },
 
@@ -640,6 +654,7 @@ export default {
 
         mounted() {
 
+
             this.$store.state.isAbsolute = true;
 
             setNavPills();
@@ -680,6 +695,7 @@ export default {
 
     },
 
+
 };
 
 </script>
@@ -710,5 +726,15 @@ export default {
 .w-background {
     background-color: rgb(29, 31, 129);
     color: rgb(255, 255, 255);
+}
+
+.bg-green {
+    background-color: green;
+    border-radius: 20px;
+}
+
+.bg-red {
+    background-color: red;
+    border-radius: 20px;
 }
 </style>

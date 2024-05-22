@@ -29,7 +29,7 @@
                                 <h5 class="mb-1 text-2xl" style="display: inline; margin-right: 15px;">Auth Providers
                                 </h5>
 
-                                <router-link to="/ADuserlist">
+                                <!-- <router-link to="/ADuserlist">
 
                                     <argon-button color="info" size="sm" variant="gradient" style="font-size: 15px;  margin: 7px">
 
@@ -39,8 +39,8 @@
 
                                     </argon-button>
 
-                                </router-link>
-                                <router-link to="/ADgrouplist">
+                                </router-link> -->
+                                <!-- <router-link to="/ADgrouplist">
 
                                     <argon-button color="info" size="sm" variant="gradient" style="font-size: 15px;">
 
@@ -48,7 +48,7 @@
 
                                     </argon-button>
 
-                                </router-link>
+                                </router-link> -->
 
                             </div>
 
@@ -115,7 +115,7 @@
 
 // import ArgonInput from "@/components/BB_Input.vue";
 
-import argonButton from "@/components/BB_Button.vue";
+// import argonButton from "@/components/BB_Button.vue";
 import { API_ENDPOINT } from '@/../apiconfig.js';
 import logo from "@/assets/img/ADPic.png";
 import logoWhite from "@/assets/img/server.png";
@@ -141,7 +141,7 @@ export default {
     },
     components: {
 
-        argonButton,
+        // argonButton,
 
         // ArgonAlert,
 

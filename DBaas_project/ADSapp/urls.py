@@ -2,7 +2,7 @@ from django.urls import path , include
 
 # from .views import update_ldap_settings
 
-from ADSapp.views import FormViewSet
+from ADSapp.views import FormViewSet, IsConnectedAPIView
 
 # from .views import ActiveUserListView
 
@@ -22,5 +22,7 @@ urlpatterns = [
      # Define a URL pattern for accessing the LDAP users
     path('ad-users/', get_ad_users, name='ad_users_api'),
     path("", include(router.urls)),
+    path('is-connected/', IsConnectedAPIView.as_view(), name='is-connected'),
+
 
 ]

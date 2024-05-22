@@ -34,6 +34,7 @@ class FormViewSet(viewsets.ViewSet):
 
         print('api call')
 
+
         ldap_server_uri = request.data.get('ldapServerURI')
 
         ldap_server_bind_on = request.data.get('ldapServerBIND_DN')
@@ -41,6 +42,7 @@ class FormViewSet(viewsets.ViewSet):
         ldap_server_bind_password = request.data.get('ldapServerBIND_PASSWORD')
 
         ldap_group_search = request.data.get('ldapGroupSearch')
+        is_connected = request.data.get('True')
 
         print('ldap_group_search', ldap_group_search)
  
@@ -72,9 +74,13 @@ class FormViewSet(viewsets.ViewSet):
 
                         settings_file.write(f"AUTH_LDAP_BIND_PASSWORD = '{ldap_server_bind_password}'\n")
 
-                    elif line.startswith('ldapGroupSearch'):
+                    elif line.startswith('ldapGroupSearch'): 
 
                         settings_file.write(f"ldapGroupSearch = '{ldap_group_search}  '\n")
+                    
+                    elif line.startswith('IS_CONNNECTED'): 
+
+                        settings_file.write(f"IS_CONNNECTED = '{is_connected}  '\n")
  
                     else:
 
@@ -103,6 +109,7 @@ class FormViewSet(viewsets.ViewSet):
                 settings_file.write("AUTH_LDAP_BIND_DN = ''\n")
 
                 settings_file.write("AUTH_LDAP_BIND_PASSWORD = ''\n")
+                settings_file.write("IS_CONNNECTED = ''\n")
 
             return JsonResponse({'message': 'LDAP settings disabled successfully'}, status=200)
 
@@ -262,5 +269,13 @@ def get_ad_users(request):
 #         return JsonResponse({'error': str(e)}, status=500)
 
 
+from django.conf import settings
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class IsConnectedAPIView(APIView):
+    def get(self, request):
+        is_connected = settings.IS_CONNNECTED.strip()  # Corrected attribute name and stripping whitespace
+        return Response({'is_connected': is_connected})
 
 

@@ -172,11 +172,10 @@ DATABASES = {
 
 AUTHENTICATION_BACKENDS = [
     'django_auth_ldap.backend.LDAPBackend',
-    # 'django_auth_ldap.backend.LDAPBackend',
     # 'django.contrib.auth.backends.ModelBackend',
 ]
 
-# IS_CONNNECTED = ""
+IS_CONNNECTED = 'True  '
 
 ldapGroupSearch = 'CN=Users,DC=os3,DC=com  '
  
@@ -201,8 +200,8 @@ AUTH_LDAP_USER_ATTR_MAP = {
 
 
 CORS_ALLOWED_ORIGINS = [  
-    'http://localhost:8080',
-    'http://172.16.1.190:8080',
+    'http://localhost:8081',
+    'http://172.16.1.190:8081',
 ]
 REST_FRAMEWORK = {
 

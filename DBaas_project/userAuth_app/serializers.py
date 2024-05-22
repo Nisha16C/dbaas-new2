@@ -6,3 +6,5 @@ class userAuthSerializers(serializers.ModelSerializer):
         model = User
         fields = "__all__"
 
+
+

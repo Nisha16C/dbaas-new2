@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import check_server_status, list_backups, list_servers, create_backup, switch_wal, recover_backup, schedule_backup, get_scheduled_servers, update_scheduled_backup, add_server_config, add_nfs_mount, mount_s3_bucket, list_mount_points, unmount
-
+from .views import check_server_status, list_backups, list_servers, create_backup, switch_wal, recover_backup, schedule_backup, get_scheduled_servers, update_scheduled_backup, add_server_config, add_nfs_mount, mount_s3_bucket, list_mount_points, unmount, delete_server
+ 
 urlpatterns = [
     path('barman/check', check_server_status),
     path('barman/list-servers', list_servers),
@@ -16,5 +16,6 @@ urlpatterns = [
     path('barman/mount-s3', mount_s3_bucket),
     path('barman/list-mount-points', list_mount_points),
     path('barman/unmount', unmount),
+    path('barman/delete-server', unmount),
     # Define other URLs similarly...
 ]

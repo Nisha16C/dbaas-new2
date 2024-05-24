@@ -381,6 +381,40 @@ class ClusterViewSet(viewsets.ModelViewSet):
             else:            
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
 
+        elif provider_name == 'Kubernetes' and cluster_type == 'Multiple':
+            formData = {
+                "ref": 'ha-postgres-cluster-k8s',
+                "variables": [
+                {"key": "DATABASE_NAME", "value": cluster_name},
+                {"key": "KUBE_CONFIG", "value": kubeconfig_data},
+                {"key": "DATABASE_VERSION", "value": database_version},
+                {"key": "BACKUP_METHOD", "value": backup_method},
+                {"key": "USERNAME", "value": username}, 
+                {"key": "PASSWORD", "value": password},           
+             ]
+            }
+            response = trigger_single(base_url, project_id, headers, user_id, formData)
+            if response == 200:
+                cluster = Cluster(
+                    user=user,
+                    project=project,
+                    cluster_name=cluster_name,
+                    cluster_type=cluster_type,
+                    database_version=database_version,
+                    provider=provider_name,  
+                )
+                cluster.save()
+                
+                serializer = ClusterSerializers(cluster)
+                # Log cluster creation information
+                log_entry = f"user={user.username} clustername={cluster.cluster_name} provider={provider_name} project={project} msg={cluster.cluster_name} created"
+                cluster_logger.info(log_entry)
+              
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:            
+                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
+
+
         elif provider_name == 'Cloudstack' and cluster_type == 'Multiple':
             formData = {
                 "ref": 'ha-postgres-cluster',

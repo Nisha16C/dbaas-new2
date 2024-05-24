@@ -68,8 +68,8 @@
  
         showMenu: false,
         embedUrl: {
-          light: 'http://172.16.1.54:3000/d/a13b79ff-237d-4f2c-897b-60e721e7b2b7/login-activities?orgId=1&from=1714939330601&to=1714982530601&theme=light',
-          dark: 'http://172.16.1.54:3000/d/a13b79ff-237d-4f2c-897b-60e721e7b2b7/login-activities?orgId=1&from=1714939330601&to=1714982530601&theme=dark'
+          light: 'http://172.16.1.54:3000/d/a13b79ff-237d-4f2c-897b-60e721e7b2b7/login-activities?orgId=1&from=now-30d&to=now&theme=light',
+          dark: 'http://172.16.1.54:3000/d/a13b79ff-237d-4f2c-897b-60e721e7b2b7/login-activities?orgId=1&from=now-30d&to=now&theme=dark'
           }
       };
  

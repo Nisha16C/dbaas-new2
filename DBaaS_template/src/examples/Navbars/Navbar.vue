@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     ...mapMutations(["navbarMinimize", "toggleConfigurator","toggleObservabilityBackupVisibility", "toggleDatabaseBackupVisibility"]),
-    ...mapActions(["toggleSidebarColor"]),
+    ...mapActions(["toggleSidebarColor", "toggleProjectSelect"]),
  
     toggleSidebar() {
       this.toggleSidebarColor("bg-white");
@@ -61,6 +61,8 @@ export default {
       this.$store.dispatch('toggleLogo');
       this.toggleObservabilityBackupVisibility(); // Dispatch the mutation
       this.toggleDatabaseBackupVisibility(); // Dispatch the mutation
+      this.toggleProjectSelect(); // Dispatch the toggleProjectSelect action
+      this.$store.dispatch('toggleshowdocx');
 
 
     },

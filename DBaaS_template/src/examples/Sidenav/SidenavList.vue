@@ -6,7 +6,7 @@
 
     <ul class="navbar-nav">
 
-      <li class="nav-item" v-if="!checkuser(username)">
+      <!-- <li class="nav-item" v-if="!checkuser(username)">
 
         <router-link to="/Project-Select" class="nav-link">
 
@@ -18,7 +18,15 @@
 
         <hr style="margin: 0; padding: 0; border: none;">
 
+      </li> -->
+      <li class="nav-item" v-if="!checkuser(username) && !$store.state.hideProjectSelect">
+        <router-link to="/Project-Select" class="nav-link">
+          <span class="nav-link-text text-center" :class="'ms-1'">{{ project_name ? project_name : ' SELECT PROJECT'
+            }}</span>
+        </router-link>
+        <hr style="margin: 0; padding: 0; border: none;">
       </li>
+
 
       <li class="nav-item" v-if="checkuser(username)">
 
@@ -202,7 +210,7 @@
         </h6>
       </li>
 
-      
+
 
       <li class="nav-item" v-if="checkuser(username)">
 
@@ -278,6 +286,14 @@
         </sidenav-item>
 
       </li>
+      <li class="nav-item"  v-if="showdocx">
+        <sidenav-item url="/ActivityLog">
+          <template v-slot:icon>
+            <i class="ni ni-book-bookmark text-info text-sm opacity-10"></i>
+
+          </template>
+        </sidenav-item>
+      </li>
 
     </ul>
 
@@ -288,7 +304,7 @@
     <sidenav-card :class="cardBg" textPrimary="Need Help?" />
 
   </div>
-  
+
 
 
 
@@ -318,10 +334,13 @@ export default {
 
   computed: {
 
-    ...mapState(['project_name', 'project_id', 'observabilityBackupVisible', 'databaseBackupVisible' 
-      
+    ...mapState(['project_name', 'project_id', 'observabilityBackupVisible', 'databaseBackupVisible'
+
     ]),
 
+    showdocx() {
+      return this.$store.state.showdocx;
+    },
   },
 
   data() {
@@ -512,14 +531,16 @@ export default {
   color: #3f775e;
 
 }
-.navbar-collapse {
-    overflow-y: hidden; /* Hide vertical scrollbar */
-  }
 
-  /* Forcefully hide the scrollbar */
-  .navbar-collapse::-webkit-scrollbar {
-    display: none;
-  }
+.navbar-collapse {
+  overflow-y: hidden;
+  /* Hide vertical scrollbar */
+}
+
+/* Forcefully hide the scrollbar */
+.navbar-collapse::-webkit-scrollbar {
+  display: none;
+}
 
 .shift-right {
   margin-left: 7px;

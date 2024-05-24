@@ -1,5 +1,4 @@
-[12:36 PM] Preeti Nathani
- 
+
 <template>
   <div class="card">
     <div class="card-header pb-0 px-3">
@@ -172,7 +171,7 @@
                     />
                     <img
                       class="mt-5"
-                      src="@/assets/img/withoutcloud.png"
+                      src="@/assets/img/withoutcloud-removebg-preview.png"
                       alt=""
                       style="width: 100px; height: 100px"
                     />
@@ -270,7 +269,7 @@
                     />
                     <img
                       class="mt-5"
-                      src="@/assets/img/wv1.jpg"
+                      src="@/assets/img/wv1-removebg-preview.png"  
                       alt=""
                       style="width: 100px; height: 100px"
                     />
@@ -423,6 +422,6 @@ export default {
   cursor: pointer;
 }
  
- 
+
 </style>
  

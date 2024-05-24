@@ -348,9 +348,9 @@ class ClusterViewSet(viewsets.ModelViewSet):
 
         headers = {"PRIVATE-TOKEN": private_token}
         
-        if provider_name == 'Kubernetes' and cluster_type == 'Multiple':
+        if provider_name == 'Kubernetes' and cluster_type == 'Standalone':
             formData = {
-                "ref": 'ha-postgres-cluster-k8s',
+                "ref": 'ankitv-test',
                 "variables": [
                 {"key": "DATABASE_NAME", "value": cluster_name},
                 {"key": "KUBE_CONFIG", "value": kubeconfig_data},
@@ -575,18 +575,20 @@ class ClusterViewSet(viewsets.ModelViewSet):
         
     @action(detail=False, methods=['get'])
     def check_cluster_exists(self, request, *args, **kwargs):
+ 
         cluster_name = request.query_params.get('cluster_name', None)
         project_id = request.query_params.get('project_id', None)
-        if not project_id:
-            return Response({"error": "Project ID is required."}, status=status.HTTP_400_BAD_REQUEST)
-
-
-        existing_cluster = Cluster.objects.filter(cluster_name=cluster_name, project_id=project_id).exists()
-
+ 
+        if not cluster_name or not project_id:
+            return Response({"error": "Cluster name and project ID are required parameters."}, status=status.HTTP_400_BAD_REQUEST)
+ 
+        existing_cluster = Cluster.objects.filter( cluster_name=cluster_name).exists()
+ 
         if existing_cluster:
             return Response({"exists": True}, status=status.HTTP_200_OK)
         else:
             return Response({"exists": False}, status=status.HTTP_200_OK)
+   
     
     def get_pipeline_status(self, request):
         global pipeline_dict
@@ -847,40 +849,51 @@ def extract_host(content):
 
     return None
 
+def extract_port(content):
+
+    import re
+
+    match = re.search(r'Port:\s*([\d\.]+)', content)
+
+    if match:
+
+        return match.group(1)
+
+    return None
+
+
 def display_clusters(request):
 
     clusters = Db_credentials.objects.all()
 
     # Prepare a list to hold cluster data
-
     clusters_data = []
 
     for cluster in clusters:
+        if cluster.provider_name == 'Cloudstack':
+            target = f"{extract_host(cluster.content)}:9187"
+        elif cluster.provider_name == 'Kubernetes':
+            target = f"{extract_host(cluster.content)}:{extract_port(cluster.content)}"
+        else:
+            # Handle other cases if needed
+            target = ""  # Default value
 
         cluster_data = {
-
-            'targets': [f"{extract_host(cluster.content)}:9187"],
-
-            'labels':{
-
-            'instance': cluster.cluster_name,
-
-            'cluster_type': cluster.cluster_type,
-
-            'database_version': cluster.database_version,
-            'user': cluster.user.username,
-            'project': cluster.project.project_name,
-
-            # 'provider': cluster.provider,
-
-            }}
-
+            'targets': [target],
+            'labels': {
+                'instance': cluster.cluster_name,
+                'cluster_type': cluster.cluster_type,
+                'database_version': cluster.database_version,
+                'provider_name': cluster.provider_name,
+                'user': cluster.user.username,
+                'project': cluster.project.project_name,
+            }
+        }
         clusters_data.append(cluster_data)
 
     result_data = clusters_data
 
-    return JsonResponse(result_data,safe=False)
-
+    return JsonResponse(result_data, safe=False)
  
 from .serializers import ClusterSerializers
 @api_view(['GET'])
@@ -922,20 +935,7 @@ class ContentByClusterNameView(generics.ListAPIView):
         # Get the provider based on the user and provider name
         # provider = get_object_or_404(Provider, user_id=user.id, cluster_name=cluster_name)
         return Db_credentials.objects.filter(cluster_name=cluster_name, user_id = user.id )
-    
-class ContentByClusterName(generics.ListAPIView):
-    serializer_class = DbcredentialsSerializer
- 
-    def get_queryset(self):
-        cluster_name = self.kwargs['cluster_name']
-        # username = self.kwargs['username']
-
-        # user = get_object_or_404(User, username=username)
-
-        # Get the provider based on the user and provider name
-        # provider = get_object_or_404(Provider, user_id=user.id, cluster_name=cluster_name)
-        return Db_credentials.objects.filter(cluster_name=cluster_name )
-          
+            
  
 @api_view(['GET'])
 def get_backup_method_by_cluster_name(request, cluster_name):

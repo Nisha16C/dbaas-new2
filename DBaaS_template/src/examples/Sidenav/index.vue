@@ -12,19 +12,12 @@
     <div class="sidenav-header text-center">
       <i class="top-0 p-5 cursor-pointer fas fa-times text-secondary opacity-5 position-absolute end-0 d-none d-xl-none"
         aria-hidden="true" id="iconSidenav"></i>
-      <router-link class="m-0 navbar-brand" to="/">
+      <!-- <router-link class="m-0 navbar-brand" to="/">
         <div class="logo-container">
           <img :src="logoSrc" class="navbar-brand-img h-100" alt="main_logo"/>
         </div>
-      </router-link>
-      <!-- <router-link class="m-0 navbar-brand" to="/">
-    <img
-      :src="logoSrc"
-      class="navbar-brand-img mr-4 h-100"
-      alt="main_logo"
-    />
-  </router-link> -->
-      <!-- <router-link class="m-0 navbar-brand" to="/">
+      </router-link> -->
+      <router-link class="m-0 navbar-brand" to="/">
         <img
           :src="
             this.$store.state.darkMode ||
@@ -35,7 +28,7 @@
           class="navbar-brand-img mr-4 h-100"
           alt="main_logo"
         />
-      </router-link> -->
+      </router-link>
     </div>
     <!-- <hr class="mt-0 horizontal dark" /> -->
 

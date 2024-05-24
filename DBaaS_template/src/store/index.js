@@ -63,9 +63,8 @@ export default createStore({
     isLogoToggled: false,
     observabilityBackupVisible: true,
     databaseBackupVisible: true,
-
-
-
+    hideProjectSelect: false,
+    showdocx: false,
 
   },
 
@@ -78,6 +77,12 @@ export default createStore({
     },
     toggleDatabaseBackupVisibility(state) {
       state.databaseBackupVisible = !state.databaseBackupVisible;
+    },
+    toggleProjectSelect(state) {
+      state.hideProjectSelect = !state.hideProjectSelect;
+    },
+    toggleshowdocx(state) {
+      state.showdocx = !state.showdocx;
     },
     setGlobalProjectName(state, project_name) {
       state.project_name = project_name;
@@ -170,6 +175,12 @@ export default createStore({
   actions: {
     toggleLogo({ commit }) {
       commit('TOGGLE_LOGO');
+    },
+    toggleProjectSelect({ commit }) {
+      commit('toggleProjectSelect');
+    },
+    toggleshowdocx({ commit }) {
+      commit('toggleshowdocx');
     },
     setFlavors({ commit }, newFlavors) {
       commit("updateFlavors", newFlavors);

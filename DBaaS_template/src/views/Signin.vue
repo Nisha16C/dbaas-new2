@@ -49,7 +49,7 @@
                       <span class="text-danger" v-if="!password && showErrorMessages">Password is required</span>
                     </div>
 
-                    
+
 
 
                     <div class="text-center" v-if="showLoginWithLDAPButton">
@@ -201,140 +201,122 @@ export default {
           this.showLoginWithLDAPButton = false;
         });
     },
+    async fetchUserRole(userId) {
+      try {
+        const response = await axios.get(`${this.apiUrl}/api/v1/get_user_role/${userId}/`);
+        const userRoles = response.data.user_roles;
 
-    loginWithLDAP() {
-
-      // Make a POST request to your Django backend to initiate LDAP authentication
-
-      axios.post(`${this.apiUrl}/api/v1/ldap-login/`, {
-
-        username: this.username,
-
-        password: this.password
-
-      })
-
-        .then(response => {
-
-          // this.userdata = response.data.user_data;
-          /// Extract user data from the response
-          console.log("response : ", response)
-          const userData = response.data.user_data;
-          const userId = userData.id;
-          const username = userData.username;
-          console.log(" ldap user ");
-          console.log("userData :", userData);
-          console.log("userId :", userId);
-          console.log("username :", username);
-
-          // Store user_id and username in sessionStorage
-          sessionStorage.setItem('user_id', userId);
-          sessionStorage.setItem('username', username);
-
-          if (username === 'admin' && username === 'Administrator') {
-
-            this.$router.push('/admin-dashboard');
-
-          } else {
-
-            this.$router.push('/User-dashboard');
-
-          }
-
-        })
-
-        .catch((error) => {
-
-          this.error = error.response.data.error;
-
-          this.error = "Invalid credentials. Please check again";
-
-          this.password = null;
-
-          this.username = null;
-
-          setTimeout(() => {
-
-            this.error = null;
-
-          }, 3000);
-
-        });
-
+        // Check if user has any roles
+        if (userRoles && userRoles.length > 0) {
+          // Extract the role from the first element of the user roles array
+          const role = userRoles[0].split(' - ')[1].trim();
+          return role;
+        } else {
+          // No roles found
+          console.error('User has no roles');
+          return null;
+        }
+      } catch (error) {
+        console.error('Error fetching user role:', error);
+        return null;
+      }
     },
 
-    login() {
 
-      if (!this.username || !this.password) {
 
-        this.showErrorMessages = true;
-
-        setTimeout(() => {
-
-          this.showErrorMessages = false;
-
-        }, 5000);
-
-        return; // Do not proceed with login if fields are empty
-
-      }
-
-      const formData = {
-
-        username_or_email: this.username,  // Use 'username' instead of 'username_or_email'
-
-        password: this.password
-
-      };
-
-      axios
-
-        .post(`${this.apiUrl}/api/v1/login/`, formData)
-
-        .then((response) => {
-
-          // const token = response.data.token;
-
-          this.userdata = response.data.user_data;
-
-          const user_id = this.userdata.id;
-
-          const username = this.userdata.username;
-
-          sessionStorage.setItem('user_id', user_id);
-
-          sessionStorage.setItem('username', username);
-
-          if (username === 'admin') {
-
-            this.$router.push('/admin-dashboard');
-
-          } else {
-
-            this.$router.push('/User-dashboard');
-
-          }
-
-        })
-
-        .catch((error) => {
-
-          this.error = error.response.data.error;
-
-          this.error = "Invalid credentials. Please check again";
-
-          this.password = null;
-
-          this.username = null;
-
-          setTimeout(() => {
-
-            this.error = null;
-
-          }, 3000);
-
+    async loginWithLDAP() {
+      try {
+        const response = await axios.post(`${this.apiUrl}/api/v1/ldap-login/`, {
+          username: this.username,
+          password: this.password
         });
 
+        const userData = response.data.user_data;
+        const userId = userData.id;
+        const username = userData.username;
+
+        sessionStorage.setItem('user_id', userId);
+        sessionStorage.setItem('username', username);
+
+        // Fetch user role
+        console.log("Fetching user role...");
+        const role = await this.fetchUserRole(userId);
+        console.log("User role response:", role);
+
+        // Check if role is fetched successfully
+        if (role !== undefined && role !== null) {
+          sessionStorage.setItem('user_role', role);
+
+          console.log("userData", userData);
+          console.log("userId", userId);
+          console.log("username", username);
+          console.log("role", role);
+
+          if (username === 'admin' && username === 'Administrator') {
+            this.$router.push('/admin-dashboard');
+          } else {
+            this.$router.push('/User-dashboard');
+          }
+        } else {
+          // Handle case where role is undefined
+          console.error('User role is undefined');
+          // Optionally, show an error message or handle the situation accordingly
+        }
+      } catch (error) {
+        this.error = error.response.data.error || "Invalid credentials. Please check again";
+        this.password = null;
+        this.username = null;
+        setTimeout(() => {
+          this.error = null;
+        }, 3000);
+      }
+    },
+
+
+
+
+    async login() {
+      if (!this.username || !this.password) {
+        this.showErrorMessages = true;
+        setTimeout(() => {
+          this.showErrorMessages = false;
+        }, 5000);
+        return;
+      }
+
+      try {
+        const response = await axios.post(`${this.apiUrl}/api/v1/login/`, {
+          username_or_email: this.username,
+          password: this.password
+        });
+        const userData = response.data.user_data;
+        const userId = userData.id;
+        const username = userData.username;
+
+        sessionStorage.setItem('user_id', userId);
+        sessionStorage.setItem('username', username);
+
+        const role = await this.fetchUserRole(userId);
+        sessionStorage.setItem('user_role', role);
+
+        console.log("userData", userData)
+        console.log("userId", userId)
+        console.log("username", username)
+        console.log("role", role)
+
+        if (username === 'admin') {
+          this.$router.push('/admin-dashboard');
+        } else {
+          this.$router.push('/User-dashboard');
+        }
+      } catch (error) {
+        this.error = "Invalid credentials. Please check again";
+        this.password = null;
+        this.username = null;
+        setTimeout(() => {
+          this.error = null;
+        }, 3000);
+      }
     },
     showSignIn() {
       this.showSignInButton = true; // Show the Sign in button

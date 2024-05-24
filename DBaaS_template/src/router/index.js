@@ -55,41 +55,57 @@ const routes = [
     path: "/scheduled-backups",
     name: "Schedule Backup",
     component: BackupSchedule,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/admin-dashboard",
     name: "Dashboard",
     component: Dashboard,
+    meta: { roles: ['Admin'] },
+    
+
   },
   {
     path: "/Cconfiguration",
     name: "Cconfiguration",
     component: Cconfiguration,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/admin-backup",
     name: "Backup",
     component: Backup,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/mount-backup-method",
     name: "Backup Method",
     component: StorageMethod,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/admin-backup/form",
     name: "Create Backup",
     component: BackupForm,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/admin-backup/restore-backup",
     name: "Restore Backup",
     component: RestoreBackup,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/backup/:serverName",
     name: "BackupDetails",
     component: BackupDetails,
+    meta: { roles: ['Standard'] },
     props:true,
   }
 ,
@@ -97,6 +113,8 @@ const routes = [
     path: "/User-dashboard",
     name: "User Dashboard",
     component: UserDashboard,
+    meta: { roles: ['Standard'] },
+
   },
   // {
   //   path: "/tables",
@@ -108,12 +126,16 @@ const routes = [
     path: "/Clusters-Management",
     name: "Clusters-Management",
     component: ClustersManagement,
+    meta: { roles: ['Admin'] },
+
   },
 
   {
     path: "/Cluster-Setting",
     name: "Cluster-Setting",
     component: ClusterSetting,
+    meta: { roles: ['Standard'] },
+
   },
 
   // User Route
@@ -121,53 +143,73 @@ const routes = [
     path: "/Clusters",
     name: "Clusters",
     component: Clusterss,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/result",
     name: "Result",
     component: Result,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/delete",
     name: "Delete",
     component: Delete,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/Cluster-Create",
     name: "Cluster-Create",
     component: ClusterCreate,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/Projects",
     name: "Projects",
     component: Projectss,
+    meta: { roles: ['Standard'] },
+
   },
 
   {
     path: "/Provider",
     name: "Providers",
     component: Providers,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/User-Management",
     name: "User-Management",
     component: UserManagement,
+    meta: { roles: ['Admin'] },
+
   },
   {
     path: "/Project-Management",
     name: "Project-Management",
     component: ProjectManagement,
+    meta: { roles: ['Admin'] },
+
   },
 
   {
     path: "/profile",
     name: "Profile",
     component: Profile,
+    meta: { roles: ['Standard'] },
+
   },
   {
     path: "/admin-monitoring",
     name: "Admin Monitoring",
     component: AdminMonitoring,
+    meta: { roles: ['Admin'] },
+
   },
   {
     path: "/signin",
@@ -178,17 +220,23 @@ const routes = [
     path: "/Project-Select",
     name: "Project Select",
     component: ProjectSelect,
+    meta: { roles: ['Standard'] },
+
   },
 
   {
     path: "/ActivityLog",
     name: "ActivityLog",
     component: ActivityLog,
+    meta: { roles: ['Admin'] },
+
   },
   {
     path: "/USER",
     name: "user",
     component: USER,
+    meta: { roles: ['Admin'] },
+
   },
   {
     path: "/Documentation",
@@ -199,26 +247,36 @@ const routes = [
     path: "/ADauthprovider",
     name: "ad-auth-provider",
     component: ADauthprovider,
+    meta: { roles: ['Admin'] },
+
    },
    {
     path: "/ADuserForm",
     name: "ad-user-form",
     component: ADuserForm,
+    meta: { roles: ['Admin'] },
+
    },
    {
     path: "/ADuserlist",
     name: "ad-user-list",
     component: ADuserlist,
+    meta: { roles: ['Admin'] },
+
    },
    {
     path: "/ADgrouplist",
     name: "ad-group-list",
     component: ADgrouplist,
+    meta: { roles: ['Admin'] },
+
    },
    {
      path: "/ADsave",
      name: "ad-configuration-save",
      component: ADsave,
+     meta: { roles: ['Admin'] },
+
    },
 ];
 
@@ -233,10 +291,20 @@ function isAuthenticated() {
   return sessionStorage.getItem('user_id') !== null;
 }
 
-// Global navigation guard to check authentication status
+function getUserRole() {
+  const role = sessionStorage.getItem('user_role'); // Retrieve the user role from sessionStorage
+  console.log('User Ka Role Dikhao:', role); // Log the retrieved role for debugging
+  return role;
+}
+
+
+// Global navigation guard to check authentication status and roles
 router.beforeEach((to, from, next) => {
   if (to.name !== 'Signin' && !isAuthenticated()) {
     // Redirect the user to the signin page if not authenticated
+    next({ name: 'Signin' });
+  } else if (to.meta.roles && !to.meta.roles.includes(getUserRole())) {
+    // Redirect the user if they do not have the required role
     next({ name: 'Signin' });
   } else {
     // Proceed to the requested route

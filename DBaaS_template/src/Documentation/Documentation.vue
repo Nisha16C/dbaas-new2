@@ -48,6 +48,11 @@
                         work seamlessly across different cloud providers. This feature provides flexibility in choosing
                         the cloud environment that best suits the project's needs.</p>
                 </li>
+                <li>
+                    <p><b>Authentication Provider - Active Directory:</b> BitBlast supports Active Directory as an authentication provider, allowing organizations to integrate their 
+                        existing Active Directory setup for user authentication. This ensures that only users authenticated through the organization's directory services
+                        can access the platform.</p>
+                </li>
             </ol>
 
             <div class="color2">Characteristics of Application</div>
@@ -112,7 +117,8 @@
                 including your secure username, password and click 'sign in'.
                 This ensures a secure entry, protecting your project-related information within the BitBlast platform.
             </p><br>
-            <img :src="require('@/Documentation/img1.png')" class="custom-image"><br><br>
+            <img :src="require('@/Documentation/U-signin-A.png')" class="custom-image"><br><br>
+
             <hr>
 
             <div class="color4">2. Select Project</div>
@@ -125,7 +131,7 @@
             <p>Additionally, at any point, you can visit the 'Project-Select Page' to view to all available projects.
                 Here, you have the
                 freedom to select a different project based on your preferences or work requirements.</p>
-            <img :src="require('@/Documentation/img2.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/U-project-select-A.png')" class="custom-image"><br><br>
             <hr>
 
 
@@ -136,7 +142,7 @@
                 and scope of your current endeavors. This streamlined presentation on the Overview page ensures that
                 crucial information about the number of clusters and
                 projects is readily available for efficient decision-making and project management.</p>
-            <img :src="require('@/Documentation/img21.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/U-overview-page-A.png')" class="custom-image"><br><br>
             <hr>
 
             <div class="color4">4. Project </div>
@@ -154,7 +160,7 @@
                 allowing you to monitor existing projects, create new ones effortlessly,
                 and access critical details about each project for efficient project management.</p>
 
-            <img :src="require('@/Documentation/img16.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/U-project-create-A.png')" class="custom-image"><br><br>
             <hr>
 
             <div class="color4">5. Providers </div>
@@ -165,7 +171,7 @@
                 seamlessly configure and customize their clusters. BitBlast's approach ensures that the addition of
                 providers is the first step in creating robust
                 and tailored database clusters, providing a user-friendly and efficient experience.</p>
-            <img :src="require('@/Documentation/img13.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/U-provider-A.png')" class="custom-image"><br><br>
             <p>BitBlast offers a straightforward approach to adding providers and creating clusters. Users can select
                 the desired provider and fill in its specific fields, including API Name, API Endpoint, Access Key, and
                 Secret Key. Once these details are entered, clicking the "Add Provider" button seamlessly incorporates
@@ -173,7 +179,7 @@
                 efficiently add providers, providing the necessary infrastructure for creating clusters. The intuitive
                 design of BitBlast empowers users to effortlessly configure providers and proceed
                 with the creation of customized and optimized clusters within their projects.</p>
-            <img :src="require('@/Documentation/img14.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/U-cludstack-provider-A.png')" class="custom-image"><br><br>
             <p><b>Add Kubernetes Provider : </b>In a similar manner, users can add Kubernetes as a provider in BitBlast
                 to
                 facilitate the creation of clusters tailored to Kubernetes infrastructure. Users simply need to fill in
@@ -181,7 +187,7 @@
                 including the key name and kubeconfig data.
                 Once these details are provided, clicking the "Add Provider" button seamlessly integrates Kubernetes
                 into BitBlast's system.</p>
-            <img :src="require('@/Documentation/k8s-provider1.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/U-k8s-provider-A.png')" class="custom-image"><br><br>
             <p>This streamlined process ensures that users can efficiently configure Kubernetes as a provider,
                 establishing the necessary infrastructure for creating clusters compatible with Kubernetes environments.
                 By incorporating Kubernetes into BitBlast, users gain access to its robust features and capabilities,
@@ -190,7 +196,13 @@
                 approach,
                 users can seamlessly add Kubernetes as a provider and proceed with creating customized and optimized
                 clusters within their projects.</p>
-            <img :src="require('@/Documentation/k8s-provider2.png')" class="custom-image"><br><br>
+
+            <p><b>Add OpenStack Provider : </b>BitBlast also supports OpenStack as a provider, allowing users to create and manage clusters within an OpenStack environment.
+                 By providing the necessary OpenStack credentials and configuration details,
+                 users can easily add OpenStack as a provider, enhancing the platform's versatility in supporting different cloud infrastructures.</p>
+            <img :src="require('@/Documentation/U-openstack-provider-A.png')" class="custom-image"><br><br>
+
+
             <p style="background-color: aquamarine">To add other providers like CloudStack Provider and Kubernetes
                 Provider, the user will follow a similar process as they do for the rest.</p>
             <hr>
@@ -202,11 +214,11 @@
                 dropdown feature, enabling users to filter databases by project. This functionality allows users to
                 focus on specific projects and view their associated databases.</p>
             <p>Additionally, the Cluster page displays a detailed list of all databases associated with each cluster.
-                This list includes essential information such as the name and ID of each database, along with their
+                This list includes essential information such as the Databse name & id , Database type & version , Storage Provider and providers  of each database, along with their
                 respective creation and update dates. This organized presentation ensures that you have a clear and
                 up-to-date overview of your database assets,
                 facilitating efficient management and decision-making within your project.</p>
-            <img :src="require('@/Documentation/img10.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/U-cluster-A.png')" class="custom-image"><br><br>
             <div class="color6">Create CloudStack Clusters</div>
             <p><b>Create Database/Cluster : </b>BitBlast simplifies the process of creating a new database or cluster
                 with the convenience of the "Create New Cluster" button.
@@ -216,7 +228,7 @@
                 Whether it's for expanding projects, accommodating additional data, or organizing information more
                 efficiently, the "Create New Cluster" button is your gateway
                 to a straightforward and user-friendly database creation experience in BitBlast.</p>
-            <img :src="require('@/Documentation/img10.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/U-cluster-A.png')" class="custom-image"><br><br>
 
             <p>BitBlast ensures a smooth transition from clicking the "Create New Cluster" button to the "Cluster Info"
                 page. On this page, users can seamlessly proceed by selecting the Cluster Type and Providers, offering a
@@ -225,7 +237,7 @@
                 through the subsequent steps for creating a new cluster. This user-friendly interface and step-by-step
                 approach empower users to customize their clusters according to specific needs,
                 ensuring a tailored and efficient database creation experience in BitBlast.</p>
-            <img :src="require('@/Documentation/MicrosoftTeams-image (16).png')" class="custom-image"><br><br>
+            <img :src="require('@/Documentation/U-cluster-type-A.png')" class="custom-image"><br><br>
             <p>After clicking the "Next" button, users are directed to the DB Configuration page in BitBlast. Here, they
                 encounter the option to choose a "compute resource," such as a small or medium instance. Following this
                 selection, users proceed to define volume properties in the "Custom Storage" section, specifying the
@@ -233,16 +245,15 @@
                 to the Cluster Setting page, advancing further in the process of creating their cluster.
                 This streamlined process ensures that users can configure their cluster resources efficiently and tailor
                 them to their project requirements within BitBlast.</p>
-            <img :src="require('@/Documentation/MicrosoftTeams-image (15).png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/U-db-configuration-A.png')" class="custom-image"><br><br>
 
             <p>Upon clicking the "Next" button on the "DB Configuration" page, BitBlast seamlessly directs users to the
                 "Cluster Setting" page. Here, users can input essential details such as the Cluster Name, Postgres
-                username, Password, Database version, and Backup Method. The intuitive design allows users to customize
+                username, Password, Database version, and Storage Provider. The intuitive design allows users to customize
                 these settings according to their project requirements. After filling in the necessary information,
-                users can view all cluster details in the Cluster Summary section, including cluster type, cluster
-                nodes, providers, Postgres type, instance type, volume type, volume properties, and networking.
+                users can view all cluster details in the Cluster Summary section, including Cluster Type , Cluster Nodes , Provider , Cluster Name , Postgres Type , Postgres Versions & Instance Type.
                 Clicking the "Create New Cluster" button.</p>
-            <img :src="require('@/Documentation/MicrosoftTeams-image (13).png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/U-cluster-setting-A.png')" class="custom-image"><br><br>
             <p>After clicking the "Create Cluster" button,BitBlast displays the progress status of the database creation
                 process.
                 Users can track the progress as the system sets up the database infrastructure.Here, users may need to
@@ -256,6 +267,10 @@
                 With this streamlined process, BitBlast ensures users are promptly equipped with the necessary
                 credentials to begin utilizing their newly created database.</p>
             <img :src="require('@/Documentation/MicrosoftTeams-image (10).png')" class="custom-image"><br><br>
+            <p style="background-color:aquamarine">Note: If a user wants to create a Primary/Standby High Availability (Multiple) cluster in CloudStack,
+                they need to choose "Primary/Standby High Availability" as the Cluster Type on the Cluster Info page. The rest of the process for creating multiple clusters remains the same.</p>
+            <hr>
+
 
 
 
@@ -340,6 +355,27 @@
 
             <img :src="require('@/Documentation/MicrosoftTeams-image (3).png')" class="custom-image"><br><br>
             <img :src="require('@/Documentation/MicrosoftTeams-image (2).png')" class="custom-image"><br><br>
+
+            <div class="color6">Create OpenStack Clusters</div>
+            <p><b>Create Database/Cluster : </b>BitBlast simplifies the process of creating a new database or cluster
+                with the convenience of the "Create New Cluster" button.
+                By clicking this button, users can initiate the setup for a fresh database cluster seamlessly.
+                This feature streamlines the creation process, guiding users through the necessary steps to establish a
+                new cluster within their project.
+                Whether it's for expanding projects, accommodating additional data, or organizing information more
+                efficiently, the "Create New Cluster" button is your gateway
+                to a straightforward and user-friendly database creation experience in BitBlast.</p>
+                <!-- <img :src="require('@/Documentation/U-cluster-A.png')" class="custom-image"><br><br> -->
+
+            <p>BitBlast ensures a smooth transition from clicking the "Create New Cluster" button to the "Cluster Info"
+                page. On this page, users can seamlessly proceed by selecting the Cluster Type and Providers, offering a
+                range of options including CloudStack, Harvester, OpenStack, VMware, Nutanix, and Kubernetes. Once the
+                desired configurations are chosen, clicking the "Next" button initiates the process, guiding users
+                through the subsequent steps for creating a new cluster. This user-friendly interface and step-by-step
+                approach empower users to customize their clusters according to specific needs,
+                ensuring a tailored and efficient database creation experience in BitBlast.</p>
+            <!-- <img :src="require('@/Documentation/U-cluster-type-A.png')" class="custom-image"><br><br> -->
+
             <p style="background-color:aquamarine">Just like setting up a CloudStack Cluster and Kubernetes Cluster,
                 users can create other clusters such as VMware, OpenStack, Harvester,
                 and Nutanix using similar procedures.</p>
@@ -616,8 +652,12 @@
                 associated with your Active Directory server. This integration allows for seamless authentication,
                 enabling users to access BitBlast using the same login information they use for their Active Directory
                 accounts.</p>
+            <img :src="require('@/Documentation/N-aduser-signin-A.png')" class="custom-image"><br><br>
 
-            <img>
+
+            
+            <p style="background-color:aquamarine">Note: Until the Admin user enables the user of Active Directory Server, the user from the Active Directory Server will not be able to log in to Bitblast,
+             and the "Login with Active Directory" functionality will not be visible on the sign-in page.</p>
             <hr>
 
 
@@ -629,20 +669,20 @@
             <p>Before we dive into the login process, let's understand the Admin Dashboard.
                 This dashboard serves as the control center, allowing administrators to oversee and
                 manage crucial components such as clusters, projects, and users. Now, let's explore
-                how administrators can log in and unleash the full potential of the Admin Dashboard.</p>
+                how administrators can login and unleash the full potential of the Admin Dashboard.</p>
 
             <div class="color4">1. Login to Admin Account </div>
             <p>To log in to the Admin Dashboard, administrators need to visit the BitBlast login page. Here, they'll
                 input their authorized credentials - a secure username and password. This ensures that only
                 authorized personnel gain access to the powerful administrative features of BitBlast.</p>
-            <img :src="require('@/Documentation/img17.png')" class="custom-image"><br><br>
+            <img :src="require('@/Documentation/N-admin-signin-A.png')" class="custom-image"><br><br>
             <hr>
 
             <div class="color4">2. Admin Dashboard </div>
             <p>Welcome to the Admin Dashboard of BitBlast, your central command center for seamless project management.
                 Here, admin have a comprehensive overview of essential elements -
                 the total number of clusters, projects, and users, all in one place.</p>
-            <img :src="require('@/Documentation/img18.png')" class="custom-image"><br><br>
+            <img :src="require('@/Documentation/N-admin-dashboard-A.png')" class="custom-image"><br><br>
             <hr>
 
             <div class="color4">3. Clusters Management </div>
@@ -652,7 +692,7 @@
             <p>In the Cluster Management page, admin have access to detailed information about
                 each database. This includes the Database Name and ID, Database Type and Version,
                 Provider Name, Created Date, and Updated Date.</p>
-            <img :src="require('@/Documentation/img19.png')" class="custom-image"><br><br>
+            <img :src="require('@/Documentation/N-cluster-management-A.png')" class="custom-image"><br><br>
 
             <p><b>View Database Information : </b>With the 'View' button, admin can drill down
                 into specific database details. Clicking on 'View' allows admin to access comprehensive information
@@ -660,13 +700,8 @@
                 database, including its artifacts and dynamic data.</p>
             <img :src="require('@/Documentation/img25.png')" class="custom-image"><br><br>
 
-            <p><b>Delete Database : </b>Need to tidy up your database landscape? The 'Delete' button empowers admin to I
-                remove any unwanted databases efficiently. A simple click on 'Delete,' and
-                admin can seamlessly eliminate a database from the system.</p>
-            <img :src="require('@/Documentation/img4.png')" class="custom-image"><br><br>
-
             <p> Cluster Management in BitBlast provides a centralized space for not only viewing the total number of
-                clusters but also detailed insights into each database. With the ability to view and delete databases,
+                clusters but also detailed insights into each database. With the ability to view databases,
                 admin have the control to streamline and manage your database environment effectively.</p><br><br>
             <hr>
 
@@ -676,15 +711,15 @@
 
             <p>In the Project Management page, admin can access detailed information about each project, including the
                 Project Name and ID, Created Date, and Updated Date.</p>
-            <img :src="require('@/Documentation/img5.png')" class="custom-image"><br><br>
+            <img :src="require('@/Documentation/N-project-management-A.png')" class="custom-image"><br><br>
 
             <p><b>Rename Project : </b>Need to refine a project's identity? The 'Edit' button allows admin to rename In
                 any project seamlessly. A quick click on 'Edit',
                 and admin can update the name of your project for better clarity.</p>
-            <img :src="require('@/Documentation/img6.png')" class="custom-image"><br><br>
+            <img :src="require('@/Documentation/N-project-edit-A.png')" class="custom-image"><br><br>
 
             <p>Project Management in BitBlast provides not only a quick glance at the total number of projects but also
-                offers detailed insights into each project. With the ability to edit and rename projects,
+                offers detailed insights into each project. With the ability to rename projects,
                 you have the flexibility to keep your project organization precise and up-to-date.</p>
             <hr>
 
@@ -706,65 +741,59 @@
                 Additionally, administrators can view the roles assigned to each user, allowing them to
                 understand the level of access granted to different individuals.</p>
 
-            <p> This user overview provides essential details such as the User Name and ID, indicating the unique
-                identifier for each user. It also displays the user's Status, indicating whether they are currently
-                active or inactive, along with the Created Date and Last Login timestamp, providing insights into their
+            <p> This user overview provides essential details such as the User Name, indicating the unique
+                identifier for each user. along with the Created Date and Last Login timestamp, providing insights into their
                 account activity.</p>
 
             <p> Moreover, administrators can view the Email Address associated with each user, facilitating
-                communication and correspondence within the platform. For efficient user management, administrators have
-                access to buttons like "View" and "Role Assign" for each user, enabling them to take immediate actions
-                as needed.
+                communication and correspondence within the platform. For efficient user management, The Admin user can click the "Assign Roles" button 
+                to assign roles to any user (Local user or Active Directory user). After assigning a role to a user, if the Admin wants to check which role has been 
+                assigned to a user, the Admin can click the "Assign Role" button again to find out the assigned role. 
+                This is because if a role is already assigned to a user, the checkbox for that role will be checked in the modal.</p>
+                <img :src="require('@/Documentation/N-user-management-A.png')" class="custom-image"><br><br>  
+            <p>In the User-Management section, under the user-creation option, there are two buttons: Create New User and Active Directory Groups.</p>
+          
 
-                Overall, this comprehensive view empowers administrators to efficiently manage users within the BitBlast
-                platform, ensuring smooth operation and effective access control.</p>
-            <img :src="require('@/Documentation/img7.png')" class="custom-image"><br><br>
-
-            <p><b>New User Creation : </b>Want to add a new member to your team? The 'Create New User' button allows
+            <p><b>Create New User : </b>Want to add a new member to your team? The 'Create New User' button allows
                 admin to seamlessly add a new user. Clicking on it opens a form where admin can input information such
                 as
-                First Name, Last Name, Username,
-                Phone Number, Emails Address, Password, and agree to the terms & conditions.</p>
-            <img :src="require('@/Documentation/img8.png')" class="custom-image"><br><br>
+                First Name, Last Name, Username, Emails Address, Password, and agree to the terms & conditions.</p>
+            <img :src="require('@/Documentation/N-create-user-A.png')" class="custom-image"><br><br>
+            <br><br>
 
             <p>After successfully creating a new user, you'll receive a confirmation message. This message indicates
                 that the new user has been added successfully and is now visible in the user table.</p>
+            
+            <p><b>Active Directory Groups : </b>When the Admin user clicks the 'Active Directory Groups' button, a list of Active Directory groups will appear. 
+            Active Directory users are associated with these groups.</p>
+            <img :src="require('@/Documentation/N-ad-group-list-A.png')" class="custom-image"><br><br>
+            <p> The Admin user can click the "Assign Roles" button to assign roles to these Active Directory groups. 
+            If a role has already been assigned to a group, the checkbox for that role will be checked in the modal.</p>
+            <img :src="require('@/Documentation/N-ad-group-assign-role-A.png')" class="custom-image"><br><br>
+
 
             <div class="color6">Auth Providers</div>
             <p>When the admin clicks on "Auth Providers" , they'll be presented with a page listing the authentication
-                providers available. If the admin clicks on the Active Directory provider, a form specific to AD will
+                providers available. If the admin clicks on the Active Directory provider, a form specific to Active Directory will
                 appear.</p>
-            <p>In this AD form, the admin needs to input the required information to enable integration with the Active
-                Directory server. This allows users from the Active Directory to access the BitBlast dashboard.</p>
+            <p>In this Active Directory form, the admin needs to input the required information to enable integration with the Active
+                Directory Server. This allows users from the Active Directory to access the BitBlast dashboard.</p>
+                <img :src="require('@/Documentation/N-ad-user-form-A1.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/N-ad-user-form-A2.png')" class="custom-image"><br><br>
+
             <p>Once the admin fills out the form, they can click the "Enable" button to save the configuration. This
                 action activates the integration, allowing Active Directory users to access the BitBlast dashboard.
                 Additionally, if needed, the admin can later click on the "Disable" button to revoke access for Active
                 Directory users, thus preventing them from accessing the BitBlast dashboard.</p>
-            <p>If the admin wishes to make changes to the AD configuration, they can click on the "Edit Config" button
-                to modify the settings in the AD form. This flexibility enables admins to adjust the integration as
+            <p>If the admin wishes to make changes to the Active Directory configuration, they can click on the "Add New Config" button
+                to modify the settings in the Acitve Directory form. This flexibility enables admins to adjust the integration as
                 necessary to meet their organization's requirements.</p>
+            <img :src="require('@/Documentation/N-ad-save-config-A.png')" class="custom-image"><br><br>
 
-
-            <p>User Management in BitBlast not only provides an overview of the total number of users but also offers
-                detailed insights into each user. With the ability to create new users, you have
-                the flexibility to manage your team efficiently and keep user information up-to-date.</p>
-            <p>When the admin navigates to the Auth Provider page, they'll find two buttons: "List of Active Users" and
-                "Members of AD groups."</p>
-            <p>Clicking on the "List of Active Users" button will display a comprehensive list of all users and groups
-                from the Active Directory. This list provides visibility into the Active Directory's user and group
-                structure.</P>
-            <p>Afterward, clicking on the "Members of AD groups" button will present the admin with a list of all groups
-                associated with the Active Directory. Upon selecting a specific group from the list, a dropdown will
-                appear showing all the members associated with that group.</P>
-            <p>Administrators can assign roles to these groups, which in turn assigns the same role to all members
-                within the group. Additionally, admins can view the roles assigned to specific groups, providing
-                insights into the access levels granted to members of each group.</P>
-            <p>This functionality streamlines user and group management within the BitBlast platform, allowing
-                administrators to efficiently assign roles and manage permissions based on Active Directory user and
-                group memberships.</P>
-
-
-
+            <p>When the Admin enables an Active Directory user through the Active Directory Form, they won't be able to access the Active Directory Form again. 
+            Instead, they will see the Active Directory save configuration page until the Admin disables the Active Directory Enabled user.
+             The Admin can only enable another Active Directory user once the previous Active Directory user has been disabled.
+            </p>
             <hr>
 
             <div class="color4">6. Monitoring </div>
@@ -798,7 +827,8 @@
                 ensures that administrators can trace and understand every action, fostering a secure and accountable
                 environment. The Activity Logs in BitBlast thus play a pivotal role in enhancing governance,
                 security, and monitoring capabilities within the platform.</p>
-            <img :src="require('@/Documentation/img9.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/N-activity-log-A1.png')" class="custom-image"><br><br>
+                <img :src="require('@/Documentation/N-activity-log-A2.png')" class="custom-image"><br><br>
 
             <p>BitBlast's Activity Logs provide a concise and detailed summary of all platform activities, offering
                 administrators a transparent view of user actions. From user logins to project and cluster

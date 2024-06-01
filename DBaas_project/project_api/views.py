@@ -379,8 +379,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
               
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:            
-                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
-
+                return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)  
         elif provider_name == 'Kubernetes' and cluster_type == 'Multiple':
             formData = {
                 "ref": 'ha-postgres-cluster-k8s',
@@ -413,7 +412,7 @@ class ClusterViewSet(viewsets.ModelViewSet):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:            
                 return Response({'message': 'Cluster creation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
-
+ 
 
         elif provider_name == 'Cloudstack' and cluster_type == 'Multiple':
             formData = {

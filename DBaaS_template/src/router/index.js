@@ -22,8 +22,6 @@ import Cconfiguration from "../views/UserDashboard/Dbconfig.vue";
 import RestoreBackup from "../views/RestoreBackup.vue";
 import BackupDetails from "../views/BackupDetails.vue";
 import StorageMethod from "../views/StorageMethod.vue";
-
-import Profile from "../views/Profile.vue";
 import AdminMonitoring from "../views/adminMonitoring.vue";
 import ProjectSelect from "../views/UserDashboard/ProjectSelect.vue";
 import ActivityLog from "../views/ActivityLog.vue";
@@ -39,6 +37,7 @@ import ADuserlist from "../views/ADuserlist.vue";
 // import ADuserDisable from "../views/ADuserDisable.vue";
 import ADsave from "../views/ADsave.vue";
 import ADgrouplist from "../views/ADgrouplist.vue";
+import UserMonitoring from "../views/userMonitoring.vue";
 
 
 
@@ -198,9 +197,9 @@ const routes = [
   },
 
   {
-    path: "/profile",
-    name: "Profile",
-    component: Profile,
+    path: "/user-monitoring",
+    name: "user-monitoring",
+    component: UserMonitoring ,
     meta: { roles: ['Standard'] },
 
   },

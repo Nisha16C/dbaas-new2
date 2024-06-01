@@ -34,8 +34,8 @@
       return {
         user_id: '',
         embedUrl: {
-          light: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&from=1714651008210&to=1714651308210&theme=light',
-          dark: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&from=1711621923109&to=1711622223109&theme=dark'
+          light: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&from=now-15m&to=now&theme=light',
+          dark: 'http://172.16.1.54:3000/d/07/postgresql-for-admins?orgId=1&refresh=10s&from=now-15m&to=now&theme=dark'
         },
       };
     },

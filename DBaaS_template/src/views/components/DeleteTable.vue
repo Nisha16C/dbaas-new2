@@ -1,3 +1,4 @@
+[6:10 PM] Preeti Nathani
 <template>
     <div class="container mt-5">
       <div class="alert  text-center" v-show="!isCompleted && !isFailed">
@@ -15,10 +16,11 @@
         </div>
         <div class="card-body">
           <h2 class="card-title">Deletion Status...</h2>
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{ width: progress }" role="progressbar" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}</div>
-          </div>
-          <div class="mt-3"> Database Deletion Status: {{ latestPipelineStatus }} </div> 
+          <div style="height: 30px; width: 100%; position: relative;">
+    <progress class="progress bg-primary" style="height: 100%; width: 100%; border-radius: 50px 20px; color: #5e72e4" :value="averageProgress" max="100"></progress>
+    <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ffff;">{{ averageProgress }}%</span>
+  </div>
+          <div class="mt-3"> Database Deletion Status: {{ latestPipelineStatus }} </div>
           <!-- <ul class="list-group list-group-flush mt-3" v-for="(status, index) in latestPipelineStatus" :key="index">
             <li class="list-group-item">{{ status }}</li>
           </ul> -->
@@ -50,13 +52,13 @@
  
 import axios from "axios";
 import { API_ENDPOINT } from '@/../apiconfig.js';
-
+ 
  
 export default {
     
     data() {
         return {
-            apiUrl: API_ENDPOINT, 
+            apiUrl: API_ENDPOINT,
             isDropdownOpen: false,
             ProjectToggle: false,
             UserToggle: false,
@@ -117,7 +119,7 @@ export default {
                
                 // Update the component's data properties based on the received data
                 this.averageProgress = this.calculateAverageProgress(this.latestPipelineStatus);
-
+ 
  
                 this.isCompleted = this.averageProgress === 100;
                 this.isFailed = this.averageProgress === 99;
@@ -165,9 +167,9 @@ export default {
                         break;
                 }
         
-
+ 
             let averageProgress = Math.floor(totalProgress);
-
+ 
             return averageProgress;
         },
  

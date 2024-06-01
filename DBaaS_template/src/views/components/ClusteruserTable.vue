@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" style="height: 650px; overflow-y: auto;">
     <div class="card-header pb-0">
       <h6 class="text-2xl"> Database Info </h6>
     </div>

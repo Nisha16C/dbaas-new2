@@ -286,7 +286,7 @@
         </sidenav-item>
 
       </li>
-      <li class="nav-item"  v-if="showdocx">
+      <li class="nav-item" v-if="showdocx">
         <sidenav-item url="/ActivityLog">
           <template v-slot:icon>
             <i class="ni ni-book-bookmark text-info text-sm opacity-10"></i>
